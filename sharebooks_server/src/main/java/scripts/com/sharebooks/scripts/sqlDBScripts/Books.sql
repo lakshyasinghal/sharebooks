@@ -1,0 +1,27 @@
+DROP TABLE IF EXISTS Books;
+
+Create Table Books (
+	id BIGINT(19) UNSIGNED AUTO_INCREMENT,
+	title VARCHAR(30) NOT NULL,
+	authorName VARCHAR(30) NOT NULL,
+    category VARCHAR(20) NOT NULL,
+	subcategory VARCHAR(20) NOT NULL,
+	pages INT,
+    ownerId BIGINT(19) UNSIGNED NOT NULL,
+	imgSrc VARCHAR(50),
+	available TINYINT NOT NULL,
+	forBuying TINYINT NOT NULL,
+	forRent TINYINT NOT NULL,
+	buyingAmount INT,
+	rentAmount INT,
+	creationTime DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	lastModificationTime DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (id),
+	FOREIGN KEY (ownerId) REFERENCES Users(id),
+	CONSTRAINT UNIQUE_BOOK UNIQUE (title , authorName , ownerId)
+) ENGINE=INNODB;
+
+
+
+CREATE INDEX SEARCH_BY_CATEGORY ON Books (category,subcategory);
+
