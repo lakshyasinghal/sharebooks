@@ -1,0 +1,5 @@
+node_modules/
+public/hot/
+public/view-scripts/
+README.md
+test.js

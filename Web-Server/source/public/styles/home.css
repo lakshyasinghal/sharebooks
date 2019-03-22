@@ -1,0 +1,218 @@
+.jumbotron {
+	background-color: #FFFFFF;
+	padding-top: 0px;
+}
+
+
+#mainContainer {
+	position: relative;
+	/*background-color: #000000;*/
+}
+
+
+#pageLoaderContainer {
+	position: absolute;
+	display: none;
+	width: 100%;
+	height: 100%;
+	z-index: 10;
+	background-color: #797878;
+	opacity: .6;
+}
+
+
+
+#pageLoader {
+	position: absolute;
+	display: none;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50% , -50%);
+	z-index: 10;
+}
+
+
+#searchContainer {
+	position: relative;
+	height: 70px;
+}
+
+#searchBooks {
+	background: url(/static/searchIcon.png);
+	position: absolute;
+	top: 25px;
+	width: 350px;
+	right: 200px;
+	background-repeat: no-repeat;
+	background-size: 20px 20px;
+	background-position: 5px center;
+	padding-left: 30px;
+}
+
+
+
+#bodyContainer {
+	height: 500px;
+	border-top: 1px solid grey;
+}
+
+
+/* ------------------------ */
+
+#booksContainer {
+	position: relative;
+	overflow: auto;
+	margin-bottom: 0;
+}
+
+.book {
+	display: inline-block;
+	font-size: 11px;
+	height: 165px;
+	width: 100px;
+	margin: 10px;
+	text-align: center;
+	overflow: auto;
+	cursor: pointer;
+}
+
+.bookName {
+	height: 15px;
+	white-space: nowrap;
+  	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.bookAuthorName {
+	height: 15px;
+	white-space: nowrap;
+  	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+
+
+#booksContainer .message {
+	position: absolute;
+	font-size: 24px;
+	left: 50%;
+	top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/*-----------------*/
+
+
+
+
+
+
+
+
+
+
+/*--------------------*/
+
+/*#categories {
+	padding: 0;
+    padding-left: 2%;
+    overflow: auto;
+}
+
+.category {
+	position: relative;
+	display: inline-block;
+	width: 90%;
+	height: 40px;
+	background: linear-gradient(to bottom, white, #2F4F4F);
+    color: white;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border-radius: 5px;
+}
+
+.category span {
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	top: 50%;
+	transform: translateY(-50%);
+}*/
+
+/*-------------------------*/
+
+
+
+
+
+
+/*---------------------*/
+#addBookPopup .modal-dialog {
+	width: 35%;
+}
+
+#addBookPopup .modal-body {
+	max-height: 500px;
+}
+
+#addBookMessageDiv {
+	height: 5%;
+}
+
+#categoryDropdown , #subcategoryDropdown {
+	position: relative;
+}
+
+#categoryDropdown {
+	z-index: 1;
+}
+
+#categoriesList , #subcategoriesList {
+	display: none;
+	position: absolute;
+	width: 100%;
+	top: 100%;
+}
+
+#categoriesList .category , #subcategoriesList .subcategory{
+	height: 30px;
+	background-color: #355673;
+	color: #FFFFFF;
+	border-radius: 3px;
+}
+
+#categoriesList .category:hover {
+	background-color: #4777a0;
+}
+
+#subcategoriesList .subcategory:hover {
+	background-color: #4777a0;
+}
+
+/*#categoryDropdown ul {
+	width: 100%;
+}
+
+#categoryDropdown ul li {
+	cursor: pointer;
+}
+
+#categoryDropdown ul li : hover {
+	background-color: red;
+	color: #FFFFFF;
+}*/
+
+#buyAmount {
+	width: 185px;
+	display: inline;
+	margin-left: 102px;
+}
+
+#rentAmount {
+	width: 185px;
+	display: inline;
+	margin-left: 117px;
+}
+/*---------------------------*/
+
+
