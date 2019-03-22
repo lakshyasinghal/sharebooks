@@ -1,0 +1,36 @@
+DROP TABLE IF EXISTS BookRequests;
+
+CREATE TABLE BookRequests (
+	id BIGINT(19) UNSIGNED AUTO_INCREMENT,
+	referenceNo VARCHAR(30) NOT NULL,
+	type TINYINT NOT NULL,
+	status TINYINT NOT NULL,
+	bookId BIGINT(19) UNSIGNED NOT NULL,
+	bookOwnerId BIGINT(19) UNSIGNED NOT NULL,
+	requesterId BIGINT(19) UNSIGNED NOT NULL,
+	requiredPeriod INT,
+	comments VARCHAR(255),
+	creationTime DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	lastModificationTime DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (id),
+	UNIQUE (referenceNo),
+	FOREIGN KEY (bookId) REFERENCES Books(id),
+	FOREIGN KEY (bookOwnerId) REFERENCES Books(ownerId),
+	FOREIGN KEY (requesterId) REFERENCES Users(id) 
+) ENGINE=INNODB;
+
+
+CREATE INDEX SEARCH_BY_OWNERID ON BookRequests (bookOwnerId);
+
+CREATE INDEX SEARCH_BY_REQUESTERID ON BookRequests (requesterId);
+
+
+
+
+
+
+
+
+
+
+

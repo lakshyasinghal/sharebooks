@@ -18,6 +18,35 @@ repositories {
     mavenCentral()
 }
 
+
+sourceSets {
+    main {
+        java {
+            srcDirs = []
+            srcDir 'src/main/java/cache'
+            srcDir 'src/main/java/connectionPool'
+            srcDir 'src/main/java/dao'
+            srcDir 'src/main/java/database'
+            srcDir 'src/main/java/entities'
+            srcDir 'src/main/java/exception'
+            srcDir 'src/main/java/factory'
+            srcDir 'src/main/java/init'
+            srcDir 'src/main/java/listeners'
+            srcDir 'src/main/java/logging'
+            srcDir 'src/main/java/mail'
+            srcDir 'src/main/java/requestProcessor'
+            srcDir 'src/main/java/response'
+            srcDir 'src/main/java/rest'
+            srcDir 'src/main/java/scripts'
+            srcDir 'src/main/java/serialization'
+            srcDir 'src/main/java/services'
+            srcDir 'src/main/java/sources'
+            srcDir 'src/main/java/util'
+        }
+    }
+}
+
+
 // In this section you declare the dependencies for your production and test code
 dependencies {
     // The production code uses the SLF4J logging API at compile time
