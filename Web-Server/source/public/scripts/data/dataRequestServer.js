@@ -203,6 +203,24 @@ var dummyRequestServer = {
 		return response;
 	},
 
+	getAllResults: function(data){
+		var selectedBookResult = dummyData.selectedBookResult;
+		var allRelatedResults = dummyData.allRelatedResults;
+		var result = [];
+		result.push(selectedBookResult);
+		result.push(allRelatedResults);
+
+		var response = undefined;
+		if(result.length){
+			response = responseBuilder.buildSuccessResponse(result , 41);
+		}
+		else{
+			response = responseBuilder.buildFailureResponse(51);
+		}
+
+		return response;
+	},
+
 	getSimilarBooks: function(data){
 		var name = data.bookName;
 		var books = dummyData.books;
@@ -213,7 +231,7 @@ var dummyRequestServer = {
 				result.push(books[i]);
 			}
 		}
-
+		var response;
 		if(result.length){
 			response = responseBuilder.buildSuccessResponse(result , 22);
 		}

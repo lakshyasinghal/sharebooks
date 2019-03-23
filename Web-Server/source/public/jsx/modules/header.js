@@ -12,6 +12,7 @@ export default class Header extends React.Component {
 	constructor(props){
 		super(props);
 		this.state =  {
+			homeIconDisplay: this.props.display,
 			nbDisplay: "none",  //notifications box display
 			profileDisplay: "none",
 			bookAdderDisplay: this.props.bookAdderDisplay,
@@ -59,6 +60,27 @@ class AppTitle extends React.Component {
 }
 //
 
+class HomeIcon extends React.Component {
+	constructor(props){
+		super(props);
+	}
+
+	render(){
+		const homeIcon = "/static/home.png";
+		const display = this.props.display;
+		let className = "pointer vertical-center";
+		if(display=="none"){
+			className += " hidden";
+		}
+
+		return (
+			<div id="homeIcon" className="pointer vertical-center">
+				<img src={homeIcon} width="40" height="40">
+			</div>
+		);
+	}
+}
+
 class BookBrowser extends React.Component {
 	constructor(props){
 		super(props);
@@ -89,9 +111,6 @@ class BookBrowser extends React.Component {
 class BookAdder extends React.Component {
 	constructor(props){
 		super(props);
-		this.state = {
-
-		};
 	}
 
 	render(){

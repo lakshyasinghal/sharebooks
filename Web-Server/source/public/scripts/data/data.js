@@ -74,5 +74,16 @@ dummyData.subcategories = ["HTML5" , "C" , "C++" , "Physics" , "Literature" , "E
 
 
 
+
+//---------------------Results--------------------------------------------------------------
+dummyData.selectedBookResult = {book:{id:2 , userId:3 , name:"Head First Java" , authorName:"O'Reilly" , category:"Computer Science" , subcategory:"Java" , pages:250 , image:"/static/book3.jpg" , available:1 , buy:1 , rent:1 , buyAmount:400 , rentAmount:5},
+user:{id:3 , username:"anil@gmail.com" , password:"anil" , name:"Anil Poonia" , birthday:"10/15/1991" , address:"65 huddang road" , city:"Jaipur" , state:"Rajasthan" , pincode:"100201" , contactNo:"9182039282" , bookIds:"12,13,14,15,16,17" , active:1 , creationTime:"21-02-2018 14:30:00" , lastVisited:"21-02-2018 14:30:00"}};
+
+dummyData.allRelatedResults = [{book:{id:2 , userId:3 , name:"Head First Java" , authorName:"O'Reilly" , category:"Computer Science" , subcategory:"Java" , pages:250 , image:"/static/book3.jpg" , available:1 , buy:1 , rent:1 , buyAmount:400 , rentAmount:5},
+user:{id:3 , username:"anil@gmail.com" , password:"anil" , name:"Anil Poonia" , birthday:"10/15/1991" , address:"65 huddang road" , city:"Jaipur" , state:"Rajasthan" , pincode:"100201" , contactNo:"9182039282" , bookIds:"12,13,14,15,16,17" , active:1 , creationTime:"21-02-2018 14:30:00" , lastVisited:"21-02-2018 14:30:00"}},
+{book:{id:3 , userId:1 , name:"Head First C" , authorName:"O'Reilly" , category:"Computer Science" , subcategory:"C" , pages:360 , image:"/static/book4.jpg" , available:1 , buy:1 , rent:1 , buyAmount:400 , rentAmount:5},
+user:{id:1 , username:"lakshyasinghal333@gmail.com" , password:"lakshya" , name:"Lakshya Singhal" , birthday:"02/03/1990" , address:"House no. 74 B , Sec 11" , city:"Faridabad" , state:"Haryana" , pincode:"121006" , contactNo:"8826387794" , bookIds:"1,2,3,4,5" , active:1 , creationTime:"20-02-2018 02:00:00" , lastVisited:"20-02-2018 02:00:00"}}];
+
+
 module.exports = dummyData;
 

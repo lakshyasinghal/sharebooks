@@ -1,12 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./../lib/styles/bootstrap.css";
-import "./../styles/common.css";
-import "./../styles/complaints.css";
+import Header from "./modules/header.js";
+import $httpService from "./../scripts/http/httpService.js";
+import $config from "./../scripts/static/config.js";
+import $storage from "./../scripts/utility/utility.js";
+const $pages = $config.$pages;
+const $sm = $config.$sm;
 
 
-
-class ComplaintContainer extends React.Component {
+class Complaint extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
@@ -17,6 +19,8 @@ class ComplaintContainer extends React.Component {
 	render(){
 		return (
 			<div id="mainContainer">
+				<Header bookAdderDisplay={"none"} bookBrowserDisplay={"none"}/>
+
 				<h2 className="center-align heading">What Happened? Please Tell Us Everything.</h2>
 
 				<div id="complaintContainer">
@@ -34,7 +38,7 @@ class ComplaintContainer extends React.Component {
 
 
 
-ReactDOM.render(<ComplaintContainer/> , document.getElementById('app'));
+ReactDOM.render(<Complaint/> , document.getElementById('app'));
 
 
 

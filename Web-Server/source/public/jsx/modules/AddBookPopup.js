@@ -68,9 +68,9 @@ export default class AddBookPopup extends React.Component {
 					            <input type="number" id="pages" className="form-control margin-top-10" name="pages" placeholder="Pages"/>
 					            <input type="text" id="image" className="form-control margin-top-10" name="image" placeholder="Add image"/>
 					            <input type="text" id="available" className="form-control margin-top-10 hidden" name="available" value="1"/>
-					            <div className="margin-top-10"><input type="checkbox" ng-click="toggleBuyChecked()" id="buy"  name="buyout"/> Buyout <input type="text" id="buyAmount" className="form-control margin-top-10" ng-show="buyChecked" name="buyAmount" placeholder="Enter the buyout amount"/></div>
+					            <div className="margin-top-10"><input type="checkbox" ng-click="toggleBuyChecked()" id="buy"  name="buyout"/> Buyout <input type="text" id="buyAmount" className="form-control margin-top-10" name="buyAmount" placeholder="Enter the buyout amount"/></div>
 
-					            <div className="margin-top-10"><input type="checkbox" ng-click="toggleRentChecked()" id="rent"  name="rent"/> Rent <input type="text" id="rentAmount" className="form-control margin-top-10" ng-show="rentChecked" name="rentAmount" placeholder="Enter the rent amount"/></div>
+					            <div className="margin-top-10"><input type="checkbox" ng-click="toggleRentChecked()" id="rent"  name="rent"/> Rent <input type="text" id="rentAmount" className="form-control margin-top-10" name="rentAmount" placeholder="Enter the rent amount"/></div>
 
 
 				            	<button type="button" id="addBookButton" className="btn btn-lg btn-danger btn-block margin-top-20">ADD</button>

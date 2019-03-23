@@ -9,7 +9,7 @@ var http = (function(){
 	var requestMode = 2;
 
 	function Http(){
-
+		//data is params here
 		this.get = function(url , data , successHandler , failureHandler){
 			if(requestMode == 2){
 				var responseData = (dummyRequestServer[url])(data);
@@ -138,6 +138,7 @@ $httpService = (function(){
 	var ADD_BOOK = "addBook";
 	var UPDATE_USER = "updateUser";
 	var GET_NOTIFICATIONS = "getNotifications";
+	var GET_ALL_RESULTS = "getAllResults";
 	var GET_SIMILAR_BOOKS = "getSimilarBooks";
 	var ADD_BOOK_REQUEST = "addBookRequest";
 	var SEND_OTP = "sendOTP";
@@ -198,6 +199,10 @@ $httpService = (function(){
 
 		this.getNotifications = function(params , success , failure){
 			$http.get(GET_NOTIFICATIONS , params , success , failure);
+		};
+
+		this.getAllResults = function(params,success,failure){
+			$http.get(GET_ALL_RESULTS,params,success,failure);
 		};
 
 		this.getSimilarBooks = function(params , success , failure){
