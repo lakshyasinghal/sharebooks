@@ -79,7 +79,7 @@ class Results extends React.Component {
 
 		return (
 			<div id="mainContainer">
-				<Header bookAdderDisplay={"none"} bookBrowserDisplay={"none"}/>
+				<Header homeDisplay={true} profileDisplay={true} adderDisplay={false} browserDisplay={false} notifDisplay={true}/>
 
 				<OptionPanel headingText={this.state.headingText} goHome={this.goHome}/>
 

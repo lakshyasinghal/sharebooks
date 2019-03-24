@@ -1,23 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import downArrow from "./../../resources/images/downArrow.png";
-import add from "./../../resources/images/add.png";
-import notificationIcon from "./../../resources/images/notificationIcon.png";
-import pointer from "./../../resources/images/pointer.png";
-import userProfile from "./../../resources/images/userProfile.png";
-
 
 export default class Header extends React.Component {
 	constructor(props){
 		super(props);
 		this.state =  {
-			homeIconDisplay: this.props.display,
-			nbDisplay: "none",  //notifications box display
-			profileDisplay: "none",
-			bookAdderDisplay: this.props.bookAdderDisplay,
-			bookBrowserDisplay: this.props.bookBrowserDisplay
+			homeDisplay: this.props.homeDisplay,
+			profileDisplay: this.props.profileDisplay,                    
+			adderDisplay: this.props.adderDisplay, //book adder
+			browserDisplay: this.props.browserDisplay, //book browser
+			notifDisplay: this.props.notifDisplay
 		};
+	}
+
+	componentDidMount() {
+	    this.forceUpdate();
 	}
 
 	/*Needs to be modified
@@ -33,11 +31,11 @@ export default class Header extends React.Component {
 			<div id="headContainer" className="row">
 				
 				<AppTitle/>
-				<BookBrowser display={this.state.bookBrowserDisplay}/>
-				<BookAdder onClick={this.props.togglePopup} display={this.state.bookAdderDisplay}/>
-				<Notifications display={this.state.nbDisplay} onClick={() => {this.toggleDisplay("nbDisplay");}} />
-				<Profile display={this.state.profileDisplay} onClick={() => {this.toggleDisplay("profileDisplay");}} />
-
+				{this.state.homeDisplay && <HomeIcon/>}
+				{this.state.browserDisplay && <BookBrowser/>}
+				{this.state.adderDisplay && <BookAdder onClick={this.props.togglePopup} />}
+				{this.state.notifDisplay && <Notifications />}
+				{this.state.profileDisplay && <Profile />}
 			</div>
 		);
 	}
@@ -65,21 +63,27 @@ class HomeIcon extends React.Component {
 		super(props);
 	}
 
+	componentDidMount() {
+	    this.events();
+	}
+
+	events(){
+		document.getElementById("homeIcon").addEventListener('click',()=>{
+			$pages.home();
+		});
+	}
+
 	render(){
 		const homeIcon = "/static/home.png";
-		const display = this.props.display;
-		let className = "pointer vertical-center";
-		if(display=="none"){
-			className += " hidden";
-		}
 
 		return (
 			<div id="homeIcon" className="pointer vertical-center">
-				<img src={homeIcon} width="40" height="40">
+				<img src={homeIcon} className="pointer" width="35" height="35"/>
 			</div>
 		);
 	}
 }
+//
 
 class BookBrowser extends React.Component {
 	constructor(props){
@@ -89,17 +93,18 @@ class BookBrowser extends React.Component {
 		};
 	}
 
+	openCategoriesPanel(){
+
+	}
+
 	render(){
-		const display = this.props.display;
+		const downArrowImg = "/static/downArrow.png";
 		let className = "vertical-center horizontal-center pointer";
-		if(display=="none"){
-			className += " hidden";
-		}
 
 		return (
-			<div id="browseLink" className={className} ng-click="browsingHandler.showCategoriesPanel()">
+			<div id="browseLink" className={className} onClick={()=>{this.openCategoriesPanel();}}>
 				<span>Browse</span>
-				<img src={downArrow} height="15" width="15" />
+				<img src={downArrowImg} height="15" width="15" />
 			</div>
 		);
 	}
@@ -114,15 +119,11 @@ class BookAdder extends React.Component {
 	}
 
 	render(){
-		const display = this.props.display;
-		let className = "pointer vertical-center";
-		if(display=="none"){
-			className += " hidden";
-		}
+		const addImg = "/static/add.png";
 
 		return (
-			<div id="addBookLink" className={className} onClick={this.props.onClick}>
-				<img src={add} height="20" width="20" id="addSignImage" className="pointer" />
+			<div id="addBookLink" className="pointer vertical-center" onClick={this.props.onClick}>
+				<img src={addImg} height="20" width="20" id="addSignImage" className="pointer" />
 				<span>ADD BOOK</span> 
 			</div>
 		);
@@ -134,33 +135,36 @@ class BookAdder extends React.Component {
 class Notifications extends React.Component {
 	constructor(props){
 		super(props);
+		this.state={
+			nbDisplay: false
+		};
 	}
 
-	//calculate notification box class
-	nbClass(){
-		var nbClass = "horizontal-center";
-		if(this.props.display=="none"){
-			nbClass += " " + "hidden";
-		}
-		return nbClass;
+	/*
+	calculate nd display class
+	needs to be made common 
+	 */
+	nbDisplay(){
+		return !this.state.nbDisplay?"hidden":"";
 	}
 
 
 	render(){
-		//notification box class
-		const nbClass = this.nbClass();
+		//const nbClass = this.nbClass();  //notification box class
+		const pointerImg = "/static/pointer.ico";
+		const notifImg = "/static/notificationIcon.png";
 
 		return (
-			<div id="notificationContainer" className="pointer vertical-center">
+			<div id="notifications" className="pointer vertical-center" onClick={()=>{toggleDisplay('nbDisplay',this);}}>
 				<div id="totalCount"></div>
-				<img src={notificationIcon} onClick={this.props.onClick} id="notificationImage" width="30" height="30" />
+				<img src={notifImg} id="notificationImage" width="30" height="30" />
 
-				<div id="notificationBox" className={nbClass}>
+				<div id="notificationBox" className={"horizontal-center " + (this.nbDisplay())}>
 					<div className="notification"><div>Requests<span id="bookRequestCount" className="count"></span></div></div>
 					<div className="notification"><div>Request Acceptances<span id="acceptanceCount" className="count"></span></div></div>
 					<div className="notification"><div>Request Refusals<span id="refusalCount" className="count"></span></div></div>
 					<div className="notification"><div>New Arrivals<span id="newArrivalCount" className="count"></span></div></div>
-					<img src={pointer} width="15" height="15" className="horizontal-center" />
+					<img src={pointerImg} width="15" height="15" className="horizontal-center" />
 				</div>
 			</div>
 		);
@@ -172,7 +176,7 @@ class Profile extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
-
+			plDisplay: false
 		};
 	}
 
@@ -180,23 +184,19 @@ class Profile extends React.Component {
 
 	}
 
-	//calculate profile list class
-	plClass(){
-		var plClass = "";
-		if(this.props.display=="none"){
-			plClass = "hidden";
-		}
-		return plClass;
+	/*needs to be made common*/
+	plDisplay(){
+		return !this.state.plDisplay?"hidden":"";
 	}	
 
 	render(){
-		const plClass = this.plClass();
+		const profImg = "/static/userProfile.png";
 
 		return (
-			<div id="profile" className="pointer vertical-center">
-				<img src={userProfile} onClick={this.props.onClick} id="profileImage" width="40" height="40" />
+			<div id="profile" className="pointer vertical-center" onClick={()=>{toggleDisplay('plDisplay',this);}}>
+				<img src={profImg} id="profileImage" width="40" height="40" />
 
-				<div id="profileList" className={plClass}>	
+				<div id="profileList" className={this.plDisplay()}>	
 					<table id="profileListTable">
 						<tbody>
 							<tr>
@@ -223,13 +223,16 @@ class Profile extends React.Component {
 }
 
 
-
-
-
-function toggleDisplay(dispProp,self){
-	if(self.state[dispProp]=="none"){
-		return "block";
-	}
-	return "none";
+function toggleDisplay(prop,component){
+	component.state[prop] = !component.state[prop];
+	component.forceUpdate();
 }
+
+
+// function toggleDisplay(dispProp,self){
+// 	if(self.state[dispProp]=="none"){
+// 		return "block";
+// 	}
+// 	return "none";
+// }
 

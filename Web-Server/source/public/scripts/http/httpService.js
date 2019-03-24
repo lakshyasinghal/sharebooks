@@ -146,6 +146,7 @@ $httpService = (function(){
 	var SAVE_NEW_PASSWORD = "saveNewPassword";
 	var GET_SUBCATEGORIES = "getSubcategories";
 	var SAVE_FEEDBACK = "saveFeedback";
+	var SAVE_COMPLAINT = "saveComplaint";
 
 	function HttpService(){
 
@@ -231,6 +232,10 @@ $httpService = (function(){
 
 		this.saveFeedback = function(params , success , failure){
 			$http.post(SAVE_FEEDBACK , params , success , failure);
+		};
+
+		this.saveComplaint = function(params , success , failure){
+			$http.post(SAVE_COMPLAINT , params , success , failure);
 		};
 	}
 

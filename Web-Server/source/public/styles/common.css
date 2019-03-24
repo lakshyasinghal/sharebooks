@@ -85,7 +85,7 @@
 
 
 .pointer {
-	cursor: pointer;
+	cursor: pointer !important;
 }
 
 
@@ -156,6 +156,15 @@
 	font-size: 34px;
 	color: #FFFFFF;
 	left: 20px;
+}
+
+#homeIcon {
+	position: absolute;
+	width: 35px;
+	height: 35px;
+	border-radius: 50%;
+	left: 350px;
+	z-index: 1;
 }
 
 #browseLink {
@@ -245,7 +254,7 @@
 }
 
 
-#notificationContainer {
+#notifications {
 	position: absolute;
 	width: 30px;
 	height: 30px;

@@ -62,8 +62,7 @@ class Home extends React.Component {
 			<div id="mainContainer" className="jumbotron full-height">
 				<Loader/>
 				<AddBookPopup popupDisplay={this.state.popupDisplay}/>
-				<Header togglePopup={(e) => {this.togglePopup(e);}} bookAdderDisplay={"block"}
-				bookBrowserDisplay={"block"}/>
+				<Header homeDisplay={false} profileDisplay={true} adderDisplay={true} browserDisplay={true} notifDisplay={true}/>
 				<Search searchFn={(searchText)=>{this.search(searchText);}}/>
 				<Body ref="body" shouldUpdate={this.state.updateBody} />
 			</div>

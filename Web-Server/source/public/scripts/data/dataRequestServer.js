@@ -321,17 +321,40 @@ var dummyRequestServer = {
 
 		response = responseBuilder.buildSuccessResponse(subcategories , 39);
 		return response;
+	},
+
+	saveComplaint: function(data){
+		var complaint = data.complaint;
+
+		var response;
+		if(complaint && complaint.length>=50){
+			response = responseBuilder.buildSuccessResponse({} , 42);
+		}
+		else{
+			response = responseBuilder.buildFailureResponse(43);
+		}
+
+		return response;
+	},
+
+	saveFeedback: function(data){
+		var rating = data.rating;
+		var comments = data.comments;
+		var response;
+		debugger;
+		if(rating && comments.length>0){
+			response = responseBuilder.buildSuccessResponse({} , 45);
+		}
+		else{
+			response = responseBuilder.buildFailureResponse(46);
+		}
+
+		return response;
 	}
 
 };
 
 
 
-
-
-
-
 module.exports = dummyRequestServer;
-
-
 
