@@ -88,7 +88,8 @@ user:{id:1 , username:"lakshyasinghal333@gmail.com" , password:"lakshya" , name:
 
 
 //-------------------------Preference Options----------------------------------------------------
-dummyData.preferences = ["Maths","Science","Literature","Computer Science","Engineering","Medical","INterior Designing","Calligraphy","Sex","Parenting"];
+dummyData.preferences = ["Maths","Science","Literature","Computer Science","Engineering","Medical","Interior Designing","Calligraphy","Sex","Parenting"
+,"Cooking","Fashion","Cricket","Extra Curricular","Banking","SSC","MBA"];
 
 
 

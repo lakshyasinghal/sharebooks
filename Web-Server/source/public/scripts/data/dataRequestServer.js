@@ -286,10 +286,10 @@ var dummyRequestServer = {
 		var complaint = data.complaint;
 		var response;
 		if(complaint && complaint.length>=50){
-			response = responseBuilder.buildSuccessResponse({} , 42);
+			response = responseBuilder.buildSuccessResponse({} , undefined);
 		}
 		else{
-			response = responseBuilder.buildFailureResponse(43);
+			response = responseBuilder.buildFailureResponse(undefined);
 		}
 		return response;
 	},
@@ -300,10 +300,10 @@ var dummyRequestServer = {
 		var response;
 		debugger;
 		if(rating && comments.length>0){
-			response = responseBuilder.buildSuccessResponse({} , 45);
+			response = responseBuilder.buildSuccessResponse({} , undefined);
 		}
 		else{
-			response = responseBuilder.buildFailureResponse(46);
+			response = responseBuilder.buildFailureResponse(undefined);
 		}
 
 		return response;
@@ -312,6 +312,15 @@ var dummyRequestServer = {
 	getPreferenceOptions: function(data){
 		var preferences = dummyData.preferences;
 		return responseBuilder.buildSuccessResponse(preferences, undefined);
+	},
+
+	savePreferences: function(data){
+		debugger;
+		var preferences = data.preferences;
+		if(preferences.length<5){
+			return responseBuilder.buildFailureResponse(undefined);
+		}
+		return responseBuilder.buildSuccessResponse([], undefined);
 	}
 
 };

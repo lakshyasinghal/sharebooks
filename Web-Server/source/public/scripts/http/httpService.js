@@ -133,6 +133,7 @@ $httpService = (function(){
 	var SAVE_FEEDBACK = "saveFeedback";
 	var SAVE_COMPLAINT = "saveComplaint";
 	var GET_PREFERENCE_OPTIONS = "getPreferenceOptions";
+	var SAVE_PREFERENCES = "savePreferences";
 
 	function HttpService(){
 
@@ -158,6 +159,7 @@ $httpService = (function(){
 		this.saveFeedback = httpMethodFactory("POST",SAVE_FEEDBACK);
 		this.saveComplaint = httpMethodFactory("POST",SAVE_COMPLAINT);
 		this.getPreferenceOptions = httpMethodFactory("GET",GET_PREFERENCE_OPTIONS);
+		this.savePreferences = httpMethodFactory("POST",SAVE_PREFERENCES);
 	}
 
 	return new HttpService();
@@ -170,12 +172,12 @@ function httpMethodFactory(type,serviceName){
 
 	switch (type) {
 		case "GET":
-			funct = function(params,success,failure){
+			func = function(params,success,failure){
 				$http.get(serviceName,params,success,failure);
 			};
 			break;
 		case "POST":
-			funct = function(params,success,failure){
+			func = function(params,success,failure){
 				$http.post(serviceName,params,success,failure);
 			};
 			break;
