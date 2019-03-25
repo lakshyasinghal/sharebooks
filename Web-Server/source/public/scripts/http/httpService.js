@@ -24,13 +24,10 @@ var http = (function(){
 				if(paramString != ""){
 					url = url + "?" + paramString;
 				}
-
 				//true value will make the request asynchronous
 				http.open("GET", url, true);
-
 				//Send the proper header information along with the request
 				http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
 				http.onreadystatechange = function() {//Call a function when the state changes.
 				    if(http.readyState == 4 && http.status == 200) {
 				        //alert(http.responseText);
@@ -40,7 +37,6 @@ var http = (function(){
 				    	failureHandler(http.responseText);
 				    }
 				};
-
 				http.send();
 			}
 		};
@@ -53,15 +49,11 @@ var http = (function(){
 			}
 			else{
 				var http = new XMLHttpRequest();
-
 				var params = getParamString(data);
-
 				//true value will make the request asynchronous
 				http.open("POST", url, true);
-
 				//Send the proper header information along with the request
 				http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
 				http.onreadystatechange = function() {//Call a function when the state changes.
 				    if(http.readyState == 4 && http.status == 200) {
 				        //alert(http.responseText);
@@ -71,7 +63,6 @@ var http = (function(){
 				    	failureHandler(http.responseText);
 				    }
 				};
-
 				http.send(params);
 			}
 		};
@@ -85,7 +76,6 @@ var http = (function(){
 		};
 	}
 
-
 	return {
 		instance : function(){
 			if(!instance){
@@ -95,14 +85,12 @@ var http = (function(){
 		}
 	};
 })();
-
-
+//getting singleton instance
 var $http = http.instance();
 
 
 
-
-
+//will convert params object into query string
 function getParamString(paramsObject){
 	var paramString = "";
 	var i = 0;
@@ -116,11 +104,8 @@ function getParamString(paramsObject){
 			i++;
 		}
 	}
-
 	return paramString;
 }
-
-
 
 
 
@@ -147,100 +132,61 @@ $httpService = (function(){
 	var GET_SUBCATEGORIES = "getSubcategories";
 	var SAVE_FEEDBACK = "saveFeedback";
 	var SAVE_COMPLAINT = "saveComplaint";
+	var GET_PREFERENCE_OPTIONS = "getPreferenceOptions";
 
 	function HttpService(){
 
-		this.in = function(params , success , failure){
-			$http.get(IN , params , success , failure);
-		};
-
-		this.signIn = function(params , success , failure){
-			$http.post(SIGN_IN , params , success , failure);
-		};
-
-		this.signOut = function(params , success , failure){
-			$http.get(SIGN_OUT , params , success , failure);
-		};
-
-		this.getBook = function(params , success , failure){
-			$http.get(GET_BOOK , params , success , failure);
-		};
-
-		this.getAllBooks = function(params , success , failure){
-			$http.get(GET_ALL_BOOKS , params , success , failure);
-		};
-
-		this.getBooks = function(params , success , failure){
-			$http.get(GET_BOOKS , params , success , failure);
-		};
-
-		this.getUser = function(params , success , failure){
-			$http.get(GET_USER , params , success , failure);
-		};
-
-		this.getUserById = function(params , success , failure){
-			$http.get(GET_USER_BY_ID , params , success , failure);
-		};
-
-		this.filterByCategory = function(params , success , failure){
-			$http.get(FILTER_BY_CATEGORY , params , success , failure);
-		};
-
-		this.getBooksBySearchString = function(params , success , failure){
-			$http.get(GET_BOOKS_BY_SEARCH_STRING , params , success , failure);
-		};
-
-		this.addBook = function(params , success , failure){
-			$http.post(ADD_BOOK , params , success , failure);			
-		};
-
-		this.updateUser = function(params , success , failure){
-			$http.post(UPDATE_USER , params , success , failure);
-		};
-
-		this.getNotifications = function(params , success , failure){
-			$http.get(GET_NOTIFICATIONS , params , success , failure);
-		};
-
-		this.getAllResults = function(params,success,failure){
-			$http.get(GET_ALL_RESULTS,params,success,failure);
-		};
-
-		this.getSimilarBooks = function(params , success , failure){
-			$http.get(GET_SIMILAR_BOOKS , params , success , failure);
-		};
-
-		this.addBookRequest = function(params , success , failure){
-			$http.post(ADD_BOOK_REQUEST , params , success , failure);
-		};
-
-		this.sendOTP = function(params , success , failure){
-			$http.post(SEND_OTP , params , success , failure);
-		};
-
-		this.verifyOTP = function(params , success , failure){
-			$http.post(VERIFY_OTP , params , success , failure);
-		};
-
-		this.saveNewPassword = function(params , success , failure){
-			$http.post(SAVE_NEW_PASSWORD , params , success , failure);				
-		};
-
-		this.getSubcategories = function(params , success , failure){
-			$http.get(GET_SUBCATEGORIES , params , success , failure);
-		};
-
-		this.saveFeedback = function(params , success , failure){
-			$http.post(SAVE_FEEDBACK , params , success , failure);
-		};
-
-		this.saveComplaint = function(params , success , failure){
-			$http.post(SAVE_COMPLAINT , params , success , failure);
-		};
+		this.signIn = httpMethodFactory("GET",SIGN_IN);
+		this.signOut = httpMethodFactory("POST",SIGN_OUT);
+		this.getBook = httpMethodFactory("GET",GET_BOOK);
+		this.getAllBooks = httpMethodFactory("GET",GET_ALL_BOOKS);
+		this.getBooks = httpMethodFactory("GET",GET_BOOKS);
+		this.getUser = httpMethodFactory("GET",GET_USER);
+		this.getUserById = httpMethodFactory("GET",GET_USER_BY_ID);
+		this.filterByCategory = httpMethodFactory("POST",FILTER_BY_CATEGORY);
+		this.getBooksBySearchString = httpMethodFactory("GET",GET_BOOKS_BY_SEARCH_STRING);
+		this.addBook = httpMethodFactory("POST",ADD_BOOK);
+		this.updateUser = httpMethodFactory("POST",UPDATE_USER);
+		this.getNotifications = httpMethodFactory("GET",GET_NOTIFICATIONS);
+		this.getAllResults = httpMethodFactory("GET",GET_ALL_RESULTS);
+		this.getSimilarBooks = httpMethodFactory("POST",GET_SIMILAR_BOOKS);
+		this.addBookRequest = httpMethodFactory("POST",ADD_BOOK_REQUEST);
+		this.sendOTP = httpMethodFactory("POST",SEND_OTP);
+		this.verifyOTP = httpMethodFactory("POST",VERIFY_OTP);
+		this.saveNewPassword = httpMethodFactory("POST",SAVE_NEW_PASSWORD);
+		this.getSubcategories = httpMethodFactory("GET",GET_SUBCATEGORIES);
+		this.saveFeedback = httpMethodFactory("POST",SAVE_FEEDBACK);
+		this.saveComplaint = httpMethodFactory("POST",SAVE_COMPLAINT);
+		this.getPreferenceOptions = httpMethodFactory("GET",GET_PREFERENCE_OPTIONS);
 	}
 
 	return new HttpService();
 })();
+
+
+
+function httpMethodFactory(type,serviceName){
+	var func = undefined;
+
+	switch (type) {
+		case "GET":
+			funct = function(params,success,failure){
+				$http.get(serviceName,params,success,failure);
+			};
+			break;
+		case "POST":
+			funct = function(params,success,failure){
+				$http.post(serviceName,params,success,failure);
+			};
+			break;
+		default:
+			break;
+	}
+
+	return func;
+}
+
+
 
 
 module.exports = $httpService;

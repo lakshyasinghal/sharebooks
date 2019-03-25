@@ -19,9 +19,9 @@ class Preferences extends React.Component {
 			categories: [],
 			categoryMapArr: []  //will contain all categories with the current selected status
 		};
-		this.savePreferences = this.savePreferences.bind(this);
 		this.addPreference = this.addPreference.bind(this);
 		this.removePreference = this.removePreference.bind(this);
+		this.showPreferences = this.showPreferences.bind(this);
 		this.methods = {
 			savePreferences: this.savePreferences,
 			addPreference: this.addPreference,
@@ -30,16 +30,32 @@ class Preferences extends React.Component {
 	}
 
 	componentDidMount() {
-	    
+		//calling the preferenceOptions function
+	 	preferenceOptions((res)=>{
+	 		res = JSON.parse(res);
+	 		if(res.success){
+	 			this.state.categories = res.results;
+	 			this.showPreferences();
+	 		}
+	 		else{
+	 			alert("Didn't get any preference categories");
+	 		}
+	 	});   
 	}
 
-	getCategories(){
+	showPreferences(){
+		const categoryMapArr = this.state.categoryMapArr;
+		const categories = this.state.categories;
 
+		for(let i = 0, len = categories.length; i < len; i++){
+			let obj = {};
+			obj.category = categories[i];
+			obj.selected = false; 
+			categoryMapArr.push(obj);
+		}
+		this.setState({categoryMapArr:categoryMapArr});
 	}
 
-	savePreferences(){
-
-	}
 
 	addPreference(){
 
@@ -48,8 +64,6 @@ class Preferences extends React.Component {
 	removePreference(){
 
 	}
-
-	methods
 
 	render(){
 		return (
@@ -113,6 +127,12 @@ class PreferencePanel extends React.Component {
 //
 
 
+
+
+
+
+
+
 class Preference extends React.Component {
 	constructor(props){
 		super(props);
@@ -144,6 +164,33 @@ class Preference extends React.Component {
 			</div>
 		);
 	}
+}
+
+
+// function Preference(props){
+
+// 	render(){
+
+// 		return (
+// 			<div className="preference" onClick={this.clickHandler}>
+// 				<img src={tick} className="tick" height="30" width="30"/>
+// 				<span className="prefText">{category}</span>
+// 			</div>
+// 		);
+// 	}
+// }
+
+
+
+
+function preferenceOptions(successHandler){
+	$httpService.getPreferenceOptions(null,successHandler,()=>{});
+}
+
+
+
+function savePreferences(preferenceArr,successHandler){
+	$httpService.savePreferences({preferences:preferenceArr},successHandler,()=>{});
 }
 
 

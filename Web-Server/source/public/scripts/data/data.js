@@ -85,5 +85,12 @@ user:{id:3 , username:"anil@gmail.com" , password:"anil" , name:"Anil Poonia" , 
 user:{id:1 , username:"lakshyasinghal333@gmail.com" , password:"lakshya" , name:"Lakshya Singhal" , birthday:"02/03/1990" , address:"House no. 74 B , Sec 11" , city:"Faridabad" , state:"Haryana" , pincode:"121006" , contactNo:"8826387794" , bookIds:"1,2,3,4,5" , active:1 , creationTime:"20-02-2018 02:00:00" , lastVisited:"20-02-2018 02:00:00"}}];
 
 
+
+
+//-------------------------Preference Options----------------------------------------------------
+dummyData.preferences = ["Maths","Science","Literature","Computer Science","Engineering","Medical","INterior Designing","Calligraphy","Sex","Parenting"];
+
+
+
 module.exports = dummyData;
 
