@@ -50,8 +50,8 @@ class AppTitle extends React.Component {
 
 	render(){
 		return (
-			<div id="appTitle" className="vertical-center">
-				SHAREBOOKS
+			<div id="appTitle" className="vertical-center pointer">
+				<a href="/static/about.html">SHAREBOOKS</a>
 			</div>
 		);
 	}
