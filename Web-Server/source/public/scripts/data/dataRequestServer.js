@@ -232,6 +232,10 @@ var dummyRequestServer = {
 		return response;
 	},
 
+	updateUser: function(data){
+		return responseBuilder.buildSuccessResponse({} , undefined);
+	},
+
 	addBookRequest: function(data){
 		var option = Math.floor(Math.random() * 2);
 		if(option == 0){

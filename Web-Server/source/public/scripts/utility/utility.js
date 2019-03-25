@@ -73,10 +73,10 @@ const $storage = (function(){
 
 		this.get = function(key){
 			if(window.sessionStorage){
-				sessionStorage.getItem(key);
+				return sessionStorage.getItem(key);
 			}
 			else{
-				$cookie.get(key);
+				return $cookie.get(key);
 			}
 		}
 	}

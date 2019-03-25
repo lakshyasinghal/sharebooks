@@ -49,14 +49,16 @@ class AppTitle extends React.Component {
 	}
 
 	render(){
+		const linkStyle = {color:'#FFFFFF'};
+
 		return (
 			<div id="appTitle" className="vertical-center pointer">
-				<a href="/static/about.html">SHAREBOOKS</a>
+				<a href="/static/about.html" style={linkStyle}>SHAREBOOKS</a>
 			</div>
 		);
 	}
 }
-//
+
 
 class HomeIcon extends React.Component {
 	constructor(props){
