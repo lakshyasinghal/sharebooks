@@ -1,8 +1,12 @@
 package com.sharebooks.coreEntities;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.json.simple.JSONObject;
 
 import com.sharebooks.coreEntities.enums.Active;
+import com.sharebooks.dateTime.LocalDateTime;
 import com.sharebooks.entity.Entity;
 import com.sharebooks.exception.JsonSerializationException;
 //import com.sharebooks.helperEntities.Address;
@@ -70,6 +74,43 @@ public final class User extends Entity {
 		
 		return builder.toString();
 	}
+	
+	
+	//will return a list of all the book property names
+		//will be mostly used when inserting new book into database
+		public List<String> fields(){
+			List<String> fields = new LinkedList<String>();
+			fields.add("id");
+			fields.add("username");
+			fields.add("password");
+			fields.add("name");
+			fields.add("birthDate");
+			fields.add("age");
+			fields.add("contactNo");
+			fields.add("active");
+			fields.add("creationTime");
+			fields.add("lastModificationTime");
+			
+			return fields;
+		}
+		
+		//will return a list of all the book property values
+		//will be mostly used when inserting new book into database
+		public List<Object> values(){
+			List<Object> values = new LinkedList<Object>();
+			values.add(id);
+			values.add(username);
+			values.add(password);
+			values.add(name);
+			values.add(birthDate);
+			values.add(age);
+			values.add(contactNo);
+			values.add(active.id());
+			values.add(creationTime.toString());
+			values.add(lastModificationTime.toString());
+			
+			return values;
+		}
 	
 	
 	public String username(){

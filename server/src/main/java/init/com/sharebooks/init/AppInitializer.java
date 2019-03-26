@@ -23,7 +23,7 @@ public class AppInitializer {
 	public void initialize(Map<String , String> propertyMap){
 		try{
 			PropertySource.init(propertyMap);
-			LoggerConfigurator.configure();
+			//LoggerConfigurator.configure();
 			FactorySource.init();
 			ConnectionPoolSource.init();
 			DaoSource.init();

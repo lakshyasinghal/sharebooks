@@ -25,8 +25,8 @@ public class BookDaoTester extends AbstractTester{
 		initializeApp();
 		//test1();
 		//test2();
-		//test3();
-		test4();
+		test3();
+		//test4();
 	}
 	
 

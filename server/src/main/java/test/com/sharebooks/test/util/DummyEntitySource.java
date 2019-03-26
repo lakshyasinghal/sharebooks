@@ -33,7 +33,7 @@ public class DummyEntitySource {
 				AvailableStatus.NOT_AVAILABLE , AvailableStatus.AVAILABLE , 690 , 5, null , null);
 		Book book5 = new Book(5 , "Head First Servlets & JSP" , "Bryan Basham" , "Computer Science" , "Java" , 878 , 2 , "hfsj.jpg" , AvailableStatus.AVAILABLE , 
 				AvailableStatus.NOT_AVAILABLE , AvailableStatus.AVAILABLE , 560 , 5, null , null);
-		Book book6 = new Book(6 , "Head First Javascript Programming" , "Elisabeth Robson" , "Computer Science" , "Javascript" , 661 , 1 , "hfjs.jpg" , AvailableStatus.AVAILABLE , 
+		Book book6 = new Book(6 , "Head First JS Programming" , "Elisabeth Robson" , "Computer Science" , "Javascript" , 661 , 1 , "hfjs.jpg" , AvailableStatus.AVAILABLE , 
 				AvailableStatus.AVAILABLE , AvailableStatus.AVAILABLE , 450 , 3, null , null);
 		Book book7 = new Book(7 , "Cracking the Coding Interview" , "Gayle LaakMann Mcdowell" , "Computer Science" , "Programming" , 541 , 2 , "ctci.jpg" , AvailableStatus.AVAILABLE , 
 				AvailableStatus.NOT_AVAILABLE , AvailableStatus.AVAILABLE , 250 , 7, null , null);
@@ -72,13 +72,13 @@ public class DummyEntitySource {
 	}
 	
 	private static void generateDummyUsers(){
-		User user1 = new User(1, "lakshyasinghal333@gmail.com" , "champion" , "Lakshya Singhal" , "02/03/1990" , 28 , "8448054935" , Active.ACTIVE);
-		User user2 = new User(2, "himanshu_singhal@gmail.com" , "himanshu" , "Himanshu Singhal" , "05/03/1993" , 25 , "8826387794" , Active.ACTIVE);
-		User user3 = new User(3, "anil_poonia@yahoo.in" , "punnu" , "Anil Poonia" , "04/05/1991" , 27 , "7827271882" , Active.ACTIVE);
-		User user4 = new User(4, "mahenderbeniwal24@gmail.com" , "mahendra" , "Mahender Beniwal" , "08/10/1920" , 26 , "9893647638" , Active.ACTIVE);
-		User user5 = new User(5, "sher_mohammad@gmail.com" , "shera" , "Sher Mohammad" , "23/05/1993" , 25 , "8637282923" , Active.ACTIVE);
-		User user6 = new User(6, "nikhilbansal20@gmail.com" , "bansi" , "Nikhil Bansal" , "27/02/1990" , 28 , "9484837829" , Active.ACTIVE);
-		User user7 = new User(7, "harish_vishnoi@gmail.com" , "haria" , "Harish Bishnoi" , "08/04/1991" , 27 , "8725637292" , Active.ACTIVE);
+		User user1 = new User(1, "lakshyasinghal333@gmail.com" , "champion" , "Lakshya Singhal" , "1990-03-02" , 28 , "8448054935" , Active.ACTIVE);
+		User user2 = new User(2, "himanshu_singhal@gmail.com" , "himanshu" , "Himanshu Singhal" , "1993-03-05" , 25 , "8826387794" , Active.ACTIVE);
+		User user3 = new User(3, "anil_poonia@yahoo.in" , "punnu" , "Anil Poonia" , "1991-05-04" , 27 , "7827271882" , Active.ACTIVE);
+		User user4 = new User(4, "mahenderbeniwal24@gmail.com" , "mahendra" , "Mahender Beniwal" , "1920-10-08" , 26 , "9893647638" , Active.ACTIVE);
+		User user5 = new User(5, "sher_mohammad@gmail.com" , "shera" , "Sher Mohammad" , "1993-05-23" , 25 , "8637282923" , Active.ACTIVE);
+		User user6 = new User(6, "nikhilbansal20@gmail.com" , "bansi" , "Nikhil Bansal" , "1990-02-27" , 28 , "9484837829" , Active.ACTIVE);
+		User user7 = new User(7, "harish_vishnoi@gmail.com" , "haria" , "Harish Bishnoi" , "1991-04-08" , 27 , "8725637292" , Active.ACTIVE);
 		
 		users.add(user1);
 		users.add(user2);
@@ -103,7 +103,7 @@ public class DummyEntitySource {
 		return newBooks;
 	}
 	
-	public static List<User> getusers(){
+	public static List<User> getUsers(){
 		List<User> newUsers = new ArrayList<User>(users);
 		return newUsers;
 	}

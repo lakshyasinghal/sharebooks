@@ -1,0 +1,44 @@
+<mapper namespace="Book">
+	<insert id = "insert" parameterType = "Book">
+   		INSERT INTO BOOKS (TITLE,AUTHORNAME,CATEGORY,SUBCATEGORY,PAGES,OWNERID,IMGSRC,AVAILABLE,FORBUYING,FORRENT,BUYINGAMOUNT,RENTAMOUNT)
+   		VALUES (#{title},#{authorName},#{category},#{subcategory},#{pages},#{ownerId},#{imgSrc},#{available},#{forBuying},#{forRent},#{buyingAmount},#{rentAmount});  
+	</insert>
+	
+	<update id="update" parameterType="Book">
+		UPDATE BOOK SET TITLE=#{title} , AUTHORNAME=#{authorName} , CATEGORY=#{category} , SUBCATEGORY=#{subcategory} , 
+		PAGES=#{pages} , OWNERID=#{ownerId} , IMGSRC=#{imgSrc}, AVAILABLE=#{available} , FORBUYING=#{forBuying}, 
+		FORRENT=#{forRent} , BUYINGAMOUNT=#{buyingAmount} , RENTAMOUNT=#{rentAmount} WHERE ID=#{id};
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		DELETE FROM BOOKS WHERE ID=#{id}
+	</delete>
+	
+	<select id="getAll" resultMap="result">
+		SELECT * FROM BOOKS;
+	</select>
+	
+	<select id="getById" parameterType="int" resultMap="result">
+		SELECT * FROM BOOKS WHERE ID=#{id}
+	</select>
+	
+	<resultMap id="result" type="Book">
+   		<result property="id" column="ID"/>
+   		<result property="title" column="TITLE"/>
+   		<result property="authorName" column="AUTHORNAME"/>
+   		<result property="category" column="CATEGORY"/>
+   		<result property="subcategory" column="SUBCATEGORY"/>
+   		<result property="pages" column="PAGES"/>
+   		<result property="ownerId" column="OWNERID"/>
+   		<result property="imgSrc" column="IMGSRC"/>
+   		<result property="available" column="AVAILABLE"/>
+   		<result property="forBuying" column="FORBUYING"/>
+   		<result property="forRent" column="FORRENT"/>
+   		<result property="buyingAmount" column="BUYINGAMOUNT"/>
+   		<result property="rentAmount" column="RENTAMOUNT"/>
+   		<result property="creationTime" column="CREATIONTIME"/>
+   		<result property="lastModificationTime" column="LASTMODIFICATIONTIME"/>
+	</resultMap>
+</mapper>
+
+

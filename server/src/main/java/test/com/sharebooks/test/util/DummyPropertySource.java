@@ -14,8 +14,8 @@ public class DummyPropertySource {
 		propertyMap.put("SHAREBOOKS_DB_TYPE", "MYSQL");
 		propertyMap.put("SHAREBOOKS_DB_HOST", "localhost");
 		propertyMap.put("SHAREBOOKS_DB_PORT", "3306");
-		propertyMap.put("SHAREBOOKS_DB_USERNAME", "root");
-		propertyMap.put("SHAREBOOKS_DB_PASSWORD", "root");
+		propertyMap.put("SHAREBOOKS_DB_USERNAME", "lakshyasinghal33");
+		propertyMap.put("SHAREBOOKS_DB_PASSWORD", "nitj1010");
 		propertyMap.put("SHAREBOOKS_DB_NAME", "sharebooks");
 		propertyMap.put("BOOK_CACHE_TYPE", "LRU");
 		propertyMap.put("BOOK_CACHE_CAPACITY", "10");

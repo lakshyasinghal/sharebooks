@@ -18,13 +18,13 @@ public class ConnectionPoolManager {
 	}
 	
 	public static Connection getConnection(String dbName) throws ConnectionPoolException,Exception{
-		ConnectionPool connectionPool = connectionPoolMap.get(dbName.toLowerCase());
+		ConnectionPool connectionPool = connectionPoolMap.get(dbName);
 		Connection connection = connectionPool.getSqlConnection(); 
 		return connection;
 	}
 	
 	public static void releaseConnection(String dbName , Connection conn) throws ConnectionPoolException,Exception{
-		ConnectionPool connectionPool = connectionPoolMap.get(dbName.toLowerCase());
+		ConnectionPool connectionPool = connectionPoolMap.get(dbName);
 		connectionPool.releaseSqlConnection(conn); 
 	}
 }
