@@ -1,0 +1,6 @@
+#!/bin/sh
+
+dumpDir=
+
+
+takedump 
