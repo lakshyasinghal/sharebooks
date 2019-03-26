@@ -1,9 +1,7 @@
 package com.sharebooks.response;
 
 import java.util.List;
-
 import org.json.simple.JSONObject;
-
 import com.sharebooks.entity.Entity;
 import com.sharebooks.exception.JsonSerializationException;
 

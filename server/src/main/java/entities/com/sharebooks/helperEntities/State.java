@@ -1,7 +1,6 @@
 package com.sharebooks.helperEntities;
 
 import org.json.simple.JSONObject;
-
 import com.sharebooks.entity.Entity;
 import com.sharebooks.exception.JsonSerializationException;
 
