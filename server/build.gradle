@@ -48,6 +48,7 @@ sourceSets {
             srcDir 'src/main/java/sources'
             srcDir 'src/main/java/test'
             srcDir 'src/main/java/util'
+            srcDir 'src/main/resources'
         }
     }
 }

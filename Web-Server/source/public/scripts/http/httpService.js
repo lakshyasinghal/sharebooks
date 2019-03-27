@@ -112,6 +112,7 @@ function getParamString(paramsObject){
 //httpService containing all the requests
 $httpService = (function(){
 	var SIGN_IN = "signIn";
+	var SIGN_UP = "signUp";
 	var SIGN_OUT = "signOut";
 	var GET_BOOK = "getBook";
 	var GET_ALL_BOOKS = "getAllBooks";
@@ -138,6 +139,7 @@ $httpService = (function(){
 	function HttpService(){
 
 		this.signIn = httpMethodFactory("GET",SIGN_IN);
+		this.signUp = httpMethodFactory("POST",SIGN_UP);
 		this.signOut = httpMethodFactory("POST",SIGN_OUT);
 		this.getBook = httpMethodFactory("GET",GET_BOOK);
 		this.getAllBooks = httpMethodFactory("GET",GET_ALL_BOOKS);

@@ -79,7 +79,7 @@ class HomeIcon extends React.Component {
 		const homeIcon = "/static/home.png";
 
 		return (
-			<div id="homeIcon" className="pointer vertical-center">
+			<div id="homeIcon" className="pointer vertical-center" >
 				<img src={homeIcon} className="pointer" width="35" height="35"/>
 			</div>
 		);
@@ -191,6 +191,11 @@ class Profile extends React.Component {
 		return !this.state.plDisplay?"hidden":"";
 	}	
 
+	signOut(){
+
+	}
+
+
 	render(){
 		const profImg = "/static/userProfile.png";
 
@@ -201,19 +206,19 @@ class Profile extends React.Component {
 				<div id="profileList" className={this.plDisplay()}>	
 					<table id="profileListTable">
 						<tbody>
-							<tr>
+							<tr onClick={(e)=>{e.stopPropagation();$pages.profile();}}>
 								<td id="profileTab">Profile</td>
 							</tr>
-							<tr>
+							<tr onClick={(e)=>{$pages.history();}}>
 								<td id="historyTab">History</td>
 							</tr>
-							<tr>
+							<tr onClick={(e)=>{this.signOut();}}>
 								<td id="signOutTab">Sign Out</td>
 							</tr>
-							<tr>
+							<tr onClick={(e)=>{$pages.feedback();}}>
 								<td id="feedbackTab">Feedback</td>
 							</tr>
-							<tr>
+							<tr onClick={(e)=>{$pages.complaints();}}>
 								<td id="complaintsTab">Complaints</td>
 							</tr>
 						</tbody>

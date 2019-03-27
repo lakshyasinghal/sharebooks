@@ -1,4 +1,4 @@
-import {$logger} from  "./../logs/log.js";
+var $logger = require("./../logs/log.js");
 
 
 
@@ -6,43 +6,33 @@ const $cookie = (function(){
 
 	function CookiesHandler(){
 		this.get = function(cookieName){
-			try{
-				var name = cookieName + "=";
-				var cookiesArray = document.cookie.split(';');
-				var currentCookie;
-				for(var i=0 ; i<cookiesArray.length ; i++){
-					currentCookie = cookiesArray[i];
-					var tokens = currentCookie.split('=');
-					if(tokens[0].trim() == cookieName){
-						return tokens[1].trim();
-					}
+			var name = cookieName + "=";
+			var cookiesArray = document.cookie.split(';');
+			var currentCookie;
+			for(var i=0 ; i<cookiesArray.length ; i++){
+				currentCookie = cookiesArray[i];
+				var tokens = currentCookie.split('=');
+				if(tokens[0].trim() == cookieName){
+					return tokens[1].trim();
 				}
-				return null;
 			}
-			catch(err){
-				$logger.log("Error in get in cookiesHandler - " + err.message);
-			}
+			return null;
 		};
 
 		this.set = function(cookieName , cookieValue , days , path){
-			try{
-				if(!days){
-					days = 0;
-				}
-				var expires = "";
-				if(days != undefined){
-					var date = new Date();
-					date.setTime(date.getTime() + (days*24*60*60*1000));
-					expires = date.toGMTString();
-				}
-				else{
-					expires = "";
-				}
-				document.cookie = cookieName + "=" + cookieValue + "; expires=" + expires + "; path=/" + path;
+			if(!days){
+				days = 0;
 			}
-			catch(err){
-				$logger.log("Error in set in cookiesHandler - " + err.message);
+			var expires = "";
+			if(days != undefined){
+				var date = new Date();
+				date.setTime(date.getTime() + (days*24*60*60*1000));
+				expires = date.toGMTString();
 			}
+			else{
+				expires = "";
+			}
+			document.cookie = cookieName + "=" + cookieValue + "; expires=" + expires + "; path=/" + path;
 		};
 
 		this.delete = function(cookieName){
@@ -50,7 +40,7 @@ const $cookie = (function(){
 				
 			}
 			catch(err){
-				$logger.log("Error in delete in cookiesHandler - " + err.message);
+				//$logger.log("Error in delete in cookiesHandler - " + err.message);
 			}
 		};
 	}
@@ -63,6 +53,9 @@ const $storage = (function(){
 
 	function Storage(){
 		this.set = function(key,value,storageType){
+			if(value instanceof Object){
+				value = JSON.stringify(value);
+			}
 			if(window.sessionStorage){
 				sessionStorage.setItem(key, value);
 			}
@@ -85,5 +78,63 @@ const $storage = (function(){
 
 
 
-export default $storage;
+//needs implementation
+function isValidEmail(email){
+	// var regex = /^[a-Z]{1,}[0-9]*[_]?[a-Z0-9]*@[a-Z]{2,15}\.[a-Z]{2,5}$/;
+	// return regex.test(str);
+	return true;
+}
+
+//needs implementation
+function isValidPassword(password){
+	return password!=undefined && password.length>6;
+}
+
+//needs implementation
+function isValidDOB(dob){
+	return true;
+}
+
+function isValidName(name){
+	return true;
+}
+
+function isValidCity(city){
+	return true;
+}
+
+function isValidState(state){
+	return true;
+}
+
+function isValidPincode(pincode){
+	return true;
+}
+
+function isValidMobileNo(mobileNo){
+	return true;
+}
+
+
+var $validations = {
+	isValidEmail:isValidEmail,
+	isValidPassword:isValidPassword,
+	isValidDOB:isValidDOB,
+	isValidName:isValidName,
+	isValidCity:isValidCity,
+	isValidState:isValidState,
+	isValidPincode:isValidPincode,
+	isValidMobileNo:isValidMobileNo
+}
+
+
+
+var util = {
+	$storage: $storage,
+	$validations:$validations
+};
+
+
+
+module.exports = util;
 

@@ -71,7 +71,7 @@ var dummyRequestServer = {
 	},
 
 	signUp : function(data){
-		var newUser = data[0];
+		var newUser = data.user;
 		var user;
 		var response;
 		var users = dummyData.users;
@@ -79,10 +79,11 @@ var dummyRequestServer = {
 			user = users[i];
 			if(user.username == newUser.username){
 				response = responseBuilder.buildFailureResponse(5);
+				break;
 			}
 		}
 		if(!response){
-			response = responseBuilder.buildSuccessResponse([] , 1);
+			response = responseBuilder.buildSuccessResponse([user] , 1);
 		}
 		users.push(user);
 		return response;

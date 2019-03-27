@@ -3,6 +3,9 @@ package com.sharebooks.dao.sql;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Logger;
+
+import org.apache.ibatis.session.SqlSessionFactory;
+
 import com.sharebooks.coreEntities.User;
 import com.sharebooks.coreEntities.enums.EntityType;
 import com.sharebooks.dao.generic.AbstractUserDao;
@@ -18,14 +21,16 @@ import com.sharebooks.factory.entityFactory.EntityFactory;
 
 public class UserSqlDao extends AbstractUserDao{
 	private static final Logger LOGGER = Logger.getLogger(UserSqlDao.class.getName());
+	private SqlSessionFactory sqlSessionFactory;
 	@SuppressWarnings("unused")
 	private EntityFactory<User> factory;
 	private final Database database = Database.SHAREBOOKS;
 	private final Table table = Table.USERS;
 
 	
-	public UserSqlDao(EntityFactory<User> factory) {
+	public UserSqlDao(EntityFactory<User> factory,SqlSessionFactory sqlSessionFactory) {
 		this.factory = factory;
+		this.sqlSessionFactory = sqlSessionFactory;
 	}
 
 

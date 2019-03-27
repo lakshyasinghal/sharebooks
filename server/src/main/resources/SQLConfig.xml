@@ -21,7 +21,7 @@
    </environments>
 	
    <mappers>
-      <mapper resource = "com.sharebooks.database.mybatis/BookMapper.xml"/>
+      <mapper resource = "com/sharebooks/database/mybatis/mappers/BookMapper.xml"/>
    </mappers>
    
 </configuration>

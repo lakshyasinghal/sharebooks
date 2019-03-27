@@ -8,10 +8,11 @@ export default class Book extends React.Component {
 
 
 	render(){
-		const id = this.props.id;
-		const img = this.props.img;
-		const name = this.props.name;
-		const authorName = this.props.authorName;
+		const book = this.props.book;
+		const id = book.id;
+		const img = book.image;
+		const name = book.name;
+		const authorName = book.authorName;
 
 		return (
 			<div className="book" onClick={() => {this.props.onClick(id)}}>

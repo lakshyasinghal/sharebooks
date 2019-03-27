@@ -4,23 +4,29 @@ import java.util.*;
 
 import com.sharebooks.coreEntities.enums.EntityType;
 import com.sharebooks.entity.Entity;
-import com.sharebooks.factory.dbConnectionFactory.DBConnFactory;
-import com.sharebooks.factory.dbConnectionFactory.SqlConnFactory;
+//import com.sharebooks.factory.dbConnectionFactory.DBConnFactory;
+//import com.sharebooks.factory.dbConnectionFactory.SqlConnFactory;
 import com.sharebooks.factory.entityFactory.BookFactory;
 import com.sharebooks.factory.entityFactory.BookRequestFactory;
 import com.sharebooks.factory.entityFactory.EntityFactory;
 import com.sharebooks.factory.entityFactory.OrderFactory;
 import com.sharebooks.factory.entityFactory.UserFactory;
 import com.sharebooks.factory.misc.ResponseFactory;
+import java.io.Reader;
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 public class FactorySource {
 	private static Map<String , EntityFactory<? extends Entity>> entityFactoryMap = new HashMap<String , EntityFactory<? extends Entity>>();
-	private static Map<String , DBConnFactory> dbConnFactoryMap = new HashMap<String , DBConnFactory>();
+	//private static Map<String , DBConnFactory> dbConnFactoryMap = new HashMap<String , DBConnFactory>();
+	private static SqlSessionFactory sqlSessionFactory;
 	private static ResponseFactory responseFactory;
 	
-	public static void init(){
+	public static void init(Map<String,String> configMapper){
 		initEntityFactoryMap();
-		initDBConnFactoryMap();
+		//initDBConnFactoryMap();
+		initSqlSessionFactory(configMapper.get("SqlConfig"));
 		initResponseFactory();
 	}
 	
@@ -40,12 +46,24 @@ public class FactorySource {
 		}
 	}
 	
-	private static void initDBConnFactoryMap(){
+	
+	//deprecated code
+//	private static void initDBConnFactoryMap(){
+//		try{
+//			dbConnFactoryMap.put("sql", new SqlConnFactory());
+//		}
+//		catch(Exception ex){
+//			
+//		}
+//	}
+	
+	private static void initSqlSessionFactory(String configPath){
 		try{
-			dbConnFactoryMap.put("sql", new SqlConnFactory());
+			Reader reader = Resources.getResourceAsReader(configPath);
+		    sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
 		}
 		catch(Exception ex){
-			
+			System.out.println(ex.getMessage());
 		}
 	}
 	
@@ -62,11 +80,15 @@ public class FactorySource {
 		return entityFactoryMap.get(factoryName);
 	}
 	
-	public static DBConnFactory getDBConnFactory(String factoryName){
-		return dbConnFactoryMap.get(factoryName);
-	}
+//	public static DBConnFactory getDBConnFactory(String factoryName){
+//		return dbConnFactoryMap.get(factoryName);
+//	}
 	
 	public static ResponseFactory getResponseFactory(){
 		return responseFactory;
+	}
+	
+	public static SqlSessionFactory sqlSessionFactory(){
+		return sqlSessionFactory;
 	}
 }

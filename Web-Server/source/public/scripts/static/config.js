@@ -201,7 +201,7 @@ $sm = (function(){
 	};
 
 	statusMessages = {
-		'ADD_USER_SUCCESSFUL' : "Registered successfully",                                               
+		ADD_USER_SUCCESSFUL : "Registered successfully",                                               
 		GET_USER_SUCCESSFUL : "User retrieved successfully",                                           
 		USER_UPDATE_SUCCESSFUL : "User updated successfully",                                             
 		USER_UPDATE_FAILED : "User update failed",                                                  

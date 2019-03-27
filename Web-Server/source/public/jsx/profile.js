@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import Header from "./modules/header.js";
 import $httpService from "./../scripts/http/httpService.js";
 import $config from "./../scripts/static/config.js";
-import $storage from "./../scripts/utility/utility.js";
+import util from "./../scripts/utility/utility.js";
 const $pages = $config.$pages;
 const $sm = $config.$sm;
 
@@ -35,7 +35,7 @@ class Profile extends React.Component {
 
 
 	getUser(){
-		var user = $storage.get('user');
+		var user = util.$storage.get('user');
 		user = JSON.parse(user);
 		this.setState({user:user,modifiedUser:user});
 	}

@@ -5,7 +5,7 @@ import Header from "./modules/header.js";
 
 import $httpService from "./../scripts/http/httpService.js";
 import $config from "./../scripts/static/config.js";
-import $storage from "./../scripts/utility/utility.js";
+import util from "./../scripts/utility/utility.js";
 
 const $pages = $config.$pages;
 const $sm = $config.$sm;
@@ -38,7 +38,7 @@ class Results extends React.Component {
 	}
 
 	getSelectedBook(){
-		this.state.selectedBook = $storage.get("selectedBook");
+		this.state.selectedBook = util.$storage.get("selectedBook");
 	}
 
 

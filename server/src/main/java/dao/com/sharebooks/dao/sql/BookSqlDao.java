@@ -3,6 +3,10 @@ package com.sharebooks.dao.sql;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Logger;
+
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+
 import com.sharebooks.coreEntities.Book;
 import com.sharebooks.coreEntities.enums.EntityType;
 import com.sharebooks.dao.generic.AbstractBookDao;
@@ -18,14 +22,16 @@ import com.sharebooks.factory.entityFactory.EntityFactory;
 
 public class BookSqlDao extends AbstractBookDao{
 	private static final Logger LOGGER = Logger.getLogger(BookSqlDao.class.getName());
+	private SqlSessionFactory SqlSessionFactory;
 	@SuppressWarnings("unused")
 	private EntityFactory<Book> factory;
 	private final Database database = Database.SHAREBOOKS;
 	private final Table table = Table.BOOKS;
 
 	
-	public BookSqlDao(EntityFactory<Book> factory) {
+	public BookSqlDao(EntityFactory<Book> factory,SqlSessionFactory sqlSessionFactory) {
 		this.factory = factory;
+		this.SqlSessionFactory = sqlSessionFactory;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -44,10 +50,19 @@ public class BookSqlDao extends AbstractBookDao{
 	}
 	
 	
+//	public List<Book> getAllBooks() throws SQLException,Exception{
+//		LOGGER.entering("BookSqlDao", "getAllBooks");
+//		List<Book> books = getBooks(null);
+//		LOGGER.exiting("BookSqlDao", "getAllBooks");
+//		return books;
+//	}
+	
 	public List<Book> getAllBooks() throws SQLException,Exception{
 		LOGGER.entering("BookSqlDao", "getAllBooks");
-		List<Book> books = getBooks(null);
-		LOGGER.exiting("BookSqlDao", "getAllBooks");
+		SqlSession session = SqlSessionFactory.openSession();
+		List<Book> books = session.selectList("Book.getAll");
+		session.commit();
+		session.close();
 		return books;
 	}
 
