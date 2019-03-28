@@ -27,7 +27,7 @@ body {
 /*--------------------*/
 #titleContainer {
 	position: relative;
-	height: 120px;
+	height: 90px;
 }
 
 
@@ -102,20 +102,20 @@ body {
 
 /*---------------------------------------------------------------------------*/
 
-#checkoutInfoContainer {
+#requirementsContainer {
 	position: relative;
 	height: calc(100% - 120px);
 }
 
 
-#holdingContainer {
+/*#holdingContainer {
 	position: absolute;
 	width: 80%;
 	height: 300px;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50% , -50%);
-}
+}*/
 
 #bookImageContainer {
 	position: relative;
@@ -148,7 +148,7 @@ body {
 
 
 #rentDetailsContainer {
-	display: none;
+	display: block;
 	position: relative;
 	height: 60%;
 	font-size: 20px;
@@ -288,7 +288,7 @@ body {
 /*-----------------------------------------------------------------*/
 
 #buyDetailsContainer {
-	display: none;
+	display: block;
 	position: relative;
 	height: 60%;
 }
