@@ -24,6 +24,7 @@ public class DummyPropertySource {
 		propertyMap.put("CONNECTION_POOL_TYPE", "MYSQL");
 		propertyMap.put("SHAREBOOKS_CONNECTION_POOL_CAPACITY", "3");
 		propertyMap.put("DAO_TYPE", "MYSQL");
+		propertyMap.put("SQL_CONFIG_FILE_PATH", "SqlConfig.xml");
 	}
 	
 	public static Map<String , String> getPropertyMap(){

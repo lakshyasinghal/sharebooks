@@ -7,12 +7,15 @@ public class PropertySource {
 	private static final Map<String , String> cachePropertyMap = new HashMap<String , String>();
 	private static final Map<String , String> daoPropertyMap = new HashMap<String , String>();
 	private static final Map<String , String> loggingPropertyMap = new HashMap<String , String>();
+	private static final Map<String , String> sqlConfigPropertyMap = new HashMap<String , String>();
+	
 	
 	public static void init(Map<String , String> propertyMap){
 		initDBPropertyMap(propertyMap);
 		initCachePropertyMap(propertyMap);
 		initDaoPropertyMap(propertyMap);
 		initLoggingPropertyMap(propertyMap);
+		initSqlConfigPropertyMap(propertyMap);
 	}
 	
 	private static void initDBPropertyMap(Map<String , String> propertyMap){
@@ -53,7 +56,10 @@ public class PropertySource {
 	}
 	
 	
-	
+	private static void initSqlConfigPropertyMap(Map<String , String> propertyMap){
+		String SQL_CONFIG_FILE_PATH = propertyMap.get("LOGGER_CONFIG_FILE_PATH");
+		sqlConfigPropertyMap.put("SQL_CONFIG_FILE_PATH", SQL_CONFIG_FILE_PATH);
+	}
 	
 	//getter methods
 	
@@ -74,5 +80,10 @@ public class PropertySource {
 	//Method needs to be updated. Needs to send copy instead of original. 
 	public static Map<String,String> getLoggingPropertyMap(){
 		return loggingPropertyMap;
+	}
+	
+	//Method needs to be updated. Needs to send copy instead of original. 
+	public static Map<String,String> getSqlConfigPropertyMap(){
+		return sqlConfigPropertyMap;
 	}
 }

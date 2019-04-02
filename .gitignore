@@ -1,1 +1,5 @@
 .DS_Store
+server/.classpath
+server/.settings/org.eclipse.jdt.core.prefs
+server/bin/.gitignore
+server/build.gradle

@@ -7,12 +7,12 @@ import com.sharebooks.logging.LoggerConfigurator;
 import com.sharebooks.sources.*;
 
 public class AppInitializer {
-	private static Map<String,String> configMapper;
+	//private static Map<String,String> configMapper;
 	
-	static {
-		configMapper = new HashMap<String,String>();
-		configMapper.put("SqlConfig", "SqlConfig.xml");
-	}
+//	static {
+//		configMapper = new HashMap<String,String>();
+//		configMapper.put("SqlConfig", "SqlConfig.xml");
+//	}
 	
 	public void initialize(ServletContext ctxt){
 		try{
@@ -29,7 +29,7 @@ public class AppInitializer {
 		try{
 			PropertySource.init(propertyMap);
 			//LoggerConfigurator.configure();
-			FactorySource.init(configMapper);
+			FactorySource.init();
 			ConnectionPoolSource.init();
 			DaoSource.init();
 			CacheSource.init();

@@ -13,6 +13,8 @@ import com.sharebooks.factory.entityFactory.OrderFactory;
 import com.sharebooks.factory.entityFactory.UserFactory;
 import com.sharebooks.factory.misc.ResponseFactory;
 import java.io.Reader;
+
+import org.apache.ibatis.annotations.Property;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -23,10 +25,10 @@ public class FactorySource {
 	private static SqlSessionFactory sqlSessionFactory;
 	private static ResponseFactory responseFactory;
 	
-	public static void init(Map<String,String> configMapper){
+	public static void init(){
 		initEntityFactoryMap();
 		//initDBConnFactoryMap();
-		initSqlSessionFactory(configMapper.get("SqlConfig"));
+		initSqlSessionFactory(PropertySource.getSqlConfigPropertyMap().get("SQL_CONFIG_FILE_PATH"));
 		initResponseFactory();
 	}
 	
