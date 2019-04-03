@@ -14,7 +14,7 @@
 		FORRENT=#{forRent} , BUYINGAMOUNT=#{buyingAmount} , RENTAMOUNT=#{rentAmount} WHERE ID=#{id};
 	</update>
 	
-	<delete id="delete" parameterType="int">
+	<delete id="deleteById" parameterType="int">
 		DELETE FROM BOOKS WHERE ID=#{id}
 	</delete>
 
@@ -27,15 +27,12 @@
    		<result property="pages" column="PAGES"/>
    		<result property="ownerId" column="OWNERID"/>
    		<result property="imgSrc" column="IMGSRC"/>
-   		<result property="available" column="AVAILABLE"/>
-   		<result property="forBuying" column="FORBUYING"/>
-   		<result property="forRent" column="FORRENT"/>
    		<result property="buyingAmount" column="BUYINGAMOUNT"/>
    		<result property="rentAmount" column="RENTAMOUNT"/>
 	</resultMap>
 	
 	<select id="getAll" resultMap="result">
-		SELECT * FROM BOOKS;
+		SELECT id,title,authorName,category,subcategory,pages,ownerId,imgSrc,buyingAmount,rentAmount FROM BOOKS;
 	</select>
 	
 	<select id="getById" parameterType="int" resultMap="result">

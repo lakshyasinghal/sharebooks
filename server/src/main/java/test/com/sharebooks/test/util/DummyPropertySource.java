@@ -23,7 +23,7 @@ public class DummyPropertySource {
 		propertyMap.put("USER_CACHE_CAPACITY", "5");
 		propertyMap.put("CONNECTION_POOL_TYPE", "MYSQL");
 		propertyMap.put("SHAREBOOKS_CONNECTION_POOL_CAPACITY", "3");
-		propertyMap.put("DAO_TYPE", "MYSQL");
+		propertyMap.put("DAO_TYPE", "SQL");
 		propertyMap.put("SQL_CONFIG_FILE_PATH", "SqlConfig.xml");
 	}
 	

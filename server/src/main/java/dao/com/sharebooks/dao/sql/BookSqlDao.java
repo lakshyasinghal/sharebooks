@@ -22,16 +22,14 @@ import com.sharebooks.factory.entityFactory.EntityFactory;
 
 public class BookSqlDao extends AbstractBookDao{
 	private static final Logger LOGGER = Logger.getLogger(BookSqlDao.class.getName());
-	private SqlSessionFactory SqlSessionFactory;
 	@SuppressWarnings("unused")
 	private EntityFactory<Book> factory;
 	private final Database database = Database.SHAREBOOKS;
 	private final Table table = Table.BOOKS;
 
 	
-	public BookSqlDao(EntityFactory<Book> factory,SqlSessionFactory sqlSessionFactory) {
+	public BookSqlDao(EntityFactory<Book> factory) {
 		this.factory = factory;
-		this.SqlSessionFactory = sqlSessionFactory;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -50,21 +48,13 @@ public class BookSqlDao extends AbstractBookDao{
 	}
 	
 	
-//	public List<Book> getAllBooks() throws SQLException,Exception{
-//		LOGGER.entering("BookSqlDao", "getAllBooks");
-//		List<Book> books = getBooks(null);
-//		LOGGER.exiting("BookSqlDao", "getAllBooks");
-//		return books;
-//	}
-	
 	public List<Book> getAllBooks() throws SQLException,Exception{
 		LOGGER.entering("BookSqlDao", "getAllBooks");
-		SqlSession session = SqlSessionFactory.openSession();
-		List<Book> books = session.selectList("Book.getAll");
-		session.commit();
-		session.close();
+		List<Book> books = getBooks(null);
+		LOGGER.exiting("BookSqlDao", "getAllBooks");
 		return books;
 	}
+	
 
 	@Override
 	public Book getBookById(int id) throws SQLException,Exception {

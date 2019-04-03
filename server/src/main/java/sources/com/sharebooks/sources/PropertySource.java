@@ -47,7 +47,8 @@ public class PropertySource {
 	}
 	
 	private static void initDaoPropertyMap(Map<String , String> propertyMap){
-		
+		String DAO_TYPE = propertyMap.get("DAO_TYPE");
+		daoPropertyMap.put("DAO_TYPE", DAO_TYPE);
 	}
 	
 	private static void initLoggingPropertyMap(Map<String , String> propertyMap){
@@ -57,7 +58,7 @@ public class PropertySource {
 	
 	
 	private static void initSqlConfigPropertyMap(Map<String , String> propertyMap){
-		String SQL_CONFIG_FILE_PATH = propertyMap.get("LOGGER_CONFIG_FILE_PATH");
+		String SQL_CONFIG_FILE_PATH = propertyMap.get("SQL_CONFIG_FILE_PATH");
 		sqlConfigPropertyMap.put("SQL_CONFIG_FILE_PATH", SQL_CONFIG_FILE_PATH);
 	}
 	

@@ -4,6 +4,8 @@ import java.util.*;
 
 import com.sharebooks.coreEntities.enums.EntityType;
 import com.sharebooks.entity.Entity;
+import com.sharebooks.factory.dbConnectionFactory.DBConnFactory;
+import com.sharebooks.factory.dbConnectionFactory.SqlConnFactory;
 //import com.sharebooks.factory.dbConnectionFactory.DBConnFactory;
 //import com.sharebooks.factory.dbConnectionFactory.SqlConnFactory;
 import com.sharebooks.factory.entityFactory.BookFactory;
@@ -21,14 +23,14 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 public class FactorySource {
 	private static Map<String , EntityFactory<? extends Entity>> entityFactoryMap = new HashMap<String , EntityFactory<? extends Entity>>();
-	//private static Map<String , DBConnFactory> dbConnFactoryMap = new HashMap<String , DBConnFactory>();
+	private static Map<String , DBConnFactory> dbConnFactoryMap = new HashMap<String , DBConnFactory>();
 	private static SqlSessionFactory sqlSessionFactory;
 	private static ResponseFactory responseFactory;
 	
 	public static void init(){
 		initEntityFactoryMap();
-		//initDBConnFactoryMap();
-		initSqlSessionFactory(PropertySource.getSqlConfigPropertyMap().get("SQL_CONFIG_FILE_PATH"));
+		initDBConnFactoryMap();
+		//initSqlSessionFactory(PropertySource.getSqlConfigPropertyMap().get("SQL_CONFIG_FILE_PATH"));
 		initResponseFactory();
 	}
 	
@@ -49,25 +51,24 @@ public class FactorySource {
 	}
 	
 	
-	//deprecated code
-//	private static void initDBConnFactoryMap(){
-//		try{
-//			dbConnFactoryMap.put("sql", new SqlConnFactory());
-//		}
-//		catch(Exception ex){
-//			
-//		}
-//	}
-	
-	private static void initSqlSessionFactory(String configPath){
+	private static void initDBConnFactoryMap(){
 		try{
-			Reader reader = Resources.getResourceAsReader(configPath);
-		    sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
+			dbConnFactoryMap.put("sql", new SqlConnFactory());
 		}
 		catch(Exception ex){
-			System.out.println(ex.getMessage());
+			
 		}
 	}
+	
+//	private static void initSqlSessionFactory(String configPath){
+//		try{
+//			Reader reader = Resources.getResourceAsReader(configPath);
+//		    sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
+//		}
+//		catch(Exception ex){
+//			System.out.println(ex.getMessage());
+//		}
+//	}
 	
 	private static void initResponseFactory(){
 		responseFactory = ResponseFactory.getInstance();
