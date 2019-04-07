@@ -68,11 +68,12 @@ body {
 
 .pageTitle {
 	position: absolute;
-	font-size: 40px;
+	font-size: 35px;
 	color: #555;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50% , -50%);
+	text-decoration: underline;
 }
 
 
@@ -82,10 +83,17 @@ body {
 
 #requirementsContainer {
 	position: relative;
+	display: inline-block;
+	width: 79%;
 }
 
 
 #infoContainer {
+	display: inline-block;
+	width: 20%;
+	height: 100%;
+	border-right: 1px solid #777777;
+	float: left;
 	padding-left: 15px;
 }
 

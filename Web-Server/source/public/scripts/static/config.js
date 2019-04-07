@@ -1,8 +1,8 @@
 var $global = (function(){
 	var global = {
 		ORDER_TYPE:{
-			1:"RENT",
-			2:"BUY"
+			RENT:1,
+			BUY:2
 		}
 	};
 

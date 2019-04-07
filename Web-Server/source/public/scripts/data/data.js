@@ -93,5 +93,8 @@ dummyData.preferences = ["Maths","Science","Literature","Computer Science","Engi
 
 
 
+dummyData.selectedResult = {result:{book:{id:2 , userId:3 , name:"Head First Java" , authorName:"O'Reilly" , category:"Computer Science" , subcategory:"Java" , pages:250 , image:"/static/book3.jpg" , available:1 , buy:1 , rent:1 , buyAmount:400 , rentAmount:5},
+user:{id:3 , username:"anil@gmail.com" , password:"anil" , name:"Anil Poonia" , birthday:"10/15/1991" , address:"65 huddang road" , city:"Jaipur" , state:"Rajasthan" , pincode:"100201" , contactNo:"9182039282" , bookIds:"12,13,14,15,16,17" , active:1 , creationTime:"21-02-2018 14:30:00" , lastVisited:"21-02-2018 14:30:00"}},orderType:1};
+
 module.exports = dummyData;
 

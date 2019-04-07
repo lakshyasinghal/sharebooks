@@ -59,11 +59,11 @@ var _exports = [{
 },
 {
 	mode:"development",
-	entry: jsxPath + "/requirements.js",
+	entry: jsxPath + "/checkout.js",
 	output: {
 	   path: jsPath,
 	   publicPath: "/",
-	   filename: "requirements.js"
+	   filename: "checkout.js"
 	},
 	module: _module,
 	resolve: _resolve,

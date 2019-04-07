@@ -31,7 +31,7 @@ var http = (function(){
 				http.onreadystatechange = function() {//Call a function when the state changes.
 				    if(http.readyState == 4 && http.status == 200) {
 				        //alert(http.responseText);
-				        successHandler(http['responseText']);
+				        successHandler(http.responseText);
 				    }
 				    else{
 				    	failureHandler(http.responseText);
@@ -135,6 +135,8 @@ $httpService = (function(){
 	var SAVE_COMPLAINT = "saveComplaint";
 	var GET_PREFERENCE_OPTIONS = "getPreferenceOptions";
 	var SAVE_PREFERENCES = "savePreferences";
+	var GET_SELECTED_RESULT = "getSelectedResult";
+	var SAVE_BOOK_REQUEST = "saveBookRequest";
 
 	function HttpService(){
 
@@ -162,17 +164,19 @@ $httpService = (function(){
 		this.saveComplaint = httpMethodFactory("POST",SAVE_COMPLAINT);
 		this.getPreferenceOptions = httpMethodFactory("GET",GET_PREFERENCE_OPTIONS);
 		this.savePreferences = httpMethodFactory("POST",SAVE_PREFERENCES);
+		this.getSelectedResult = httpMethodFactory("GET",GET_SELECTED_RESULT);
+		this.saveBookRequest = httpMethodFactory("POST",SAVE_BOOK_REQUEST);
 	}
 
 	return new HttpService();
 })();
 
 
-
-function httpMethodFactory(type,serviceName){
+//this fuction will act as factory and will generate functions with suitable parameters
+function httpMethodFactory(request_type,serviceName){
 	var func = undefined;
 
-	switch (type) {
+	switch (request_type) {
 		case "GET":
 			func = function(params,success,failure){
 				$http.get(serviceName,params,success,failure);

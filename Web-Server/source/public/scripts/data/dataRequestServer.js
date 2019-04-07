@@ -326,6 +326,14 @@ var dummyRequestServer = {
 			return responseBuilder.buildFailureResponse(undefined);
 		}
 		return responseBuilder.buildSuccessResponse([], undefined);
+	},
+
+	getSelectedResult: function(data){
+		return responseBuilder.buildSuccessResponse(dummyData.selectedResult , undefined);
+	},
+
+	saveBookRequest: function(data){
+		return responseBuilder.buildSuccessResponse({} , undefined);
 	}
 
 };
