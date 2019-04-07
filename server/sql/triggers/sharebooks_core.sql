@@ -1,0 +1,26 @@
+DROP TRIGGER IF EXISTS `books_default`;
+DROP TRIGGER IF EXISTS `books_update`;
+
+DELIMITER $$
+
+CREATE TRIGGER books_default
+	BEFORE INSERT ON BOOKS
+	FOR EACH ROW
+		BEGIN
+			IF(isnull(NEW.creationTime)) THEN
+				SET NEW.creationTime=CURRENT_TIMESTAMP;
+			END IF;
+		END
+$$
+
+
+CREATE TRIGGER books_update
+	BEFORE UPDATE ON BOOKS
+	FOR EACH ROW
+		BEGIN 
+			SET NEW.lastModificationTime=CURRENT_TIMESTAMP;
+		END
+$$
+
+
+DELIMITER ;

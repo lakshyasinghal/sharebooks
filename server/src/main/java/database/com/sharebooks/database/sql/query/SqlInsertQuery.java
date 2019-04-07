@@ -1,7 +1,7 @@
 package com.sharebooks.database.sql.query;
 
 import java.util.List;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 
 
@@ -31,7 +31,7 @@ public class SqlInsertQuery implements SqlQuery{
 	
 	//function will return string like    INSERT INTO BOOKS (id,title,authorName,category) VALUES (2,'Physics','H.C Verma','Science');
 	public void build(){
-		LOGGER.entering(this.getClass().getName(), "build");
+		//LOGGER.entering(this.getClass().getName(), "build");
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");
 		builder.append(table);
@@ -57,7 +57,7 @@ public class SqlInsertQuery implements SqlQuery{
 		builder.append(")");
 		builder.append(";");
 		queryStr = builder.toString();
-		LOGGER.exiting(this.getClass().getName(), "build");
+		//LOGGER.exiting(this.getClass().getName(), "build");
 	}
 	
 	

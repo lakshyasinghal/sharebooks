@@ -1,21 +1,12 @@
 var $global = (function(){
-	var config = {
-		bookImagesFolderPath: "/sharebooks/client/view1/resources/images/books",
-		imagesFolderPath : "/sharebooks/client/view1/resources/images"
+	var global = {
+		ORDER_TYPE:{
+			1:"RENT",
+			2:"BUY"
+		}
 	};
 
-	function accessGlobal(){
-		return {
-				bookIFP: function(){
-					return config.bookImagesFolderPath;
-				},
-				imagesFP : function(){
-					return config.imagesFolderPath;
-				}
-		};
-	}
-
-	return accessGlobal();
+	return global;
 })();
 
 
@@ -37,120 +28,28 @@ $pages = (function(){
 
 
 	function Pages(){
-		this.signIn = function(){
-			window.location.href = IN;
-		};
+		this.signIn = redirector(IN);
+		this.logIn = redirector(LOG_IN);
+		this.home = redirector(HOME);
+		this.results = redirector(RESULTS);
+		this.checkout = redirector(CHECKOUT);
+		this.confirmation = redirector(CONFIRMATION);
+		this.feedback = redirector(FEEDBACK);
+		this.profile = redirector(PROFILE);
+		this.complaints = redirector(COMPLAINTS);
+		this.history = redirector(HISTORY);
+		this.about = redirector(ABOUT);
+		this.resetPassword = redirector(RESET_PASSWORD);
+		this.preferences = redirector(PREFERENCES);
+	}
 
-		this.logIn = function(){
-			window.location.href = LOG_IN;
-		};
-
-		this.home = function(){
-			window.location.href = HOME;
-		};
-
-		this.results = function(){
-			window.location.href = RESULTS;
-		};
-
-		this.checkout = function(){
-			window.location.href = CHECKOUT;
-		};
-
-		this.confirmation = function(){
-			window.location.href = CONFIRMATION;
-		};
-
-		this.feedback = function(){
-			window.location.href = FEEDBACK;
-		};
-
-		this.profile = function(){
-			window.location.href = PROFILE;
-		};
-
-		this.complaints = function(){
-			window.location.href = COMPLAINTS;
-		};
-
-		this.history = function(){
-			window.location.href = HISTORY;
-		};
-
-		this.about = function(){
-			window.location.href = ABOUT;
-		};
-
-		this.resetPassword = function(){
-			window.location.href = RESET_PASSWORD;
-		};
-
-		this.preferences = function(){
-			window.location.href = PREFERENCES;
-		};
+	function redirector(url){
+		return (function(){
+			window.location.href = url;
+		});
 	}
 
 	return new Pages();
-})();
-
-
-//page urls
-$pageURL = (function(){
-	var IN = "in";
-	var LOG_IN = "login.html";
-	var HOME = "home.html";
-	var RESULTS = "results.html";
-	var CHECKOUT = "checkout.html";
-	var CONFIRMATION = "confirmation.html";
-	var FEEDBACK = "feedback.html";
-	var PROFILE = "profile.html";
-	var COMPLAINTS = "complaints.html";
-	var HISTORY = "history.html";
-	var ABOUT = "about.html";
-	var RESET_PASSWORD = "reset.html";
-	var PREFERENCES = "preferences.html";
-
-	return {
-		in : function(){
-			return IN;
-		},
-		signIn : function(){
-			return LOG_IN;
-		},
-		home : function(){
-			return HOME;
-		},
-		results : function(){
-			return RESULTS;
-		},
-		checkout : function(){
-			return CHECKOUT;
-		},
-		confirmation : function(){
-			return CONFIRMATION;
-		},
-		feedback : function(){
-			return FEEDBACK;
-		},
-		profile : function(){
-			return PROFILE;
-		},
-		complaints : function(){
-			return COMPLAINTS;
-		},
-		history : function(){
-			return HISTORY;
-		},
-		about : function(){
-			return ABOUT;
-		},
-		resetPassword : function(){
-			return RESET_PASSWORD;
-		},
-		preferences : function(){
-			return PREFERENCES;
-		}
-	};
 })();
 
 

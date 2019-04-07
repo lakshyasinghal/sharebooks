@@ -3,7 +3,7 @@ package com.sharebooks.services.entityServices;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.sharebooks.cache.Cache;
 import com.sharebooks.coreEntities.Book;
@@ -49,11 +49,11 @@ public class BookService extends EntityService{
 	} 
 	
 	public List<Book> getAllBooks() throws SQLException,Exception{
-		LOGGER.entering("BookService", "getAllBooks");
+		//LOGGER.entering("BookService", "getAllBooks");
 		try{
 			List<Book> books = dao.getAllBooks();
-			LOGGER.finer(books.toString());
-			LOGGER.exiting("BookService", "getAllBooks");
+			//LOGGER.finer(books.toString());
+			//LOGGER.exiting("BookService", "getAllBooks");
 			return books;
 		}
 		catch(SQLException ex){
@@ -70,7 +70,7 @@ public class BookService extends EntityService{
 	
 	
 	public Book getBookById(int id) throws CacheException,SQLException,Exception{
-		LOGGER.entering("BookService", "getBookById");
+		//LOGGER.entering("BookService", "getBookById");
 		try{
 			Book book = null;
 			book = cache.get(id);
@@ -80,7 +80,7 @@ public class BookService extends EntityService{
 					cache.insert(id, book);
 				}
 			}
-			LOGGER.exiting("BookService", "getBookById");
+			//LOGGER.exiting("BookService", "getBookById");
 			return book;
 		}
 		catch(CacheException ex){
@@ -103,10 +103,10 @@ public class BookService extends EntityService{
 	
 	//insert book method with book argument
 	public boolean insertBook(Book book) throws SQLException,Exception{
-		LOGGER.entering("BookService", "getBookById");
+		//LOGGER.entering("BookService", "getBookById");
 		try{
 			boolean inserted = dao.insertBook(book);
-			LOGGER.exiting("BookService", "insertBook");
+			//LOGGER.exiting("BookService", "insertBook");
 			return inserted;
 		}
 		catch(SQLException ex){
@@ -124,11 +124,11 @@ public class BookService extends EntityService{
 	
 	//insert book method with bookJson argument
 	public boolean insertBook(String bookJson) throws SQLException,Exception{
-		LOGGER.entering("BookService", "insertBook");
+		//LOGGER.entering("BookService", "insertBook");
 		try{
 			Book book = factory.createFromJson(bookJson);
 			boolean inserted = dao.insertBook(book);
-			LOGGER.exiting("BookService", "insertBook");
+			//LOGGER.exiting("BookService", "insertBook");
 			return inserted;
 		}
 		catch(SQLException ex){

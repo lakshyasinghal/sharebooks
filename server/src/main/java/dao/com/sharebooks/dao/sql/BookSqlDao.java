@@ -2,11 +2,7 @@ package com.sharebooks.dao.sql;
 
 import java.sql.SQLException;
 import java.util.*;
-import java.util.logging.Logger;
-
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-
+import org.apache.log4j.Logger;
 import com.sharebooks.coreEntities.Book;
 import com.sharebooks.coreEntities.enums.EntityType;
 import com.sharebooks.dao.generic.AbstractBookDao;
@@ -34,7 +30,7 @@ public class BookSqlDao extends AbstractBookDao{
 
 	@SuppressWarnings("unchecked")
 	public List<Book> getBooks(Map<String , Object> map) throws SQLException,Exception {
-		LOGGER.entering("BookSqlDao", "getBooks");
+		//LOGGER.entering("BookSqlDao", "getBooks");
 		List<Book> books = null;
 		AbstractSqlQueryProcessor queryProcessor = SqlReadQueryProcessor.getInstance();
 		//get sql read query
@@ -43,34 +39,34 @@ public class BookSqlDao extends AbstractBookDao{
 		LOGGER.info(query.toString());
 		List<Entity> entityList = (List<Entity>)queryProcessor.processReadQuery(database.desc() , query.toString(), EntityType.BOOK);
 		books = convertIntoBookList(entityList);
-		LOGGER.exiting("BookSqlDao", "getBooks");
+		//LOGGER.exiting("BookSqlDao", "getBooks");
 		return books;
 	}
 	
 	
 	public List<Book> getAllBooks() throws SQLException,Exception{
-		LOGGER.entering("BookSqlDao", "getAllBooks");
+		//LOGGER.entering("BookSqlDao", "getAllBooks");
 		List<Book> books = getBooks(null);
-		LOGGER.exiting("BookSqlDao", "getAllBooks");
+		//LOGGER.exiting("BookSqlDao", "getAllBooks");
 		return books;
 	}
 	
 
 	@Override
 	public Book getBookById(int id) throws SQLException,Exception {
-		LOGGER.entering("BookSqlDao", "getBookById");
+		//LOGGER.entering("BookSqlDao", "getBookById");
 		LOGGER.info("id:"+id);
 		Map<String , Object> map = new HashMap<String , Object>();
 		map.put("id", id);
 		List<Book> books = getBooks(map);
-		LOGGER.exiting("BookSqlDao", "getBookById");
+		//LOGGER.exiting("BookSqlDao", "getBookById");
 		return books.get(0);
 	}
 
 	@Override
 	public boolean insertBook(Book book) throws SQLException,Exception{
-		LOGGER.entering("BookSqlDao", "insertBook");
-		LOGGER.finest(book.toString());
+		//LOGGER.entering("BookSqlDao", "insertBook");
+		//LOGGER.finest(book.toString());
 		//get book fields and values
 		List<String> fields = book.fields();
 		List<Object> values = book.values();
@@ -83,32 +79,32 @@ public class BookSqlDao extends AbstractBookDao{
 		AbstractSqlQueryProcessor queryProcessor = SqlInsertQueryProcessor.getInstance();
 		int rowsAffected = queryProcessor.processInsertQuery(database.desc(), query.toString(), false);
 		LOGGER.info("Rows Affected:"+rowsAffected);
-		LOGGER.exiting("BookSqlDao", "insertBook");
+		//LOGGER.exiting("BookSqlDao", "insertBook");
 		return rowsAffected>0?true:false;
 	}
 
 	
 	public boolean deleteBooks(Map<String , Object> map) throws SQLException,Exception{
-		LOGGER.entering("BookSqlDao", "deleteBooks");
+		//LOGGER.entering("BookSqlDao", "deleteBooks");
 		AbstractSqlQueryProcessor queryProcessor = SqlDeleteQueryProcessor.getInstance();
 		SqlQuery query = new SqlDeleteQuery(table.desc(), map);
 		query.build();
 		LOGGER.info(query.toString());
 		int rowsAffected = queryProcessor.processDeleteQuery(database.desc(), query.toString());
 		LOGGER.info("Rows Affected:"+rowsAffected);
-		LOGGER.exiting("BookSqlDao", "deleteBooks");
+		//LOGGER.exiting("BookSqlDao", "deleteBooks");
 		return rowsAffected>0?true:false;
 	}
 	
 	@Override
 	public boolean deleteBookById(int id) throws SQLException,Exception{
-		LOGGER.entering("BookSqlDao", "deleteBookById");
+		//LOGGER.entering("BookSqlDao", "deleteBookById");
 		LOGGER.info("id:"+id);
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("id", id);
 		boolean deleted = deleteBooks(map);
 		LOGGER.info("Deleted:"+deleted);
-		LOGGER.exiting("BookSqlDao", "deleteBookById");
+		//LOGGER.exiting("BookSqlDao", "deleteBookById");
 		return deleted;
 	}
 

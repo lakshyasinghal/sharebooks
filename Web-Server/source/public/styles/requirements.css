@@ -31,7 +31,7 @@ body {
 }
 
 
-#backButton , #homeButton {
+#homeButton {
 	position: absolute;
 	width: 70px;
 	height: 70px;
@@ -42,29 +42,10 @@ body {
 	cursor: pointer;
 }
 
-#backButton {
-	left: 20px;
-	border : 1px solid green;
-}
-
 #homeButton {
 	left: 110px;
 	color: green;
 	border : 2px solid green;
-}
-
-
-#backButton img {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50% , -50%);
-}
-
-#backButton:hover {
-	background-color: green;
-	box-shadow: 0 0px 10px green;
-	/*border: 2px solid green;*/
 }
 
 #homeButton:hover {
@@ -97,14 +78,15 @@ body {
 
 
 
-
-
-
 /*---------------------------------------------------------------------------*/
 
 #requirementsContainer {
 	position: relative;
-	height: calc(100% - 120px);
+}
+
+
+#infoContainer {
+	padding-left: 15px;
 }
 
 
@@ -157,7 +139,7 @@ body {
 
 #chargesContainer {
 	position: relative;
-	height: 33%;
+	height: 80px;
 }
 
 #chargesContainer .block1{
@@ -179,7 +161,7 @@ body {
 
 #daysContainer {
 	position: relative;
-	height: 33%;
+	height: 80px;
 }
 
 #daysContainer .block1 {
@@ -206,30 +188,10 @@ body {
 
 #daysMessage {
 	font-size: 18px;
-	color: red;
+	color: #efc312;
 }
 
-
-#days {
-	position: absolute;
-	height: 50px;
-	width: 50px;
-	left: 0;
-	top: 0;
-	border : 1px solid green;
-	color: #555;
-	border-radius: 50%;
-}
-
-#days #daysCount {
-	position: absolute;
-	font-size: 20px;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50% , -50%);
-}
-
-#increasedays , #decreaseDays {
+#increaseDays , #decreaseDays {
 	position: absolute;
 	font-size: 20px;
 	left: 120%;
@@ -241,7 +203,7 @@ body {
     cursor: pointer;
 }
 
-#increasedays {
+#increaseDays {
 	top: 3px;
 }
 
@@ -250,7 +212,7 @@ body {
 }
 
 
-#increasedays span , #decreaseDays span {
+#increaseDays span , #decreaseDays span {
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -262,7 +224,7 @@ body {
 
 #totalAmountContainer {
 	position: relative;
-	height: 33%;
+	height: 80px;
 }
 
 #totalAmountContainer .block1 {
@@ -278,9 +240,24 @@ body {
 	float: right;
 }
 
+.box {
+	position: absolute;
+	height: 50px;
+	width: 50px;
+	left: 0;
+	top: -10px;
+	border : 1px solid #28a09b;
+	color: #555;
+	border-radius: 15%;
+}
 
-
-
+.boxText {
+	position: absolute;
+	font-size: 20px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50% , -50%);
+}
 
 
 
@@ -324,4 +301,16 @@ body {
 #proceedButtonContainer {
 	position: relative;
 	height: 20%;
+}
+
+#proceedButton {
+	background-color: #28a09b;
+	color: #FFFFFF;
+	outline: none;
+}
+
+#termsAndConditions input {
+	/*width: 30px;
+	height: 30px;*/
+	/*background-color: */
 }

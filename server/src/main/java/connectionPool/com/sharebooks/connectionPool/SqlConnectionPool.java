@@ -1,7 +1,7 @@
 package com.sharebooks.connectionPool;
 
 import java.sql.Connection;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 import com.sharebooks.exception.ConnectionPoolException;
 import com.sharebooks.factory.dbConnectionFactory.DBConnFactory;
 import static com.sharebooks.messages.ExceptionMessages.*;
@@ -45,7 +45,7 @@ public class SqlConnectionPool implements ConnectionPool{
 
 	@Override
 	public Connection getSqlConnection() throws ConnectionPoolException,Exception {
-		LOGGER.entering(getClass().getName(), "getConnection");
+		//LOGGER.entering(getClass().getName(), "getConnection");
 		Connection conn = null;
 		synchronized(this){
 			conn = getAvailableConnection();
@@ -70,13 +70,13 @@ public class SqlConnectionPool implements ConnectionPool{
 				}
 			}	
 		}
-		LOGGER.exiting(getClass().getName(), "getConnection");
+		//LOGGER.exiting(getClass().getName(), "getConnection");
 		return conn;
 	}
 	
 	//this method will add new sql connection to the pool in case the connection pool is not operating at its max capacity
 	private synchronized void addNewConnection() throws ConnectionPoolException,Exception{
-		LOGGER.entering(getClass().getName(), "addNewConnection");
+		//LOGGER.entering(getClass().getName(), "addNewConnection");
 		if(isFull()){
 			throw new ConnectionPoolException(CONNECTION_POOL_NOT_WORKING_PROPERLY);
 		}
@@ -88,13 +88,13 @@ public class SqlConnectionPool implements ConnectionPool{
 			LOGGER.info(DATABASE_CONNECTION_CREATED);
 			LOGGER.info("Connection pool size:"+size);
 		}
-		LOGGER.exiting(getClass().getName(), "addNewConnection");
+		//LOGGER.exiting(getClass().getName(), "addNewConnection");
 	}
 	
 	
 	
 	private synchronized Connection getAvailableConnection() throws Exception{
-		LOGGER.entering(getClass().getName(), "addNewConnection");
+		//LOGGER.entering(getClass().getName(), "addNewConnection");
 		for(int i=0 ; i<size ; i++){
 			if(connStatusArray[i] == 1){
 				connStatusArray[i] = 0;
@@ -108,7 +108,7 @@ public class SqlConnectionPool implements ConnectionPool{
 	//The thread occupying sql connection will enter this method to release the connection and notify any of the waiting threads 
 	@Override
 	public void releaseSqlConnection(Connection conn) throws Exception {
-		LOGGER.entering(getClass().getName(), "releaseConnection");
+		//LOGGER.entering(getClass().getName(), "releaseConnection");
 		synchronized(this){
 			for(int i=0 ; i<size ; i++){
 				if(connections[i].equals(conn)){
@@ -120,7 +120,7 @@ public class SqlConnectionPool implements ConnectionPool{
 			this.notify();
 			LOGGER.info(Thread.currentThread().getName() + " has notified other threads.");
 		}
-		LOGGER.exiting(getClass().getName(), "releaseConnection");
+		//LOGGER.exiting(getClass().getName(), "releaseConnection");
 	}
 
 	private boolean isConnectionAvailable() throws Exception{

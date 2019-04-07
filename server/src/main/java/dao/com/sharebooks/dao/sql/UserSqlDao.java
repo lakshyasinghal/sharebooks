@@ -2,7 +2,7 @@ package com.sharebooks.dao.sql;
 
 import java.sql.SQLException;
 import java.util.*;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 
@@ -49,8 +49,8 @@ public class UserSqlDao extends AbstractUserDao{
 	@Override
 	public boolean createUser(User user) throws SQLException,Exception{
 		// TODO Auto-generated method stub
-		LOGGER.entering("UserSqlDao", "createUser");
-		LOGGER.finest(user.toString());
+		//LOGGER.entering("UserSqlDao", "createUser");
+		//LOGGER.finest(user.toString());
 		//get book fields and values
 		List<String> fields = user.fields();
 		List<Object> values = user.values();
@@ -63,7 +63,7 @@ public class UserSqlDao extends AbstractUserDao{
 		AbstractSqlQueryProcessor queryProcessor = SqlInsertQueryProcessor.getInstance();
 		int rowsAffected = queryProcessor.processInsertQuery(database.desc(), query.toString(), false);
 		LOGGER.info("Rows Affected:"+rowsAffected);
-		LOGGER.exiting("UserSqlDao", "insertUser");
+		//LOGGER.exiting("UserSqlDao", "insertUser");
 		return rowsAffected>0?true:false;
 	}
 

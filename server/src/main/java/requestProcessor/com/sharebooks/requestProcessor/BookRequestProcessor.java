@@ -2,7 +2,7 @@ package com.sharebooks.requestProcessor;
 
 import java.util.*;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -42,7 +42,7 @@ public class BookRequestProcessor extends AbstractRequestProcessor{
 	
 	
 	public String processGetAllBooksRequest() throws Exception{
-		LOGGER.entering("BookRequestProcessor", "processGetAllBooksRequest");
+		//LOGGER.entering("BookRequestProcessor", "processGetAllBooksRequest");
 		List<Book> books = null;
 		boolean isSuccessful = false;
 		int statusCode = -1;
@@ -71,7 +71,7 @@ public class BookRequestProcessor extends AbstractRequestProcessor{
 		LOGGER.fine("statusCode : " + statusCode);
 		LOGGER.fine("errorCode : " + errorCode);
 		Response response = responseFactory.getJsonResponse(isSuccessful , statusCode , errorCode , books);
-		LOGGER.exiting("BookRequestProcessor", "processGetAllBooksRequest");
+		//LOGGER.exiting("BookRequestProcessor", "processGetAllBooksRequest");
 		return response.process();
 	}
 	

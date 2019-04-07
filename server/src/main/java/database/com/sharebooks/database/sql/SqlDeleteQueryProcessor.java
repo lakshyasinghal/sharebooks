@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 import com.sharebooks.coreEntities.enums.EntityType;
 import com.sharebooks.entity.Entity;
 import com.sharebooks.exception.NonFunctionalMethodException;
@@ -22,8 +22,8 @@ public class SqlDeleteQueryProcessor extends AbstractSqlQueryProcessor {
 	}
 	
 	public int processDeleteQuery(String dbName , String query) throws Exception{
-		LOGGER.entering("SqlDeleteQueryProcessor", "processDeleteQuery");
-		LOGGER.finer("dbName:"+dbName);
+		//LOGGER.entering("SqlDeleteQueryProcessor", "processDeleteQuery");
+		//LOGGER.finer("dbName:"+dbName);
 		Connection conn = null;
 		Statement stmt = null;
 		int rowsAffected = -1;
@@ -32,7 +32,7 @@ public class SqlDeleteQueryProcessor extends AbstractSqlQueryProcessor {
 			conn = getConnection(dbName);
 			stmt = conn.createStatement();
 			rowsAffected = executor.executeUpdate(stmt, query);
-			LOGGER.exiting("SqlDeleteQueryProcessor", "processDeleteQuery");
+			//LOGGER.exiting("SqlDeleteQueryProcessor", "processDeleteQuery");
 			return rowsAffected;
 		}
 		catch(SQLException ex){

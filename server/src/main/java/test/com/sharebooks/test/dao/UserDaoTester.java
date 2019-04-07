@@ -23,16 +23,16 @@ public class UserDaoTester extends AbstractTester {
 
 	public void test() {
 		initializeApp();
-		// test1();
+		test1();
 		// test2();
-		test3();
+		//test3();
 		// test4();
 	}
 
 	// test for fetching Users
 	public void test1() {
 		try {
-			UserDao dao = (UserDao) DaoSource.getDao("User");
+			UserDao dao = (UserDao) DaoSource.getDao("user");
 			List<User> Users = dao.getAllUsers();
 			if (Users != null && Users.size() > 0) {
 				display("Test1 successful");

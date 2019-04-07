@@ -117,9 +117,7 @@ class Body extends React.Component {
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
-		debugger;
-		var shouldUpdate = nextProps.shouldUpdate;
-	    return shouldUpdate;
+		return nextProps.shouldUpdate;
 	}
 
 	componentDidUpdate(prevProps, prevState) {

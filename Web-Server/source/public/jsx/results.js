@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import Header from "./modules/header.js";
-
+import BackButton from "./modules/backButton.js";
 import $httpService from "./../scripts/http/httpService.js";
 import $config from "./../scripts/static/config.js";
 import util from "./../scripts/utility/utility.js";
@@ -98,13 +98,10 @@ class OptionPanel extends React.Component {
 
 	render(){
 		const headingText = this.props.headingText;
-		const backArrow = "/static/backArrow.png";
 
 		return (
 			<div id="optionsContainer">
-				<div id="backButton" onClick={this.props.goHome}>
-					<img src={backArrow} width="60" height="60"/>
-				</div>
+				<BackButton/>
 				<div id="headingText">
 					<span>{headingText}</span>
 				</div>
@@ -113,7 +110,7 @@ class OptionPanel extends React.Component {
 		);
 	}
 }
-
+//
 
 class Body extends React.Component {
     constructor(props) {
