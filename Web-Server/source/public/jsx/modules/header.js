@@ -32,8 +32,8 @@ export default class Header extends React.Component {
 				
 				<AppTitle/>
 				{this.state.homeDisplay && <HomeIcon/>}
-				{this.state.browserDisplay && <BookBrowser/>}
-				{this.state.adderDisplay && <BookAdder onClick={this.props.togglePopup} />}
+				{this.state.browserDisplay && <CategoryBrowser/>}
+				{this.state.adderDisplay && <BookAdder onClick={()=>{$pages.addBook();}} />}
 				{this.state.notifDisplay && <Notifications />}
 				{this.state.profileDisplay && <Profile />}
 			</div>
@@ -87,7 +87,7 @@ class HomeIcon extends React.Component {
 }
 //
 
-class BookBrowser extends React.Component {
+class CategoryBrowser extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
@@ -107,11 +107,23 @@ class BookBrowser extends React.Component {
 			<div id="browseLink" className={className} onClick={()=>{this.openCategoriesPanel();}}>
 				<span>Browse</span>
 				<img src={downArrowImg} height="15" width="15" />
+
+				<div id="categoryPanel">
+					<div className="categoryBlock">Physics</div>
+					<div className="categoryBlock">Physics</div>
+					<div className="categoryBlock">Physics</div>
+					<div className="categoryBlock">Physics</div>
+					<div className="categoryBlock">Physics</div>
+					<div className="categoryBlock">Physics</div>
+					<div className="categoryBlock">Physics</div>
+					<div className="categoryBlock">Physics</div>
+					<div className="categoryBlock">Physics</div>
+					<div className="categoryBlock">Physics</div>
+				</div>
 			</div>
 		);
 	}
 }
-//
 
 
 

@@ -1,43 +1,30 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import Loader from "./modules/loader.js";
+import utilModules from "./modules/utility.js";
 import Header from "./modules/header.js";
 import Book from "./modules/Book.js";
-import AddBookPopup from "./modules/AddBookPopup.js";
 import $httpService from "./../scripts/http/httpService.js";
 import $config from "./../scripts/static/config.js";
 import util from "./../scripts/utility/utility.js";
 
 const $pages = $config.$pages;
 const $sm = $config.$sm;
-
+const Loader = utilModules.Loader;
 
 
 class Home extends React.Component {
 	constructor(props){
 		super(props);
 		this.state =  {
-			updateBody: true,   //used in should component update
-			popupDisplay: "none"
+			updateBody: true   //used in should component update
+			//popupDisplay: "none"
 		};
-		this.togglePopup = this.togglePopup.bind(this);
 		this.search = this.search.bind(this);
 	}
 
 	componentDidMount(){
 		//this.events();
-	}
-
-	togglePopup(e){
-		//debugger;
-		e.preventDefault();
-		e.stopPropagation();
-		var newDisplay = undefined;
-		if(this.state.popupDisplay=="none"){newDisplay="block";}
-		else{newDisplay="none";}
-		this.setState({updateBody:false , popupDisplay:newDisplay});
-		//this.state.updateBody=true;
 	}
 
 	search(searchText){
@@ -52,9 +39,8 @@ class Home extends React.Component {
 		return (
 			<div id="mainContainer" className="jumbotron full-height">
 				<Loader/>
-				<AddBookPopup popupDisplay={this.state.popupDisplay}/>
-				<Header homeDisplay={false} profileDisplay={true} adderDisplay={true} browserDisplay={true} notifDisplay={true}
-				 togglePopup={this.togglePopup}/>
+	
+				<Header homeDisplay={false} profileDisplay={true} adderDisplay={true} browserDisplay={true} notifDisplay={true}/>
 				<Search searchFunc={this.search}/>
 				<Body ref="body" shouldUpdate={this.state.updateBody} />
 			</div>

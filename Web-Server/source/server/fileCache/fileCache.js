@@ -1,7 +1,7 @@
 var fs = require("fs");
 
 const htmlDirPath = "/Users/lakshya.singhal/Desktop/Personal/Tech/Apps/sharebooks/Web-Server/source/public/pages/";
-const htmlFiles = ["about.html","checkout.html","complaints.html","confirmation.html","feedback.html","home.html","login.html",
+const htmlFiles = ["about.html","checkout.html","complaints.html","confirmation.html","feedback.html","home.html","addBook.html","login.html",
 "preferences.html","profile.html","reset.html","results.html"];
 
 global.pageCache = {};

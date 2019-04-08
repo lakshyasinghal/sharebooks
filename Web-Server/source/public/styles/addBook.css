@@ -1,0 +1,27 @@
+.pageTitle {
+	font-size: 30px;
+	text-align: center;
+}
+
+#details {
+	margin-top: 30px;
+}
+
+#details .row {
+	font-size: 18px;
+}
+
+#details .fieldName {
+	padding-left: 145px;
+}
+
+#details .input {
+	width: 290px;
+	margin-left: 200px;
+}
+
+
+#submitBtn {
+	font-size: 16px;
+	outline: none;
+}

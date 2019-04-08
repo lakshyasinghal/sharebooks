@@ -90,13 +90,13 @@ var dummyRequestServer = {
 	},
 
 	addBook: function(data){
-		var newBook = data[0];
+		var newBook = data.book;
 		var book;
 		var response;
 		var books = dummyData.books;
 		for(var i=0 ; i<books.length ; i++){
 			book = books[i];
-			if(book.name == newBook.name && book.authorName == newBook.authorName && book.category == newBook.category && book.subcategory == newBook.subcategory){
+			if(book.name == newBook.name && book.authorName == newBook.authorName && book.category == newBook.category){
 				response = responseBuilder.buildFailureResponse(27);
 			}
 		}

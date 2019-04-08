@@ -13,19 +13,19 @@ var $global = (function(){
 
 $pages = (function(){
 	var IN = "in";
-	var LOG_IN = "login.html";
-	var HOME = "home.html";
-	var RESULTS = "results.html";
-	var CHECKOUT = "checkout.html";
-	var CONFIRMATION = "confirmation.html";
-	var FEEDBACK = "feedback.html";
-	var PROFILE = "profile.html";
-	var COMPLAINTS = "complaints.html";
-	var HISTORY = "history.html";
-	var ABOUT = "about.html";
-	var RESET_PASSWORD = "reset.html";
-	var PREFERENCES = "preferences.html";
-
+	var LOG_IN = "login";
+	var HOME = "home";
+	var RESULTS = "results";
+	var CHECKOUT = "checkout";
+	var CONFIRMATION = "confirmation";
+	var FEEDBACK = "feedback";
+	var PROFILE = "profile";
+	var COMPLAINTS = "complaints";
+	var HISTORY = "history";
+	var ABOUT = "about";
+	var RESET_PASSWORD = "reset";
+	var PREFERENCES = "preferences";
+	var ADD_BOOK = "addBook";
 
 	function Pages(){
 		this.signIn = redirector(IN);
@@ -41,6 +41,7 @@ $pages = (function(){
 		this.about = redirector(ABOUT);
 		this.resetPassword = redirector(RESET_PASSWORD);
 		this.preferences = redirector(PREFERENCES);
+		this.addBook = redirector(ADD_BOOK);
 	}
 
 	function redirector(url){
@@ -153,11 +154,20 @@ $sm = (function(){
 })();
 
 
+$categories = [{desc:"Commerce",value:"Commerce"},
+			   {desc:"Computer Science",value:"Computer Science"},
+			   {desc:"Literature",value:"Literature"},
+			   {desc:"Politics",value:"Politics"},
+			   {desc:"Science",value:"Science"},
+			   {desc:"Sports",value:"Sports"}
+			  ];
+
 
 $config = {
 	$global: $global,
 	$pages: $pages,
-	$sm: $sm
+	$sm: $sm,
+	$categories: $categories
 };
 
 

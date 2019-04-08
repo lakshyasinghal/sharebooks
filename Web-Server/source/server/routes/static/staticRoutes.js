@@ -9,6 +9,7 @@ function run(app){
 	addImageResources(app);
 	addCSSResources(app);
 	addJSResources(app);
+	addPages(app);
 }
 
 function pageRouteFactory(page){
@@ -26,6 +27,7 @@ function createPageRoutes(app){
 	app.get('/profile',pageRouteFactory("profile"));
 	app.get('/reset',pageRouteFactory("reset"));
 	app.get('/home',pageRouteFactory("home"));
+	app.get('/addBook',pageRouteFactory("addBook"));
 	app.get('/results',pageRouteFactory("results"));
 	app.get('/checkout',pageRouteFactory("checkout"));	
 	app.get('/confirmation',pageRouteFactory("confirmation"));
@@ -46,7 +48,9 @@ function addJSResources(app){
 	app.use('/static' , express.static('public/view-scripts'));
 }
 
-
+function addPages(app){
+	app.use('/static' , express.static('public/pages'));
+}
 
 module.exports = {run};
 

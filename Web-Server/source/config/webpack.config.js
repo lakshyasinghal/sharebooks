@@ -124,6 +124,19 @@ var _exports = [{
 },
 {
 	mode:"development",
+	entry: jsxPath + "/addBook.js",
+	output: {
+	   path: jsPath,
+	   publicPath: "/",
+	   filename: "addBook.js"
+	},
+	module: _module,
+	resolve: _resolve,
+	plugins: _plugins,
+	devServer: _devServer
+},
+{
+	mode:"development",
 	entry: jsxPath + "/login.js",
 	output: {
 	   path: jsPath,
