@@ -12,20 +12,20 @@ var $global = (function(){
 
 
 $pages = (function(){
-	var IN = "in";
-	var LOG_IN = "login";
-	var HOME = "home";
-	var RESULTS = "results";
-	var CHECKOUT = "checkout";
-	var CONFIRMATION = "confirmation";
-	var FEEDBACK = "feedback";
-	var PROFILE = "profile";
-	var COMPLAINTS = "complaints";
-	var HISTORY = "history";
-	var ABOUT = "about";
-	var RESET_PASSWORD = "reset";
-	var PREFERENCES = "preferences";
-	var ADD_BOOK = "addBook";
+	var IN = "/in";
+	var LOG_IN = "/login";
+	var HOME = "/home";
+	var RESULTS = "/results";
+	var CHECKOUT = "/checkout";
+	var CONFIRMATION = "/confirmation";
+	var FEEDBACK = "/feedback";
+	var PROFILE = "/profile";
+	var COMPLAINTS = "/complaints";
+	var HISTORY = "/history";
+	var ABOUT = "/about";
+	var RESET_PASSWORD = "/reset";
+	var PREFERENCES = "/preferences";
+	var ADD_BOOK = "/addBook";
 
 	function Pages(){
 		this.signIn = redirector(IN);
@@ -155,6 +155,24 @@ $sm = (function(){
 
 
 $categories = [{desc:"Commerce",value:"Commerce"},
+			   {desc:"Computer Science",value:"Computer Science"},
+			   {desc:"Literature",value:"Literature"},
+			   {desc:"Politics",value:"Politics"},
+			   {desc:"Science",value:"Science"},
+			   {desc:"Sports",value:"Sports"},
+			   {desc:"Commerce",value:"Commerce"},
+			   {desc:"Computer Science",value:"Computer Science"},
+			   {desc:"Literature",value:"Literature"},
+			   {desc:"Politics",value:"Politics"},
+			   {desc:"Science",value:"Science"},
+			   {desc:"Sports",value:"Sports"},
+			   {desc:"Commerce",value:"Commerce"},
+			   {desc:"Computer Science",value:"Computer Science"},
+			   {desc:"Literature",value:"Literature"},
+			   {desc:"Politics",value:"Politics"},
+			   {desc:"Science",value:"Science"},
+			   {desc:"Sports",value:"Sports"},
+			   {desc:"Commerce",value:"Commerce"},
 			   {desc:"Computer Science",value:"Computer Science"},
 			   {desc:"Literature",value:"Literature"},
 			   {desc:"Politics",value:"Politics"},

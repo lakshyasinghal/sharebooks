@@ -36,7 +36,7 @@ class Profile extends React.Component {
 
 	getUser(){
 		var user = util.$storage.get('user');
-		user = JSON.parse(user);
+		user = JSON.parse(user)||{};
 		this.setState({user:user,modifiedUser:user});
 	}
 

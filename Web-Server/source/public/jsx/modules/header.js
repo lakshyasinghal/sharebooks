@@ -53,7 +53,7 @@ class AppTitle extends React.Component {
 
 		return (
 			<div id="appTitle" className="vertical-center pointer">
-				<a href="/static/about.html" style={linkStyle}>SHAREBOOKS</a>
+				<a href="/about" style={linkStyle}>SHAREBOOKS</a>
 			</div>
 		);
 	}
@@ -91,34 +91,40 @@ class CategoryBrowser extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
-
+			open: false
 		};
 	}
 
-	openCategoriesPanel(){
+	toggle(){
+		const open = this.state.open;
+		this.setState({open:!open});
+	}
 
+	renderCategoryBlock(category,key){
+		return (
+			<div key={key} className="categoryBlock"><span>{category}</span></div>
+		);
 	}
 
 	render(){
 		const downArrowImg = "/static/downArrow.png";
 		let className = "vertical-center horizontal-center pointer";
+		let categories = $categories;
+		categories.sort((c1,c2)=>{
+			if(c1.desc<c2.desc){return -1;}
+			if(c1.desc>c2.desc){return 1;}
+			return 0;
+		});
+		const open = this.state.open;
+		const panelClass = open?"":"hidden";
 
 		return (
-			<div id="browseLink" className={className} onClick={()=>{this.openCategoriesPanel();}}>
-				<span>Browse</span>
+			<div id="browseLink" className={className}>
+				<span className="title" onClick={()=>{this.toggle();}}>Browse</span>
 				<img src={downArrowImg} height="15" width="15" />
 
-				<div id="categoryPanel">
-					<div className="categoryBlock">Physics</div>
-					<div className="categoryBlock">Physics</div>
-					<div className="categoryBlock">Physics</div>
-					<div className="categoryBlock">Physics</div>
-					<div className="categoryBlock">Physics</div>
-					<div className="categoryBlock">Physics</div>
-					<div className="categoryBlock">Physics</div>
-					<div className="categoryBlock">Physics</div>
-					<div className="categoryBlock">Physics</div>
-					<div className="categoryBlock">Physics</div>
+				<div id="categoryPanel" className={panelClass}>
+					{categories.map((category,index)=>{return this.renderCategoryBlock(category.desc,index);})}
 				</div>
 			</div>
 		);
@@ -154,14 +160,10 @@ class Notifications extends React.Component {
 		};
 	}
 
-	/*
-	calculate nd display class
-	needs to be made common 
-	 */
+	/*calculate nd display class needs to be made common */
 	nbDisplay(){
 		return !this.state.nbDisplay?"hidden":"";
 	}
-
 
 	render(){
 		//const nbClass = this.nbClass();  //notification box class
@@ -206,7 +208,6 @@ class Profile extends React.Component {
 	signOut(){
 
 	}
-
 
 	render(){
 		const profImg = "/static/userProfile.png";
