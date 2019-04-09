@@ -1,6 +1,6 @@
 const express = require("express");
 const staticRoutes = require("./routes/static/staticRoutes.js");
-
+const fileUploader = require("./routes/dynamic/fileUploader.js");
 
 const app = express();
 
@@ -17,6 +17,7 @@ function run(port){
 	// start(port);
 	var app = express();
 	staticRoutes.run(app);
+	fileUploader.configure(app);
 	var server = app.listen(port);
 }
 

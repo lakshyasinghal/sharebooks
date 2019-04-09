@@ -11,7 +11,7 @@ function configureCache(){
 }
 
 function runServer(){
-	//console.log(config.port);
+	/*console.log(config.port);*/
 	server.run(config.port);
 }
 

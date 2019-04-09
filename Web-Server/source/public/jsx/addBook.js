@@ -141,7 +141,11 @@ class Body extends React.Component {
 
 		    		<div className="row margin-top-15">
 		    			<div className="fieldName col-lg-4">ADD IMAGE</div>
-		    			<div className="field col-lg-8"><input name="image" type="text" className="input form-control"/></div>
+		    			<div className="field col-lg-8">
+		    				<form id="uploadForm" encType="multipart/form-data" action="/api/bookImage" method="post">
+								<input type="file" name="bookImage" className="input form-control"/>
+		    				</form>
+		    			</div>
 		    		</div>
 
 		    		<div className="row margin-top-15">
@@ -208,6 +212,30 @@ function validateBook(book){
 
 function addBook(book,successCallBack){
 	$httpService.addBook({book:book},successCallBack);
+	setTimeout(uploadBookPhoto,3000);
+}
+
+function uploadBookPhoto(){
+	debugger;
+	$('#uploadForm').submit(function() {
+		console.log("File is uploading...");
+        //$("#status").empty().text("File is uploading...");
+        $(this).ajaxSubmit({
+
+            error: function(xhr) {
+        		status('Error: ' + xhr.status);
+            },
+
+            success: function(response) {
+	        	//$("#status").empty().text(response);
+	            console.log(response);
+	        }
+	    });
+        //Very important line, it disable the page refresh.
+    	return false;
+    });
+
+    setTimeout(()=>{$('#uploadForm').submit();},1000);
 }
 
 

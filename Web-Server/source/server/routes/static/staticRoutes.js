@@ -23,7 +23,6 @@ function pageRouteFactory(page,redirect,redirectionURL){
 	return (function(req,res){
 		// res.writeHead(200,{'Content-Type': 'text/html'});
 		// res.end(global.pageCache[page]);
-		console.log(appRoot);
 		if(redirect){
 			res.redirect(redirectionURL);
 		}
@@ -68,6 +67,7 @@ function addCSSResources(app){
 }
 
 function addJSResources(app){
+	app.use('/static' , express.static('public/lib/js'));
 	app.use('/static' , express.static('public/view-scripts'));
 }
 
