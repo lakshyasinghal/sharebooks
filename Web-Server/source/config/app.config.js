@@ -7,15 +7,13 @@ var fs = require("fs");
 
 
 
-function config(){
-	var config = fs.readFileInSync("./app.config.js");
+const config = (function(){
+	var config = fs.readFileSync(appRoot+"/config/app.config.json");
+	console.log(config.toString());
 	config = JSON.parse(config);
-	var validation = validateConfig(config);
-	if(!validation.success){
-		throw validation.errMess;
-	}
+	console.log(config);
 	return config;
-}
+})();
 
 
 

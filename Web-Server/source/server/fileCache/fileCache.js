@@ -1,3 +1,6 @@
+/*no longer in use
+Can be trashed*/
+
 var fs = require("fs");
 
 const htmlDirPath = "/Users/lakshya.singhal/Desktop/Personal/Tech/Apps/sharebooks/Web-Server/source/public/pages/";

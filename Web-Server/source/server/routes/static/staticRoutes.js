@@ -2,36 +2,59 @@
  images,css,js */
 
 const express = require("express");
-
+const path = require("path");
+const router = express.Router();
 
 function run(app){
-	createPageRoutes(app);
+	addHTMLResources(app);
 	addImageResources(app);
 	addCSSResources(app);
 	addJSResources(app);
 	addPages(app);
+
+	createPageRoutes(app);
 }
 
-function pageRouteFactory(page){
+
+/*This is a closure function which will generate function for getting pages
+The redirect boolean value and redirectionURL will be used in case redirection is required
+ */
+function pageRouteFactory(page,redirect,redirectionURL){
 	return (function(req,res){
-		res.writeHead(200,{'Content-Type': 'text/html'});
-		res.end(global.pageCache[page]);
+		// res.writeHead(200,{'Content-Type': 'text/html'});
+		// res.end(global.pageCache[page]);
+		console.log(appRoot);
+		if(redirect){
+			res.redirect(redirectionURL);
+		}
+		else{
+			res.sendFile(path.join(appRoot +'/public/pages/'+page));
+		}
 	});
 }
 
 function createPageRoutes(app){
-	app.get('/login',pageRouteFactory("login"));
-	app.get('/about',pageRouteFactory("about"));
-	app.get('/complaints',pageRouteFactory("complaints"));
-	app.get('/preferences',pageRouteFactory("preferences"));
-	app.get('/profile',pageRouteFactory("profile"));
-	app.get('/reset',pageRouteFactory("reset"));
-	app.get('/home',pageRouteFactory("home"));
-	app.get('/addBook',pageRouteFactory("addBook"));
-	app.get('/results',pageRouteFactory("results"));
-	app.get('/checkout',pageRouteFactory("checkout"));	
-	app.get('/confirmation',pageRouteFactory("confirmation"));
-	app.get('/feedback',pageRouteFactory("feedback"));	
+	router.get('/login',pageRouteFactory("login.html"));
+	router.get('/about',pageRouteFactory("about.html"));
+	router.get('/complaints',pageRouteFactory("complaints.html"));
+	router.get('/preferences',pageRouteFactory("preferences.html"));
+	router.get('/profile',pageRouteFactory("profile.html"));
+	router.get('/reset',pageRouteFactory("reset.html"));
+	router.get('/home',pageRouteFactory("home.html"));
+	router.get('/addBook',pageRouteFactory("addBook.html"));
+	router.get('/results',pageRouteFactory("results.html"));
+	router.get('/checkout',pageRouteFactory("checkout.html"));	
+	router.get('/confirmation',pageRouteFactory("confirmation.html"));
+	router.get('/feedback',pageRouteFactory("feedback.html"));	
+	router.get('/',pageRouteFactory(null,true,"/login"));
+
+	//adding router to the app
+	app.use('/',router);
+}
+
+
+function addHTMLResources(app){
+	app.use(express.static("/public/pages"));
 }
 
 function addImageResources(app){
