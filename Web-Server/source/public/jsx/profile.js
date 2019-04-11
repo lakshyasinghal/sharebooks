@@ -60,7 +60,6 @@ class Profile extends React.Component {
 	updateUser(){
 		const modifiedUser = this.state.modifiedUser;
 		$httpService.updateUser({user:modifiedUser}, (res)=>{
-			res = JSON.parse(res);
 			if(res.success){
 				alert("user updated successfully");
 			}

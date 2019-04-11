@@ -88,10 +88,7 @@ class SignInPanel extends React.Component {
 			return;
 		}
 		$httpService.signIn(vals, data => {
-			data = JSON.parse(data);
-
             if(data.success){
-                util.$storage.set("user",data.results[0]);
                 $pages.home();
             }
             else{
@@ -168,9 +165,8 @@ class SignUpPanel extends React.Component {
 			this.setState({statusMessage:validity.message,displayMessage:true});
 			return;
 		}
-		$httpService.signUp({user:vals}, data => {
-			data = JSON.parse(data);
-            this.setState({statusMessage:$sm.message(data.statusCode),displayMessage:true});
+		$httpService.signUp({user:vals}, res => {
+            this.setState({statusMessage:$sm.message(res.statusCode),displayMessage:true});
 		},()=>{});
 	}
 
@@ -310,5 +306,5 @@ function validateSignUpValues(vals){
 
 
 
-ReactDOM.render(<Login/> , document.getElementById('main-container'));
+ReactDOM.render(<Login/> , document.getElementById('app'));
 

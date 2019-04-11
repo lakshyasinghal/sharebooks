@@ -1,15 +1,7 @@
-const express = require("express");
+const staticRouter = require("./static/staticRouter");
+const userRouter = require("./dynamic/userRouter");
+const bookRouter = require("./dynamic/bookRouter");
+const fileUploader = require("./dynamic/fileUploader");
 
-var app = express();
 
-
-function run(){
-	console.log("in here");
-	app.use('/static' , express.static('public/pages'));
-}
-
-const router = {
-	run:run
-};
-
-module.exports = router;
+module.exports = {staticRouter,userRouter,bookRouter,fileUploader};

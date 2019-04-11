@@ -58,6 +58,7 @@ $pages = (function(){
 $sm = (function(){
 	//configuring status codes
 	statusCodes = {
+		"0" : "API_DOES_NOT_EXIST",
 		"1" : "ADD_USER_SUCCESSFUL",
 		"2" : "GET_USER_SUCCESSFUL",
 		"3" : "USER_UPDATE_SUCCESSFUL",
@@ -101,6 +102,7 @@ $sm = (function(){
 	};
 
 	statusMessages = {
+		API_DOES_NOT_EXIST : "The api requested by you doesn't exist.",
 		ADD_USER_SUCCESSFUL : "Registered successfully",                                               
 		GET_USER_SUCCESSFUL : "User retrieved successfully",                                           
 		USER_UPDATE_SUCCESSFUL : "User updated successfully",                                             

@@ -55,7 +55,6 @@ class Body extends React.Component {
 	}
 
 	update(res){
-		res = JSON.parse(res);
 		let selectedResult = res.results[0];
 		let rci = getRentCompInfo(selectedResult); 
 		this.setState({selectedResult:selectedResult,rci:rci});
@@ -304,7 +303,6 @@ function fetchSelectedResult(successCallback){
 function submitBookRequest(orderType,bookId,days,totalRent){
 	let params = {orderType:orderType,bookId:bookId,days:days,totalRent:totalRent};
 	$httpService.saveBookRequest(params,(res)=>{
-		res = JSON.parse(res);
 		if(res.success){
 			$pages.confirmation();
 		}

@@ -44,7 +44,6 @@ class Complaint extends React.Component {
 		let complaintText = this.state.complaintText.trim();
 		if(!this.isSubmitValid(complaintText)){return ;}
 		$httpService.saveComplaint({complaint:complaintText} , res=>{
-			res = JSON.parse(res);
 			if(res.success){
 				alert("Complaints saved successfully");
 			}

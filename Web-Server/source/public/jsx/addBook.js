@@ -34,7 +34,7 @@ class AddBook extends React.Component {
 		};
 		this.updateInputDetails = this.updateInputDetails.bind(this);
 		this.submit=this.submit.bind(this);
-		this.addBookSuccess=this.addBookSuccess.bind(this);
+		this.successCallback=this.successCallback.bind(this);
 		this.messageOffTimer=this.messageOffTimer.bind(this);
 	} 
 
@@ -62,12 +62,11 @@ class AddBook extends React.Component {
 			this.messageOffTimer();
 		}
 		else{
-			addBook(newBook , this.addBookSuccess);
+			addBook(newBook , this.successCallback);
 		}
 	}
 
-	addBookSuccess(res){
-		res = JSON.parse(res);
+	successCallback(res){
 		if(res.success){
 			const messageConfig = {message:$sm.message(res.statusCode),type:"success",display:true};
 			this.setState({messageConfig:messageConfig});
@@ -210,8 +209,9 @@ function validateBook(book){
 }
 
 
-function addBook(book,successCallBack){
-	$httpService.addBook({book:book},successCallBack);
+function addBook(book,successCallback){
+	debugger;
+	$httpService.addBook({book:book},successCallback);
 	setTimeout(uploadBookPhoto,3000);
 }
 
@@ -221,11 +221,9 @@ function uploadBookPhoto(){
 		console.log("File is uploading...");
         //$("#status").empty().text("File is uploading...");
         $(this).ajaxSubmit({
-
             error: function(xhr) {
         		status('Error: ' + xhr.status);
             },
-
             success: function(response) {
 	        	//$("#status").empty().text(response);
 	            console.log(response);

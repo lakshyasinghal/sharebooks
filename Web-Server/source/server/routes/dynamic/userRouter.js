@@ -1,36 +1,62 @@
 const express = require("express");
 
-
-function Router(){
-	const expRouter = express.Router();
-
-	this.init = function(){
-		expRouter.get('/api/users' , function(req , res){
-			res.send("All users");
-		});
+var router = express.Router();
 
 
-		expRouter.get('/api/user/:id',function(req,res){
-			res.send("User with id : " + req.params.id);
-		});
+//api 1
+router.post('/users', function(req,res){
+	console.log("Request received on users api 1 => ", req);
+});
+
+//api 2
+router.post('/users/:id([0-9]+)',function(req,res){
+	console.log("Request received on users api 2 => ", req);
+	//make http request to application server
+});
+
+//api 3
+router.post('/login',function(req,res){
+	console.log("Request received on users api 3");
+	console.log("Request body =>",req.body);
+	const username = req.body.username;
+	const password = req.body.password;
+
+	if(username=='lakshya33' && password=="champion"){
+		req.session.user = {};
+		res.json({success:true});
+	}
+	else{
+		res.json({success:false,statusCode:10});
+	}
+});
+
+//api 4
+router.get('/users/:id',function(req,res){
+	//console.log("Request received on users api 4 => ", req.query);
+	res.status(200).send("Hahahaha");
+});
 
 
-		expRouter.put('/api/user' , function(req,res){
-			res.send("Create user : ");
-		});
 
+function sessionValidatorHandler(callback){
 
-		expRouter.post('/api/user' , function(req,res){
-			res.send("Update user with id: " + req.params.id);
-		});
+	return function(req,res){
+		var session = req.session;
+		if(!session.user){
+			res.json({error:true,statusCode:0});
+			return;
+		}
 
+		console.log("params => ",req.params);
+		console.log("body => ",req.body);
+	}
 
-		expRouter.delete('/api/user' , function(){
-			res.send("Delete user with id:" + req.params.id);
-		});
-	};
 }
 
 
 
-module.exports = new Router();
+module.exports = router;
+
+
+
+

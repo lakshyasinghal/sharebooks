@@ -138,9 +138,8 @@ class Body extends React.Component {
 
 function allBooks(){
 	$httpService.getAllBooks( {} , (res) => {
-		var data = JSON.parse(response);
-		if(data.success){
-			var books = data.results;
+		if(res.success){
+			var books = res.results;
 			this.state.books = books;
 			//selectedBooks = books;
 			this.displayBooks(books);
@@ -163,12 +162,11 @@ function booksByCategory(category , subcategory){
 	
 	//call http service  
 	$httpService.filterByCategory(params , res => {
-		var data = JSON.parse(response);
-		if(data.success){
-			selectedBooks = data.results;
+		if(res.success){
+			selectedBooks = res.results;
 		}
 		else{
-			if(data.statusCode == statusCodes.SESSION_DOES_NOT_EXIST){
+			if(res.statusCode == statusCodes.SESSION_DOES_NOT_EXIST){
 				location.reload();
 			}
 			//displayMessage($scope.messageContainerId , messages[data.statusCode - 1] , messageColors.WARNING);
@@ -194,9 +192,8 @@ function booksBySearch(searchText){
 
 	$httpService.getBooksBySearchString({searchText:searchText} , res => {
 		//$loaderManager.hideLoader("id" , "pageLoader");
-		var data = JSON.parse(response);
-		if(data.success){
-			var books = data.results;
+		if(res.success){
+			var books = res.results;
 			//selectedBooks = books;
 			this.displayBooks(books);
 		}

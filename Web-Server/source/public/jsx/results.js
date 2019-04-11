@@ -49,7 +49,6 @@ class Results extends React.Component {
 	getAllResults(){
 		var selectedBook = this.state.selectedBook;
 		$httpService.getAllResults({book:selectedBook} , (res)=>{
-			res = JSON.parse(res);
 			if(res.success){
 				const selectedBookResult = res.results[0];
 				const allRelatedResults = res.results[1];

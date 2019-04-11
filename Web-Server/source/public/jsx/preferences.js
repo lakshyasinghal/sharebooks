@@ -30,7 +30,6 @@ class Preferences extends React.Component {
 
 	componentDidMount() {
 		$httpService.getPreferenceOptions(null,(res)=>{
-			res = JSON.parse(res);
 	 		if(res.success){
 	 			this.state.categories = res.results;
 	 			this.showPreferences();
@@ -67,7 +66,6 @@ class Preferences extends React.Component {
 			}
 		}
 		$httpService.savePreferences({preferences:selPrefs},(res)=>{
-			res = JSON.parse(res);
 			if(res.success){alert("Preferences saved successfully");}
 			else{alert("Preferences couldn't be saved");}
 		},()=>{});

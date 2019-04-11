@@ -21,7 +21,8 @@ var responseBuilder = {
 			json.results = [result];
 		}
 
-		return JSON.stringify(json);
+		//return JSON.stringify(json);
+		return json;
 	},
 
 	//this function will take an array of result entities and will return a complete json response for failure
@@ -38,6 +39,7 @@ var responseBuilder = {
 		json.results = [];
 
 		return JSON.stringify(json);
+		return json;
 	}
 };
 
@@ -45,7 +47,7 @@ var responseBuilder = {
 
 //-------------------------------------------------------------------------------
 
-var dummyRequestServer = {
+const dummyServer = {
 
 	signIn : function(data){
 		var user;
@@ -340,5 +342,5 @@ var dummyRequestServer = {
 
 
 
-module.exports = dummyRequestServer;
+module.exports = dummyServer;
 
