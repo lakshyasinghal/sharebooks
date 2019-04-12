@@ -1,6 +1,6 @@
 /* jshint esversion: 6 */
 
-const dummyServer = require('./../data/dataRequestServer.js');
+//const dummyServer = require('./../data/dataRequestServer.js');
 
 const REQUEST_TYPE = {
 	POST: "POST",
@@ -11,7 +11,8 @@ const REQUEST_TYPE = {
 
 const CONTENT_TYPE = {
 	JSON:"application/json",
-	FORM:"application/x-www-form-urlencoded"
+	FORM:"application/x-www-form-urlencoded",
+	PLAIN_TEXT:"text/plain"
 };
 
 //will act as a singleton
@@ -52,7 +53,6 @@ var http = (function(){
 				console.log("$http responseData", responseData);
 			}
 			else{
-				debugger;
 				var http = new XMLHttpRequest();
 				var params = getSuitableParams(data,content_type);
 				//true value will make the request asynchronous
@@ -161,35 +161,34 @@ function getParamString(paramsObject){
 $httpService = (function(){
 	var SIGN_IN = "login";
 	var SIGN_UP = "signUp";
-	var SIGN_OUT = "signOut";
+	var SIGN_OUT = "logout";
 	var ADD_BOOK = "books";
 	var GET_BOOK = "books";        //will become api/books/2
 	var GET_ALL_BOOKS = "books";   // will become api/books
 	var GET_BOOKS = "getBooks";
 	var GET_USER = "users";
 	var GET_USER_BY_ID = "getUserById";
-	var FILTER_BY_CATEGORY = "filterByCategory";
-	var GET_BOOKS_BY_SEARCH_STRING = "getBooksBySearchString";
-	var UPDATE_USER = "updateUser";
-	var GET_NOTIFICATIONS = "getNotifications";
+	var FILTER_BY_CATEGORY = "books/category";           
+	var GET_BOOKS_BY_SEARCH_STRING = "books/search";
+	var UPDATE_USER = "users";                           //****
+	var GET_NOTIFICATIONS = "notifications";             //****
 	var GET_ALL_RESULTS = "getAllResults";
 	var GET_SIMILAR_BOOKS = "getSimilarBooks";
-	var ADD_BOOK_REQUEST = "addBookRequest";
+	var ADD_BOOK_REQUEST = "bookRequests";
 	var SEND_OTP = "sendOTP";
 	var VERIFY_OTP = "verifyOTP";
 	var SAVE_NEW_PASSWORD = "saveNewPassword";
 	var GET_SUBCATEGORIES = "getSubcategories";
 	var SAVE_FEEDBACK = "saveFeedback";
-	var SAVE_COMPLAINT = "saveComplaint";
-	var GET_PREFERENCE_OPTIONS = "getPreferenceOptions";
-	var SAVE_PREFERENCES = "savePreferences";
+	var SAVE_COMPLAINT = "account/complaint";
+	var GET_PREFERENCE_OPTIONS = "preferences";
+	var SAVE_PREFERENCES = "account/preferences";
 	var GET_SELECTED_RESULT = "getSelectedResult";
 	var SAVE_BOOK_REQUEST = "saveBookRequest";
 
 	function HttpService(){
-
 		this.signIn = httpMethodFactory(REQUEST_TYPE.POST,SIGN_IN,CONTENT_TYPE.FORM);
-		this.signUp = httpMethodFactory(REQUEST_TYPE.POST,SIGN_UP,CONTENT_TYPE.FORM);
+		this.signUp = httpMethodFactory(REQUEST_TYPE.POST,SIGN_UP,CONTENT_TYPE.JSON);
 		this.signOut = httpMethodFactory(REQUEST_TYPE.GET,SIGN_OUT,CONTENT_TYPE.FORM);
 		this.addBook = httpMethodFactory(REQUEST_TYPE.PUT,ADD_BOOK,CONTENT_TYPE.JSON);
 		this.getBook = httpMethodFactory(REQUEST_TYPE.GET,GET_BOOK,CONTENT_TYPE.FORM);
@@ -197,7 +196,7 @@ $httpService = (function(){
 		this.getBooks = httpMethodFactory(REQUEST_TYPE.GET,GET_BOOKS,CONTENT_TYPE.FORM);
 		this.getUser = httpMethodFactory(REQUEST_TYPE.GET,GET_USER,CONTENT_TYPE.FORM);
 		this.getUserById = httpMethodFactory(REQUEST_TYPE.GET,GET_USER_BY_ID,CONTENT_TYPE.FORM);
-		this.filterByCategory = httpMethodFactory(REQUEST_TYPE.POST,FILTER_BY_CATEGORY,CONTENT_TYPE.FORM);
+		this.filterByCategory = httpMethodFactory(REQUEST_TYPE.GET,FILTER_BY_CATEGORY,CONTENT_TYPE.FORM);
 		this.getBooksBySearchString = httpMethodFactory(REQUEST_TYPE.GET,GET_BOOKS_BY_SEARCH_STRING,CONTENT_TYPE.FORM);
 		this.updateUser = httpMethodFactory(REQUEST_TYPE.POST,UPDATE_USER,CONTENT_TYPE.FORM);
 		this.getNotifications = httpMethodFactory(REQUEST_TYPE.GET,GET_NOTIFICATIONS,CONTENT_TYPE.FORM);
@@ -211,7 +210,7 @@ $httpService = (function(){
 		this.saveFeedback = httpMethodFactory(REQUEST_TYPE.POST,SAVE_FEEDBACK,CONTENT_TYPE.FORM);
 		this.saveComplaint = httpMethodFactory(REQUEST_TYPE.POST,SAVE_COMPLAINT,CONTENT_TYPE.FORM);
 		this.getPreferenceOptions = httpMethodFactory(REQUEST_TYPE.GET,GET_PREFERENCE_OPTIONS,CONTENT_TYPE.FORM);
-		this.savePreferences = httpMethodFactory(REQUEST_TYPE.POST,SAVE_PREFERENCES,CONTENT_TYPE.FORM);
+		this.savePreferences = httpMethodFactory(REQUEST_TYPE.POST,SAVE_PREFERENCES,CONTENT_TYPE.JSON);
 		this.getSelectedResult = httpMethodFactory(REQUEST_TYPE.GET,GET_SELECTED_RESULT,CONTENT_TYPE.FORM);
 		this.saveBookRequest = httpMethodFactory(REQUEST_TYPE.POST,SAVE_BOOK_REQUEST,CONTENT_TYPE.FORM);
 	}
@@ -220,8 +219,7 @@ $httpService = (function(){
 })();
 
 
-/*this fuction will act as factory and will generate functions with suitable parameters
-*/
+/*this closure fuction will act as factory and will generate get,post and other functions with suitable serviceURL and content type*/
 function httpMethodFactory(request_type,serviceName,content_type){
 	var func = undefined;
 

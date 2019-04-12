@@ -14,6 +14,7 @@ var $global = (function(){
 $pages = (function(){
 	var IN = "/in";
 	var LOG_IN = "/login";
+	var SIGN_OUT = "/logout";
 	var HOME = "/home";
 	var RESULTS = "/results";
 	var CHECKOUT = "/checkout";
@@ -29,6 +30,7 @@ $pages = (function(){
 
 	function Pages(){
 		this.signIn = redirector(IN);
+		this.signOut = redirector(SIGN_OUT);
 		this.logIn = redirector(LOG_IN);
 		this.home = redirector(HOME);
 		this.results = redirector(RESULTS);

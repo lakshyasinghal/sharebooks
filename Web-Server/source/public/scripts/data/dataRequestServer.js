@@ -40,6 +40,34 @@ var responseBuilder = {
 
 		return JSON.stringify(json);
 		return json;
+	},
+
+	/*results will be an object containg result entities
+	Example => {books:[book1,book2]} */
+	buildSuccessResponse2: function(results , statusCode){
+		var json = {};
+		json.success = true;
+		if(!statusCode){
+			json.statusCode = 1;
+		}
+		else{
+			json.statusCode = statusCode;
+		}
+
+
+		for(var prop in results){
+			json[prop] = results[prop];
+		}
+		
+		// if(result.constructor === Array){
+		// 	json.results = result;
+		// }
+		// else{
+		// 	json.results = [result];
+		// }
+
+		//return JSON.stringify(json);
+		return json;
 	}
 };
 
@@ -111,7 +139,7 @@ const dummyServer = {
 
 	getAllBooks: function(){
 		var books = dummyData.books;
-		response = responseBuilder.buildSuccessResponse(books , 28);
+		response = responseBuilder.buildSuccessResponse2({books:books} , 28);
 		return response;
 	},
 
@@ -122,6 +150,17 @@ const dummyServer = {
 		catch(err){
 			alert("Error");
 		}
+	},
+
+	filterByCategory : function(category){
+		var books = dummyData.books;
+		var filteredBooks = [];
+		books.forEach( function(book, index) {
+			if(book.category.toLowerCase()==category.toLowerCase()){
+				filteredBooks.push(book);
+			}
+		});
+		return filteredBooks;
 	},
 
 	getRandomBooks: function(){
@@ -156,26 +195,9 @@ const dummyServer = {
 		return response;
 	},
 
-	getNotifications: function(data){
-		var result = [];
-		var notification;
-		var response;
+	getNotifications: function(userId){
 		var notifications = dummyData.notifications;
-		var userId = data.userId;
-
-		for(var i=0; i<notifications.length; i++){
-			notification = notifications[i];
-			if(notification.targetId == userId){
-				result.push(notification);
-			}
-		}
-		if(result.length){
-			response = responseBuilder.buildSuccessResponse(result);
-		}
-		else{
-			response = responseBuilder.buildFailureResponse();
-		}
-		return response;
+		return notifications;
 	},
 
 	getAllResults: function(data){

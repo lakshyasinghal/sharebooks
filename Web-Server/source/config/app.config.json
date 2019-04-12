@@ -4,5 +4,10 @@
 	"booksUploadDir":"/Users/lakshya.singhal/Desktop/uploads",
 	"staticResourcePaths":["public/resources/images","public/resources/images/background","public/resources/images/books","public/styles","public/lib/js","public/view-scripts"],
 	"sessionExpiry":300, 
-	"sessionSecret":"secretkey"
+	"sessionSecret":"secretkey",
+	"appServer":{
+		"protocol":"http",
+		"host":"localhost",
+		"port":"9010"
+	}
 }

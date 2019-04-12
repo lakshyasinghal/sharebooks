@@ -32,7 +32,7 @@ export default class Header extends React.Component {
 				
 				<AppTitle/>
 				{this.state.homeDisplay && <HomeIcon/>}
-				{this.state.browserDisplay && <CategoryBrowser/>}
+				{this.state.browserDisplay && <CategoryBrowser onClick={this.props.categoryHandler}/>}
 				{this.state.adderDisplay && <BookAdder onClick={()=>{$pages.addBook();}} />}
 				{this.state.notifDisplay && <Notifications />}
 				{this.state.profileDisplay && <Profile />}
@@ -102,7 +102,7 @@ class CategoryBrowser extends React.Component {
 
 	renderCategoryBlock(category,key){
 		return (
-			<div key={key} className="categoryBlock"><span>{category}</span></div>
+			<div key={key} className="categoryBlock" onClick={this.props.onClick}><span>{category}</span></div>
 		);
 	}
 
@@ -160,7 +160,10 @@ class Notifications extends React.Component {
 		};
 	}
 
-	/*calculate nd display class needs to be made common */
+
+
+	/*calculate nd display class needs to be made common 
+	nb is notifications box*/
 	nbDisplay(){
 		return !this.state.nbDisplay?"hidden":"";
 	}
@@ -225,7 +228,7 @@ class Profile extends React.Component {
 							<tr onClick={(e)=>{$pages.history();}}>
 								<td id="historyTab">History</td>
 							</tr>
-							<tr onClick={(e)=>{this.signOut();}}>
+							<tr onClick={(e)=>{$pages.signOut();}}>
 								<td id="signOutTab">Sign Out</td>
 							</tr>
 							<tr onClick={(e)=>{$pages.feedback();}}>

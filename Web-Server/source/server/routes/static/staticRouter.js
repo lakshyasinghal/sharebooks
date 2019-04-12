@@ -15,7 +15,7 @@ function viewLocator(page,sessionRequired,redirect,redirectionURL){
 		console.log("Session => ",session);
 		//if session is required and session user does not exist, redirect to login page
 		if(sessionRequired && !session.user){
-			res.redirect('/login');
+			res.redirect('/');
 		}
 		else if(redirect){
 			res.redirect(redirectionURL);
@@ -27,7 +27,7 @@ function viewLocator(page,sessionRequired,redirect,redirectionURL){
 }
 
 (function createPageRoutes(){
-	router.get('/login',viewLocator("login.html",false));
+	//router.get('/login',viewLocator("login.html",false));
 	router.get('/about',viewLocator("about.html",true));
 	router.get('/complaints',viewLocator("complaints.html",true));
 	router.get('/preferences',viewLocator("preferences.html",true));
@@ -39,7 +39,7 @@ function viewLocator(page,sessionRequired,redirect,redirectionURL){
 	router.get('/checkout',viewLocator("checkout.html",true));	
 	router.get('/confirmation',viewLocator("confirmation.html",true));
 	router.get('/feedback',viewLocator("feedback.html",true));	
-	router.get('/',viewLocator(null,false,true,"/login"));
+	router.get('/',viewLocator("login.html",false));
 	router.get('*',viewLocator("url_error.html",false));
 	//adding router to the app
 })();

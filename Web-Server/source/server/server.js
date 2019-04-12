@@ -31,6 +31,7 @@ function addRouters(){
 	app.use('/api',routers.userRouter);
 	app.use('/api',routers.bookRouter);
 	app.use('/api',routers.fileUploader);
+	app.use('/',routers.miscRouter);
 	addNoAPIHandlers();
 	app.use('/',routers.staticRouter);
 }

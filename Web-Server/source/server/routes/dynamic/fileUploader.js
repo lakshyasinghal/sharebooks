@@ -2,11 +2,12 @@ const express =   require("express");
 const multer  =   require('multer');
 const router = express.Router();
 
-const uploadsDir = global.config.bookUploadsDir;
+const uploadDir = global.config.booksUploadDir;
 
 var storage =   multer.diskStorage({
   destination: function (req, file, callback) {
-    callback(null, uploadsDir);
+    console.log("Uploads dir =>",uploadDir);
+    callback(null, uploadDir);
   },
   filename: function (req, file, callback) {
     callback(null, file.originalname);
@@ -21,7 +22,7 @@ var upload = multer({ storage : storage}).single('bookImage');
 
 router.post('/bookImage',function(req,res){
   debugger;
-  console.log("Upload photo reequest received");
+  console.log("Upload photo request received");
   upload(req,res,function(err) {
     if(err) {
       console.log("error occurred - ",err);

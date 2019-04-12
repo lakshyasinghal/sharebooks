@@ -31,6 +31,11 @@ class Home extends React.Component {
 		this.refs.body.booksBySearch(searchText);
 	}
 
+	categorySelectionHandler(e){
+		const category = e.target.innerText;
+		this.refs.body.booksByCategory(category);
+		//alert(category+" selected");
+	}
 
 	render(){
 		const notifications = this.state.notifications;
@@ -40,7 +45,8 @@ class Home extends React.Component {
 			<div id="mainContainer" className="jumbotron full-height">
 				<Loader/>
 	
-				<Header homeDisplay={false} profileDisplay={true} adderDisplay={true} browserDisplay={true} notifDisplay={true}/>
+				<Header homeDisplay={false} profileDisplay={true} adderDisplay={true} browserDisplay={true} notifDisplay={true} 
+				categoryHandler={(e)=>{this.categorySelectionHandler(e);}}/>
 				<Search searchFunc={this.search}/>
 				<Body ref="body" shouldUpdate={this.state.updateBody} />
 			</div>
@@ -117,7 +123,7 @@ class Body extends React.Component {
 
 	render(){
 		const books = this.state.selectedBooks;
-		const Books = books.map((book) => {
+		const BookComponents = books.map((book) => {
 			const id=book.id;
 			return (
 				<Book key={book.id} book={book} onClick={(id)=>{this.selectBook(id)}} />
@@ -127,7 +133,7 @@ class Body extends React.Component {
 		return (
 			<div id="bodyContainer" className="component-border-bottom">
 				<div id="booksContainer" className="col-sm-12 col-md-12 full-height">
-					{Books}
+					{BookComponents}
 				</div>
 			</div>
 		);
@@ -139,39 +145,33 @@ class Body extends React.Component {
 function allBooks(){
 	$httpService.getAllBooks( {} , (res) => {
 		if(res.success){
-			var books = res.results;
+			var books = res.books;
 			this.state.books = books;
-			//selectedBooks = books;
 			this.displayBooks(books);
 		}
 		else{
 			alert("Error in success in getAllBooks");
-			// if(data.statusCode == statusCodes.SESSION_DOES_NOT_EXIST){
-			// 	location.reload();
-			// }
 		}
-	} , () => {});
+	});
 }
 
 function booksByCategory(category , subcategory){
 	//self.selectedBooks = [];
 	//showPageLoader = true;
 	var params = {};
-	params["category"] = category;
-	params["subcategory"] = subcategory;
+	params.category = category?category:null;
+	params.subcategory = subcategory?subcategory:null;
 	
 	//call http service  
 	$httpService.filterByCategory(params , res => {
 		if(res.success){
-			selectedBooks = res.results;
+			const books = res.books;
+			this.displayBooks(books);
 		}
 		else{
-			if(res.statusCode == statusCodes.SESSION_DOES_NOT_EXIST){
-				location.reload();
-			}
-			//displayMessage($scope.messageContainerId , messages[data.statusCode - 1] , messageColors.WARNING);
+			alert("Something wrong");
 		}
-	} , () => {});	//$logger.err("getBooksByCategory" , err.message);
+	});	//$logger.err("getBooksByCategory" , err.message);
 }
 
 /**
@@ -193,15 +193,12 @@ function booksBySearch(searchText){
 	$httpService.getBooksBySearchString({searchText:searchText} , res => {
 		//$loaderManager.hideLoader("id" , "pageLoader");
 		if(res.success){
-			var books = res.results;
-			//selectedBooks = books;
+			var books = res.books;
 			this.displayBooks(books);
 		}
 		else{
 			//$messageManager.displayStatusMessage(data.statusCode , 2 , null);
 		}
-	} , () => {
-		alert("Request failed");
 	});	//$logger.err("getBooksBySearchString" , err.message);
 }
 
