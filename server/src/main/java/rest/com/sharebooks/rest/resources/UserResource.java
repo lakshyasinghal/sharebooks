@@ -5,41 +5,55 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-@Path("/user-service")
+import org.apache.log4j.Logger;
+
+import com.sharebooks.requestProcessor.UserRequestProcessor;
+
+@Path("/api")
 public class UserResource {
+	private static final Logger LOGGER = Logger.getLogger(UserResource.class.getName());
+	private UserRequestProcessor reqProcessor = UserRequestProcessor.getInstance();
+	
+	@POST
+	@Path("/users/login")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String login(@Context HttpServletRequest req , @FormParam("username") String username, @FormParam("password") String password) throws Exception{
+		return reqProcessor.processLoginRequest(username,password);
+	}
+	
 	
 	@GET
 	@Path("/users")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getAllUsers(){
-		return "[{name:\"Lakshya\"} , {name:\"Himanshu\"} , {name:\"Anil\"}]";
+	public String getAllUsers(@Context HttpServletRequest req) throws Exception{
+		return reqProcessor.processGetAllRequest();
 	}
 	
 	@GET
-	@Path("/users/{userId}")
+	@Path("/users/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getUserById(@Context HttpServletRequest req , @PathParam("userId") String userId){
-		return "{name:\"Lakshya Singhal\", age:28}";
+	public String getUserById(@Context HttpServletRequest req , @PathParam("id") String id) throws Exception{
+		return reqProcessor.processGetByIdRequest(id);
 	}
 	
 	@PUT
 	@Path("/users")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String createUser(@Context HttpServletRequest req){
-		return "{success:\"true\"}";
+	public String createUser(@Context HttpServletRequest req) throws Exception{
+		return reqProcessor.processCreateRequest(req);
 	}
 	
 	@POST
 	@Path("/users")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String updateUser(@Context HttpServletRequest req){
-		return "{success:\"true\"}";
+	public String updateUser(@Context HttpServletRequest req) throws Exception{
+		return reqProcessor.processUpdateRequest(req);
 	}
 	
 	@DELETE
-	@Path("/users/{userId}")
+	@Path("/users/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String deleteUser(){
+	public String deleteUser(@Context HttpServletRequest req , @PathParam("id") String id){
 		return "{success:\"false\"}";
 	}
 	

@@ -1,6 +1,8 @@
 package com.sharebooks.requestProcessor;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -23,8 +25,20 @@ public abstract class AbstractRequestProcessor{
 	
 	
 	protected String getJsonFromRequest(HttpServletRequest request) throws IOException{
-		String json = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-		return json;
+//		String json = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+//		return json;
+		
+		BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
+	    StringBuilder sb = new StringBuilder();
+	    String line = reader.readLine();
+	    while (line != null) {
+	      sb.append(line + "\n");
+	      line = reader.readLine();
+	    }
+	    reader.close();
+	    String jsonStr = sb.toString();
+	    
+	    return jsonStr;
 	}
 
 }

@@ -68,7 +68,7 @@ public class BookDaoTester extends AbstractTester{
 			List<Book> books = DummyEntitySource.getBooks();
 			boolean success = false;
 			for(Book book:books){
-				success = dao.insertBook(book);
+				success = dao.createBook(book);
 			}
 			display(success);
 		}

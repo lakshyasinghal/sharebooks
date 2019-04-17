@@ -78,7 +78,7 @@ public class BookSqlDao extends AbstractBookDao{
 	}
 
 	@Override
-	public boolean insertBook(Book book) throws SQLException,Exception{
+	public boolean createBook(Book book) throws SQLException,Exception{
 		//LOGGER.entering("BookSqlDao", "insertBook");
 		//LOGGER.finest(book.toString());
 		//get book fields and values
@@ -127,5 +127,4 @@ public class BookSqlDao extends AbstractBookDao{
 		
 		return false;
 	}
-
 }

@@ -3,16 +3,18 @@ package com.sharebooks.sources;
 import com.sharebooks.cache.*;
 import com.sharebooks.cache.lruCache.LRUCache;
 import com.sharebooks.coreEntities.*;
+import com.sharebooks.coreEntities.enums.EntityType;
 import com.sharebooks.dao.generic.*;
 import com.sharebooks.factory.entityFactory.BookFactory;
 import com.sharebooks.factory.entityFactory.EntityFactory;
+import com.sharebooks.factory.entityFactory.UserFactory;
 import com.sharebooks.services.entityServices.BookService;
 import com.sharebooks.services.entityServices.UserService;
 
 
 public class ServiceSource {
 	private static BookService bookService;
-	//private static UserService userService;
+	private static UserService userService;
 	
 	public static void init() throws Exception{
 		try{
@@ -24,12 +26,13 @@ public class ServiceSource {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	private static void initBookService() throws Exception{
 		try{
-			Cache<Book> bookCache = new LRUCache<Book>();
+			Cache<Book> bookCache = (Cache<Book>) CacheSource.getCache(EntityType.BOOK.desc());
 			BookDao dao = (BookDao)DaoSource.getDao("book");
-			EntityFactory<Book> factory = BookFactory.getInstance();
-			BookService.init(bookCache , dao , factory);
+			//EntityFactory<Book> factory = BookFactory.getInstance();
+			BookService.init(bookCache , dao);
 			bookService = BookService.getInstance();
 		}
 		catch(Exception ex){
@@ -37,11 +40,13 @@ public class ServiceSource {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	private static void initUserService() throws Exception{
 		try{
-			Cache<User> userCache = new LRUCache<User>();
+			Cache<User> userCache = (Cache<User>) CacheSource.getCache(EntityType.USER.desc());
 			UserDao dao = (UserDao)DaoSource.getDao("user");
 			UserService.init(userCache , dao);
+			userService = UserService.getInstance();
 		}
 		catch(Exception ex){
 			throw ex;
@@ -50,5 +55,9 @@ public class ServiceSource {
 	
 	public static BookService getBookService(){
 		return bookService;
+	}
+	
+	public static UserService getUserService(){
+		return userService;
 	}
 }

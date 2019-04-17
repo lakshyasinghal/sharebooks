@@ -13,7 +13,7 @@ public interface BookDao extends Dao {
 	
 	public Book getBookById(int id) throws SQLException,Exception;
 	
-	public boolean insertBook(Book book) throws SQLException,Exception;
+	public boolean createBook(Book book) throws SQLException,Exception;
 	
 	public boolean deleteBooks(Map<String , Object> map) throws SQLException,Exception;
 	

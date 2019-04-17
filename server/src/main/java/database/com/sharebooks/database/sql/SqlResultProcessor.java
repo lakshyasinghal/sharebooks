@@ -23,21 +23,13 @@ public class SqlResultProcessor {
 	}
 	
 	public List<? extends Entity> process(ResultSet rs , EntityType entityType) throws SQLException , Exception{
-		try{
-			List<Entity> entityList = new ArrayList<Entity>();
-			EntityFactory<? extends Entity> factory = FactorySource.getEntityFactory(entityType.desc());
-			
-			while(rs.next()){
-				entityList.add(factory.createFromResultSet(rs));
-			}
-			return entityList;
+		List<Entity> entityList = new ArrayList<Entity>();
+		EntityFactory<? extends Entity> factory = FactorySource.getEntityFactory(entityType.desc());
+		
+		while(rs.next()){
+			entityList.add(factory.createFromResultSet(rs));
 		}
-		catch(SQLException ex){
-			throw ex;
-		}
-		catch(Exception ex){
-			throw ex;
-		}
+		return entityList;
 	}
 	
 //	private List<? extends Entity> getArrayListObject(EntityType entityType){

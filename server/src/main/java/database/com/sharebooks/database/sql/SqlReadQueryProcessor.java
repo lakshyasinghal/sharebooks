@@ -10,6 +10,7 @@ import com.sharebooks.entity.Entity;
 import com.sharebooks.exception.NonFunctionalMethodException;
 
 
+//The role of SqlReadQueryProcessor and other similar classes will be to first execute the query and then return the processed result set
 public class SqlReadQueryProcessor extends AbstractSqlQueryProcessor{
 	private static SqlReadQueryProcessor queryProcessor = new SqlReadQueryProcessor();
 	

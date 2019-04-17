@@ -11,6 +11,10 @@ public class DummyPropertySource {
 	}
 
 	private static void init(){
+		propertyMap.put("SERVER_PROTOCOL", "http");
+		propertyMap.put("SERVER_HOST", "localhost");
+		propertyMap.put("SERVER_PORT", "8050");
+		propertyMap.put("SERVER_IDLE_TIMEOUT", "8050");
 		propertyMap.put("SHAREBOOKS_DB_TYPE", "MYSQL");
 		propertyMap.put("SHAREBOOKS_DB_HOST", "localhost");
 		propertyMap.put("SHAREBOOKS_DB_PORT", "3306");

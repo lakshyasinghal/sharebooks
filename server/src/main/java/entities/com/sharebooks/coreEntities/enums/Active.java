@@ -14,10 +14,10 @@ public enum Active {
 	
 	public static Active valueOf(int id){
 		switch(id){
+		case 0 :
+			return INACTIVE;
 		case 1 :
 			return ACTIVE;
-		case 2 :
-			return INACTIVE;
 		default :
 			return null;
 		}

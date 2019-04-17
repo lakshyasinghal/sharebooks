@@ -1,8 +1,7 @@
 package com.sharebooks.factory.misc;
 
-import java.util.List;
 
-import com.sharebooks.entity.Entity;
+import java.util.Map;
 import com.sharebooks.response.JsonResponse;
 import com.sharebooks.response.Response;
 
@@ -17,8 +16,8 @@ public class ResponseFactory {
 		return factory;
 	}
 	
-	public Response getJsonResponse(boolean isSuccessful , int statusCode , int errorCode , List<? extends Entity> list) throws Exception{
-		JsonResponse response  = new JsonResponse(isSuccessful , statusCode , errorCode , list);
+	public Response getJsonResponse(boolean success , int statusCode , int errorCode , Map<String,Object> map) throws Exception{
+		JsonResponse response  = new JsonResponse(success , statusCode , errorCode , map);
 		return response;
 	}
 }

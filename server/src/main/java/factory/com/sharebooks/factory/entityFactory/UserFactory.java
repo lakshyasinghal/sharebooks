@@ -1,6 +1,8 @@
 package com.sharebooks.factory.entityFactory;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import javax.servlet.http.HttpServletRequest;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -32,8 +34,6 @@ public class UserFactory implements EntityFactory<User>{
 		}
 	}
 	
-	
-	
 	@Override
 	public User createFromHttpRequest(HttpServletRequest req) throws Exception {
 	
@@ -41,23 +41,19 @@ public class UserFactory implements EntityFactory<User>{
 	}
 
 	@Override
-	public User createFromResultSet(ResultSet rs) throws Exception {
-		try{
+	public User createFromResultSet(ResultSet rs) throws SQLException {
 			int id = rs.getInt("id");
+			String uid = rs.getString("uid");
 			String username = rs.getString("username");
 			String password = rs.getString("password");
 			String name = rs.getString("name");
-			String birthDate = rs.getString("birthDate");
+			String dob = rs.getString("dob");
 			int age = rs.getInt("age");
-			String mobileNo = rs.getString("imgSrc");
+			String contactNo = rs.getString("contactNo");
 			Active active = Active.valueOf(rs.getInt("active"));
 			
-			User user = new User(id , username , password , name , birthDate , age , mobileNo , active);
+			User user = new User(id , uid , username , password , name , dob , age , contactNo , active);
 			return user;
-		}
-		catch(Exception ex){
-			throw new FactoryException();
-		}
 	}
 
 	@Override
@@ -68,15 +64,16 @@ public class UserFactory implements EntityFactory<User>{
 			JSONObject jo = (JSONObject)obj;
 			
 			long id = (long)jo.get("id");
+			String uid = (String)jo.get("uid");
 			String username = (String)jo.get("username");
 			String password = (String)jo.get("password");
 			String name = (String)jo.get("name");
-			String birthDate = (String)jo.get("birthDate");
+			String dob = (String)jo.get("dob");
 			int age = (int)(long)jo.get("age");
 			String contactNo = (String)jo.get("contactNo");
 			Active active = Active.valueOf((int)(long)jo.get("active"));
 			
-			User user = new User(id , username , password , name , birthDate , age , contactNo , active);
+			User user = new User(id , uid , username , password , name , dob , age , contactNo , active);
 			return user;
 		}
 		catch(ParseException ex){

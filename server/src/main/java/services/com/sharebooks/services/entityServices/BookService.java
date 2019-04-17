@@ -2,7 +2,6 @@ package com.sharebooks.services.entityServices;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
 import org.apache.log4j.Logger;
 
 import com.sharebooks.cache.Cache;
@@ -17,17 +16,15 @@ public class BookService extends EntityService{
 	private static final Logger LOGGER = Logger.getLogger(BookService.class.getName());
 	private final Cache<Book> cache;
 	private final BookDao dao;
-	private final EntityFactory<Book> factory;
 	
-	private BookService(Cache<Book> cache , BookDao dao , EntityFactory<Book> factory){
+	private BookService(Cache<Book> cache , BookDao dao){
 		this.cache = cache;
 		this.dao = dao;
-		this.factory = factory;
 	}
 	
-	public static void init(Cache<Book> cache , BookDao dao , EntityFactory<Book> factory){
+	public static void init(Cache<Book> cache , BookDao dao){
 		if(bookService == null){
-			bookService = new BookService(cache , dao , factory);
+			bookService = new BookService(cache , dao);
 		}	
 	}
 	
@@ -58,12 +55,12 @@ public class BookService extends EntityService{
 		}
 		catch(SQLException ex){
 			sendExceptionMail(ExceptionType.SQL , ex);
-			LOGGER.log(Level.SEVERE, ex.getSQLState(), ex);
+			LOGGER.debug(ex.getSQLState());
 			throw ex;
 		}
 		catch(Exception ex){
 			sendExceptionMail(ExceptionType.UNIDENTIFIED , ex);
-			LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+			LOGGER.debug(ex.getMessage());
 			throw ex;
 		}
 	}
@@ -85,60 +82,58 @@ public class BookService extends EntityService{
 		}
 		catch(CacheException ex){
 			sendExceptionMail(ExceptionType.CACHE , ex);
-			LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+			LOGGER.debug(ex.getMessage());
 			throw ex;
 		}
 		catch(SQLException ex){
 			sendExceptionMail(ExceptionType.SQL , ex);
-			LOGGER.log(Level.SEVERE, ex.getSQLState(), ex);
+			LOGGER.debug(ex.getSQLState());
 			throw ex;
 		}
 		catch(Exception ex){
 			sendExceptionMail(ExceptionType.UNIDENTIFIED , ex);
-			LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+			LOGGER.debug(ex.getMessage());
 			throw ex;
 		}
 	}
 	
 	
 	//insert book method with book argument
-	public boolean insertBook(Book book) throws SQLException,Exception{
+	public boolean createBook(Book book) throws SQLException,Exception{
 		//LOGGER.entering("BookService", "getBookById");
 		try{
-			boolean inserted = dao.insertBook(book);
+			boolean inserted = dao.createBook(book);
 			//LOGGER.exiting("BookService", "insertBook");
 			return inserted;
 		}
 		catch(SQLException ex){
 			sendExceptionMail(ExceptionType.SQL , ex);
-			LOGGER.log(Level.SEVERE, ex.getSQLState(), ex);
+			LOGGER.debug(ex.getSQLState());
 			throw ex;
 		}
 		catch(Exception ex){
 			sendExceptionMail(ExceptionType.UNIDENTIFIED , ex);
-			LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+			LOGGER.debug(ex.getMessage());
 			throw ex;
 		}
 	}
 	
-	
-	//insert book method with bookJson argument
-	public boolean insertBook(String bookJson) throws SQLException,Exception{
-		//LOGGER.entering("BookService", "insertBook");
+	public boolean updateBook(Book book) throws SQLException,Exception{
+		LOGGER.trace("Entering updateBook");
+		boolean updated = false;
 		try{
-			Book book = factory.createFromJson(bookJson);
-			boolean inserted = dao.insertBook(book);
-			//LOGGER.exiting("BookService", "insertBook");
-			return inserted;
+			updated = dao.updateBook(book);
+			LOGGER.trace("Leaving updateBook");
+			return updated;
 		}
 		catch(SQLException ex){
 			sendExceptionMail(ExceptionType.SQL , ex);
-			LOGGER.log(Level.SEVERE, ex.getSQLState(), ex);
+			LOGGER.debug(ex.getSQLState());
 			throw ex;
 		}
 		catch(Exception ex){
 			sendExceptionMail(ExceptionType.UNIDENTIFIED , ex);
-			LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+			LOGGER.debug(ex.getMessage());
 			throw ex;
 		}
 	}

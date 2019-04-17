@@ -90,6 +90,34 @@ public class UserSqlDao extends AbstractUserDao{
 		return false;
 	}
 
+
+	@Override
+	public User getByUsername(String username) throws SQLException, Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public User getUserByUsernameAndPassword(String username, String password) throws SQLException, Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public List<User> getUsers(Map<String, Object> maps) throws SQLException, Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public boolean updateUser(User user) throws SQLException, Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	
 
 }

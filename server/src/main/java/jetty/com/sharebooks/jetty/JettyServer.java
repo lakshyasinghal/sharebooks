@@ -1,5 +1,6 @@
 package com.sharebooks.jetty;
 
+import org.apache.log4j.Logger;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
@@ -13,17 +14,21 @@ import org.glassfish.jersey.servlet.ServletContainer;
 import com.sharebooks.rest.jersey.JerseyResourceConfig;
 
 public class JettyServer implements GenericServer {
+	private static final Logger LOGGER = Logger.getLogger(JettyServer.class.getName());
 	private Server server;
 	private final int port;
+	private final int idleTimeout;
 	private ServerStatus status;
 	
 	
-	public JettyServer(int port){
+	public JettyServer(int port,int idleTimeout){
 		this.port = port;
+		this.idleTimeout = idleTimeout;
 	}
 	
 	
 	public void start() throws Exception {
+		LOGGER.info("Starting server");
 		status = ServerStatus.STARTING;
 		ServletContainer container = new ServletContainer(new JerseyResourceConfig());
 		ServletHolder sh = new ServletHolder(container);
@@ -40,15 +45,15 @@ public class JettyServer implements GenericServer {
 
 		ServerConnector httpConnector = new ServerConnector(server, new HttpConnectionFactory(httpConfiguration));
 		httpConnector.setPort(port);
-		httpConnector.setIdleTimeout(30000); // TODO : Default was 30000
+		httpConnector.setIdleTimeout(idleTimeout); 
 		Connector[] connectors = new Connector[] { httpConnector };
 
 		server.setConnectors(connectors);
 		server.setHandler(context);
 		server.start();
 		status = ServerStatus.STARTED;
-		System.out.println("Server started on port 9000");
-		server.join();
+		LOGGER.info("Server started on port "+port);
+		//server.join();
 	}
 	
 	@Override

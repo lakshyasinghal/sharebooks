@@ -1,6 +1,7 @@
 package com.sharebooks.entity;
 
 import com.sharebooks.dateTime.LocalDateTime;
+import com.sharebooks.exception.JsonSerializationException;
 import com.sharebooks.serialization.json.JsonSerializable;
 
 public abstract class Entity implements JsonSerializable{
@@ -36,6 +37,8 @@ public abstract class Entity implements JsonSerializable{
 			this.lastModificationTime = lastModificationTime;
 		}
 	}
+	
+	public abstract String serializeAsJson() throws JsonSerializationException;
 	
 	public long id(){
 		return id;

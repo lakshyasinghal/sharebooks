@@ -1,29 +1,33 @@
 package com.sharebooks.response;
 
 import java.util.List;
+import java.util.Map;
 import org.json.simple.JSONObject;
 import com.sharebooks.entity.Entity;
 import com.sharebooks.exception.JsonSerializationException;
 
+
+
 public class JsonResponse implements Response {
 	
-	private final boolean isSuccessful;
+	private final boolean success;
 	private final int statusCode;
 	private final int errorCode;
-	private final List<? extends Entity> list;
+	//private final List<? extends Entity> list;
+	private final Map<String,Object> map;
 	
 	public JsonResponse(){
-		isSuccessful = false;
+		success = false;
 		statusCode = -1;
 		errorCode = -1;
-		list = null;
+		map = null;
 	}
 	
-	public JsonResponse(boolean isSuccessful , int statusCode , int errorCode , List<? extends Entity> list){
-		this.isSuccessful = isSuccessful;
+	public JsonResponse(boolean success , int statusCode , int errorCode , Map<String,Object> map){
+		this.success = success;
 		this.statusCode = statusCode;
 		this.errorCode = errorCode;
-		this.list = list;
+		this.map = map;
 	}
 	
 	public String process() throws Exception {
@@ -40,10 +44,30 @@ public class JsonResponse implements Response {
 	public String serializeAsJson() throws JsonSerializationException {
 		try{
 			JSONObject jo = new JSONObject();
-			jo.put("isSuccessful", isSuccessful);
+			jo.put("success", success);
 			jo.put("statusCode", statusCode);
 			jo.put("errorCode", errorCode);
-			jo.put("list", getSerializedList());
+			
+			//jo.put("list", getSerializedList());
+			//iterate over the map using key set and insert key and serialized value in JSON map 
+			if(map!=null){
+				for(String key : map.keySet()){
+					Object obj = map.get(key);
+					if(obj instanceof Entity){
+						jo.put(key, ((Entity)obj).serializeAsJson());
+					}
+					else if(obj instanceof List){
+						jo.put(key, getSerializedList((List<Entity>)obj));
+					}
+					else if(obj instanceof String || obj instanceof Integer){
+						jo.put(key, obj);
+					}
+					else{
+						jo.put(key, obj);
+					}
+				}
+			}
+			
 			
 			return jo.toString();
 		}
@@ -52,7 +76,7 @@ public class JsonResponse implements Response {
 		}
 	}
 	
-	private String getSerializedList() throws JsonSerializationException{
+	private String getSerializedList(List<Entity> list) throws JsonSerializationException{
 		StringBuilder serList = new StringBuilder();
 		if(list==null || list.size()==0){
 			return "[]";

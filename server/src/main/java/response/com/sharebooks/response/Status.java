@@ -1,15 +1,44 @@
 package com.sharebooks.response;
 
+
+
+/*The status enumeration will hold the status and their respective codes to describe the operations
+These are meant for the end users using the application. */
+
+/*The codes will be categorized
+ Example 1-100 will belong to account
+ 100-200 will belong to books.
+ 
+ The status 0 will be a special status indicating that something went wrong.It will an abstract status meant for the user.The 
+ necessary code will be available via error code meant for developer only.*/ 
 public enum Status {
-	LOGIN_SUCCESSFUL(1 , "User login request successful"),
-	LOGIN_CREDENTIALS_INCORRECT(2 , "Incorrect login credentials entered"),
-	FETCH_ALL_ENTITIES_SUCCESSFUL(3 , "Fetch all entities request successful"),
-	FETCH_ENTITIES_SUCCESSFUL(4 , "Fetch entities request successful"),
-	FETCH_BY_ID_SUCCESSFUL(5 , "Fetch entity by id successful"),
-	INSERT_ENTITY_SUCCESSFUL(6 , "Entity inserted into storage successfully"),
-	NO_RESULT_AVAILABLE_FOR_GIVEN_ID(7 , "No result is available in storage for given id"),
-	DELETE_BY_ID_SUCCESSFUL(8 , "Entity deleted for given id successfully."),
-	DELETE_BY_ID_FAILED(8 , "Delete entity for given id was unsuccessful. Maybe the entity with given id doesn't exist.");
+	SOMETHING_WENT_WRONG(0,"Something went wrong.Your request couldn't be completed."),
+	
+	LOGIN_SUCCESSFUL(001 , "User login request successful."),
+	INCORRECT_LOGIN_CREDENTIALS(002 , "Incorrect login credentials entered."),
+	
+	//status codes for books
+	FETCH_ALL_BOOKS_SUCCESSFUL(101 , "Books fetched successfully."),
+	FETCH_BOOK_BY_ID_SUCCESSFUL(102,"Book fetched by id successfully."),
+	BOOK_CREATED_SUCCESSFULLY(103,"Book created successfully."),
+	BOOK_NOT_CREATED(104,"Book could not be created due to unknown reasons.Please debug to find more."),
+	BOOK_DELETED_SUCCESSFULLY(105,"Book deleted successfully."),
+	BOOK_DELETION_FAILED(106,""),
+	BOOK_ALREADY_EXISTS(107,""),
+	BOOK_UPDATED_SUCCESSFULLY(108,"Book updated successfully."),
+	BOOK_NOT_UPDATED(109,"Book could not be updated.Please debug to find more."),
+	
+	//status codes for users
+	FETCH_ALL_USERS_SUCCESSFUL(201 , "Users fetched successfully"),
+	FETCH_USER_BY_ID_SUCCESSFUL(202,"User fetched by id successfully."),
+	USER_CREATED_SUCCESSFULLY(203,"User created successfully"),
+	USERNAME_ALREADY_EXISTS(204,"The username in the create new user request is already taken.Please use another one."),
+	NO_USERS_EXIST(205,"No users exist in database."),
+	USER_UPDATED_SUCCESSFULLY(206,"User updated successfully"),
+	USER_NOT_UPDATED(207,"User could not be updated.Please debug to find more."),
+	
+	//generic status codes
+	NO_RESULTS_FOUND(801 , "No results found for given parameters.");
 	
 	
 	private int id;

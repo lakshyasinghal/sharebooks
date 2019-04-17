@@ -4,11 +4,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+
+import org.apache.log4j.Logger;
+
+import com.sharebooks.coreEntities.BookRequest;
 import com.sharebooks.requestProcessor.BookRequestProcessor;
 
 
-@Path("/book-service")
+@Path("/api")
 public class BookResource {
+	private static final Logger LOGGER = Logger.getLogger(BookRequest.class.getName());
 	private BookRequestProcessor requestProcessor = BookRequestProcessor.getInstance();
 	
 	@GET
@@ -19,9 +24,9 @@ public class BookResource {
 	}
 	
 	@GET
-	@Path("/books/{bookId}")
+	@Path("/books/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getBookById(@Context HttpServletRequest req , @PathParam("bookId") String id) throws Exception{
+	public String getBookById(@Context HttpServletRequest req , @PathParam("id") String id) throws Exception{
 		return requestProcessor.processGetBookByIdRequest(id);
 	}
 	
@@ -29,15 +34,23 @@ public class BookResource {
 	@Path("/books")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String insertBook(@Context HttpServletRequest req) throws Exception{
-		return requestProcessor.processInsertBookRequest(req);
+		return requestProcessor.processCreateRequest(req);
 	}
 	
 	@POST
 	@Path("/books")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String updateBook(@Context HttpServletRequest req) throws Exception{
-		return "";
+		return requestProcessor.processUpdateRequest(req);
 	}
+	
+	@POST
+	@Path("/books/{id}/image")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String updateBook(@Context HttpServletRequest req, @PathParam("id") String id, @FormParam("imgSrc") String imgSrc) throws Exception{
+		return requestProcessor.processUploadImageSrcRequest(id,imgSrc);
+	}
+	
 	
 	@DELETE
 	@Path("/books")

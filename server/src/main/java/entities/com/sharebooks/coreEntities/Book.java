@@ -19,9 +19,9 @@ public final class Book extends Entity {
 	private long ownerId;
 	private String imgSrc;
 	private AvailableStatus available;
-	private AvailableStatus forBuying;
-	private AvailableStatus forRent;
-	private long buyingAmount;
+	private AvailableStatus buy;
+	private AvailableStatus rent;
+	private long buyAmount;
 	private long rentAmount;
 	
 	
@@ -30,8 +30,8 @@ public final class Book extends Entity {
 	}
 	
 	//constructor
-	public Book(long id , String title , String authorName , String category , String subcategory , int pages , long ownerId , String imgSrc , AvailableStatus available , AvailableStatus forBuying , AvailableStatus forRent , 
-			long buyingAmount , long rentAmount, LocalDateTime creationTime, LocalDateTime lastModificationTime){
+	public Book(long id , String title , String authorName , String category , String subcategory , int pages , long ownerId , String imgSrc , AvailableStatus available , AvailableStatus buy , AvailableStatus rent , 
+			long buyAmount , long rentAmount, LocalDateTime creationTime, LocalDateTime lastModificationTime){
 		super(id , creationTime , lastModificationTime);
 		this.title = title;
 		this.authorName = authorName;
@@ -42,9 +42,9 @@ public final class Book extends Entity {
 		//this.description = description;
 		this.imgSrc = imgSrc;
 		this.available = available;
-		this.forBuying = forBuying;
-		this.forRent = forRent;
-		this.buyingAmount = buyingAmount;
+		this.buy = buy;
+		this.rent = rent;
+		this.buyAmount = buyAmount;
 		this.rentAmount = rentAmount;
 	}
 	
@@ -64,9 +64,9 @@ public final class Book extends Entity {
 			//jo.put("description", description.serializeAsJson());
 			jo.put("imgSrc", imgSrc);
 			jo.put("available" , available.id());
-			jo.put("forBuying", forBuying.id());
-			jo.put("forRent" , forRent.id());
-			jo.put("buyingAmount" , buyingAmount);
+			jo.put("buy", buy.id());
+			jo.put("rent" , rent.id());
+			jo.put("buyAmount" , buyAmount);
 			jo.put("rentAmount" , rentAmount);
 			jo.put("creationTime", creationTime.toString());
 			jo.put("creationTime", creationTime.toString());
@@ -84,19 +84,6 @@ public final class Book extends Entity {
 		StringBuilder builder = new StringBuilder();
 		builder.append("id:" + id + "\n");
 		builder.append("title:" + title + "\n");
-		builder.append("authorName:" + authorName + "\n");
-		builder.append("category:" + category + "\n");
-		builder.append("subcategory:" + subcategory + "\n");
-		builder.append("pages:" + pages + "\n");
-		builder.append("ownerId:" + ownerId + "\n");
-		builder.append("imgSrc:" + imgSrc + "\n");
-		builder.append("available:" + available.description() + "\n");
-		builder.append("forBuying:" + forBuying.description() + "\n");
-		builder.append("forRent:" + forRent.description() + "\n");
-		builder.append("buyingAmount:" + buyingAmount + "\n");
-		builder.append("rentAmount:" + rentAmount + "\n");
-		builder.append("creationTime:" + creationTime.toString() + "\n");
-		builder.append("lastModificationTime:" + lastModificationTime.toString() + "\n");
 		return builder.toString();
 	}
 	
@@ -114,9 +101,9 @@ public final class Book extends Entity {
 		fields.add("ownerId");
 		fields.add("imgSrc");
 		fields.add("available");
-		fields.add("forBuying");
-		fields.add("forRent");
-		fields.add("buyingAmount");
+		fields.add("buy");
+		fields.add("rent");
+		fields.add("buyAmount");
 		fields.add("rentAmount");
 		fields.add("creationTime");
 		fields.add("lastModificationTime");
@@ -137,9 +124,9 @@ public final class Book extends Entity {
 		values.add(ownerId);
 		values.add(imgSrc);
 		values.add(available.id());
-		values.add(forBuying.id());
-		values.add(forRent.id());
-		values.add(buyingAmount);
+		values.add(buy.id());
+		values.add(rent.id());
+		values.add(buyAmount);
 		values.add(rentAmount);
 		values.add(creationTime.toString());
 		values.add(lastModificationTime.toString());
@@ -183,16 +170,16 @@ public final class Book extends Entity {
 		return available;
 	}
 	
-	public AvailableStatus forBuying(){
-		return forBuying;
+	public AvailableStatus buy(){
+		return buy;
 	}
 	
-	public AvailableStatus forRent(){
-		return forRent;
+	public AvailableStatus rent(){
+		return rent;
 	}
 	
-	public long buyingAmount(){
-		return buyingAmount;
+	public long buyAmount(){
+		return buyAmount;
 	}
 	
 	public long rentAmount(){

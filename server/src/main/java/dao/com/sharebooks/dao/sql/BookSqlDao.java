@@ -11,6 +11,7 @@ import com.sharebooks.database.sql.query.SqlDeleteQuery;
 import com.sharebooks.database.sql.query.SqlInsertQuery;
 import com.sharebooks.database.sql.query.SqlQuery;
 import com.sharebooks.database.sql.query.SqlReadQuery;
+import com.sharebooks.database.sql.query.SqlUpdateQuery;
 import com.sharebooks.entity.Entity;
 import com.sharebooks.factory.entityFactory.EntityFactory;
 
@@ -54,17 +55,21 @@ public class BookSqlDao extends AbstractBookDao{
 
 	@Override
 	public Book getBookById(int id) throws SQLException,Exception {
-		//LOGGER.entering("BookSqlDao", "getBookById");
-		LOGGER.info("id:"+id);
+		LOGGER.trace("Entering getBookById");
+		LOGGER.trace("id:"+id);
+		Book book = null;
 		Map<String , Object> map = new HashMap<String , Object>();
 		map.put("id", id);
 		List<Book> books = getBooks(map);
-		//LOGGER.exiting("BookSqlDao", "getBookById");
+		if(books!=null && books.size()>0){
+			book = books.get(0);
+		}
+		LOGGER.trace("Leaving getBookById");
 		return books.get(0);
 	}
 
 	@Override
-	public boolean insertBook(Book book) throws SQLException,Exception{
+	public boolean createBook(Book book) throws SQLException,Exception{
 		//LOGGER.entering("BookSqlDao", "insertBook");
 		//LOGGER.finest(book.toString());
 		//get book fields and values
@@ -110,8 +115,17 @@ public class BookSqlDao extends AbstractBookDao{
 
 	@Override
 	public boolean updateBook(Book book) throws SQLException,Exception{
+		LOGGER.trace("Entering updateBook");
+		List<String> fields = book.fields();
+		List<Object> values = book.values();
 		
-		return false;
+		SqlQuery query = new SqlUpdateQuery(table.desc(), fields, values);
+		query.build();
+		LOGGER.debug(query.toString());
+		AbstractSqlQueryProcessor queryProcessor = SqlUpdateQueryProcessor.getInstance();
+		int rowsAffected = queryProcessor.processUpdateQuery(database.desc(), query.toString());
+		LOGGER.trace("Leaving updateBook");
+		return rowsAffected>0?true:false;
 	}
 
 }

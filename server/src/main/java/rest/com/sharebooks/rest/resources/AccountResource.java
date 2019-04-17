@@ -7,7 +7,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-@Path("/accountservice")
+@Path("/api/account")
 public class AccountResource {
 	
 	@POST
@@ -17,6 +17,11 @@ public class AccountResource {
 		return "";
 	}
 	
-	
+	@POST
+	@Path("/logout")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String logouts(@Context HttpServletRequest req , @FormParam("username") String username , @FormParam("password") String password){
+		return "";
+	}
 	
 }

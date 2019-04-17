@@ -3,17 +3,14 @@ package com.sharebooks.dao.sql;
 import java.sql.SQLException;
 import java.util.*;
 import org.apache.log4j.Logger;
-
-import org.apache.ibatis.session.SqlSessionFactory;
-
 import com.sharebooks.coreEntities.User;
 import com.sharebooks.coreEntities.enums.EntityType;
 import com.sharebooks.dao.generic.AbstractUserDao;
 import com.sharebooks.database.sql.*;
-import com.sharebooks.database.sql.query.SqlDeleteQuery;
 import com.sharebooks.database.sql.query.SqlInsertQuery;
 import com.sharebooks.database.sql.query.SqlQuery;
 import com.sharebooks.database.sql.query.SqlReadQuery;
+import com.sharebooks.database.sql.query.SqlUpdateQuery;
 import com.sharebooks.entity.Entity;
 import com.sharebooks.factory.entityFactory.EntityFactory;
 
@@ -30,33 +27,108 @@ public class UserSqlDao extends AbstractUserDao{
 	public UserSqlDao(EntityFactory<User> factory) {
 		this.factory = factory;
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public User getByUsername(String username) throws SQLException, Exception {
+		LOGGER.trace("Entering getUserByUsername");
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("username", username);
+		User user = null;
+		AbstractSqlQueryProcessor queryProcessor = SqlReadQueryProcessor.getInstance();
+		//get sql read query
+		SqlQuery query = new SqlReadQuery(table.desc() , map);
+		query.build();
+		LOGGER.debug(query.toString());
+		List<Entity> entityList = (List<Entity>)queryProcessor.processReadQuery(database.desc() , query.toString(), EntityType.USER);
+		
+		List<User> users = convertIntoUserList(entityList);
+		if(users.size()!=0){
+			user = users.get(0);
+		}
+		LOGGER.trace("Leaving getUserByUsernameAndPassword");
+		return user;
+	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public User getUserByUsernameAndPassword(String username, String password) throws SQLException, Exception {
+		LOGGER.trace("Entering getUserByUsernameAndPassword");
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("username", username);
+		map.put("password",password);
+		User user = null;
+		AbstractSqlQueryProcessor queryProcessor = SqlReadQueryProcessor.getInstance();
+		//get sql read query
+		SqlQuery query = new SqlReadQuery(table.desc() , map);
+		query.build();
+		LOGGER.debug(query.toString());
+		List<Entity> entityList = (List<Entity>)queryProcessor.processReadQuery(database.desc() , query.toString(), EntityType.USER);
+		
+		List<User> users = convertIntoUserList(entityList);
+		if(users.size()!=0){
+			user = users.get(0);
+		}
+		LOGGER.trace("Leaving getUserByUsernameAndPassword");
+		return user;
+	}
+	
+	
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<User> getUsers(Map<String,Object> map) throws SQLException,Exception{
+		LOGGER.trace("Entering getUsers");
+		List<User> users = null;
+		AbstractSqlQueryProcessor queryProcessor = SqlReadQueryProcessor.getInstance();
+		//get sql read query
+		SqlQuery query = new SqlReadQuery(table.desc() , map);
+		query.build();
+		LOGGER.info(query.toString());
+		List<Entity> entityList = (List<Entity>)queryProcessor.processReadQuery(database.desc() , query.toString(), EntityType.USER);
+		users = convertIntoUserList(entityList);
+		LOGGER.trace("Leaving getUsers");
+		return users;
+	}
 
 	@Override
-	public List<User> getAllUsers() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<User> getAllUsers() throws SQLException, Exception {
+		LOGGER.trace("Entering getAllUsers");
+		List<User> users = getUsers(null);
+		LOGGER.trace("Leaving getAllUsers");
+		return users;
 	}
 
 
 	@Override
-	public User getUserById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public User getUserById(int id) throws SQLException,Exception {
+		LOGGER.trace("Entering GetUsersById");
+		LOGGER.trace("id:"+id);;
+		User user = null;
+		Map<String , Object> map = new HashMap<String , Object>();
+		map.put("id", id);
+		List<User> users = getUsers(map);
+		if(users!=null && users.size()>0){
+			user = users.get(0);
+		}
+		LOGGER.trace("Leaving GetUsersById");
+		return user;
 	}
 
 
 	@Override
 	public boolean createUser(User user) throws SQLException,Exception{
-		// TODO Auto-generated method stub
-		//LOGGER.entering("UserSqlDao", "createUser");
-		//LOGGER.finest(user.toString());
-		//get book fields and values
+		if(user==null){
+			
+		}
 		List<String> fields = user.fields();
 		List<Object> values = user.values();
 		//remove id field and id value from lists as it won't be required in insert query
-		fields.remove(0);
-		values.remove(0);
+		if("id".equals(fields.get(0))){
+			fields.remove(0);
+			values.remove(0);
+		}
+		
 		SqlQuery query = new SqlInsertQuery(table.desc(), fields, values);
 		query.build();
 		LOGGER.info(query.toString());
@@ -67,6 +139,20 @@ public class UserSqlDao extends AbstractUserDao{
 		return rowsAffected>0?true:false;
 	}
 
+	
+	public boolean updateUser(User user) throws SQLException,Exception{
+		LOGGER.trace("Entering updateUser");
+		List<String> fields = user.fields();
+		List<Object> values = user.values();
+		
+		SqlQuery query = new SqlUpdateQuery(table.desc(), fields, values);
+		query.build();
+		LOGGER.debug(query.toString());
+		AbstractSqlQueryProcessor queryProcessor = SqlUpdateQueryProcessor.getInstance();
+		int rowsAffected = queryProcessor.processUpdateQuery(database.desc(), query.toString());
+		LOGGER.trace("Leaving updateUser");
+		return rowsAffected>0?true:false;
+	}
 
 	@Override
 	public boolean deleteUserById(int id) {

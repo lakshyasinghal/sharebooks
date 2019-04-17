@@ -1,15 +1,20 @@
 package com.sharebooks.test;
 
-import com.sharebooks.init.AppInitializer;
-import com.sharebooks.test.util.DummyPropertySource;
+import com.sharebooks.init.App;
 
 public abstract class AbstractTester{
 	
 	protected abstract void test(); 
 	
 	protected void initializeApp(){
-		AppInitializer appInitializer = new AppInitializer();
-		appInitializer.initialize(DummyPropertySource.getPropertyMap());
+		//AppInitializer appInitializer = new AppInitializer();
+		//appInitializer.initialize(DummyPropertySource.getPropertyMap());
+		try{
+			App.main(null);
+		}
+		catch(Exception ex){
+			System.out.println("Application failed with an exception =>" + ex);
+		}
 	}
 	
 	protected void display(Object obj){

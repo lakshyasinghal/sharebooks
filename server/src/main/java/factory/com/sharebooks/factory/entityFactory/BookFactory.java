@@ -54,9 +54,9 @@ public class BookFactory implements EntityFactory<Book>{
 		long ownerId = rs.getLong("ownerId");
 		String imgSrc = rs.getString("imgSrc");
 		AvailableStatus available = AvailableStatus.valueOf(rs.getInt("available"));
-		AvailableStatus forBuying = AvailableStatus.valueOf(rs.getInt("forBuying"));
-		AvailableStatus forRent = AvailableStatus.valueOf(rs.getInt("forRent"));
-		long buyingAmount = rs.getLong("buyingAmount");
+		AvailableStatus buy = AvailableStatus.valueOf(rs.getInt("buy"));
+		AvailableStatus rent = AvailableStatus.valueOf(rs.getInt("rent"));
+		long buyAmount = rs.getLong("buyAmount");
 		long rentAmount = rs.getLong("rentAmount");
 		
 		String creationTimeStr = (rs.getTimestamp("creationTime")).toString();
@@ -66,7 +66,7 @@ public class BookFactory implements EntityFactory<Book>{
 		LocalDateTime lastModificationTime = LocalDateTime.buildFromString(lastModificationTimeStr);
 		
 		Book book = new Book(id , title , authorName , category , subcategory , pages , ownerId , imgSrc , available , 
-				forBuying , forRent , buyingAmount , rentAmount , creationTime , lastModificationTime);
+				buy , rent , buyAmount , rentAmount , creationTime , lastModificationTime);
 		return book;
 	}
 
@@ -91,13 +91,13 @@ public class BookFactory implements EntityFactory<Book>{
 			long ownerId = (long)jo.get("ownerId");
 			String imgSrc = (String)jo.get("imgSrc");
 			AvailableStatus available = AvailableStatus.valueOf((int)(long)jo.get("available"));
-			AvailableStatus forBuying = AvailableStatus.valueOf((int)(long)jo.get("forBuying"));
-			AvailableStatus forRent = AvailableStatus.valueOf((int)(long)jo.get("forRent"));
-			long buyingAmount = (long)jo.get("buyingAmount");
+			AvailableStatus buy = AvailableStatus.valueOf((int)(long)jo.get("buy"));
+			AvailableStatus rent = AvailableStatus.valueOf((int)(long)jo.get("rent"));
+			long buyAmount = (long)jo.get("buyAmount");
 			long rentAmount = (long)jo.get("rentAmount");
 			
 			Book book = new Book(id , title , authorName , category , subcategory , pages , ownerId , imgSrc , available ,
-					forBuying , forRent , buyingAmount , rentAmount , null , null); //null values are for creationTime and lastModificationTime
+					buy , rent , buyAmount , rentAmount , null , null); //null values are for creationTime and lastModificationTime
 			return book;
 		}
 		catch(ParseException ex){
