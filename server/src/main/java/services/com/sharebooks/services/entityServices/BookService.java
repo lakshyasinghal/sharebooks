@@ -66,15 +66,15 @@ public class BookService extends EntityService{
 	}
 	
 	
-	public Book getBookById(int id) throws CacheException,SQLException,Exception{
+	public Book getBook(String uid) throws CacheException,SQLException,Exception{
 		//LOGGER.entering("BookService", "getBookById");
 		try{
 			Book book = null;
-			book = cache.get(id);
+			book = cache.get(uid);
 			if(book == null){
-				book = dao.getBookById(id);
+				book = dao.getBook(uid);
 				if(book!=null){
-					cache.insert(id, book);
+					cache.insert(uid, book);
 				}
 			}
 			//LOGGER.exiting("BookService", "getBookById");
@@ -145,7 +145,7 @@ public class BookService extends EntityService{
 	}
 	
 	
-	public boolean deleteBookById(int id) throws SQLException,Exception{
+	public boolean deleteBook(String uid) throws SQLException,Exception{
 		return false;
 	}
 }

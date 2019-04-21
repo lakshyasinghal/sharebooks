@@ -34,7 +34,7 @@ public class App {
 			ServiceSource.init();
 		}
 		catch(Exception ex){
-			ex.printStackTrace();
+			LOGGER.error("Error in starting application",ex);
 		}
 	}
 	

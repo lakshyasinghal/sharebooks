@@ -2,14 +2,20 @@ package com.sharebooks.factory.entityFactory;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import com.sharebooks.coreEntities.User;
 import com.sharebooks.coreEntities.enums.Active;
+import com.sharebooks.dateTime.LocalDateTime;
 import com.sharebooks.exception.FactoryException;
+import com.sharebooks.helperEntities.Preference;
 
 public class UserFactory implements EntityFactory<User>{
 	private static UserFactory userFactory;
@@ -41,7 +47,7 @@ public class UserFactory implements EntityFactory<User>{
 	}
 
 	@Override
-	public User createFromResultSet(ResultSet rs) throws SQLException {
+	public User createFromResultSet(ResultSet rs) throws FactoryException,Exception {
 			int id = rs.getInt("id");
 			String uid = rs.getString("uid");
 			String username = rs.getString("username");
@@ -49,10 +55,20 @@ public class UserFactory implements EntityFactory<User>{
 			String name = rs.getString("name");
 			String dob = rs.getString("dob");
 			int age = rs.getInt("age");
+			String address = rs.getString("address");
+			String city = rs.getString("city");
+			String state = rs.getString("state");
+			String pincode = rs.getString("pincode");
 			String contactNo = rs.getString("contactNo");
+			List<Preference> preferences = getPreferenceListFromJson(rs.getString("preferences"));
 			Active active = Active.valueOf(rs.getInt("active"));
+			String creationTimeStr = (rs.getTimestamp("creationTime")).toString();
+			LocalDateTime creationTime = LocalDateTime.buildFromString(creationTimeStr);
+			String lastModificationTimeStr = (rs.getTimestamp("lastModificationTime")).toString();
+			LocalDateTime lastModificationTime = LocalDateTime.buildFromString(lastModificationTimeStr);
 			
-			User user = new User(id , uid , username , password , name , dob , age , contactNo , active);
+			User user = new User(id, uid, username, password, name, dob, age, address, city, state, pincode, contactNo, preferences, active, creationTime,
+					lastModificationTime);
 			return user;
 	}
 
@@ -70,10 +86,21 @@ public class UserFactory implements EntityFactory<User>{
 			String name = (String)jo.get("name");
 			String dob = (String)jo.get("dob");
 			int age = (int)(long)jo.get("age");
+			String address = (String)jo.get("address");
+			String city = (String)jo.get("city");
+			String state = (String)jo.get("state");
+			String pincode = (String)jo.get("pincode");
 			String contactNo = (String)jo.get("contactNo");
+			List<Preference> preferences = getPreferenceListFromJson((String)jo.get("preferences"));    //will be null during creation and needs to be handled for modify requests
 			Active active = Active.valueOf((int)(long)jo.get("active"));
+			String creationTimeStr = (String)jo.get("creationTime");
+			String lastModificationTimeStr = (String)jo.get("lastModificationTime");
 			
-			User user = new User(id , uid , username , password , name , dob , age , contactNo , active);
+			LocalDateTime creationTime = creationTimeStr==null?null:LocalDateTime.buildFromString(creationTimeStr);
+			LocalDateTime lastModificationTime = lastModificationTimeStr==null?null:LocalDateTime.buildFromString(lastModificationTimeStr);
+			
+			User user = new User(id, uid, username, password, name, dob, age, address, city, state, pincode, contactNo, preferences, active, creationTime, 
+					lastModificationTime);
 			return user;
 		}
 		catch(ParseException ex){
@@ -81,4 +108,20 @@ public class UserFactory implements EntityFactory<User>{
 		}
 	}
 
+	
+	
+	private List<Preference> getPreferenceListFromJson(String json) throws Exception {
+		if(json==null){
+			return null;
+		}
+		List<Preference> preferences = new ArrayList<Preference>();
+		JSONArray jsonArray = (JSONArray) new JSONParser().parse(json);
+        
+		for(Object obj: jsonArray){
+			JSONObject jsonObj = (JSONObject)obj;
+			String category = (String)jsonObj.get("category");
+			preferences.add(new Preference(category));
+		}
+		return preferences;
+	}
 }

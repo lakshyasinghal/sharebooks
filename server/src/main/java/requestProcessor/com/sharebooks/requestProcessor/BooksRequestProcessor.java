@@ -1,13 +1,11 @@
 package com.sharebooks.requestProcessor;
 
 import java.util.*;
-import java.util.logging.Level;
 import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
+//import java.io.IOException;
 import java.sql.SQLException;
 import com.sharebooks.coreEntities.Book;
-import com.sharebooks.coreEntities.User;
 import com.sharebooks.coreEntities.enums.EntityType;
 import com.sharebooks.exception.*;
 import com.sharebooks.factory.entityFactory.EntityFactory;
@@ -17,7 +15,7 @@ import com.sharebooks.response.*;
 import com.sharebooks.response.Error;
 import com.sharebooks.services.entityServices.BookService;
 import com.sharebooks.sources.FactorySource;
-import com.sharebooks.sources.PropertySource;
+//import com.sharebooks.sources.PropertySource;
 import com.sharebooks.sources.ServiceSource;
 
 
@@ -27,22 +25,22 @@ and will finally return the json response string
 If there isn't any exception during the process the request will be considered successful and an appropriate status code will be 
 generated. But in case there is an exception the request will be considered erroneous and an appropriate error response with code will be generated.*/
 @SuppressWarnings("unchecked")
-public class BookRequestProcessor extends AbstractRequestProcessor{
-	private static BookRequestProcessor processor = new BookRequestProcessor();
-	private static final Logger LOGGER = Logger.getLogger(BookRequestProcessor.class.getName());
+public class BooksRequestProcessor extends AbstractRequestProcessor{
+	private static BooksRequestProcessor processor = new BooksRequestProcessor();
+	private static final Logger LOGGER = Logger.getLogger(BooksRequestProcessor.class.getName());
 	private final ResponseFactory responseFactory = FactorySource.getResponseFactory();
 	private final BookService bookService = ServiceSource.getBookService();
 	private final EntityFactory<Book> factory = (EntityFactory<Book>) FactorySource.getEntityFactory(EntityType.BOOK.desc());
 	private static final String EMPTY_STRING = "";
 	
 	//private constructor to help make the class singleton
-	private BookRequestProcessor(){
+	private BooksRequestProcessor(){
 		
 	}
 	
 	
 	//get singleton instance of the class
-	public static BookRequestProcessor getInstance(){
+	public static BooksRequestProcessor getInstance(){
 		return processor;
 	}
 	
@@ -58,6 +56,7 @@ public class BookRequestProcessor extends AbstractRequestProcessor{
 			books = bookService.getAllBooks();
 			success = true;
 			statusCode = Status.FETCH_ALL_BOOKS_SUCCESSFUL.id();
+			map.put("books", books);
 		}
 		catch(CacheException ex){
 			errorCode = Error.CACHE_ERROR.id();
@@ -71,7 +70,7 @@ public class BookRequestProcessor extends AbstractRequestProcessor{
 			errorCode = Error.GENERAL_EXCEPTION.id();
 			LOGGER.debug("");
 		}
-		map.put("books", books);
+		
 		Response response = responseFactory.getJsonResponse(success , statusCode , errorCode , map);
 		//LOGGER.exiting("BookRequestProcessor", "processGetAllBooksRequest");
 		return response.process();
@@ -79,18 +78,18 @@ public class BookRequestProcessor extends AbstractRequestProcessor{
 	
 	
 	//process get book by id request
-	public String processGetBookByIdRequest(String id) throws Exception{
+	public String processGetBookRequest(String uid) throws Exception{
 		Map<String,Object> map = new HashMap<String,Object>();
 		Book book = null;
 		boolean success = false;
 		int statusCode = -1;
 		int errorCode = -1;
 		try{
-			if(id==null || id.equals(EMPTY_STRING)){
+			if(uid==null || uid.equals(EMPTY_STRING)){
 				errorCode = Error.ID_NOT_AVAILABLE_IN_REQUEST.id();
 			}
 			else{
-				book = bookService.getBookById(Integer.parseInt(id));
+				book = bookService.getBook(uid);
 				if(book==null){
 					statusCode = Status.NO_RESULTS_FOUND.id();
 				}
@@ -98,6 +97,7 @@ public class BookRequestProcessor extends AbstractRequestProcessor{
 					statusCode = Status.FETCH_BOOK_BY_ID_SUCCESSFUL.id();
 				}
 				success = true;
+				map.put("book", book);
 			}
 		}
 		catch(CacheException ex){
@@ -112,7 +112,7 @@ public class BookRequestProcessor extends AbstractRequestProcessor{
 			success = false;
 			errorCode = Error.GENERAL_EXCEPTION.id();
 		}
-		map.put("book", book);
+		
 		Response response = responseFactory.getJsonResponse(success , statusCode , errorCode , map);
 		return response.process();
 	}
@@ -170,16 +170,16 @@ public class BookRequestProcessor extends AbstractRequestProcessor{
 	
 	
 	//process delete by id request
-	public String processDeleteBookByIdRequest(String id) throws Exception{
+	public String processDeleteBookRequest(String uid) throws Exception{
 		boolean success = false;
 		int statusCode = -1;
 		int errorCode = -1;
 		try{
-			if(id==null || id.equals(EMPTY_STRING)){
+			if(uid==null || uid.equals(EMPTY_STRING)){
 				errorCode = Error.ID_NOT_AVAILABLE_IN_REQUEST.id();
 			}
 			else{
-				boolean deleted = bookService.deleteBookById(Integer.parseInt(id));
+				boolean deleted = bookService.deleteBook(uid);
 				if(deleted){
 					statusCode = Status.BOOK_DELETED_SUCCESSFULLY.id();
 				}

@@ -14,6 +14,7 @@ public abstract class AbstractSqlQueryProcessor {
 	public abstract int processDeleteQuery(String dbName , String query) throws SQLException,Exception;
 	public abstract int processInsertQuery(String dbName , String query, boolean processInBatch) throws SQLException,Exception;
 	public abstract int processUpdateQuery(String dbName , String query) throws SQLException,Exception;
+	public abstract List<Integer> processTransaction(String dbName , List<String> queries) throws SQLException,Exception;
 	
 	
 	protected Connection getConnection(String dbName) throws SQLException,Exception{

@@ -85,34 +85,23 @@ public class SqlQueryTester extends AbstractTester{
 		
 		private void test1(){
 			String table = "Books";
-			List<String> fields = new ArrayList<String>();
-			List<Object> values = new ArrayList<Object>();
+			Map<String,Object> bookMap = new HashMap<String,Object>(); 
+//			List<String> fields = new ArrayList<String>();
+//			List<Object> values = new ArrayList<Object>();
 			//adding fields
-			fields.add("id");
-			fields.add("title");
-			fields.add("authorName");
-			fields.add("category");
-			fields.add("subcategory");
-			fields.add("ownerId");
-			fields.add("available");
-			fields.add("forBuying");
-			fields.add("forRent");
-			fields.add("buyingAmount");
-			fields.add("rentAmount");
-			//adding values
-			values.add(2);
-			values.add("Concepts Of Physics");
-			values.add("H.C Verma");
-			values.add("Science");
-			values.add("Physics");
-			values.add(10);
-			values.add(1);
-			values.add(1);
-			values.add(1);
-			values.add(280);
-			values.add(3);
+			bookMap.put("id",2);
+			bookMap.put("title","Concepts Of Physics");
+			bookMap.put("authorName","H.C Verma");
+			bookMap.put("category","Science");
+			bookMap.put("subcategory","Physics");
+			bookMap.put("ownerId",10);
+			bookMap.put("available",1);
+			bookMap.put("forBuying",1);
+			bookMap.put("forRent",1);
+			bookMap.put("buyingAmount",280);
+			bookMap.put("rentAmount",3);
 			
-			SqlInsertQuery query = new SqlInsertQuery(table, fields, values);
+			SqlInsertQuery query = new SqlInsertQuery(table, bookMap);
 			display(query.toString());
 		}
 		

@@ -1,0 +1,36 @@
+
+
+
+Create Book Request
+{"success":false,"errorCode":1,"statusCode":-1}
+
+
+Create Book Request
+{"success":false,"errorCode":1,"statusCode":-1}
+
+
+Create Book Request
+
+
+
+Create Book Request
+
+
+
+Create Book Request
+{"success":false,"errorCode":1,"statusCode":-1}
+
+
+Create Book Request
+{"success":true,"errorCode":-1,"statusCode":303}
+
+
+Update Book Request
+
+
+
+Update Book Request
+{"success":false,"errorCode":-1,"statusCode":308}
+
+
+Update Book Request

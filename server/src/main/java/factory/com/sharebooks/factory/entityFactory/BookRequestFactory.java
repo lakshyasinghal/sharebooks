@@ -46,17 +46,17 @@ public class BookRequestFactory implements EntityFactory<BookRequest>{
 	public BookRequest createFromResultSet(ResultSet rs) throws Exception{
 		try{
 			long id = rs.getLong("id");
-			String referenceNo = rs.getString("referenceNo");
+			String uid = rs.getString("uid");
 			BookRequestType type = BookRequestType.valueOf(rs.getInt("type"));
 			RequestStatus status = RequestStatus.valueOf(rs.getInt("status"));
-			long bookId = rs.getLong("bookId");
-			long bookOwnerId = rs.getLong("bookOwnerId");
-			long requesterId = rs.getLong("requesterId");
+			String bookUid = rs.getString("bookUid");
+			String bookOwnerUid = rs.getString("bookOwnerUid");
+			String requesterUid = rs.getString("requesterUid");
 			int requiredPeriod = rs.getInt("requiredPeriod");
 			String comments = rs.getString("comments");
 			
-			BookRequest book = new BookRequest(id , referenceNo , type , status , bookId , bookOwnerId
-					, requesterId , requiredPeriod , comments);
+			BookRequest book = new BookRequest(id , uid , type , status , bookUid , bookOwnerUid
+					, requesterUid , requiredPeriod , comments, null, null);
 			return book;
 		}
 		catch(Exception ex){
@@ -67,11 +67,20 @@ public class BookRequestFactory implements EntityFactory<BookRequest>{
 	@Override
 	public BookRequest createFromJson(String json) throws Exception {
 		try{
-			BookRequest bookRequest = null;
 			JSONParser parser = new JSONParser();
 			Object obj = parser.parse(json);
 			JSONObject jo = (JSONObject)obj;
-			bookRequest = BookRequest.deserializeFromJson(jo);
+			
+			long id = (long)jo.get("id");
+			String uid = (String)jo.get("uid");
+			BookRequestType type = BookRequestType.valueOf((int)(long)jo.get("type"));
+			RequestStatus status = RequestStatus.valueOf((int)(long)jo.get("status"));
+			String bookUid = (String)jo.get("bookUid");
+			String bookOwnerUid = (String)jo.get("bookOwnerUid");
+			String requesterUid = (String)jo.get("requesterUid");
+			int requiredPeriod = (int)(long)jo.get("requiredPeriod");
+			String comments = (String)jo.get("comments");
+			BookRequest bookRequest = new BookRequest(id,uid,type,status,bookUid,bookOwnerUid,requesterUid,requiredPeriod,comments,null,null);
 			return bookRequest;
 		}
 		catch(ParseException ex){

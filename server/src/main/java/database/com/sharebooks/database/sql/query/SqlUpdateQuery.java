@@ -1,23 +1,22 @@
 package com.sharebooks.database.sql.query;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
 public class SqlUpdateQuery implements SqlQuery{
 	private static final Logger LOGGER = Logger.getLogger(SqlUpdateQuery.class.getName());
 	private final String table;
-	private final List<String> fields; //column names
-	private final List<Object> values; //column values
-	private static final String ENTITY_IDENTIFIER = "id";
+	private final Map<String,Object> objMap;
+	private static final String ENTITY_IDENTIFIER = "uid";
 	
 	private String queryStr = null;
 	
 	
-	public SqlUpdateQuery(String table , List<String> fields , List<Object> values){
+	public SqlUpdateQuery(String table , Map<String,Object> objMap){
 		this.table = table;
-		this.fields = fields;
-		this.values = values;
+		this.objMap = objMap;
 	}
 	
 	
@@ -33,6 +32,8 @@ public class SqlUpdateQuery implements SqlQuery{
 	Example- UPDATE BOOKS SET Title='Head First',Available=0 where id=5; */
 	public void build(){
 		LOGGER.trace("Entering build");
+		List<String> fields = fieldsFromMap(objMap);
+		List<Object> values = valuesFromMap(objMap);
 		Object entityIdentifierVal = null;
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE");

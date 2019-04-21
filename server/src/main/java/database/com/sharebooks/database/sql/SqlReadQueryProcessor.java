@@ -63,5 +63,10 @@ public class SqlReadQueryProcessor extends AbstractSqlQueryProcessor{
 	public int processUpdateQuery(String dbName, String query) throws Exception {
 		throw new NonFunctionalMethodException();
 	}
+
+	@Override
+	public List<Integer> processTransaction(String dbName, List<String> queries) throws SQLException, Exception {
+		throw new NonFunctionalMethodException();
+	}
 	
 }

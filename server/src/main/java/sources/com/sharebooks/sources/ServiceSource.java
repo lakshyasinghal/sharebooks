@@ -1,13 +1,14 @@
 package com.sharebooks.sources;
 
 import com.sharebooks.cache.*;
-import com.sharebooks.cache.lruCache.LRUCache;
+//import com.sharebooks.cache.lruCache.LRUCache;
 import com.sharebooks.coreEntities.*;
 import com.sharebooks.coreEntities.enums.EntityType;
 import com.sharebooks.dao.generic.*;
-import com.sharebooks.factory.entityFactory.BookFactory;
-import com.sharebooks.factory.entityFactory.EntityFactory;
-import com.sharebooks.factory.entityFactory.UserFactory;
+import com.sharebooks.services.entityServices.BookRequestService;
+//import com.sharebooks.factory.entityFactory.BookFactory;
+//import com.sharebooks.factory.entityFactory.EntityFactory;
+//import com.sharebooks.factory.entityFactory.UserFactory;
 import com.sharebooks.services.entityServices.BookService;
 import com.sharebooks.services.entityServices.UserService;
 
@@ -15,11 +16,13 @@ import com.sharebooks.services.entityServices.UserService;
 public class ServiceSource {
 	private static BookService bookService;
 	private static UserService userService;
+	private static BookRequestService bookRequestService;
 	
 	public static void init() throws Exception{
 		try{
 			initBookService();
 			initUserService();
+			initBookRequestService();
 		}
 		catch(Exception ex){
 			throw ex;
@@ -53,11 +56,30 @@ public class ServiceSource {
 		}
 	}
 	
+	
+	//not using cache with book requests
+	private static void initBookRequestService() throws Exception{
+		try{
+			//Cache<User> userCache = (Cache<User>) CacheSource.getCache(EntityType.USER.desc());
+			BookRequestDao dao = (BookRequestDao)DaoSource.getDao(EntityType.BOOK_REQUEST.desc());
+			BookRequestService.init(dao);
+			bookRequestService = BookRequestService.getInstance();
+		}
+		catch(Exception ex){
+			throw ex;
+		}
+	}
+	
+	
 	public static BookService getBookService(){
 		return bookService;
 	}
 	
 	public static UserService getUserService(){
 		return userService;
+	}
+	
+	public static BookRequestService getBookRequestService(){
+		return bookRequestService;
 	}
 }

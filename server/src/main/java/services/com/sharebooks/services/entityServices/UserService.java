@@ -99,12 +99,12 @@ public class UserService extends EntityService{
 		}
 	}
 	
-	public User getUserById(int id) throws Exception{
+	public User getUser(String uid) throws Exception{
 		try{
-			User user = (User)cache.get(id);
+			User user = (User)cache.get(uid);
 			if(user == null){
-				user = dao.getUserById(id);
-				cache.insert(id, user);
+				user = dao.getUser(uid);
+				cache.insert(uid, user);
 			}
 			return user;
 		}

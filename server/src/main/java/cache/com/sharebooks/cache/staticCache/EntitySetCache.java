@@ -42,7 +42,7 @@ public class EntitySetCache<T extends Entity> implements StaticCache<T> {
 	}
 
 
-	public T get(long key) throws CacheException{
+	public T get(Object key) throws CacheException{
 		try{
 			return null;
 		}
@@ -53,7 +53,7 @@ public class EntitySetCache<T extends Entity> implements StaticCache<T> {
 	}
 
 
-	public void insert(long key , T t) throws CacheException {
+	public void insert(Object key , T t) throws CacheException {
 		try{
 			entitySet.add(t);
 		}

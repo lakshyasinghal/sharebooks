@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 import org.apache.log4j.Logger;
 import com.sharebooks.coreEntities.Book;
+import com.sharebooks.coreEntities.BookRequest;
 import com.sharebooks.coreEntities.User;
 import com.sharebooks.coreEntities.enums.EntityType;
 import com.sharebooks.dao.generic.Dao;
+import com.sharebooks.dao.sql.BookRequestSqlDao;
 import com.sharebooks.dao.sql.BookSqlDao;
 import com.sharebooks.dao.sql.UserSqlDao;
 import com.sharebooks.factory.entityFactory.EntityFactory;
@@ -40,18 +42,25 @@ public class DaoSource {
 		private void init(){
 			initBookDao();
 			initUserDao();
+			initBookRequestDao();
 		}
 		
 		@SuppressWarnings("unchecked")
 		private static void initBookDao(){
-			EntityFactory<Book> bookFactory = (EntityFactory<Book>)FactorySource.getEntityFactory("book");
+			EntityFactory<Book> bookFactory = (EntityFactory<Book>)FactorySource.getEntityFactory(EntityType.BOOK.desc());
 			daoMap.put(EntityType.BOOK.desc(), new BookSqlDao(bookFactory));
 		}
 		
 		@SuppressWarnings("unchecked")
 		public static void initUserDao(){
-			EntityFactory<User> userFactory = (EntityFactory<User>)FactorySource.getEntityFactory("user");
+			EntityFactory<User> userFactory = (EntityFactory<User>)FactorySource.getEntityFactory(EntityType.USER.desc());
 			daoMap.put(EntityType.USER.desc(), new UserSqlDao(userFactory));
+		}
+		
+		@SuppressWarnings("unchecked")
+		public static void initBookRequestDao(){
+			EntityFactory<BookRequest> bookRequestFactory = (EntityFactory<BookRequest>)FactorySource.getEntityFactory(EntityType.BOOK_REQUEST.desc());
+			daoMap.put(EntityType.BOOK_REQUEST.desc(), new BookRequestSqlDao(bookRequestFactory));
 		}
 	}
 	

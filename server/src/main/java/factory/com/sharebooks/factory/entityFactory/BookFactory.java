@@ -46,8 +46,9 @@ public class BookFactory implements EntityFactory<Book>{
 	public Book createFromResultSet(ResultSet rs) throws FactoryException,Exception{
 		
 		long id = rs.getLong("id");
+		String uid = rs.getString("uid");
 		String title = rs.getString("title");
-		String authorName = rs.getString("authorName");
+		String author = rs.getString("author");
 		String category = rs.getString("category");
 		String subcategory = rs.getString("subcategory");
 		int pages = rs.getInt("pages");
@@ -58,14 +59,12 @@ public class BookFactory implements EntityFactory<Book>{
 		AvailableStatus rent = AvailableStatus.valueOf(rs.getInt("rent"));
 		long buyAmount = rs.getLong("buyAmount");
 		long rentAmount = rs.getLong("rentAmount");
-		
 		String creationTimeStr = (rs.getTimestamp("creationTime")).toString();
 		LocalDateTime creationTime = LocalDateTime.buildFromString(creationTimeStr);
-		
 		String lastModificationTimeStr = (rs.getTimestamp("lastModificationTime")).toString();
 		LocalDateTime lastModificationTime = LocalDateTime.buildFromString(lastModificationTimeStr);
 		
-		Book book = new Book(id , title , authorName , category , subcategory , pages , ownerId , imgSrc , available , 
+		Book book = new Book(id ,uid, title , author , category , subcategory , pages , ownerId , imgSrc , available , 
 				buy , rent , buyAmount , rentAmount , creationTime , lastModificationTime);
 		return book;
 	}
@@ -76,15 +75,11 @@ public class BookFactory implements EntityFactory<Book>{
 			JSONParser parser = new JSONParser();
 			Object obj = parser.parse(json);
 			JSONObject jo = (JSONObject)obj;
-			long id = -1;
-			try{
-				id = (long)jo.get("id");
-			}
-			catch(NullPointerException ex){
-				//do nothing
-			}
+			
+			long id = (long)jo.get("id");
+			String uid = (String)jo.get("uid");
 			String title = (String)jo.get("title");
-			String authorName = (String)jo.get("authorName");
+			String author = (String)jo.get("author");
 			String category = (String)jo.get("category");
 			String subcategory = (String)jo.get("subcategory");
 			int pages = (int)(long)jo.get("pages");
@@ -95,9 +90,14 @@ public class BookFactory implements EntityFactory<Book>{
 			AvailableStatus rent = AvailableStatus.valueOf((int)(long)jo.get("rent"));
 			long buyAmount = (long)jo.get("buyAmount");
 			long rentAmount = (long)jo.get("rentAmount");
+			String creationTimeStr = (String)jo.get("creationTime");
+			String lastModificationTimeStr = (String)jo.get("lastModificationTime");
 			
-			Book book = new Book(id , title , authorName , category , subcategory , pages , ownerId , imgSrc , available ,
-					buy , rent , buyAmount , rentAmount , null , null); //null values are for creationTime and lastModificationTime
+			LocalDateTime creationTime = LocalDateTime.buildFromString(creationTimeStr);
+			LocalDateTime lastModificationTime = LocalDateTime.buildFromString(lastModificationTimeStr);
+			
+			Book book = new Book(id, uid, title, author, category, subcategory, pages, ownerId, imgSrc, available,
+					buy, rent, buyAmount, rentAmount, creationTime, lastModificationTime); 
 			return book;
 		}
 		catch(ParseException ex){

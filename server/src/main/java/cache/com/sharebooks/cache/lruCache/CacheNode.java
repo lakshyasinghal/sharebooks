@@ -4,12 +4,12 @@ import com.sharebooks.entity.Entity;
 
 class CacheNode<T extends Entity> {
 	private CacheNode<T> prev;
-	private long key;
+	private Object key;
 	private T value;
 	private CacheNode<T> next;
 
 
-	public CacheNode(Long key , T value){
+	public CacheNode(Object key , T value){
 		this.key = key;
 		this.value = value;
 	}
@@ -18,7 +18,7 @@ class CacheNode<T extends Entity> {
 		return value;
 	}
 
-	public long key(){
+	public Object key(){
 		return key;
 	}
 

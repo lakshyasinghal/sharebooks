@@ -14,13 +14,13 @@ public class RedisCache<T extends Entity> implements DynamicCache<T> {
 
 
 	@Override
-	public T get(long key) throws Exception {
+	public T get(Object key) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void insert(long key, T t) throws Exception {
+	public void insert(Object key, T t) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}

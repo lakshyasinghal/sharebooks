@@ -31,14 +31,14 @@ getById(){
 }
 
 create(){
-	newUser='{"id":-1,"username":"lakshya_singhal@gmail.com","password":"lucky","name":"LakshyaSinghal","dob":"1990-03-02","age":29,"contactNo":"8826387790","active":1}'
+	newUser='{"id":-1,"username":"lakshyasinghal3@gmail.com","password":"laksh","name":"LakshyaSinghal","dob":"1990-03-02","address":"houseno.%2074%20Block%20B%20sec-11","city":"faridabad","state":"Haryana","pincode":"121006","age":29,"contactNo":"8826387791","preferences":"[{\"category\":\"science\"},{\"category\":\"politics\"}]","active":1}'
 	next "Create User"
 	curl -X PUT -d $newUser -H 'Content-Type: application/json' $apiPath >> $outputPath
 }
 
 
 update(){
-	updatedUser='{"id":1,"username":"lakshyasinghal333@gmail.com","password":"lakshya","name":"LakshyaSinghal","dob":"1991-03-02","age":28,"contactNo":"8448054935","active":0}'
+	updatedUser='{"id":1,"username":"lakshyasinghal3@gmail.com","password":"laksh","name":"LakshyaSinghal","dob":"1991-03-02","age":28,"contactNo":"8448054935","active":0}'
 	next "Update User"
 	curl -X POST -d $updatedUser -H 'Content-Type: application/json' $apiPath >> $outputPath
 }
@@ -50,8 +50,8 @@ update(){
 #login
 #getAll
 #getById
-#create
-update
+create
+#update
 
 
 

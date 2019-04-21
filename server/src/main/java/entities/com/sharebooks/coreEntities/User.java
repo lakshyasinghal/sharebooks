@@ -1,16 +1,18 @@
 package com.sharebooks.coreEntities;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
-
 import org.json.simple.JSONObject;
-
 import com.sharebooks.coreEntities.enums.Active;
 import com.sharebooks.dateTime.LocalDateTime;
 import com.sharebooks.entity.Entity;
 import com.sharebooks.exception.JsonSerializationException;
 //import com.sharebooks.helperEntities.Address;
+import com.sharebooks.helperEntities.Preference;
+import com.sharebooks.util.JsonUtils;
 
 public final class User extends Entity {
 	
@@ -20,35 +22,42 @@ public final class User extends Entity {
 	private String name;
 	private String dob;
 	private int age;
-	//private Address address;
+	private String address;
+	private String city;
+	private String state;
+	private String pincode;
 	private String contactNo;
+	private List<Preference> preferences;
 	private Active active;
 	
 	public User(){
 		
 	}
+
 	
-	public User(long id , String username , String password , String name , String dob , int age , String contactNo , Active active){
-		super(id);
-		this.uid = UUID.randomUUID().toString();
+	public User(long id ,String uid, String username , String password , String name , String dob , int age, String address, String city, 
+				String state, String pincode, String contactNo, List<Preference> preferences, Active active, LocalDateTime creationTime, LocalDateTime lastModificationTime){
+		super(id,creationTime,lastModificationTime);
+		if(uid==null){
+			this.uid = UUID.randomUUID().toString();
+		}
+		else{
+			this.uid = uid;
+		}
 		this.username = username;
 		this.password = password;
 		this.name = name;
 		this.dob = dob;
 		this.age = age;
+		this.address = address;
+		this.city = city;
+		this.state = state;
+		this.pincode = pincode;
 		this.contactNo = contactNo;
-		this.active = active;
-	}
-	
-	public User(long id ,String uid, String username , String password , String name , String dob , int age , String contactNo , Active active){
-		super(id);
-		this.uid = uid;
-		this.username = username;
-		this.password = password;
-		this.name = name;
-		this.dob = dob;
-		this.age = age;
-		this.contactNo = contactNo;
+		this.preferences = new ArrayList<Preference>();
+		if(preferences!=null){
+			this.preferences.addAll(preferences);   //to make it immutable
+		}
 		this.active = active;
 	}
 	
@@ -58,15 +67,22 @@ public final class User extends Entity {
 	public String serializeAsJson() throws JsonSerializationException {
 		try{
 			JSONObject jo = new JSONObject();
+			jo.put("id", id);
+			jo.put("uid", uid);
 			jo.put("username", username);
 			jo.put("password", password);
 			jo.put("name", name);
 			jo.put("dob", dob);
 			jo.put("age", age);
-			//jo.put("address", address.serializeAsJson());
+			jo.put("address", address);
+			jo.put("city", city);
+			jo.put("state", state);
+			jo.put("pincode", pincode);
 			jo.put("contactNo", contactNo);
+			jo.put("preferences", JsonUtils.getSerializedList(preferences));
 			jo.put("active", active);
-			
+			jo.put("creationTime", creationTime);
+			jo.put("lastModificationTime", lastModificationTime);
 			return jo.toString();
 		}
 		catch(Exception ex){
@@ -75,7 +91,7 @@ public final class User extends Entity {
 	}
 	
 	public User cloneWithNewPassword(String password){
-		return new User(this.id, this.username, password, this.name, this.dob, this.age, this.contactNo, this.active);
+		return new User(this.id, this.uid, this.username, password, this.name, this.dob, this.age, this.address, this.city, this.state, this.pincode, this.contactNo, this.preferences, this.active, this.creationTime, this.lastModificationTime);
 	}
 	
 	
@@ -90,43 +106,30 @@ public final class User extends Entity {
 	}
 	
 	
-	//will return a list of all the book property names
-	//will be mostly used when inserting new user into database
-	public List<String> fields(){
-		List<String> fields = new LinkedList<String>();
-		fields.add("id");
-		fields.add("uid");
-		fields.add("username");
-		fields.add("password");
-		fields.add("name");
-		fields.add("dob");
-		fields.add("age");
-		fields.add("contactNo");
-		fields.add("active");
-		fields.add("creationTime");
-		fields.add("lastModificationTime");
+	//will return a map representing the user
+	//will be mostly used when inserting new user or updating existing one into database
+	public Map<String,Object> map() throws Exception{
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("id",id);
+		map.put("uid",uid);
+		map.put("username",username);
+		map.put("password",password);
+		map.put("name",name);
+		map.put("dob",dob);
+		map.put("age",age);
+		map.put("address",address);
+		map.put("city",city);
+		map.put("state",state);
+		map.put("pincode",pincode);
+		map.put("contactNo",contactNo);
+		map.put("preferences", JsonUtils.getSerializedList(preferences));
+		map.put("active",active.id());
+		map.put("creationTime",creationTime.toString());
+		map.put("lastModificationTime",lastModificationTime.toString());
 		
-		return fields;
+		return map;
 	}
-	
-	//will return a list of all the book property values
-	//will be mostly used when inserting new book into database
-	public List<Object> values(){
-		List<Object> values = new LinkedList<Object>();
-		values.add(id);
-		values.add(uid);
-		values.add(username);
-		values.add(password);
-		values.add(name);
-		values.add(dob);
-		values.add(age);
-		values.add(contactNo);
-		values.add(active.id());
-		values.add(creationTime.toString());
-		values.add(lastModificationTime.toString());
-		
-		return values;
-	}
+
 	
 	public String uid(){
 		return uid;
@@ -152,8 +155,30 @@ public final class User extends Entity {
 		return age;
 	}
 	
+	public String address(){
+		return address;
+	}
+	
+	public String city(){
+		return city;
+	}
+	
+	public String state(){
+		return state;
+	}
+	
+	public String pincode(){
+		return pincode;
+	}
+	
 	public String contactNo(){
 		return contactNo;
+	}
+	
+	public List<Preference> preferences(){
+		List<Preference> preferences = new ArrayList<Preference>();
+		preferences.addAll(this.preferences);
+		return preferences;
 	}
 	
 	public Active active(){

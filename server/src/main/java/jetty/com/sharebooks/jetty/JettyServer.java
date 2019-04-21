@@ -1,5 +1,9 @@
 package com.sharebooks.jetty;
 
+import java.util.EnumSet;
+
+import javax.servlet.DispatcherType;
+
 import org.apache.log4j.Logger;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.HttpConfiguration;
@@ -32,21 +36,29 @@ public class JettyServer implements GenericServer {
 		status = ServerStatus.STARTING;
 		ServletContainer container = new ServletContainer(new JerseyResourceConfig());
 		ServletHolder sh = new ServletHolder(container);
-		ErrorPageErrorHandler errorHandler = new ErrorPageErrorHandler();
-		   errorHandler.addErrorPage(404, "/error");
-		   errorHandler.addErrorPage(500, "/error");
-		ServletContextHandler context = new ServletContextHandler(ServletContextHandler.NO_SESSIONS
-				| ServletContextHandler.NO_SECURITY);
+	    
+		ServletContextHandler context = new ServletContextHandler(ServletContextHandler.NO_SESSIONS | ServletContextHandler.NO_SECURITY);
 		context.setContextPath("/");
 		context.addServlet(sh, "/*");
-		context.setErrorHandler(errorHandler);
+		
+//		ErrorPageErrorHandler errorHandler = new ErrorPageErrorHandler();
+//		errorHandler.addErrorPage(404, "/error");
+//	    errorHandler.addErrorPage(500, "/error");
+//		context.setErrorHandler(errorHandler);
+		
+		//adding authentication filter class
+		context.addFilter(com.sharebooks.jetty.AuthenticationFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
+		
 		server = new Server();
+		
+		server.addBean(new CustomErrorHandler());
+		
 		HttpConfiguration httpConfiguration = new HttpConfiguration();
-
 		ServerConnector httpConnector = new ServerConnector(server, new HttpConnectionFactory(httpConfiguration));
 		httpConnector.setPort(port);
 		httpConnector.setIdleTimeout(idleTimeout); 
 		Connector[] connectors = new Connector[] { httpConnector };
+		
 
 		server.setConnectors(connectors);
 		server.setHandler(context);

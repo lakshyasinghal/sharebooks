@@ -1,7 +1,5 @@
 package com.sharebooks.response;
 
-
-
 /*The status enumeration will hold the status and their respective codes to describe the operations
 These are meant for the end users using the application. */
 
@@ -9,8 +7,8 @@ These are meant for the end users using the application. */
  Example 1-100 will belong to account
  100-200 will belong to books.
  
- The status 0 will be a special status indicating that something went wrong.It will an abstract status meant for the user.The 
- necessary code will be available via error code meant for developer only.*/ 
+The status 0 will be a special status indicating that something went wrong.It will an abstract status meant for the user.The 
+necessary code will be available via error code meant for developer only.*/ 
 public enum Status {
 	SOMETHING_WENT_WRONG(0,"Something went wrong.Your request couldn't be completed."),
 	
@@ -36,6 +34,17 @@ public enum Status {
 	NO_USERS_EXIST(205,"No users exist in database."),
 	USER_UPDATED_SUCCESSFULLY(206,"User updated successfully"),
 	USER_NOT_UPDATED(207,"User could not be updated.Please debug to find more."),
+	
+	//status codes for book requests
+	FETCH_BOOK_REQUESTS_BY_UID_SUCCESSFUL(301,"Book request fetched successfully by owner uid."),
+	BOOK_REQUEST_CREATED_SUCCESSFULLY(303,"Book request created successfully."),
+	BOOK_REQUEST_UPDATED_SUCCESSFULLY(304,"Book request updated successfully."),
+	BOOK_REQUEST_NOT_CREATED(305,"Book request could not be created."),
+	BOOK_REQUEST_NOT_UPDATED(306,"Book request could not be updated."),
+	BOOK_REQUEST_ACCEPTED_SUCCESSFULLY(307,"Book request accepted successfully."),
+	BOOK_REQUEST_COULD_NOT_BE_ACCEPTED(308,"Book request could not be accepted."),
+	BOOK_REQUEST_REJECTED_SUCCESSFULLY(309,"Book request rejected successfully."),
+	BOOK_REQUEST_COULD_NOT_BE_REJECTED(310,"Book request could not be rejected."),
 	
 	//generic status codes
 	NO_RESULTS_FOUND(801 , "No results found for given parameters.");

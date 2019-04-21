@@ -20,26 +20,26 @@ import com.sharebooks.sources.FactorySource;
 import com.sharebooks.sources.ServiceSource;
 
 @SuppressWarnings("unchecked")
-public class UserRequestProcessor extends AbstractRequestProcessor{
-	private static UserRequestProcessor processor = new UserRequestProcessor();
-	private static final Logger LOGGER = Logger.getLogger(UserRequestProcessor.class.getName());
+public class UsersRequestProcessor extends AbstractRequestProcessor{
+	private static UsersRequestProcessor processor = new UsersRequestProcessor();
+	private static final Logger LOGGER = Logger.getLogger(UsersRequestProcessor.class.getName());
 	private final ResponseFactory responseFactory = FactorySource.getResponseFactory();
 	private final UserService userService = ServiceSource.getUserService();
 	private final EntityFactory<User> factory = (EntityFactory<User>) FactorySource.getEntityFactory(EntityType.USER.desc());
 	
 	//private constructor to help make the class singleton
-	private UserRequestProcessor(){
+	private UsersRequestProcessor(){
 		
 	}
 	
 	//get singleton instance of the class
-	public static UserRequestProcessor getInstance(){
+	public static UsersRequestProcessor getInstance(){
 		return processor;
 	}
 	
 	
 	public String processLoginRequest(String username , String password) throws Exception{
-		LOGGER.trace("Entering login in UserRequestProcessor");
+		LOGGER.trace("Entering login in UsersRequestProcessor");
 		Map<String,Object> map = new HashMap<String,Object>();
 		User user = null;
 		boolean success = false;
@@ -52,6 +52,7 @@ public class UserRequestProcessor extends AbstractRequestProcessor{
 			else{
 				success=true;
 				statusCode=Status.LOGIN_SUCCESSFUL.id();
+				map.put("user",user);
 			}
 		}catch(SQLException ex){
 			errorCode = Error.DATABASE_ERROR.id();
@@ -61,14 +62,12 @@ public class UserRequestProcessor extends AbstractRequestProcessor{
 			errorCode = Error.GENERAL_EXCEPTION.id();
 			LOGGER.debug("");
 		}
-		
-		map.put("user",user);
 		Response response = responseFactory.getJsonResponse(success, statusCode, errorCode, map);
 		
 		return response.process();
 	}
 	
-	public String processCreateRequest(HttpServletRequest req) throws Exception{
+	public String processCreateUserRequest(HttpServletRequest req) throws Exception{
 		LOGGER.trace("Entering processCreateRequest");
 		boolean success = false;
 		int statusCode = -1;
@@ -79,39 +78,28 @@ public class UserRequestProcessor extends AbstractRequestProcessor{
 		try {
 			userJsonStr = getJsonFromRequest(req);
 			user = factory.createFromJson(userJsonStr);
-		}catch(Exception ex){
-			LOGGER.debug(ex);
-			statusCode = Status.SOMETHING_WENT_WRONG.id();
-			errorCode = Error.INPUT_JSON_READ_ERROR.id();
-			response = responseFactory.getJsonResponse(success , statusCode , errorCode , null);
-			return response.process();
-		}
-
-		
-		try{
 			success = userService.createUser(user);
-			statusCode = Status.BOOK_CREATED_SUCCESSFULLY.id();
+			statusCode = Status.USER_CREATED_SUCCESSFULLY.id();
 		}
 		catch(UsernameAlreadyExistsException ex){
 			LOGGER.debug(ex.getMessage());
 			statusCode = Status.USERNAME_ALREADY_EXISTS.id();
 		}
 		catch(SQLException ex){
-			LOGGER.debug(ex);
+			LOGGER.error("SQLException",ex);
 			errorCode = Error.DATABASE_ERROR.id();
 		}
 		catch(Exception ex){
-			LOGGER.debug(ex);
+			LOGGER.error("Exception =>",ex);
 			errorCode = Error.GENERAL_EXCEPTION.id();
 		}
-		
 		response = responseFactory.getJsonResponse(success , statusCode , errorCode , null);
 		LOGGER.trace("Leaving processCreateRequest");
 		return response.process();
 	}
 	
 	
-	public String processGetAllRequest() throws Exception{
+	public String processGetAllUsersRequest() throws Exception{
 		Map<String,Object> map = new HashMap<String,Object>();
 		List<User> users = null;
 		boolean success = false;
@@ -125,6 +113,7 @@ public class UserRequestProcessor extends AbstractRequestProcessor{
 				statusCode = Status.FETCH_ALL_USERS_SUCCESSFUL.id();
 			}
 			success = true;
+			map.put("users", users);
 		}
 		catch(CacheException ex){
 			success = false;
@@ -138,24 +127,23 @@ public class UserRequestProcessor extends AbstractRequestProcessor{
 			success = false;
 			errorCode = Error.GENERAL_EXCEPTION.id();
 		}
-		map.put("users", users);
 		Response response = responseFactory.getJsonResponse(success , statusCode , errorCode , map);
 		return response.process();
 	}
 	
 	
-	public String processGetByIdRequest(String id) throws Exception {
+	public String processGetUserRequest(String uid) throws Exception {
 		Map<String,Object> map = new HashMap<String,Object>();
 		User user = null;
 		boolean success = false;
 		int statusCode = -1;
 		int errorCode = -1;
 		try{
-			if(id==null || id.equals("")){
+			if(uid==null || uid.equals("")){
 				errorCode = Error.ID_NOT_AVAILABLE_IN_REQUEST.id();
 			}
 			else{
-				user = userService.getUserById(Integer.parseInt(id));
+				user = userService.getUser(uid);
 				if(user==null){
 					statusCode = Status.NO_RESULTS_FOUND.id();
 				}
@@ -163,6 +151,7 @@ public class UserRequestProcessor extends AbstractRequestProcessor{
 					statusCode = Status.FETCH_USER_BY_ID_SUCCESSFUL.id();
 				}
 				success = true;
+				map.put("user", user);
 			}
 		}
 		catch(CacheException ex){
@@ -177,12 +166,11 @@ public class UserRequestProcessor extends AbstractRequestProcessor{
 			success = false;
 			errorCode = Error.GENERAL_EXCEPTION.id();
 		}
-		map.put("user", user);
 		Response response = responseFactory.getJsonResponse(success , statusCode , errorCode , map);
 		return response.process();
 	}
 	
-	public String processUpdateRequest(HttpServletRequest req) throws Exception{
+	public String processUpdateUserRequest(HttpServletRequest req) throws Exception{
 		LOGGER.trace("Entering processUpdateRequest");
 		boolean success = false;
 		int statusCode = -1,errorCode = -1;
@@ -209,7 +197,6 @@ public class UserRequestProcessor extends AbstractRequestProcessor{
 			success = false;
 			errorCode = Error.GENERAL_EXCEPTION.id();
 		}
-
 		Response response = responseFactory.getJsonResponse(success , statusCode , errorCode , null);
 		LOGGER.trace("Leaving processUpdateRequest");
 		return response.process();

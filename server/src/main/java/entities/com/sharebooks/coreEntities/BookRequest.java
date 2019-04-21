@@ -1,18 +1,22 @@
 package com.sharebooks.coreEntities;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import org.json.simple.JSONObject;
 import com.sharebooks.coreEntities.enums.*;
+import com.sharebooks.dateTime.LocalDateTime;
 import com.sharebooks.entity.Entity;
 import com.sharebooks.exception.JsonSerializationException;
 
 public final class BookRequest extends Entity {
 
-	private String referenceNo;
+	private String uid;          //will be generated using UUID class
 	private BookRequestType type;
 	private RequestStatus status;
-	private long bookId;
-	private long bookOwnerId;
-	private long requesterId;
+	private String bookUid;
+	private String bookOwnerUid;
+	private String requesterUid;
 	private int requiredPeriod;
 	private String comments;
 	
@@ -20,15 +24,20 @@ public final class BookRequest extends Entity {
 		//nothing
 	}
 	
-	public BookRequest(long id , String referenceNo , BookRequestType type , RequestStatus status , long bookId , long bookOwnerId
-			, long requesterId , int requiredPeriod , String comments){
-		super(id);
-		this.referenceNo = referenceNo;
+	public BookRequest(long id , String uid , BookRequestType type , RequestStatus status , String bookUid , String bookOwnerUid
+			, String requesterUid , int requiredPeriod , String comments, LocalDateTime creationTime, LocalDateTime lastModificationTime){
+		super(id,creationTime,lastModificationTime);
+		if(uid==null){
+			this.uid = UUID.randomUUID().toString();
+		}
+		else{
+			this.uid = uid;
+		}
 		this.type = type;
 		this.status = status;
-		this.bookId = bookId;
-		this.bookOwnerId = bookOwnerId;
-		this.requesterId = requesterId;
+		this.bookUid = bookUid;
+		this.bookOwnerUid = bookOwnerUid;
+		this.requesterUid = requesterUid;
 		this.requiredPeriod = requiredPeriod;
 		this.comments = comments;
 	}
@@ -39,14 +48,17 @@ public final class BookRequest extends Entity {
 		try{
 			JSONObject jo  = new JSONObject();
 			jo.put("id", id);
-			jo.put("referenceNo", referenceNo);
+			jo.put("uid", uid);
 			jo.put("type" , type.id());
 			jo.put("status", status.id());
-			jo.put("bookId", bookId);
-			jo.put("bookOwnerId", bookOwnerId);
-			jo.put("requesterId", requesterId);
+			jo.put("bookUid", bookUid);
+			jo.put("bookOwnerUid", bookOwnerUid);
+			jo.put("requesterUid", requesterUid);
 			jo.put("requiredPeriod", requiredPeriod);
 			jo.put("comments", comments);
+			jo.put("creationTime", creationTime.toString());
+			jo.put("creationTime", creationTime.toString());
+			jo.put("lastModificationTime", lastModificationTime.toString());
 			
 			return jo.toString();
 		}
@@ -54,39 +66,27 @@ public final class BookRequest extends Entity {
 			throw new JsonSerializationException(ex.getMessage());
 		}
 	}
-
 	
-	public static BookRequest deserializeFromJson(JSONObject jo) throws Exception{
-		try{
-			BookRequest bookRequest = new BookRequest();
-			bookRequest.id = (long)jo.get("id");
-			bookRequest.referenceNo = (String)jo.get("referenceNo");
-			bookRequest.type = BookRequestType.valueOf((int)(long)jo.get("type"));
-			bookRequest.status = RequestStatus.valueOf((int)(long)jo.get("status"));
-			bookRequest.bookId = (long)jo.get("bookId");
-			bookRequest.bookOwnerId = (long)jo.get("bookOwnerId");
-			bookRequest.requesterId = (long)jo.get("requesterId");
-			bookRequest.requiredPeriod = (int)(long)jo.get("requiredPeriod");
-			bookRequest.comments = (String)jo.get("comments");
-			
-			return bookRequest;
-		}
-		catch(ClassCastException ex){
-			System.out.println(ex.getMessage());
-			throw ex;
-		}
-		catch(NullPointerException ex){
-			System.out.println(ex.getMessage());
-			throw ex;
-		}
-		catch(Exception ex){
-			System.out.println(ex.getMessage());
-			throw ex;
-		}
+	
+	public Map<String,Object> map(){
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("id",id);
+		map.put("uid",uid);
+		map.put("type",type.id());
+		map.put("status",status.id());
+		map.put("bookUid",bookUid);
+		map.put("bookOwnerUid",bookOwnerUid);
+		map.put("requesterUid",requesterUid);
+		map.put("requiredPeriod",requiredPeriod);
+		map.put("comments",comments);
+		map.put("creationTime",creationTime.toString());
+		map.put("lastModificationTime",lastModificationTime.toString());
+		return map;
 	}
 	
-	public String referenceNo(){
-		return referenceNo;
+	
+	public String uid(){
+		return uid;
 	}
 	
 	public BookRequestType type(){
@@ -97,16 +97,16 @@ public final class BookRequest extends Entity {
 		return status;
 	}
 	
-	public long bookId(){
-		return bookId;
+	public String bookUid(){
+		return bookUid;
 	}
 	
-	public long bookOwnerId(){
-		return bookOwnerId;
+	public String bookOwnerUid(){
+		return bookOwnerUid;
 	}
 	
-	public long requesterId(){
-		return requesterId;
+	public String requesterUid(){
+		return requesterUid;
 	}
 	
 	public int requiredPeriod(){

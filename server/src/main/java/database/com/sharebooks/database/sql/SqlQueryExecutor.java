@@ -29,7 +29,7 @@ public class SqlQueryExecutor {
 		}
 	}
 	
-	public int executeUpdate(Statement stmt , String query) throws SQLException , Exception{
+	public int executeUpdate(Statement stmt, String query) throws SQLException , Exception{
 		try{
 			int rowsAffected = stmt.executeUpdate(query);
 			return rowsAffected;

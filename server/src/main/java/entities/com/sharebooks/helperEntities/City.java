@@ -3,9 +3,12 @@ package com.sharebooks.helperEntities;
 import org.json.simple.JSONObject;
 
 import com.sharebooks.entity.Entity;
+import com.sharebooks.entity.HelperEntity;
 import com.sharebooks.exception.JsonSerializationException;
 
-public class City extends Entity {
+public class City extends HelperEntity implements Comparable<City>{
+	
+	private int id;
 	private String name;
 	private int stateId;
 	
@@ -14,9 +17,14 @@ public class City extends Entity {
 	}
 	
 	public City(int id , String name , int stateId){
-		super(id);
+		this.id = id;
 		this.name = name;
 		this.stateId = stateId;
+	}
+	
+	@Override
+	public int compareTo(City city) {
+		return name.compareTo(city.name);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -33,16 +41,6 @@ public class City extends Entity {
 			throw new JsonSerializationException(ex.getMessage());
 		}
 	}
-
-	
-	public static City deserializeFromJson(JSONObject jo) {
-		City city = new City();
-		city.id = (long)jo.get("id");
-		city.name = (String)jo.get("name");
-		city.stateId = (int)(long)jo.get("stateId");
-		
-		return city;
-	}
 	
 	public String name(){
 		return name;
@@ -51,4 +49,5 @@ public class City extends Entity {
 	public int stateId(){
 		return stateId;
 	}
+
 }

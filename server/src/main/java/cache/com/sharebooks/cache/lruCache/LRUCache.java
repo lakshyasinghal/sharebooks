@@ -9,7 +9,7 @@ import com.sharebooks.exception.CacheException;
 //this class will only be accessible inside this package
 public class LRUCache<T extends Entity> implements DynamicCache<T> {
 
-	private Map<Long , CacheNode<T>> cacheNodeMap;
+	private Map<Object , CacheNode<T>> cacheNodeMap;
 	//private CacheList cacheList;
 	private CacheNode<T> startNode;
 	private CacheNode<T> endNode;
@@ -20,7 +20,7 @@ public class LRUCache<T extends Entity> implements DynamicCache<T> {
 
 	public LRUCache() throws Exception{
 		try{
-			cacheNodeMap = new HashMap<Long , CacheNode<T>>();
+			cacheNodeMap = new HashMap<Object , CacheNode<T>>();
 			startNode = null;
 			endNode = null;
 			//cacheList = new CacheList();
@@ -46,7 +46,7 @@ public class LRUCache<T extends Entity> implements DynamicCache<T> {
 	}
 
 
-	public T get(long key) throws CacheException , Exception{
+	public T get(Object key) throws CacheException , Exception{
 		try{
 			T t = null;
 			CacheNode<T> node = null;
@@ -77,7 +77,7 @@ public class LRUCache<T extends Entity> implements DynamicCache<T> {
 
 
 
-	public synchronized void insert(long key , T value) throws Exception {
+	public synchronized void insert(Object key , T value) throws Exception {
 		try{
 			if(cacheNodeMap.containsKey(key)){
 				return;
@@ -114,7 +114,7 @@ public class LRUCache<T extends Entity> implements DynamicCache<T> {
 	public void delete() throws Exception {
 		try{
 			//CacheNode<T> startNode = cacheList.getStartNode();
-			long key = startNode.key();
+			Object key = startNode.key();
 			cacheNodeMap.remove(key);
 			
 			CacheNode<T> nextNode = startNode.next();

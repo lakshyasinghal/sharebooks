@@ -51,7 +51,7 @@ public class UserDaoTester extends AbstractTester {
 	public void test2() {
 		try {
 			UserDao dao = (UserDao) DaoSource.getDao("User");
-			User User = dao.getUserById(31);
+			User User = dao.getUser("");
 			display(User);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -77,7 +77,7 @@ public class UserDaoTester extends AbstractTester {
 	public void test4() {
 		try {
 			UserDao dao = (UserDao) DaoSource.getDao("User");
-			boolean success = dao.deleteUserById(34);
+			boolean success = dao.deleteUser("");
 			display(success);
 		} catch (Exception ex) {
 			ex.printStackTrace();

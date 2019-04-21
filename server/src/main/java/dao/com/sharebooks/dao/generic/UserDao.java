@@ -16,13 +16,13 @@ public interface UserDao extends Dao {
 	
 	public List<User> getAllUsers() throws SQLException,Exception;
 	
-	public User getUserById(int id) throws SQLException,Exception;
+	public User getUser(String uid) throws SQLException,Exception;
 	
 	public boolean createUser(User user) throws SQLException,Exception;
 	
 	public boolean updateUser(User user) throws SQLException,Exception;
 	
-	public boolean deleteUserById(int id) throws SQLException,Exception;
+	public boolean deleteUser(String uid) throws SQLException,Exception;
 	
 	public boolean updateUserPassword(int id , String password) throws SQLException,Exception;
 	

@@ -1,19 +1,26 @@
 package com.sharebooks.helperEntities;
 
 import org.json.simple.JSONObject;
-import com.sharebooks.entity.Entity;
+import com.sharebooks.entity.HelperEntity;
 import com.sharebooks.exception.JsonSerializationException;
 
-public class State extends Entity{
+public class State extends HelperEntity implements Comparable<State>{
 	
+	private int id;
 	private String name;
 	
 	public State(){
 		//nothing
 	}
 	
-	public State(String name){
+	public State(int id, String name){
+		this.id = id;
 		this.name = name;
+	}
+	
+	@Override
+	public int compareTo(State state) {
+		return name.compareTo(state.name());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -29,14 +36,9 @@ public class State extends Entity{
 			throw new JsonSerializationException(ex.getMessage());
 		}
 	}
-
-
-	public static State deserializeFromJson(JSONObject jo) {
-		State state = new State();
-		state.id = (long)jo.get("id");
-		state.name = (String)jo.get("name");
-		
-		return state;
+	
+	public int id(){
+		return id;
 	}
 	
 	public String name(){

@@ -1,4 +1,4 @@
-applicationPath="/Users/lakshya.singhal/Desktop/Development/Personal/Java_Apps/sharebooks"
+applicationPath="/Users/lakshya.singhal/Desktop/Personal/Tech/Apps/sharebooks/server"
 sourcePath="$applicationPath/src/main/java/scripts/com/sharebooks/scripts/sqlDBScripts"
 
 dbName="Sharebooks"

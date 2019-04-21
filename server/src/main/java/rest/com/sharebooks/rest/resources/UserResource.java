@@ -7,12 +7,12 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
 
-import com.sharebooks.requestProcessor.UserRequestProcessor;
+import com.sharebooks.requestProcessor.UsersRequestProcessor;
 
 @Path("/api")
 public class UserResource {
 	private static final Logger LOGGER = Logger.getLogger(UserResource.class.getName());
-	private UserRequestProcessor reqProcessor = UserRequestProcessor.getInstance();
+	private UsersRequestProcessor reqProcessor = UsersRequestProcessor.getInstance();
 	
 	@POST
 	@Path("/users/login")
@@ -26,28 +26,28 @@ public class UserResource {
 	@Path("/users")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getAllUsers(@Context HttpServletRequest req) throws Exception{
-		return reqProcessor.processGetAllRequest();
+		return reqProcessor.processGetAllUsersRequest();
 	}
 	
 	@GET
-	@Path("/users/{id}")
+	@Path("/users/{uid}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getUserById(@Context HttpServletRequest req , @PathParam("id") String id) throws Exception{
-		return reqProcessor.processGetByIdRequest(id);
+	public String getUser(@Context HttpServletRequest req , @PathParam("uid") String uid) throws Exception{
+		return reqProcessor.processGetUserRequest(uid);
 	}
 	
 	@PUT
 	@Path("/users")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String createUser(@Context HttpServletRequest req) throws Exception{
-		return reqProcessor.processCreateRequest(req);
+		return reqProcessor.processCreateUserRequest(req);
 	}
 	
 	@POST
 	@Path("/users")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String updateUser(@Context HttpServletRequest req) throws Exception{
-		return reqProcessor.processUpdateRequest(req);
+		return reqProcessor.processUpdateUserRequest(req);
 	}
 	
 	@DELETE

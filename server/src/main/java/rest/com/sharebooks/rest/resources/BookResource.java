@@ -4,17 +4,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-
 import org.apache.log4j.Logger;
-
-import com.sharebooks.coreEntities.BookRequest;
-import com.sharebooks.requestProcessor.BookRequestProcessor;
+import com.sharebooks.requestProcessor.BooksRequestProcessor;
 
 
 @Path("/api")
 public class BookResource {
-	private static final Logger LOGGER = Logger.getLogger(BookRequest.class.getName());
-	private BookRequestProcessor requestProcessor = BookRequestProcessor.getInstance();
+	private static final Logger LOGGER = Logger.getLogger(BookResource.class.getName());
+	private BooksRequestProcessor requestProcessor = BooksRequestProcessor.getInstance();
 	
 	@GET
 	@Path("/books")
@@ -27,13 +24,13 @@ public class BookResource {
 	@Path("/books/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getBookById(@Context HttpServletRequest req , @PathParam("id") String id) throws Exception{
-		return requestProcessor.processGetBookByIdRequest(id);
+		return requestProcessor.processGetBookRequest(id);
 	}
 	
 	@PUT
 	@Path("/books")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String insertBook(@Context HttpServletRequest req) throws Exception{
+	public String createBook(@Context HttpServletRequest req) throws Exception{
 		return requestProcessor.processCreateRequest(req);
 	}
 	
@@ -60,10 +57,10 @@ public class BookResource {
 	}
 	
 	@DELETE
-	@Path("/books/{bookId}")
+	@Path("/books/{uid}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String deleteBookById(@Context HttpServletRequest req , @PathParam("bookId") String id) throws Exception{
-		return requestProcessor.processDeleteBookByIdRequest(id);
+	public String deleteBookByUid(@Context HttpServletRequest req , @PathParam("uid") String uid) throws Exception{
+		return requestProcessor.processDeleteBookRequest(uid);
 	}
 	
 	@OPTIONS

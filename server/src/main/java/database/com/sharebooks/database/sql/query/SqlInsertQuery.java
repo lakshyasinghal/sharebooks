@@ -1,6 +1,9 @@
 package com.sharebooks.database.sql.query;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.log4j.Logger;
 
 
@@ -8,16 +11,14 @@ import org.apache.log4j.Logger;
 public class SqlInsertQuery implements SqlQuery{
 	private static final Logger LOGGER = Logger.getLogger(SqlInsertQuery.class.getName());
 	private final String table;
-	private final List<String> fields; //column names
-	private final List<Object> values; //column values
+	private final Map<String,Object> objMap;
 	
 	private String queryStr = null;
 	
 	
-	public SqlInsertQuery(String table , List<String> fields , List<Object> values){
+	public SqlInsertQuery(String table , Map<String,Object> objMap){
 		this.table = table;
-		this.fields = fields;
-		this.values = values;
+		this.objMap = objMap;
 	}
 	
 	
@@ -31,6 +32,8 @@ public class SqlInsertQuery implements SqlQuery{
 	
 	//function will return string like    INSERT INTO BOOKS (id,title,authorName,category) VALUES (2,'Physics','H.C Verma','Science');
 	public void build(){
+		List<String> fields = fieldsFromMap(objMap);
+		List<Object> values = valuesFromMap(objMap);
 		//LOGGER.entering(this.getClass().getName(), "build");
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO ");

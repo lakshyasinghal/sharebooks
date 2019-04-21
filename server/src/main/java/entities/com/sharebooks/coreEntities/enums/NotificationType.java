@@ -3,8 +3,8 @@ package com.sharebooks.coreEntities.enums;
 import java.util.*;
 
 public enum NotificationType {
-	BOOK_REQUEST(1 , "Book Request") , BOOK_RETURN_REQUEST(2 , "Book Return Request") , NEW_BOOK_ADDITION(3 , "New Book Added") , 
-	BOOK_REQUEST_ACCEPTED(4 , "Book Rquest Accepted") , BOOK_REQUEST_REJECTED(5 , "Book Request Rejected");
+	BOOK_REQUEST(1 , "Book Request") , BOOK_RETURN_REQUEST(2 , "Book Return Request") , NEW_BOOK_IN_STORE(3 , "New Book Added") , 
+	BOOK_REQUEST_ACCEPTANCE(4 , "Book Rquest Accepted") , BOOK_REQUEST_REJECTION(5 , "Book Request Rejected");
 	
 	private int id;
 	private String description;

@@ -64,4 +64,9 @@ public class SqlInsertQueryProcessor extends AbstractSqlQueryProcessor{
 		throw new NonFunctionalMethodException();
 	}
 
+	@Override
+	public List<Integer> processTransaction(String dbName, List<String> queries) throws SQLException, Exception {
+		throw new NonFunctionalMethodException();
+	}
+
 }

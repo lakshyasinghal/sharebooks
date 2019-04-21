@@ -53,7 +53,7 @@ public class BookDaoTester extends AbstractTester{
 	public void test2(){
 		try{
 			BookDao dao = (BookDao)DaoSource.getDao("book");
-			Book book = dao.getBookById(31);
+			Book book = dao.getBook("");
 			display(book);
 		}
 		catch(Exception ex){
@@ -82,7 +82,7 @@ public class BookDaoTester extends AbstractTester{
 	public void test4(){
 		try{
 			BookDao dao = (BookDao)DaoSource.getDao("book");
-			boolean success = dao.deleteBookById(34);
+			boolean success = dao.deleteBook("");
 			display(success);
 		}
 		catch(Exception ex){
