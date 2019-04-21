@@ -19,6 +19,10 @@ const REQUEST_ERROR_TYPE = {
 };
 
 
+const STATUS_CODES = {
+	SESSION_EXPIRED:1300
+};
+//the error codes should be in sync with the backend error codes and must not override them as it will lead to an inconsistent state
 const ERROR_CODES = {
 	SOMETHING_WRONG:1200,
 	CONNECTION_ERROR: 1100,

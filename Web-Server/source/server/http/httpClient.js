@@ -74,8 +74,7 @@ function generateResponseHandler(res){
 
 
 
-/*the res is the original express request response object 
-the closure function will provide the res object in the closure environment which otherwise wouldn't have been possible*/  
+/*the res is the original express request response object */ 
 function generateErrorHandler(res){
 
 	/*We are going to return the response status and data as it is if available otherwise we will try to figure out

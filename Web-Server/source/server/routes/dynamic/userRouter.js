@@ -14,6 +14,13 @@ router.post('/login',function(req,res){
 	(requestGenerator.generateAxiosRequestFunc(req, res, REQUEST_TYPE.POST))();
 });
 
+//logout api
+router.get('/logout',function(req,res){
+	console.log("Logout request received");
+	req.session.destroy();
+	res.redirect("/");
+});
+
 //api 2
 router.post('/users', function(req,res){
 	console.log("Request received on users api 2 => ", req);

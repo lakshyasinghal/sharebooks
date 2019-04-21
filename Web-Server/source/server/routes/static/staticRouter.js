@@ -21,7 +21,7 @@ function viewLocator(page,sessionRequired,redirect,redirectionURL){
 			res.redirect(redirectionURL);
 		}
 		else{
-			res.sendFile(path.join(appRoot +'/public/pages/'+page));
+			res.sendFile(path.join(appRoot +'/public/pages/'+page));   //appRoot is the global property
 		}
 	});
 }

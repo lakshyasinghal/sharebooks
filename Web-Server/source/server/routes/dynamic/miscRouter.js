@@ -5,12 +5,7 @@ const dummyServer = require(path.join(appRoot,"public/scripts/data/dataRequestSe
 const router = express.Router();
 
 
-//logout api
-router.get('/logout',function(req,res){
-	console.log("Logout request received");
-	req.session.destroy();
-	res.redirect("/");
-});
+
 
 
 router.get('/notifications',function(req,res){
