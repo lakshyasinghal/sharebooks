@@ -20,6 +20,7 @@ const REQUEST_ERROR_TYPE = {
 
 
 const STATUS_CODES = {
+	LOGIN_SUCCESSFUL:1,
 	SESSION_EXPIRED:1300
 };
 //the error codes should be in sync with the backend error codes and must not override them as it will lead to an inconsistent state
@@ -30,4 +31,4 @@ const ERROR_CODES = {
 	MYSTERIOUS:1102
 };
 
-module.exports = {REQUEST_TYPE,CONTENT_TYPE,REQUEST_ERROR_TYPE,ERROR_CODES};
+module.exports = {REQUEST_TYPE,CONTENT_TYPE,REQUEST_ERROR_TYPE,STATUS_CODES,ERROR_CODES};

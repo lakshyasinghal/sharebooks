@@ -12,10 +12,14 @@ const app = express();
 
 const noSessionUrls = [{url:"/",method:"GET"},{url:"/api/login",method:"POST"},{url:"/api/users",method:"PUT"}];
 
+
+//the order of the events is very important and must not be changed if lacking expertise in express framework
 function start(){
 	configure();
 	addStaticResources();
+	addSessionValidator();
 	addRouters();
+	handleUnidentifiedRoutes();
 
 	var server = app.listen(config.port,function(){
 		console.log("Server started on port ",config.port);
@@ -28,7 +32,6 @@ function configure(){
 	app.use(cookieParser());
 	//needs to be modified and made robust
 	app.use(session({secret:config.sessionSecret,key:"",resave: true,saveUninitialized: false}));
-	addSessionValidator();
 }
 
 function addSessionValidator(){
@@ -96,7 +99,6 @@ function addRouters(){
 	app.use('/api',routers.fileUploader);
 	app.use('/api',routers.miscRouter);
 	app.use('/',routers.staticRouter);
-	handleUnidentifiedRoutes();
 }
 
 
@@ -113,17 +115,6 @@ function handleUnidentifiedRoutes(){
 		}
 	});
 }
-
-
-// function addNoAPIHandlers(){
-// 	app.post("/api/*",function(req,res){
-// 		res.status(400).json({success:false,statusCode:0});
-// 	});
-// 	app.get("/api/*",function(req,res){
-// 		res.status(400).json({success:false,statusCode:0});
-// 	});
-// }
-
 
 
 

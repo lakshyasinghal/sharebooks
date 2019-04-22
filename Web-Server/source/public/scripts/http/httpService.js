@@ -41,6 +41,7 @@ var http = (function(){
 				//true value will make the request asynchronous
 				http.open("GET", urlPart1+serviceURL, true);
 				http.setRequestHeader("Content-type", content_type);
+				ajaxHeader(http);
 				http.onreadystatechange = getOnReadyStateChangeCreator(http,successCallback,failureCallback);
 				http.send();
 			}
@@ -58,6 +59,7 @@ var http = (function(){
 				//true value will make the request asynchronous
 				http.open("POST", urlPart1+serviceURL, true);
 				http.setRequestHeader("Content-type", content_type);
+				ajaxHeader(http);
 				http.onreadystatechange = getOnReadyStateChangeCreator(http,successCallback,failureCallback);
 				http.send(params);
 			}
@@ -70,6 +72,7 @@ var http = (function(){
 			//true value will make the request asynchronous
 			http.open("PUT", urlPart1+serviceURL, true);
 			http.setRequestHeader("Content-type", content_type);
+			ajaxHeader(http);
 			http.onreadystatechange = getOnReadyStateChangeCreator(http,successCallback,failureCallback);
 			http.send(params);
 		};
@@ -93,11 +96,17 @@ var $http = http.instance();
 
 
 
+function ajaxHeader(http){
+	http.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+}
+
+
 function getOnReadyStateChangeCreator(http,successCallback,failureCallback){
 	return (function() {//Call a function when the state changes.
 			    if(http.readyState == 4) {
 			    	var content_type = http.getResponseHeader('content-type');
 			    	var responseText = http.responseText;
+			    	//if response text is json type, parse it so we don't have to do it in each callback function
 			    	if(content_type.indexOf("json")>-1){
 			    		responseText = JSON.parse(responseText);
 			    	}
@@ -106,7 +115,7 @@ function getOnReadyStateChangeCreator(http,successCallback,failureCallback){
 			       		successCallback(responseText);
 			       	}
 			        else{
-			        	debugger;
+			        	//debugger;
 			        	if(failureCallback){
 			        		failureCallback(responseText);
 			        	}
@@ -160,7 +169,7 @@ function getParamString(paramsObject){
 //httpService containing all the requests
 $httpService = (function(){
 	var SIGN_IN = "login";
-	var SIGN_UP = "signUp";
+	var SIGN_UP = "users";
 	var SIGN_OUT = "logout";
 	var ADD_BOOK = "books";
 	var GET_BOOK = "books";        //will become api/books/2
@@ -188,7 +197,7 @@ $httpService = (function(){
 
 	function HttpService(){
 		this.signIn = httpMethodFactory(REQUEST_TYPE.POST,SIGN_IN,CONTENT_TYPE.FORM);
-		this.signUp = httpMethodFactory(REQUEST_TYPE.POST,SIGN_UP,CONTENT_TYPE.JSON);
+		this.signUp = httpMethodFactory(REQUEST_TYPE.PUT,SIGN_UP,CONTENT_TYPE.JSON);
 		this.signOut = httpMethodFactory(REQUEST_TYPE.GET,SIGN_OUT,CONTENT_TYPE.FORM);
 		this.addBook = httpMethodFactory(REQUEST_TYPE.PUT,ADD_BOOK,CONTENT_TYPE.JSON);
 		this.getBook = httpMethodFactory(REQUEST_TYPE.GET,GET_BOOK,CONTENT_TYPE.FORM);

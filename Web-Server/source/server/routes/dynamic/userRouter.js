@@ -6,12 +6,19 @@ const requestGenerator = require(path.join(appRoot,"/server/http/httpClient.js")
 const enums = require(path.join(appRoot+"/models/enums/enums"));
 
 const router = express.Router();
-const REQUEST_TYPE = enums.REQUEST_TYPE;
 
-
+const STATUS_CODES = enums.STATUS_CODES;
 
 router.post('/login',function(req,res){
-	(requestGenerator.generateAxiosRequestFunc(req, res, REQUEST_TYPE.POST))();
+	(requestGenerator.generateAxiosRequestFunc(req, res, function(data){
+		const statusCode = data.statusCode;
+		var user = null;
+		if(statusCode==STATUS_CODES.LOGIN_SUCCESSFUL){
+			user = JSON.parse(data.user);
+		} 
+		console.log("USER => ",user);
+		req.session.user = user;
+	}))();
 });
 
 //logout api
@@ -19,6 +26,10 @@ router.get('/logout',function(req,res){
 	console.log("Logout request received");
 	req.session.destroy();
 	res.redirect("/");
+});
+
+router.put('/users',function(req,res){
+	(requestGenerator.generateAxiosRequestFunc(req, res))();
 });
 
 //api 2

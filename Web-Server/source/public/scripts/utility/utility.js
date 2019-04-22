@@ -111,7 +111,7 @@ function isValidPincode(pincode){
 	return true;
 }
 
-function isValidMobileNo(mobileNo){
+function isValidContactNo(contactNo){
 	return true;
 }
 
@@ -124,7 +124,7 @@ var $validations = {
 	isValidCity:isValidCity,
 	isValidState:isValidState,
 	isValidPincode:isValidPincode,
-	isValidMobileNo:isValidMobileNo
+	isValidContactNo:isValidContactNo
 }
 
 

@@ -12,7 +12,6 @@ The redirect boolean value and redirectionURL will be used in case redirection i
 function viewLocator(page,sessionRequired,redirect,redirectionURL){
 	return (function(req,res){
 		var session = req.session;
-		console.log("Session => ",session);
 		//if session is required and session user does not exist, redirect to login page
 		if(sessionRequired && !session.user){
 			res.redirect('/');

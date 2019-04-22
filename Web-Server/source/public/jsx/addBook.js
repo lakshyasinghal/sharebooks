@@ -6,24 +6,32 @@ import $httpService from "./../scripts/http/httpService.js";
 import $config from "./../scripts/static/config.js";
 import util from "./../scripts/utility/utility.js";
 
+const $storage = util.$storage;
 const $pages = $config.$pages;
 const $sm = $config.$sm;
 const $categories = $config.$categories;
 const DropDown = utilModules.DropDown;
 const Message = utilModules.Message;
 
+const user = JSON.parse($storage.get("user"));
+
 class AddBook extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
 			book:{
-				name:"",
-				authorName:"",
+				id:-1,
+				title:"",
+				author:"",
 				category:"",
+				subcategory:"",
 				pages:"",
+				ownerUid:user.uid,
+				imgSrc:"",
+				available:1,
 				buy:1,    
-				buyAmount:"",
-				rent:1 ,   
+				rent:1, 
+				buyAmount:"",  
 				rentAmount:""
 			},
 			messageConfig:{
@@ -48,13 +56,25 @@ class AddBook extends React.Component {
 	updateInputDetails(e){
 		const elem = e.target;
 		const fieldName = elem.getAttribute("name");
+		const type = elem.getAttribute("type");
 		const fieldVal = elem.value;
-
 		this.state.book[fieldName] = fieldVal;
 	}
 
+	//correct the type of values if incorrect. Example- convert pages value into number value if it's a string
+	typeCheck(book){
+		book.pages = Number(book.pages);
+		book.available = Number(book.available);
+		book.buy = Number(book.buy);
+		book.rent = Number(book.rent);
+		book.buyAmount = Number(book.buyAmount);
+		book.rentAmount = Number(book.rentAmount);
+	}
+
+
 	submit(){
 		const newBook = this.state.book;
+		this.typeCheck(newBook);
 		let validation = validateBook(newBook);
 		if(!validation.isValid){ //show error message
 			const messageConfig = {message:validation.message,type:"error",display:true};
@@ -118,12 +138,12 @@ class Body extends React.Component {
 		    	<div id="details">
 		    		<div className="row margin-top-15">
 		    			<div className="fieldName col-lg-4">NAME</div>
-		    			<div className="field col-lg-8"><input name="name" type="text" className="input form-control"/></div>
+		    			<div className="field col-lg-8"><input name="title" type="text" className="input form-control"/></div>
 		    		</div>
 
 		    		<div className="row margin-top-15">
 		    			<div className="fieldName col-lg-4">AUTHOR</div>
-		    			<div className="field col-lg-8"><input name="authorName" type="text" className="input form-control"/></div>
+		    			<div className="field col-lg-8"><input name="author" type="text" className="input form-control"/></div>
 		    		</div>
 
 		    		<div className="row margin-top-15">
@@ -155,11 +175,6 @@ class Body extends React.Component {
 		    		</div>
 
 		    		<div className="row margin-top-15">
-		    			<div className="fieldName col-lg-4">BUYING AMOUNT</div>
-		    			<div className="field col-lg-8"><input name="buyAmount" type="text" className="input form-control"/></div>
-		    		</div>
-
-		    		<div className="row margin-top-15">
 		    			<div className="fieldName col-lg-4">AVAILABLE FOR RENT</div>
 		    			<div className="field col-lg-8">
 							<DropDown name={"rent"} optionsMap={availabilityOptionsMap} className={"input form-control"}/>
@@ -167,8 +182,13 @@ class Body extends React.Component {
 		    		</div>
 
 		    		<div className="row margin-top-15">
+		    			<div className="fieldName col-lg-4">BUYING AMOUNT</div>
+		    			<div className="field col-lg-8"><input name="buyAmount" type="number" className="input form-control"/></div>
+		    		</div>
+
+		    		<div className="row margin-top-15">
 		    			<div className="fieldName col-lg-4">RENT AMOUNT</div>
-		    			<div className="field col-lg-8"><input name="rentAmount" type="text" className="input form-control"/></div>
+		    			<div className="field col-lg-8"><input name="rentAmount" type="number" className="input form-control"/></div>
 		    		</div>
 		    	</div>
 		    	<div className="center-align margin-top-30">
@@ -185,9 +205,11 @@ class Body extends React.Component {
 
 function validateBook(book){
 	let isValid = true,message="";
-	const name=book.name.trim(),authorName=book.authorName.trim(),category=book.category.trim(),pages=book.pages.trim(),
-	buy=book.buy,rent=book.rent,buyAmount=book.buyAmount.trim(),rentAmount=book.rentAmount.trim();
-	if(name=="" || authorName=="" || category=="" || pages==""){
+
+	const title=book.title.trim(),author=book.author.trim(),category=book.category.trim(),pages=book.pages,
+	buy=book.buy,rent=book.rent,buyAmount=book.buyAmount,rentAmount=book.rentAmount;
+
+	if(title=="" || author=="" || category=="" || pages==""){
 		isValid = false;message="Please fill all the fields";
 	}
 	else if(isNaN(pages)){
@@ -210,13 +232,13 @@ function validateBook(book){
 
 
 function addBook(book,successCallback){
-	debugger;
-	$httpService.addBook({book:book},successCallback);
-	setTimeout(uploadBookPhoto,3000);
+	//debugger;
+	$httpService.addBook(book,successCallback);
+	//setTimeout(uploadBookPhoto,3000);
 }
 
 function uploadBookPhoto(){
-	debugger;
+	//debugger;
 	$('#uploadForm').submit(function() {
 		console.log("File is uploading...");
         //$("#status").empty().text("File is uploading...");

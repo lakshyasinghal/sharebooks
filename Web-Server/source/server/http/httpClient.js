@@ -11,9 +11,11 @@ const ERROR_CODES = enums.ERROR_CODES;
 /* */
 
 
-
-function generateAxiosRequestFunc(req , res , request_type ){
+//this function will return an appropriate get,post or put axios request function based on the parameters
+//the successCallback will be optional and will be used in resolved function in axios 
+function generateAxiosRequestFunc(req, res, successCallback){
 	const url = util.appBaseURL() + req.originalUrl;
+	const request_type = req.method;
 	/*we are interested only in content-type header
 	the rest of the headers will be self managed*/
 	const headers = {"content-type":req.headers['content-type']};
@@ -33,21 +35,21 @@ function generateAxiosRequestFunc(req , res , request_type ){
 	if(request_type==REQUEST_TYPE.GET){
 		axiosRequest = function(){
 			axios.get(url ,data, headers)
-			.then(generateResponseHandler(res))
+			.then(generateResponseHandler(res,successCallback))
 			.catch(generateErrorHandler(res));
 		};
 	}
 	else if(request_type==REQUEST_TYPE.POST){
 		axiosRequest = function(){
 			axios.post(url ,data, headers)
-			.then(generateResponseHandler(res))
+			.then(generateResponseHandler(res,successCallback))
 			.catch(generateErrorHandler(res));
 		};
 	}
 	else if(request_type==REQUEST_TYPE.PUT){
 		axiosRequest = function(){
 			axios.put(url ,data, headers)
-			.then(generateResponseHandler(res))
+			.then(generateResponseHandler(res,successCallback))
 			.catch(generateErrorHandler(res));
 		};
 	}
@@ -60,13 +62,17 @@ function generateAxiosRequestFunc(req , res , request_type ){
 
 /*the res is the original express request response object 
 the closure function will provide the res object in the closure environment which otherwise wouldn't have been possible*/
-function generateResponseHandler(res){
+//the cuccessCallback is optional
+function generateResponseHandler(res,successCallback){
 	/*We will send the status and data in res object available in response object. We don't need to do anything fancy here. */
 	return (function(response){
 		const status = response.status;
 		const data = response.data;
 		console.log("status =>",status);
 		console.log("data =>",data);
+		if(successCallback){
+			successCallback(data);
+		}
 		res.status(status).json(data);
 	});
 }

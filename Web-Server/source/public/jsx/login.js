@@ -3,11 +3,11 @@ import ReactDOM from "react-dom";
 
 import $httpService from "./../scripts/http/httpService.js";
 import $config from "./../scripts/static/config.js";
-
 const util = require("./../scripts/utility/utility.js");
+
 const $pages = $config.$pages;
 const $sm = $config.$sm;
-
+const $storage = util.$storage;
 
 class Login extends React.Component {
 	constructor(props){
@@ -89,6 +89,7 @@ class SignInPanel extends React.Component {
 		}
 		$httpService.signIn(vals, data => {
             if(data.success){
+            	$storage.set("user",data.user);
                 $pages.home();
             }
             else{
@@ -133,22 +134,24 @@ class SignUpPanel extends React.Component {
 			statusMessage: '',
 			displayMessage: false,
 			form:{
+				id:-1,   //default
 				username:"",
 				password:"",
 				name:"",
 				dob:"",
+				age:"",
 				address:"",
 				city:"",
 				state:"",
 				pincode:"",
-				mobileNo:""
+				contactNo:""
 			}
 		}
 		this.signUp = this.signUp.bind(this);
 	}
 
 	componentDidMount(){
-		let formElemIds = ["username","password","name","dob","address","city","state","pincode","mobileNo"];
+		let formElemIds = ["username","password","name","dob","age","address","city","state","pincode","contactNo"];
 		for(let i = 0, len = formElemIds.length; i < len; i++){
 			let elemId = formElemIds[i];
 			document.getElementById(elemId).addEventListener("change", (e)=>{
@@ -158,14 +161,14 @@ class SignUpPanel extends React.Component {
 	}
 
 	signUp(){
-		var vals = this.state.form;
+		var user = this.state.form;
 		//this.displayMessage("Bad request","message-warn");
-		var validity = validateSignUpValues(vals);
+		var validity = validateSignUpValues(user);
 		if(!validity.allValid){
 			this.setState({statusMessage:validity.message,displayMessage:true});
 			return;
 		}
-		$httpService.signUp({user:vals}, res => {
+		$httpService.signUp(user, res => {
             this.setState({statusMessage:$sm.message(res.statusCode),displayMessage:true});
 		},()=>{});
 	}
@@ -191,12 +194,13 @@ class SignUpPanel extends React.Component {
 					<input name="username" type="email" id="username" className="form-control" placeholder="Username" required/>
 					<input name="password" type="password" id="password" className="form-control" placeholder="Password" required/>
 					<input name="name" type="text" id="name" className="form-control" placeholder="Name" required/>
-					<input name="dob" type="text" id="dob" className="form-control" placeholder="dd/mm/yyyy" required/>
+					<input name="dob" type="text" id="dob" className="form-control" placeholder="Date of birth (yyyy-mm-dd)" required/>
+					<input name="age" type="number" id="age" className="form-control" placeholder="Age" required/>
 					<input name="address" type="text" id="address" className="form-control" placeholder="address" required/>
 					<input name="city" type="text" id="city" className="form-control" placeholder="City" required/>
 					<input name="state" type="text" id="state" className="form-control" placeholder="State" required/>
 					<input name="pincode" type="text" id="pincode" className="form-control" placeholder="Pincode" required/>
-					<input name="mobileNo" type="number" id="mobileNo" className="form-control" placeholder="Mobile Number" required/>
+					<input name="contactNo" type="number" id="contactNo" className="form-control" placeholder="Mobile Number" required/>
 
 					<button type="button" id="userSignUpButton" className="btn btn-lg btn-danger btn-block" onClick={this.signUp}>Register Me</button>
 					<Message display={this.state.displayMessage} message={this.state.statusMessage} />
@@ -296,8 +300,8 @@ function validateSignUpValues(vals){
 		message = "Please enter valid pincode";
 		allValid = false;
 	}
-	else if(!$validations.isValidMobileNo(vals.mobileNo)){
-		message = "Please enter valid mobileNo";
+	else if(!$validations.isValidContactNo(vals.contactNo)){
+		message = "Please enter valid contactNo";
 		allValid = false;
 	}
 
