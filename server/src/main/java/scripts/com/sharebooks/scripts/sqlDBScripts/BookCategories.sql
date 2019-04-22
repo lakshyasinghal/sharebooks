@@ -7,10 +7,26 @@ CREATE TABLE BookCategories (
 
 
 
-INSERT INTO BookCategories (category) values ('Science');
-INSERT INTO BookCategories (category) values ('Literature');
-INSERT INTO BookCategories (category) values ('Politics');
-INSERT INTO BookCategories (category) values ('Sports');
-INSERT INTO BookCategories (category) values ('Spiritual');
-INSERT INTO BookCategories (category) values ('Computer Science');
-INSERT INTO BookCategories (category) values ('Commerce');
+INSERT INTO `BookCategories`(Category) values("Arts & Music");
+INSERT INTO `BookCategories`(Category) values("Biographies");
+INSERT INTO `BookCategories`(Category) values("Business");
+INSERT INTO `BookCategories`(Category) values("Kids");
+INSERT INTO `BookCategories`(Category) values("Comics");
+INSERT INTO `BookCategories`(Category) values("Computers & Tech");
+INSERT INTO `BookCategories`(Category) values("Cooking");
+INSERT INTO `BookCategories`(Category) values("Hobbies & Crafts");
+INSERT INTO `BookCategories`(Category) values("Gay & Lesbian");
+INSERT INTO `BookCategories`(Category) values("Health & Fitness");
+INSERT INTO `BookCategories`(Category) values("History");
+INSERT INTO `BookCategories`(Category) values("Home & Garden");
+INSERT INTO `BookCategories`(Category) values("Entertainment");
+INSERT INTO `BookCategories`(Category) values("Literature & Fiction");
+INSERT INTO `BookCategories`(Category) values("Medical");
+INSERT INTO `BookCategories`(Category) values("Mysteries");
+INSERT INTO `BookCategories`(Category) values("Parenting");
+INSERT INTO `BookCategories`(Category) values("Social Sciences");
+INSERT INTO `BookCategories`(Category) values("Religion");
+INSERT INTO `BookCategories`(Category) values("Romance");
+INSERT INTO `BookCategories`(Category) values("Science & Math");
+INSERT INTO `BookCategories`(Category) values("Sports");
+INSERT INTO `BookCategories`(Category) values("Travel");

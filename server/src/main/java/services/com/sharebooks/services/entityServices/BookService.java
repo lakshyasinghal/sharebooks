@@ -3,33 +3,33 @@ package com.sharebooks.services.entityServices;
 import java.sql.SQLException;
 import java.util.List;
 import org.apache.log4j.Logger;
+import org.w3c.dom.Entity;
 
 import com.sharebooks.cache.Cache;
 import com.sharebooks.coreEntities.Book;
+import com.sharebooks.coreEntities.enums.EntityType;
 import com.sharebooks.dao.generic.BookDao;
 import com.sharebooks.exception.*;
 import com.sharebooks.factory.entityFactory.EntityFactory;
+import com.sharebooks.sources.CacheSource;
+import com.sharebooks.sources.DaoSource;
 
 
+@SuppressWarnings("unchecked")
 public class BookService extends EntityService{
-	private static BookService bookService;
+	//instanceCount varaible will help in replicating the singleton 
+    private static int instanceCount = 0;
 	private static final Logger LOGGER = Logger.getLogger(BookService.class.getName());
-	private final Cache<Book> cache;
-	private final BookDao dao;
+	private final Cache<Book> cache = (Cache<Book>) CacheSource.getCache(EntityType.BOOK.desc());
+	private final BookDao dao = (BookDao) DaoSource.getDao(EntityType.BOOK.desc());
 	
-	private BookService(Cache<Book> cache , BookDao dao){
-		this.cache = cache;
-		this.dao = dao;
-	}
-	
-	public static void init(Cache<Book> cache , BookDao dao){
-		if(bookService == null){
-			bookService = new BookService(cache , dao);
-		}	
-	}
-	
-	public static BookService getInstance(){
-		return bookService;
+	public BookService(){
+		synchronized(BookService.class){
+			if(instanceCount==1){
+				throw new MultipleInstanceException();
+			}
+			instanceCount++;
+		}
 	}
 	
 	

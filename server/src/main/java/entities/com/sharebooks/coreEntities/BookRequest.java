@@ -6,10 +6,10 @@ import java.util.UUID;
 import org.json.simple.JSONObject;
 import com.sharebooks.coreEntities.enums.*;
 import com.sharebooks.dateTime.LocalDateTime;
-import com.sharebooks.entity.Entity;
+import com.sharebooks.entity.CoreEntity;
 import com.sharebooks.exception.JsonSerializationException;
 
-public final class BookRequest extends Entity {
+public final class BookRequest extends CoreEntity {
 
 	private String uid;          //will be generated using UUID class
 	private BookRequestType type;
@@ -24,7 +24,7 @@ public final class BookRequest extends Entity {
 		//nothing
 	}
 	
-	public BookRequest(long id , String uid , BookRequestType type , RequestStatus status , String bookUid , String bookOwnerUid
+	public BookRequest(int id , String uid , BookRequestType type , RequestStatus status , String bookUid , String bookOwnerUid
 			, String requesterUid , int requiredPeriod , String comments, LocalDateTime creationTime, LocalDateTime lastModificationTime){
 		super(id,creationTime,lastModificationTime);
 		if(uid==null){

@@ -8,9 +8,11 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
+
 
 public abstract class AbstractRequestProcessor{
-	
+	private static final Logger LOGGER = Logger.getLogger(AbstractRequestProcessor.class.getName());
 	
 	protected Map<String,String> getParamsFromRequest(HttpServletRequest request) throws Exception{
 		Map<String,String> paramsMap = new HashMap<String,String>();
@@ -27,7 +29,7 @@ public abstract class AbstractRequestProcessor{
 	protected String getJsonFromRequest(HttpServletRequest request) throws IOException{
 //		String json = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 //		return json;
-		
+		LOGGER.trace("Entered getJsonFromRequest");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
 	    StringBuilder sb = new StringBuilder();
 	    String line = reader.readLine();
@@ -37,7 +39,8 @@ public abstract class AbstractRequestProcessor{
 	    }
 	    reader.close();
 	    String jsonStr = sb.toString();
-	    
+	    LOGGER.debug("Payload json => "+jsonStr);
+	    LOGGER.trace("Entered getJsonFromRequest");
 	    return jsonStr;
 	}
 

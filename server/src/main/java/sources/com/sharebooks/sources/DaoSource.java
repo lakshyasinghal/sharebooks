@@ -8,8 +8,11 @@ import com.sharebooks.coreEntities.BookRequest;
 import com.sharebooks.coreEntities.User;
 import com.sharebooks.coreEntities.enums.EntityType;
 import com.sharebooks.dao.generic.Dao;
+import com.sharebooks.dao.sql.BookCategorySqlDao;
 import com.sharebooks.dao.sql.BookRequestSqlDao;
 import com.sharebooks.dao.sql.BookSqlDao;
+import com.sharebooks.dao.sql.CitySqlDao;
+import com.sharebooks.dao.sql.StateSqlDao;
 import com.sharebooks.dao.sql.UserSqlDao;
 import com.sharebooks.factory.entityFactory.EntityFactory;
 import com.sharebooks.sources.enums.DaoType;
@@ -36,31 +39,43 @@ public class DaoSource {
 	}
 	
 	
-	
+	@SuppressWarnings("unchecked")
 	private static class SqlDaoInitializer {
 		
 		private void init(){
 			initBookDao();
 			initUserDao();
 			initBookRequestDao();
+			initStateDao();
+			initCityDao();
+			initBookCategoryDao();
 		}
 		
-		@SuppressWarnings("unchecked")
 		private static void initBookDao(){
 			EntityFactory<Book> bookFactory = (EntityFactory<Book>)FactorySource.getEntityFactory(EntityType.BOOK.desc());
 			daoMap.put(EntityType.BOOK.desc(), new BookSqlDao(bookFactory));
 		}
 		
-		@SuppressWarnings("unchecked")
 		public static void initUserDao(){
 			EntityFactory<User> userFactory = (EntityFactory<User>)FactorySource.getEntityFactory(EntityType.USER.desc());
 			daoMap.put(EntityType.USER.desc(), new UserSqlDao(userFactory));
 		}
 		
-		@SuppressWarnings("unchecked")
 		public static void initBookRequestDao(){
 			EntityFactory<BookRequest> bookRequestFactory = (EntityFactory<BookRequest>)FactorySource.getEntityFactory(EntityType.BOOK_REQUEST.desc());
 			daoMap.put(EntityType.BOOK_REQUEST.desc(), new BookRequestSqlDao(bookRequestFactory));
+		}
+		
+		public static void initStateDao(){
+			daoMap.put(EntityType.STATE.desc(), new StateSqlDao());
+		}
+		
+		public static void initCityDao(){
+			daoMap.put(EntityType.CITY.desc(), new CitySqlDao());
+		}
+		
+		public static void initBookCategoryDao(){
+			daoMap.put(EntityType.BOOK_CATEGORY.desc(), new BookCategorySqlDao());
 		}
 	}
 	

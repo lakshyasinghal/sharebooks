@@ -43,7 +43,7 @@ public class OrderFactory implements EntityFactory<Order>{
 	@Override
 	public Order createFromResultSet(ResultSet rs) throws Exception {
 		try{
-			long id = rs.getLong("id");
+			int id = rs.getInt("id");
 			String referenceNo = rs.getString("referenceNo");
 			String requestRefNo = rs.getString("requestRefNo");
 			OrderType type = OrderType.valueOf(rs.getInt("type"));
@@ -67,7 +67,7 @@ public class OrderFactory implements EntityFactory<Order>{
 			JSONParser parser = new JSONParser();
 			Object obj = parser.parse(json);
 			JSONObject jo = (JSONObject)obj;
-			order = Order.deserializeFromJson(jo);
+			//order = Order.deserializeFromJson(jo);
 			return order;
 		}
 		catch(ParseException ex){

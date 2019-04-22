@@ -46,6 +46,14 @@ public enum Status {
 	BOOK_REQUEST_REJECTED_SUCCESSFULLY(309,"Book request rejected successfully."),
 	BOOK_REQUEST_COULD_NOT_BE_REJECTED(310,"Book request could not be rejected."),
 	
+	//status codes for helper entities
+	FETCH_STATES_SUCCESSFUL(501,"States fetched successfully."),
+	STATES_COULD_NOT_BE_FETCHED(502,"States not fetched."),
+	FETCH_CITIES_SUCCESSFUL(503,"Cities fetched successfully."),
+	CITIES_COULD_NOT_BE_FETCHED(504,"Cities could not fetched."),
+	FETCH_BOOK_CATEGORIES_SUCCESSFUL(505,"Book categories fetched successfully."),
+	BOOK_CATEGORIES_COULD_NOT_BE_FETCHED(506,"Book categories could not fetched."),
+	
 	//generic status codes
 	NO_RESULTS_FOUND(801 , "No results found for given parameters.");
 	

@@ -2,10 +2,10 @@ package com.sharebooks.coreEntities;
 
 import org.json.simple.JSONObject;
 import com.sharebooks.coreEntities.enums.*;
-import com.sharebooks.entity.Entity;
+import com.sharebooks.entity.CoreEntity;
 import com.sharebooks.exception.JsonSerializationException;
 
-public final class Order extends Entity {
+public final class Order extends CoreEntity {
 	
 	private String referenceNo;
 	private String requestRefNo;
@@ -19,7 +19,7 @@ public final class Order extends Entity {
 		//nothing
 	}
 	
-	public Order(long id , String referenceNo , String requestRefNo , OrderType type , OrderStatus status , long buyerId , long sellerId
+	public Order(int id , String referenceNo , String requestRefNo , OrderType type , OrderStatus status , long buyerId , long sellerId
 			, double amount){
 		super(id);
 		this.referenceNo = referenceNo;
@@ -51,21 +51,7 @@ public final class Order extends Entity {
 			throw new JsonSerializationException(ex.getMessage());
 		}
 	}
-	
-	
-	public static Order deserializeFromJson(JSONObject jo) {
-		Order order = new Order();
-		order.id = (long)jo.get("id");
-		order.referenceNo = (String)jo.get("referenceNo");
-		order.requestRefNo = (String)jo.get("requestRefNo");
-		order.type = OrderType.valueOf((int)(long)jo.get("referenceNo"));
-		order.status = OrderStatus.valueOf((int)(long)jo.get("status"));
-		order.buyerId = (long)jo.get("buyerId");
-		order.sellerId = (long)jo.get("sellerId");
-		order.amount = (double)(long)jo.get("amount");
-		
-		return order;
-	}
+
 	
 	
 	public String referenceNo(){

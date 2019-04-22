@@ -1,7 +1,12 @@
 package com.sharebooks.entity;
 
-import com.sharebooks.serialization.json.JsonSerializable;
-
-public abstract class HelperEntity implements JsonSerializable{
-
+public abstract class HelperEntity extends Entity{
+	
+	public HelperEntity(){
+		
+	}
+	
+	public HelperEntity(int id){
+		super(id);
+	}
 }

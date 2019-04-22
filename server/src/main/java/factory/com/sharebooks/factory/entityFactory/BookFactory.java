@@ -45,26 +45,26 @@ public class BookFactory implements EntityFactory<Book>{
 	@Override
 	public Book createFromResultSet(ResultSet rs) throws FactoryException,Exception{
 		
-		long id = rs.getLong("id");
+		int id = rs.getInt("id");
 		String uid = rs.getString("uid");
 		String title = rs.getString("title");
 		String author = rs.getString("author");
 		String category = rs.getString("category");
 		String subcategory = rs.getString("subcategory");
 		int pages = rs.getInt("pages");
-		long ownerId = rs.getLong("ownerId");
+		String ownerUid = rs.getString("ownerUid");
 		String imgSrc = rs.getString("imgSrc");
 		AvailableStatus available = AvailableStatus.valueOf(rs.getInt("available"));
 		AvailableStatus buy = AvailableStatus.valueOf(rs.getInt("buy"));
 		AvailableStatus rent = AvailableStatus.valueOf(rs.getInt("rent"));
-		long buyAmount = rs.getLong("buyAmount");
-		long rentAmount = rs.getLong("rentAmount");
+		int buyAmount = rs.getInt("buyAmount");
+		int rentAmount = rs.getInt("rentAmount");
 		String creationTimeStr = (rs.getTimestamp("creationTime")).toString();
 		LocalDateTime creationTime = LocalDateTime.buildFromString(creationTimeStr);
 		String lastModificationTimeStr = (rs.getTimestamp("lastModificationTime")).toString();
 		LocalDateTime lastModificationTime = LocalDateTime.buildFromString(lastModificationTimeStr);
 		
-		Book book = new Book(id ,uid, title , author , category , subcategory , pages , ownerId , imgSrc , available , 
+		Book book = new Book(id ,uid, title , author , category , subcategory , pages , ownerUid , imgSrc , available , 
 				buy , rent , buyAmount , rentAmount , creationTime , lastModificationTime);
 		return book;
 	}
@@ -76,27 +76,27 @@ public class BookFactory implements EntityFactory<Book>{
 			Object obj = parser.parse(json);
 			JSONObject jo = (JSONObject)obj;
 			
-			long id = (long)jo.get("id");
+			int id = jo.get("id")==null?-1:(int)(long)jo.get("id");
 			String uid = (String)jo.get("uid");
 			String title = (String)jo.get("title");
 			String author = (String)jo.get("author");
 			String category = (String)jo.get("category");
-			String subcategory = (String)jo.get("subcategory");
-			int pages = (int)(long)jo.get("pages");
-			long ownerId = (long)jo.get("ownerId");
-			String imgSrc = (String)jo.get("imgSrc");
+			String subcategory = jo.get("subcategory")==null?"":(String)jo.get("subcategory");
+			int pages = jo.get("pages")==null?-1:(int)(long)jo.get("pages");
+			String ownerUid = (String)jo.get("ownerUid");
+			String imgSrc = jo.get("imgSrc")==null?"":(String)jo.get("imgSrc");
 			AvailableStatus available = AvailableStatus.valueOf((int)(long)jo.get("available"));
 			AvailableStatus buy = AvailableStatus.valueOf((int)(long)jo.get("buy"));
 			AvailableStatus rent = AvailableStatus.valueOf((int)(long)jo.get("rent"));
-			long buyAmount = (long)jo.get("buyAmount");
-			long rentAmount = (long)jo.get("rentAmount");
+			int buyAmount = (int)(long)jo.get("buyAmount");
+			int rentAmount = (int)(long)jo.get("rentAmount");
 			String creationTimeStr = (String)jo.get("creationTime");
 			String lastModificationTimeStr = (String)jo.get("lastModificationTime");
 			
-			LocalDateTime creationTime = LocalDateTime.buildFromString(creationTimeStr);
-			LocalDateTime lastModificationTime = LocalDateTime.buildFromString(lastModificationTimeStr);
+			LocalDateTime creationTime = creationTimeStr==null?null:LocalDateTime.buildFromString(creationTimeStr);
+			LocalDateTime lastModificationTime = lastModificationTimeStr==null?null:LocalDateTime.buildFromString(lastModificationTimeStr);
 			
-			Book book = new Book(id, uid, title, author, category, subcategory, pages, ownerId, imgSrc, available,
+			Book book = new Book(id, uid, title, author, category, subcategory, pages, ownerUid, imgSrc, available,
 					buy, rent, buyAmount, rentAmount, creationTime, lastModificationTime); 
 			return book;
 		}

@@ -2,16 +2,14 @@ package com.sharebooks.coreEntities;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.json.simple.JSONObject;
-
 import com.sharebooks.coreEntities.enums.NotificationStatus;
 import com.sharebooks.coreEntities.enums.NotificationType;
 import com.sharebooks.dateTime.LocalDateTime;
-import com.sharebooks.entity.Entity;
+import com.sharebooks.entity.CoreEntity;
 import com.sharebooks.exception.JsonSerializationException;
 
-public class Notification extends Entity {
+public class Notification extends CoreEntity {
 
 	private String uid;
 	private String receiverUid;

@@ -6,12 +6,15 @@ import com.sharebooks.coreEntities.enums.EntityType;
 import com.sharebooks.entity.Entity;
 import com.sharebooks.factory.dbConnectionFactory.DBConnFactory;
 import com.sharebooks.factory.dbConnectionFactory.SqlConnFactory;
+import com.sharebooks.factory.entityFactory.BookCategoryFactory;
 //import com.sharebooks.factory.dbConnectionFactory.DBConnFactory;
 //import com.sharebooks.factory.dbConnectionFactory.SqlConnFactory;
 import com.sharebooks.factory.entityFactory.BookFactory;
 import com.sharebooks.factory.entityFactory.BookRequestFactory;
+import com.sharebooks.factory.entityFactory.CityFactory;
 import com.sharebooks.factory.entityFactory.EntityFactory;
 import com.sharebooks.factory.entityFactory.OrderFactory;
+import com.sharebooks.factory.entityFactory.StateFactory;
 import com.sharebooks.factory.entityFactory.UserFactory;
 import com.sharebooks.factory.misc.ResponseFactory;
 import java.io.Reader;
@@ -44,6 +47,9 @@ public class FactorySource {
 			entityFactoryMap.put(EntityType.USER.desc(), UserFactory.getInstance());
 			entityFactoryMap.put(EntityType.BOOK_REQUEST.desc(), BookRequestFactory.getInstance());
 			entityFactoryMap.put(EntityType.ORDER.desc(), OrderFactory.getInstance());
+			entityFactoryMap.put(EntityType.STATE.desc(), StateFactory.getInstance());
+			entityFactoryMap.put(EntityType.CITY.desc(), CityFactory.getInstance());
+			entityFactoryMap.put(EntityType.BOOK_CATEGORY.desc(), BookCategoryFactory.getInstance());
 		}
 		catch(Exception ex){
 			

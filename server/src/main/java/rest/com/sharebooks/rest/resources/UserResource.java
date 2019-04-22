@@ -4,18 +4,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-
 import org.apache.log4j.Logger;
+import com.sharebooks.requestProcessor.UserRequestProcessor;
 
-import com.sharebooks.requestProcessor.UsersRequestProcessor;
 
 @Path("/api")
 public class UserResource {
 	private static final Logger LOGGER = Logger.getLogger(UserResource.class.getName());
-	private UsersRequestProcessor reqProcessor = UsersRequestProcessor.getInstance();
+	private UserRequestProcessor reqProcessor = UserRequestProcessor.getInstance();
 	
 	@POST
-	@Path("/users/login")
+	@Path("/login")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String login(@Context HttpServletRequest req , @FormParam("username") String username, @FormParam("password") String password) throws Exception{
 		return reqProcessor.processLoginRequest(username,password);

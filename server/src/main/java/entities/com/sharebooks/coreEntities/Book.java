@@ -5,11 +5,11 @@ import java.util.*;
 import org.json.simple.JSONObject;
 import com.sharebooks.coreEntities.enums.AvailableStatus;
 import com.sharebooks.dateTime.LocalDateTime;
-import com.sharebooks.entity.Entity;
+import com.sharebooks.entity.CoreEntity;
 import com.sharebooks.exception.*;
 //import com.sharebooks.helperEntities.*;
 
-public final class Book extends Entity implements Comparable<Book> {
+public final class Book extends CoreEntity implements Comparable<Book> {
 	
 	private String uid;
 	private String title;
@@ -17,13 +17,13 @@ public final class Book extends Entity implements Comparable<Book> {
 	private String category;
 	private String subcategory;
 	private int pages;
-	private long ownerId;
+	private String ownerUid;
 	private String imgSrc;
 	private AvailableStatus available;
 	private AvailableStatus buy;
 	private AvailableStatus rent;
-	private long buyAmount;
-	private long rentAmount;
+	private int buyAmount;
+	private int rentAmount;
 	
 	
 	public Book(){
@@ -32,8 +32,8 @@ public final class Book extends Entity implements Comparable<Book> {
 
 	
 	//constructor
-	public Book(long id, String uid, String title , String author , String category , String subcategory , int pages , long ownerId , String imgSrc , AvailableStatus available , AvailableStatus buy , AvailableStatus rent , 
-			long buyAmount , long rentAmount, LocalDateTime creationTime, LocalDateTime lastModificationTime){
+	public Book(int id, String uid, String title , String author , String category , String subcategory , int pages , String ownerUid , String imgSrc , AvailableStatus available , AvailableStatus buy , AvailableStatus rent , 
+			int buyAmount , int rentAmount, LocalDateTime creationTime, LocalDateTime lastModificationTime){
 		super(id , creationTime , lastModificationTime);
 		if(uid==null){
 			this.uid = UUID.randomUUID().toString();
@@ -46,7 +46,7 @@ public final class Book extends Entity implements Comparable<Book> {
 		this.category = category;
 		this.subcategory = subcategory;
 		this.pages = pages;
-		this.ownerId = ownerId;
+		this.ownerUid = ownerUid;
 		//this.description = description;
 		this.imgSrc = imgSrc;
 		this.available = available;
@@ -75,7 +75,7 @@ public final class Book extends Entity implements Comparable<Book> {
 			jo.put("category", category());
 			jo.put("subcategory", subcategory());
 			jo.put("pages", pages());
-			jo.put("ownerId" , ownerId);
+			jo.put("ownerUid" , ownerUid);
 			//jo.put("description", description.serializeAsJson());
 			jo.put("imgSrc", imgSrc);
 			jo.put("available" , available.id());
@@ -113,15 +113,15 @@ public final class Book extends Entity implements Comparable<Book> {
 		map.put("category",category);
 		map.put("subcategory",subcategory);
 		map.put("pages",pages);
-		map.put("ownerId",ownerId);
+		map.put("ownerUid",ownerUid);
 		map.put("imgSrc",imgSrc);
 		map.put("available",available.id());
-		map.put("buy",buy);
-		map.put("rent",rent);
+		map.put("buy",buy.id());
+		map.put("rent",rent.id());
 		map.put("buyAmount",buyAmount);
 		map.put("rentAmount",rentAmount);
-		map.put("creationTime",creationTime);
-		map.put("lastModificationTime",lastModificationTime);
+		map.put("creationTime",creationTime.toString());
+		map.put("lastModificationTime",lastModificationTime.toString());
 		
 		return map;
 	}
@@ -154,8 +154,8 @@ public final class Book extends Entity implements Comparable<Book> {
 		return pages;
 	}
 	
-	public long ownerId(){
-		return ownerId;
+	public String ownerUid(){
+		return ownerUid;
 	}
 	
 	public String imgSrc(){
@@ -174,11 +174,11 @@ public final class Book extends Entity implements Comparable<Book> {
 		return rent;
 	}
 	
-	public long buyAmount(){
+	public int buyAmount(){
 		return buyAmount;
 	}
 	
-	public long rentAmount(){
+	public int rentAmount(){
 		return rentAmount;
 	}
 }

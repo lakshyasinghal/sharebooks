@@ -20,26 +20,26 @@ import com.sharebooks.sources.FactorySource;
 import com.sharebooks.sources.ServiceSource;
 
 @SuppressWarnings("unchecked")
-public class UsersRequestProcessor extends AbstractRequestProcessor{
-	private static UsersRequestProcessor processor = new UsersRequestProcessor();
-	private static final Logger LOGGER = Logger.getLogger(UsersRequestProcessor.class.getName());
+public class UserRequestProcessor extends AbstractRequestProcessor{
+	private static UserRequestProcessor processor = new UserRequestProcessor();
+	private static final Logger LOGGER = Logger.getLogger(UserRequestProcessor.class.getName());
 	private final ResponseFactory responseFactory = FactorySource.getResponseFactory();
 	private final UserService userService = ServiceSource.getUserService();
 	private final EntityFactory<User> factory = (EntityFactory<User>) FactorySource.getEntityFactory(EntityType.USER.desc());
 	
 	//private constructor to help make the class singleton
-	private UsersRequestProcessor(){
+	private UserRequestProcessor(){
 		
 	}
 	
 	//get singleton instance of the class
-	public static UsersRequestProcessor getInstance(){
+	public static UserRequestProcessor getInstance(){
 		return processor;
 	}
 	
 	
 	public String processLoginRequest(String username , String password) throws Exception{
-		LOGGER.trace("Entering login in UsersRequestProcessor");
+		LOGGER.trace("Entering login in UserRequestProcessor");
 		Map<String,Object> map = new HashMap<String,Object>();
 		User user = null;
 		boolean success = false;

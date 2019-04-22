@@ -7,31 +7,32 @@ import org.apache.log4j.Logger;
 
 import com.sharebooks.cache.Cache;
 import com.sharebooks.coreEntities.User;
+import com.sharebooks.coreEntities.enums.EntityType;
 import com.sharebooks.dao.generic.UserDao;
 import com.sharebooks.exception.ExceptionType;
+import com.sharebooks.exception.MultipleInstanceException;
 import com.sharebooks.exception.UsernameAlreadyExistsException;
+import com.sharebooks.sources.CacheSource;
+import com.sharebooks.sources.DaoSource;
 import com.sharebooks.util.PasswordUtils;
 
+@SuppressWarnings("unchecked")
 public class UserService extends EntityService{
-	private static UserService userService;
+	//instanceCount varaible will help in replicating the singleton 
+	private static int instanceCount = 0;
 	private static final Logger LOGGER = Logger.getLogger(UserService.class.getName());
-	private final Cache<User> cache;
-	private final UserDao dao;
+	private final Cache<User> cache = (Cache<User>) CacheSource.getCache(EntityType.USER.desc());
+	private final UserDao dao = (UserDao) DaoSource.getDao(EntityType.USER.desc());
 	
-	private UserService(Cache<User> cache , UserDao dao){
-		this.cache = cache;
-		this.dao = dao;
+	public UserService(){
+		synchronized(UserService.class){
+			if(instanceCount==1){
+				throw new MultipleInstanceException();
+			}
+			instanceCount++;
+		}
 	}
 	
-	public static void init(Cache<User> cache , UserDao dao){
-		if(userService == null){
-			userService = new UserService(cache , dao);
-		}	
-	}
-	
-	public static UserService getInstance(){
-		return userService;
-	}
 	
 	
 	public User login(String username,String password) throws SQLException,Exception{

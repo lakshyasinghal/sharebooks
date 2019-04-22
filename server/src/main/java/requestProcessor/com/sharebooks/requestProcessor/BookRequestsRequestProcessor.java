@@ -63,11 +63,11 @@ public class BookRequestsRequestProcessor extends AbstractRequestProcessor {
 			map.put("sent", sentBookRequests);
 		}
 		catch(SQLException ex){
-			LOGGER.error("",ex);
+			LOGGER.error("SQL Exception",ex);
 			errorCode = Error.DATABASE_ERROR.id();
 		}
 		catch(Exception ex){
-			LOGGER.error("",ex);
+			LOGGER.error("Exception",ex);
 			errorCode = Error.GENERAL_EXCEPTION.id();
 		}
 		response = responseFactory.getJsonResponse(success , statusCode , errorCode , map);
@@ -98,11 +98,11 @@ public class BookRequestsRequestProcessor extends AbstractRequestProcessor {
 			}
 		}
 		catch(SQLException ex){
-			LOGGER.error("",ex);
+			LOGGER.error("SQL Exception",ex);
 			errorCode = Error.DATABASE_ERROR.id();
 		}
 		catch(Exception ex){
-			LOGGER.error("",ex);
+			LOGGER.error("Exception",ex);
 			errorCode = Error.GENERAL_EXCEPTION.id();
 		}
 		

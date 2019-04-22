@@ -1,7 +1,14 @@
 package com.sharebooks.coreEntities.enums;
 
 public enum EntityType {
-	BOOK(1 , "book") , USER(2 , "user") , BOOK_REQUEST(3 , "bookRequest") , ORDER(4 , "order");
+	BOOK(1 , "book"), 
+	USER(2 , "user"), 
+	BOOK_REQUEST(3 , "bookRequest"), 
+	ORDER(4 , "order"), 
+	BOOK_CATEGORY(5, "bookCategory"), 
+	STATE(6, "state"),
+	CITY(7, "city");
+	
 	
 	private int id;
 	private String desc; //description

@@ -8,7 +8,6 @@ import com.sharebooks.exception.JsonSerializationException;
 
 public class City extends HelperEntity implements Comparable<City>{
 	
-	private int id;
 	private String name;
 	private int stateId;
 	
@@ -17,7 +16,7 @@ public class City extends HelperEntity implements Comparable<City>{
 	}
 	
 	public City(int id , String name , int stateId){
-		this.id = id;
+		super(id);
 		this.name = name;
 		this.stateId = stateId;
 	}

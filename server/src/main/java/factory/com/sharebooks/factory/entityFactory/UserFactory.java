@@ -79,20 +79,20 @@ public class UserFactory implements EntityFactory<User>{
 			Object obj = parser.parse(json);
 			JSONObject jo = (JSONObject)obj;
 			
-			long id = (long)jo.get("id");
+			int id = jo.get("id")==null?-1:(int)(long)jo.get("id");
 			String uid = (String)jo.get("uid");
 			String username = (String)jo.get("username");
 			String password = (String)jo.get("password");
 			String name = (String)jo.get("name");
 			String dob = (String)jo.get("dob");
-			int age = (int)(long)jo.get("age");
+			int age = Integer.parseInt((String)jo.get("age"));
 			String address = (String)jo.get("address");
 			String city = (String)jo.get("city");
 			String state = (String)jo.get("state");
 			String pincode = (String)jo.get("pincode");
 			String contactNo = (String)jo.get("contactNo");
 			List<Preference> preferences = getPreferenceListFromJson((String)jo.get("preferences"));    //will be null during creation and needs to be handled for modify requests
-			Active active = Active.valueOf((int)(long)jo.get("active"));
+			Active active = jo.get("active")==null?Active.ACTIVE:Active.valueOf((int)(long)jo.get("active"));
 			String creationTimeStr = (String)jo.get("creationTime");
 			String lastModificationTimeStr = (String)jo.get("lastModificationTime");
 			

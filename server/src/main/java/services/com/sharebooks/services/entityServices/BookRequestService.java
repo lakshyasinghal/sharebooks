@@ -5,27 +5,26 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
 import com.sharebooks.coreEntities.BookRequest;
+import com.sharebooks.coreEntities.enums.EntityType;
 import com.sharebooks.dao.generic.BookRequestDao;
 import com.sharebooks.exception.CacheException;
 import com.sharebooks.exception.ExceptionType;
+import com.sharebooks.exception.MultipleInstanceException;
+import com.sharebooks.sources.DaoSource;
 
 public class BookRequestService extends EntityService {
-	private static BookRequestService bookRequestService;
+	//instanceCount varaible will help in replicating the singleton 
+	private static int instanceCount = 0;
 	private static final Logger LOGGER = Logger.getLogger(BookRequestService.class.getName());
-	private final BookRequestDao dao;
+	private final BookRequestDao dao = (BookRequestDao) DaoSource.getDao(EntityType.BOOK_REQUEST.desc());
 	
-	private BookRequestService(BookRequestDao dao){
-		this.dao = dao;
-	}
-	
-	public static void init(BookRequestDao dao){
-		if(bookRequestService == null){
-			bookRequestService = new BookRequestService(dao);
-		}	
-	}
-	
-	public static BookRequestService getInstance(){
-		return bookRequestService;
+	public BookRequestService(){
+		synchronized(BookRequestService.class){
+			if(instanceCount==1){
+				throw new MultipleInstanceException();
+			}
+			instanceCount++;
+		}
 	}
 	
 	

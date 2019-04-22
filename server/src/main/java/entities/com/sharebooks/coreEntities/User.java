@@ -8,13 +8,13 @@ import java.util.UUID;
 import org.json.simple.JSONObject;
 import com.sharebooks.coreEntities.enums.Active;
 import com.sharebooks.dateTime.LocalDateTime;
-import com.sharebooks.entity.Entity;
+import com.sharebooks.entity.CoreEntity;
 import com.sharebooks.exception.JsonSerializationException;
 //import com.sharebooks.helperEntities.Address;
 import com.sharebooks.helperEntities.Preference;
 import com.sharebooks.util.JsonUtils;
 
-public final class User extends Entity {
+public final class User extends CoreEntity {
 	
 	private String uid;  //Will be generated using UUID class and will be used as primary key
 	private String username;
@@ -35,7 +35,7 @@ public final class User extends Entity {
 	}
 
 	
-	public User(long id ,String uid, String username , String password , String name , String dob , int age, String address, String city, 
+	public User(int id ,String uid, String username , String password , String name , String dob , int age, String address, String city, 
 				String state, String pincode, String contactNo, List<Preference> preferences, Active active, LocalDateTime creationTime, LocalDateTime lastModificationTime){
 		super(id,creationTime,lastModificationTime);
 		if(uid==null){
@@ -80,9 +80,9 @@ public final class User extends Entity {
 			jo.put("pincode", pincode);
 			jo.put("contactNo", contactNo);
 			jo.put("preferences", JsonUtils.getSerializedList(preferences));
-			jo.put("active", active);
-			jo.put("creationTime", creationTime);
-			jo.put("lastModificationTime", lastModificationTime);
+			jo.put("active", active.id());
+			jo.put("creationTime", creationTime.toString());
+			jo.put("lastModificationTime", lastModificationTime.toString());
 			return jo.toString();
 		}
 		catch(Exception ex){

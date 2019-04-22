@@ -4,40 +4,39 @@ import org.json.simple.JSONObject;
 import com.sharebooks.entity.HelperEntity;
 import com.sharebooks.exception.JsonSerializationException;
 
-public class State extends HelperEntity implements Comparable<State>{
+public final class BookCategory extends HelperEntity implements Comparable<BookCategory>{
+
+	private String category;
 	
-	private String name;
-	
-	public State(){
-		//nothing
+	public BookCategory(){
+		
 	}
 	
-	public State(int id, String name){
+	public BookCategory(int id, String category){
 		super(id);
-		this.name = name;
+		this.category = category;
 	}
 	
 	@Override
-	public int compareTo(State state) {
-		return name.compareTo(state.name());
+	public int compareTo(BookCategory bookCategory) {
+		return category.compareTo(bookCategory.category);
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public String serializeAsJson() throws JsonSerializationException {
 		try{
 			JSONObject jo = new JSONObject();
-			jo.put("id" , id);
-			jo.put("name" , name);
+			jo.put("id", id);
+			jo.put("category", category);
 			return jo.toString();
 		}
 		catch(Exception ex){
 			throw new JsonSerializationException(ex.getMessage());
 		}
 	}
-	
-	
-	public String name(){
-		return name;
+
+	public String category(){
+		return category;
 	}
 }

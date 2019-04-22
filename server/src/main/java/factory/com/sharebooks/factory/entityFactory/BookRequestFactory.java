@@ -45,7 +45,7 @@ public class BookRequestFactory implements EntityFactory<BookRequest>{
 	@Override
 	public BookRequest createFromResultSet(ResultSet rs) throws Exception{
 		try{
-			long id = rs.getLong("id");
+			int id = rs.getInt("id");
 			String uid = rs.getString("uid");
 			BookRequestType type = BookRequestType.valueOf(rs.getInt("type"));
 			RequestStatus status = RequestStatus.valueOf(rs.getInt("status"));
@@ -71,7 +71,7 @@ public class BookRequestFactory implements EntityFactory<BookRequest>{
 			Object obj = parser.parse(json);
 			JSONObject jo = (JSONObject)obj;
 			
-			long id = (long)jo.get("id");
+			int id = jo.get("id")==null?-1:(int)(long)jo.get("id");
 			String uid = (String)jo.get("uid");
 			BookRequestType type = BookRequestType.valueOf((int)(long)jo.get("type"));
 			RequestStatus status = RequestStatus.valueOf((int)(long)jo.get("status"));

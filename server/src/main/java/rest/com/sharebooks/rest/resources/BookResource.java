@@ -5,13 +5,13 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import org.apache.log4j.Logger;
-import com.sharebooks.requestProcessor.BooksRequestProcessor;
+import com.sharebooks.requestProcessor.BookRequestProcessor;
 
 
 @Path("/api")
 public class BookResource {
 	private static final Logger LOGGER = Logger.getLogger(BookResource.class.getName());
-	private BooksRequestProcessor requestProcessor = BooksRequestProcessor.getInstance();
+	private BookRequestProcessor requestProcessor = BookRequestProcessor.getInstance();
 	
 	@GET
 	@Path("/books")

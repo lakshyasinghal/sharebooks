@@ -1,11 +1,12 @@
 package com.sharebooks.dao.generic;
 
+import java.sql.SQLException;
 import java.util.List;
 import com.sharebooks.helperEntities.City;
 
 public interface CityDao extends Dao {
 	
-	public List<City> getAllCities();
+	public List<City> getCities() throws SQLException,Exception;
 	
-	public boolean createCity(City city);
+	//public boolean createCity(City city);
 }

@@ -25,22 +25,22 @@ and will finally return the json response string
 If there isn't any exception during the process the request will be considered successful and an appropriate status code will be 
 generated. But in case there is an exception the request will be considered erroneous and an appropriate error response with code will be generated.*/
 @SuppressWarnings("unchecked")
-public class BooksRequestProcessor extends AbstractRequestProcessor{
-	private static BooksRequestProcessor processor = new BooksRequestProcessor();
-	private static final Logger LOGGER = Logger.getLogger(BooksRequestProcessor.class.getName());
+public class BookRequestProcessor extends AbstractRequestProcessor{
+	private static BookRequestProcessor processor = new BookRequestProcessor();
+	private static final Logger LOGGER = Logger.getLogger(BookRequestProcessor.class.getName());
 	private final ResponseFactory responseFactory = FactorySource.getResponseFactory();
 	private final BookService bookService = ServiceSource.getBookService();
 	private final EntityFactory<Book> factory = (EntityFactory<Book>) FactorySource.getEntityFactory(EntityType.BOOK.desc());
 	private static final String EMPTY_STRING = "";
 	
 	//private constructor to help make the class singleton
-	private BooksRequestProcessor(){
+	private BookRequestProcessor(){
 		
 	}
 	
 	
 	//get singleton instance of the class
-	public static BooksRequestProcessor getInstance(){
+	public static BookRequestProcessor getInstance(){
 		return processor;
 	}
 	
@@ -60,15 +60,15 @@ public class BooksRequestProcessor extends AbstractRequestProcessor{
 		}
 		catch(CacheException ex){
 			errorCode = Error.CACHE_ERROR.id();
-			LOGGER.debug("");
+			LOGGER.error("",ex);
 		}
 		catch(SQLException ex){
 			errorCode = Error.DATABASE_ERROR.id();
-			LOGGER.debug("");
+			LOGGER.error("",ex);
 		}
 		catch(Exception ex){
 			errorCode = Error.GENERAL_EXCEPTION.id();
-			LOGGER.debug("");
+			LOGGER.error("",ex);
 		}
 		
 		Response response = responseFactory.getJsonResponse(success , statusCode , errorCode , map);
@@ -101,16 +101,16 @@ public class BooksRequestProcessor extends AbstractRequestProcessor{
 			}
 		}
 		catch(CacheException ex){
-			success = false;
 			errorCode = Error.CACHE_ERROR.id();
+			LOGGER.error("CacheException",ex);
 		}
 		catch(SQLException ex){
-			success = false;
 			errorCode = Error.DATABASE_ERROR.id();
+			LOGGER.error("SQLException",ex);
 		}
 		catch(Exception ex){
-			success = false;
 			errorCode = Error.GENERAL_EXCEPTION.id();
+			LOGGER.error("Exception",ex);
 		}
 		
 		Response response = responseFactory.getJsonResponse(success , statusCode , errorCode , map);
@@ -148,11 +148,11 @@ public class BooksRequestProcessor extends AbstractRequestProcessor{
 			statusCode = Status.BOOK_ALREADY_EXISTS.id();
 		}
 		catch(SQLException ex){
-			LOGGER.debug(ex);
+			LOGGER.error("SQLException",ex);
 			errorCode = Error.DATABASE_ERROR.id();
 		}
 		catch(Exception ex){
-			LOGGER.debug(ex);
+			LOGGER.error("Exception",ex);
 			errorCode = Error.GENERAL_EXCEPTION.id();
 		}
 		
@@ -190,16 +190,16 @@ public class BooksRequestProcessor extends AbstractRequestProcessor{
 			}
 		}
 		catch(CacheException ex){
-			success = false;
 			errorCode = Error.CACHE_ERROR.id();
+			LOGGER.error("CacheException",ex);
 		}
 		catch(SQLException ex){
-			success = false;
 			errorCode = Error.DATABASE_ERROR.id();
+			LOGGER.error("SQLException",ex);
 		}
 		catch(Exception ex){
-			success = false;
 			errorCode = Error.GENERAL_EXCEPTION.id();
+			LOGGER.error("Exception",ex);
 		}
 		Response response = responseFactory.getJsonResponse(success , statusCode , errorCode , null);
 		return response.process();
@@ -227,17 +227,14 @@ public class BooksRequestProcessor extends AbstractRequestProcessor{
 		}
 		catch(CacheException ex){
 			LOGGER.error("CacheException :",ex);
-			success = false;
 			errorCode = Error.CACHE_ERROR.id();
 		}
 		catch(SQLException ex){
 			LOGGER.error("SQLException :",ex);
-			success = false;
 			errorCode = Error.DATABASE_ERROR.id();
 		}
 		catch(Exception ex){
 			LOGGER.error("Exception :",ex);
-			success = false;
 			errorCode = Error.GENERAL_EXCEPTION.id();
 		}
 
@@ -267,17 +264,14 @@ public class BooksRequestProcessor extends AbstractRequestProcessor{
 		}
 		catch(CacheException ex){
 			LOGGER.error("CacheException :",ex);
-			success = false;
 			errorCode = Error.CACHE_ERROR.id();
 		}
 		catch(SQLException ex){
 			LOGGER.error("SQLException :",ex);
-			success = false;
 			errorCode = Error.DATABASE_ERROR.id();
 		}
 		catch(Exception ex){
 			LOGGER.error("Exception :",ex);
-			success = false;
 			errorCode = Error.GENERAL_EXCEPTION.id();
 		}
 
