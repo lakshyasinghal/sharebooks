@@ -7,12 +7,11 @@ find . -name '*.java' -print0 | xargs -0 sed -i "" "s/java.util.logging.Logger/o
 1. When sql server is not started the application needs to throw an exception
 
 #Next tasks
-1. Create uuid in entities
-2. Add SHA-512 protection for password
-3. Use prepared statements
+1. Create uuid in entities                 -----------    done
+2. Add SHA-512 protection for password     -----------    done
+3. Use prepared statements				   
 4. Use specific custom queries
-5. Use transactions
-
+5. Use transactions                        -----------    done
 
 
 #Extra utilities
@@ -28,3 +27,12 @@ https://javapapers.com/web-service/restful-services-http-basic-authentication/
 
 #Database links
 http://tutorials.jenkov.com/jdbc
+
+
+#Today's Tasks
+1. Search sql query
+2. Integrate notifications
+3. Redis cache
+4. Book redis cache
+5. Search proposal
+6. Fetch results

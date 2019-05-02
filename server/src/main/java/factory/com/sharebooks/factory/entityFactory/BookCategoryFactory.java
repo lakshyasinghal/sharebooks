@@ -1,6 +1,8 @@
 package com.sharebooks.factory.entityFactory;
 
 import java.sql.ResultSet;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import com.sharebooks.exception.NonFunctionalMethodException;
 import com.sharebooks.helperEntities.BookCategory;
@@ -47,5 +49,11 @@ public class BookCategoryFactory implements EntityFactory<BookCategory>{
 	@Override
 	public BookCategory createFromJson(String json) throws Exception {
 		throw new NonFunctionalMethodException();
+	}
+
+	@Override
+	public List<BookCategory> getListFromJson(String json) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

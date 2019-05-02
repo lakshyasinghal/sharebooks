@@ -1,6 +1,8 @@
 package com.sharebooks.factory.entityFactory;
 
 import java.sql.ResultSet;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import com.sharebooks.coreEntities.Book;
 import com.sharebooks.coreEntities.enums.AvailableStatus;
@@ -103,6 +105,12 @@ public class BookFactory implements EntityFactory<Book>{
 		catch(ParseException ex){
 			throw ex;
 		}
+	}
+
+	@Override
+	public List<Book> getListFromJson(String json) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

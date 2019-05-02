@@ -125,6 +125,83 @@ public class BookRequestProcessor extends AbstractRequestProcessor{
 	}
 	
 	
+	
+	public String processGetBooksBySearchTermRequest(String searchTerm) throws Exception{
+		LOGGER.trace("Entered processGetBooksBySearchTermRequest");
+		Map<String,Object> map = new HashMap<String,Object>();
+		List<Book> books = null;
+		boolean success = false;
+		int statusCode = -1;
+		int errorCode = -1;
+		try{
+			books = bookService.getBooksBySearchTerm(searchTerm);
+			if(books!=null){
+				success = true;
+				if(!books.isEmpty()){statusCode = Status.FETCH_BOOKS_BY_SEARCH_TERM_SUCCESSFUL.id();}
+				else{statusCode = Status.NO_RESULTS_FOUND.id();}
+				map.put("books", books);
+			}
+			else{
+				statusCode = Status.OPERATION_UNSUCCESSFUL.id();
+			}
+		}
+		catch(CacheException ex){
+			errorCode = Error.CACHE_ERROR.id();
+			LOGGER.error("",ex);
+		}
+		catch(SQLException ex){
+			errorCode = Error.DATABASE_ERROR.id();
+			LOGGER.error("",ex);
+		}
+		catch(Exception ex){
+			errorCode = Error.GENERAL_EXCEPTION.id();
+			LOGGER.error("",ex);
+		}
+		
+		Response response = responseFactory.getJsonResponse(success , statusCode , errorCode , map);
+		LOGGER.trace("Leaving processGetBooksBySearchTermRequest");
+		return response.process();
+	}
+	
+	
+	public String processGetBooksByCategoryRequest(String category) throws Exception{
+		LOGGER.trace("Entered processGetBooksByCategoryRequest");
+		Map<String,Object> map = new HashMap<String,Object>();
+		List<Book> books = null;
+		boolean success = false;
+		int statusCode = -1;
+		int errorCode = -1;
+		try{
+			books = bookService.getBooksByCategory(category);
+			if(books!=null){
+				success = true;
+				if(!books.isEmpty()){statusCode = Status.FETCH_BOOKS_BY_CATEGORY_SUCCESSFUL.id();}
+				else{statusCode = Status.NO_RESULTS_FOUND.id();}
+				map.put("books", books);
+			}
+			else{
+				statusCode = Status.OPERATION_UNSUCCESSFUL.id();
+			}
+		}
+		catch(CacheException ex){
+			errorCode = Error.CACHE_ERROR.id();
+			LOGGER.error("",ex);
+		}
+		catch(SQLException ex){
+			errorCode = Error.DATABASE_ERROR.id();
+			LOGGER.error("",ex);
+		}
+		catch(Exception ex){
+			errorCode = Error.GENERAL_EXCEPTION.id();
+			LOGGER.error("",ex);
+		}
+		
+		Response response = responseFactory.getJsonResponse(success , statusCode , errorCode , map);
+		LOGGER.trace("Leaving processGetBooksByCategoryRequest");
+		return response.process();
+	}
+	
+	
 	//process insert book request
 	public String processCreateRequest(HttpServletRequest req) throws Exception {
 		boolean success = false;

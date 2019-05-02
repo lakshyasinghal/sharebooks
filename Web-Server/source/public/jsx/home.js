@@ -69,8 +69,8 @@ class Search extends React.Component {
 	}
 
 	search(e){
-		if(e.keyCode==13){
-			self.props.searchFunc(e.target.value);
+		if(e.key=="Enter"){
+			this.props.searchFunc(e.target.value);
 		}
 	}
 
@@ -79,7 +79,7 @@ class Search extends React.Component {
 		return (
 			<div id="searchContainer" className="row">
 				<div className="col-sm-12 col-md-12">
-					<input type="text" id="searchBooks" onKeyPress={this.search} placeholder={placeholder} className="form-control"/>
+					<input type="text" id="searchBooks" onKeyPress={(e)=>{this.search(e);}} placeholder={placeholder} className="form-control"/>
 				</div>
 			</div>
 		);
@@ -96,7 +96,7 @@ class Body extends React.Component {
 			reqSearchLen: 5,
 			moreSpecificSearchMessage: "Please be more specific in your search.\nPlease provide atleast 5 characters."
 		}
-		this.allBooks = allBooks.bind(this);
+		this.getAllBooks = getAllBooks.bind(this);
 		this.booksByCategory = booksByCategory.bind(this);
 		this.booksBySearch = booksBySearch.bind(this);
 		this.getBookById = getBookById.bind(this);
@@ -105,7 +105,7 @@ class Body extends React.Component {
 
 	componentDidMount() {
 		console.log("Body component mounted");
-	    this.allBooks();
+	    this.getAllBooks();
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -142,35 +142,26 @@ class Body extends React.Component {
 
 
 
-function allBooks(){
-	$httpService.getAllBooks( {} , (res) => {
-		if(res.success){
-			var books = res.books;
-			this.state.books = books;
-			this.displayBooks(books);
-		}
-		else{
-			alert("Error in success in getAllBooks");
-		}
+function getAllBooks(){
+	$httpService.getAllBooks([], {} , (res) => {
+		var books = res.books;
+		this.state.books = books;
+		this.displayBooks(books);
 	});
 }
 
 function booksByCategory(category , subcategory){
 	//self.selectedBooks = [];
 	//showPageLoader = true;
-	var params = {};
-	params.category = category?category:null;
-	params.subcategory = subcategory?subcategory:null;
+	
+	// var params = {};
+	// params.category = category?category:null;
+	// params.subcategory = subcategory?subcategory:null;
 	
 	//call http service  
-	$httpService.filterByCategory(params , res => {
-		if(res.success){
-			const books = res.books;
-			this.displayBooks(books);
-		}
-		else{
-			alert("Something wrong");
-		}
+	$httpService.filterByCategory([category],null, res => {
+		const books = res.books;
+		this.displayBooks(books);
 	});	//$logger.err("getBooksByCategory" , err.message);
 }
 
@@ -182,24 +173,15 @@ function booksBySearch(searchText){
 	const reqSearchLen = this.state.reqSearchLen;
 	//return if search string length is less than required length to prevent useless searches
 	if(searchText.length < reqSearchLen){
-		//$popupManager.showAlertPopup(moreSpecificSearchMessage);
+		alert("The search text length should be atleast "+reqSearchLen+" characters long.");
 		return;
 	}
-	/* needs to be updated */
-	//$loaderManager.showLoader("id" , "pageLoader");
-	// var params = {};
-	// params["searchText"] = searchText;
 
-	$httpService.getBooksBySearchString({searchText:searchText} , res => {
-		//$loaderManager.hideLoader("id" , "pageLoader");
-		if(res.success){
-			var books = res.books;
-			this.displayBooks(books);
-		}
-		else{
-			//$messageManager.displayStatusMessage(data.statusCode , 2 , null);
-		}
-	});	//$logger.err("getBooksBySearchString" , err.message);
+	//searchText will go in path params
+	$httpService.getBooksBySearchTerm([searchText], {}, res => {
+		var books = res.books;
+		this.displayBooks(books);
+	});	
 }
 
 function getBookById(id){

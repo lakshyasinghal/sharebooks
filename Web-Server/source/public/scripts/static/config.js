@@ -11,7 +11,7 @@ var $global = (function(){
 
 
 
-$pages = (function(){
+var $pages = (function(){
 	var IN = "/in";
 	var LOG_IN = "/login";
 	var SIGN_OUT = "/logout";
@@ -56,7 +56,7 @@ $pages = (function(){
 })();
 
 /* status message service for status codes received in http response */
-$sm = (function(){
+var $sm = (function(){
 	//configuring status codes
 	statusCodes = {
 		"0" : "SOMETHING_WENT_WRONG",
@@ -139,7 +139,7 @@ $sm = (function(){
 })();
 
 
-$categories = [{desc:"Commerce",value:"Commerce"},
+var $categories = [{desc:"Commerce",value:"Commerce"},
 			   {desc:"Computer Science",value:"Computer Science"},
 			   {desc:"Literature",value:"Literature"},
 			   {desc:"Politics",value:"Politics"},
@@ -166,7 +166,7 @@ $categories = [{desc:"Commerce",value:"Commerce"},
 			  ];
 
 
-$config = {
+var $config = {
 	$global: $global,
 	$pages: $pages,
 	$sm: $sm,

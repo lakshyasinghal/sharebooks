@@ -28,17 +28,10 @@ public class City extends HelperEntity implements Comparable<City>{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public String serializeAsJson() throws JsonSerializationException {
-		try{
-			JSONObject jo = new JSONObject();
-			jo.put("id", id);
-			jo.put("name", name);
-			jo.put("stateId", stateId);
-			return jo.toString();
-		}
-		catch(Exception ex){
-			throw new JsonSerializationException(ex.getMessage());
-		}
+	public void serializeAsJson(JSONObject jo) throws JsonSerializationException {
+		jo.put("id", id);
+		jo.put("name", name);
+		jo.put("stateId", stateId);
 	}
 	
 	public String name(){

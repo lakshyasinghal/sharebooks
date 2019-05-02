@@ -21,7 +21,7 @@ router.post('/login',function(req,res){
 	}))();
 });
 
-//logout api
+
 router.get('/logout',function(req,res){
 	console.log("Logout request received");
 	req.session.destroy();
@@ -32,17 +32,23 @@ router.put('/users',function(req,res){
 	(requestGenerator.generateAxiosRequestFunc(req, res))();
 });
 
-//api 2
+router.post('/users/:uid/profile',function(req,res){
+	(requestGenerator.generateAxiosRequestFunc(req, res))();
+});
+
+
 router.post('/users', function(req,res){
-	console.log("Request received on users api 2 => ", req);
+	
 });
 
-//api 3
+
 router.post('/users/:id([0-9]+)',function(req,res){
-	console.log("Request received on users api 3 => ", req);
-	//make http request to application server
+	
 });
 
+router.post('/users/:uid/preferences',function(req,res){
+	(requestGenerator.generateAxiosRequestFunc(req, res))();
+});
 
 
 //api 4

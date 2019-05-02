@@ -7,7 +7,9 @@ public enum EntityType {
 	ORDER(4 , "order"), 
 	BOOK_CATEGORY(5, "bookCategory"), 
 	STATE(6, "state"),
-	CITY(7, "city");
+	CITY(7, "city"),
+	NOTIFICATION(8,"notification"),
+	PREFERENCE(9,"preference");
 	
 	
 	private int id;

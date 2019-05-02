@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 
 import com.sharebooks.coreEntities.Book;
 import com.sharebooks.coreEntities.BookRequest;
+import com.sharebooks.coreEntities.Notification;
 import com.sharebooks.coreEntities.enums.AvailableStatus;
 import com.sharebooks.coreEntities.enums.EntityType;
 import com.sharebooks.coreEntities.enums.RequestStatus;
@@ -81,17 +82,40 @@ public class BookRequestSqlDao extends AbstractBookRequestDao{
 	}
 
 	@Override
-	public boolean createBookRequest(BookRequest bookRequest) throws SQLException, Exception {
+	//this request will create transaction for updating book request,updating book status, creating notification
+	public boolean createBookRequest(BookRequest bookRequest, String bookUid, Notification notification) throws SQLException, Exception {
 		LOGGER.trace("Entering createBookRequest");
+		boolean updated = true;
+		List<String> queries = new LinkedList<String>();
 		Map<String,Object> bookRequestMap = bookRequest.map();
 		bookRequestMap.remove("id");
-		SqlQuery query = new SqlInsertQuery(table.desc(), bookRequestMap);
-		query.build();
-		LOGGER.debug(query.toString());
-		AbstractSqlQueryProcessor queryProcessor = SqlInsertQueryProcessor.getInstance();
-		int rowsAffected = queryProcessor.processInsertQuery(database.desc(), query.toString(), false);
+		SqlQuery brQuery = new SqlInsertQuery(table.desc(), bookRequestMap);
+		brQuery.build();
+		//getting update query for book in which it will be marked not available
+		Map<String,Object> bookMap = new HashMap<String,Object>();
+		bookMap.put("uid",bookUid);
+		bookMap.put("available",AvailableStatus.NOT_AVAILABLE.id());
+		SqlQuery bookQuery = new SqlUpdateQuery(Table.BOOKS.desc(), bookMap); 
+		bookQuery.build();
+		//create notification
+		Map<String,Object> notificationMap = notification.map();
+		notificationMap.remove("id");
+		SqlQuery notificationQuery = new SqlInsertQuery(Table.NOTIFICATIONS.desc(), notificationMap);
+		notificationQuery.build();
+		
+		//adding queries in list
+		queries.add(brQuery.toString());
+		queries.add(bookQuery.toString());
+		queries.add(notificationQuery.toString());
+	
+		AbstractSqlQueryProcessor queryProcessor = SqlTransactionProcessor.getInstance();
+		//rowsAffectedResults will contain list of results corresponding to each executed query
+		List<Integer> rowsAffectedResults = queryProcessor.processTransaction(database.desc(), queries);
+		for(Integer rowsAffected: rowsAffectedResults){
+			updated = updated && (rowsAffected>0);
+		}
 		LOGGER.trace("Leaving createBookRequest");
-		return rowsAffected>0?true:false;
+		return updated;
 	}
 
 	@Override
@@ -109,7 +133,8 @@ public class BookRequestSqlDao extends AbstractBookRequestDao{
 	}
 
 	@Override
-	public boolean acceptBookRequest(String bookRequestUid, String bookUid) throws SQLException, Exception {
+	//this request will create transaction for updating book request, creating notification
+	public boolean acceptBookRequest(String bookRequestUid, Notification notification) throws SQLException, Exception {
 		LOGGER.trace("Entered acceptBookRequest");
 		boolean updated = true;
 		List<String> queries = new LinkedList<String>();
@@ -117,20 +142,20 @@ public class BookRequestSqlDao extends AbstractBookRequestDao{
 		Map<String,Object> bookRequestMap = new HashMap<String,Object>();
 		bookRequestMap.put("uid",bookRequestUid);
 		bookRequestMap.put("status",RequestStatus.ACCEPTED.id());
-		SqlQuery query1 = new SqlUpdateQuery(Table.BOOK_REQUESTS.desc(), bookRequestMap); 
-		query1.build();
-		//getting update query for book in which book will be marked not available
-		Map<String,Object> bookMap = new HashMap<String,Object>();
-		bookMap.put("uid",bookUid);
-		bookMap.put("available",AvailableStatus.NOT_AVAILABLE.id());
-		SqlQuery query2 = new SqlUpdateQuery(Table.BOOKS.desc(), bookMap); 
-		query2.build();
+		SqlQuery brQuery = new SqlUpdateQuery(Table.BOOK_REQUESTS.desc(), bookRequestMap); 
+		brQuery.build();
+		//create notification
+		Map<String,Object> notificationMap = notification.map();
+		notificationMap.remove("id");
+		SqlQuery notificationQuery = new SqlInsertQuery(Table.NOTIFICATIONS.desc(), notificationMap);
+		notificationQuery.build();
 		
 		//adding queries in list
-		queries.add(query1.toString());
-		queries.add(query2.toString());
+		queries.add(brQuery.toString());
+		queries.add(notificationQuery.toString());
 		
 		AbstractSqlQueryProcessor queryProcessor = SqlTransactionProcessor.getInstance();
+		//rowsAffectedResults will contain list of results corresponding to each executed query
 		List<Integer> rowsAffectedResults = queryProcessor.processTransaction(database.desc(), queries);
 		for(Integer rowsAffected: rowsAffectedResults){
 			updated = updated && (rowsAffected>0);
@@ -140,18 +165,42 @@ public class BookRequestSqlDao extends AbstractBookRequestDao{
 	}
 
 	@Override
-	public boolean rejectBookRequest(String bookRequestUid, String bookUid) throws SQLException, Exception {
+	//this request will create transaction for updating book request,updating book status, creating notification
+	public boolean rejectBookRequest(String bookRequestUid, String bookUid, Notification notification) throws SQLException, Exception {
 		LOGGER.trace("Entered acceptBookRequest");
+		boolean updated = true;
+		List<String> queries = new LinkedList<String>();
 		//getting update query for book request
 		Map<String,Object> bookRequestMap = new HashMap<String,Object>();
 		bookRequestMap.put("uid",bookRequestUid);
 		bookRequestMap.put("status",RequestStatus.REJECTED.id());
-		SqlQuery query = new SqlUpdateQuery(Table.BOOK_REQUESTS.desc(), bookRequestMap); 
-		query.build();
-		AbstractSqlQueryProcessor queryProcessor = SqlUpdateQueryProcessor.getInstance();
-		int rowsAffected = queryProcessor.processUpdateQuery(database.desc(), query.toString());
+		SqlQuery brQuery = new SqlUpdateQuery(Table.BOOK_REQUESTS.desc(), bookRequestMap); 
+		brQuery.build();
+		//getting update query for book in which it will be marked available from not available
+		Map<String,Object> bookMap = new HashMap<String,Object>();
+		bookMap.put("uid",bookUid);
+		bookMap.put("available",AvailableStatus.AVAILABLE.id());
+		SqlQuery bookQuery = new SqlUpdateQuery(Table.BOOKS.desc(), bookMap); 
+		bookQuery.build();
+		//create notification
+		Map<String,Object> notificationMap = notification.map();
+		notificationMap.remove("id");
+		SqlQuery notificationQuery = new SqlInsertQuery(Table.NOTIFICATIONS.desc(), notificationMap);
+		notificationQuery.build();
+		
+		//adding queries in list
+		queries.add(brQuery.toString());
+		queries.add(bookQuery.toString());
+		queries.add(notificationQuery.toString());
+		
+		AbstractSqlQueryProcessor queryProcessor = SqlTransactionProcessor.getInstance();
+		//rowsAffectedResults will contain list of results corresponding to each executed query
+		List<Integer> rowsAffectedResults = queryProcessor.processTransaction(database.desc(), queries);
+		for(Integer rowsAffected: rowsAffectedResults){
+			updated = updated && (rowsAffected>0);
+		}
 		LOGGER.trace("Leaving acceptBookRequest");
-		return rowsAffected>0?true:false;
+		return updated;
 	}
 
 }

@@ -2,6 +2,8 @@ package com.sharebooks.coreEntities;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+
 import org.json.simple.JSONObject;
 import com.sharebooks.coreEntities.enums.NotificationStatus;
 import com.sharebooks.coreEntities.enums.NotificationType;
@@ -11,7 +13,6 @@ import com.sharebooks.exception.JsonSerializationException;
 
 public class Notification extends CoreEntity {
 
-	private String uid;
 	private String receiverUid;
 	private NotificationType type;
 	private String bookRequestUid;
@@ -21,35 +22,29 @@ public class Notification extends CoreEntity {
 	
 	public Notification(int id, String uid, String receiverUid, NotificationType type, String bookRequestUid, String newBookUid, 
 			NotificationStatus status, LocalDateTime creationTime, LocalDateTime lastModificationTime){
-		super(id,creationTime,lastModificationTime);
-		this.uid = uid;
+		super(id,uid,creationTime,lastModificationTime);
 		this.receiverUid = receiverUid;
 		this.type = type;
 		this.bookRequestUid = bookRequestUid;
 		this.newBookUid = newBookUid;
-		this.status = status;
+		if(status==null){
+			this.status = NotificationStatus.NEW;
+		}
+		else{
+			this.status = status;
+		}
 	}
 	
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public String serializeAsJson() throws JsonSerializationException {
-		try{
-			JSONObject jo = new JSONObject();
-			jo.put("id", id());
-			jo.put("uid", uid());
-			jo.put("receiverUid", receiverUid());
-			jo.put("type", type().id());
-			jo.put("bookRequestUid", bookRequestUid());
-			jo.put("newBookUid", newBookUid());
-			jo.put("status", status.id());
-			jo.put("creationTime", creationTime.toString());
-			jo.put("lastModificationTime", lastModificationTime.toString());
-			return jo.toString();
-		}
-		catch(Exception ex){
-			throw new JsonSerializationException(ex.getMessage());
-		}
+	public void serializeAsJson(JSONObject jo) throws JsonSerializationException {
+		super.serializeAsJson(jo);
+		jo.put("receiverUid", receiverUid());
+		jo.put("type", type().id());
+		jo.put("bookRequestUid", bookRequestUid());
+		jo.put("newBookUid", newBookUid());
+		jo.put("status", status.id());
 	}
 	
 	

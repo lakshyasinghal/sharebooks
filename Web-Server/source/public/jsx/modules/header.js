@@ -1,5 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import $httpService from "./../../scripts/http/httpService.js";
+import util from "./../../scripts/utility/utility.js";
+import $config from "./../../scripts/static/config.js";
+
+const $storage = util.$storage;
+const $pages = $config.$pages;
+const $sm = $config.$sm;
+
 
 
 export default class Header extends React.Component {
@@ -91,8 +99,20 @@ class CategoryBrowser extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			open: false
+			open: false,
+			bookCategories:[]
 		};
+	}
+
+	componentDidMount() {
+	    this.getBookCategories();
+	}
+
+	getBookCategories(){
+		$httpService.getBookCategories([], {} , (res) => {
+			var bookCategories = res.bookCategories;
+			this.setState({bookCategories:bookCategories});    //this will point to bookCategoryBrowser due to arrow function
+		});
 	}
 
 	toggle(){
@@ -109,10 +129,10 @@ class CategoryBrowser extends React.Component {
 	render(){
 		const downArrowImg = "/static/downArrow.png";
 		let className = "vertical-center horizontal-center pointer";
-		let categories = $categories;
+		let categories = this.state.bookCategories;
 		categories.sort((c1,c2)=>{
-			if(c1.desc<c2.desc){return -1;}
-			if(c1.desc>c2.desc){return 1;}
+			if(c1.category<c2.category){return -1;}
+			if(c1.category>c2.category){return 1;}
 			return 0;
 		});
 		const open = this.state.open;
@@ -124,7 +144,7 @@ class CategoryBrowser extends React.Component {
 				<img src={downArrowImg} height="15" width="15" />
 
 				<div id="categoryPanel" className={panelClass}>
-					{categories.map((category,index)=>{return this.renderCategoryBlock(category.desc,index);})}
+					{categories.map((category,index)=>{return this.renderCategoryBlock(category.category,index);})}
 				</div>
 			</div>
 		);
@@ -160,6 +180,18 @@ class Notifications extends React.Component {
 		};
 	}
 
+	componentDidMount() {
+	    this.getNotifications();
+	}
+
+	getNotifications(){
+		const user = $storage.get("user");
+		//searchText will go in path params
+		$httpService.getNotifications([user.uid], {}, res => {
+			var notifications = res.notifications;
+			//this.displayBooks(books);
+		});	
+	}
 
 
 	/*calculate nd display class needs to be made common 
@@ -246,16 +278,9 @@ class Profile extends React.Component {
 }
 
 
+
+//needs to be moved to common js
 function toggleDisplay(prop,component){
 	component.state[prop] = !component.state[prop];
 	component.forceUpdate();
 }
-
-
-// function toggleDisplay(dispProp,self){
-// 	if(self.state[dispProp]=="none"){
-// 		return "block";
-// 	}
-// 	return "none";
-// }
-

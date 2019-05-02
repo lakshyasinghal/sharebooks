@@ -1,6 +1,6 @@
 package com.sharebooks.response;
 
-/*The status enumeration will hold the status and their respective codes to describe the operations
+/*The status enumeration will hold the status and their respective codes to describe the status of operations
 These are meant for the end users using the application. */
 
 /*The codes will be categorized
@@ -25,6 +25,8 @@ public enum Status {
 	BOOK_ALREADY_EXISTS(107,""),
 	BOOK_UPDATED_SUCCESSFULLY(108,"Book updated successfully."),
 	BOOK_NOT_UPDATED(109,"Book could not be updated.Please debug to find more."),
+	FETCH_BOOKS_BY_SEARCH_TERM_SUCCESSFUL(110,"Books fetched using search term successfully."),
+	FETCH_BOOKS_BY_CATEGORY_SUCCESSFUL(111,"Books fetched using search term successfully."),
 	
 	//status codes for users
 	FETCH_ALL_USERS_SUCCESSFUL(201 , "Users fetched successfully"),
@@ -34,6 +36,10 @@ public enum Status {
 	NO_USERS_EXIST(205,"No users exist in database."),
 	USER_UPDATED_SUCCESSFULLY(206,"User updated successfully"),
 	USER_NOT_UPDATED(207,"User could not be updated.Please debug to find more."),
+	PREFERENCES_SAVED_SUCCESSFULLY(208,"User preferences saved successfully."),
+	PREFERENCES_NOT_SAVED(209,"User preferences could not be saved."),
+	USER_PROFILE_UPDATED(210,"User profile updated successfully."),
+	USER_PROFILE_NOT_UPDATED(211,"User profile could not be updated."),
 	
 	//status codes for book requests
 	FETCH_BOOK_REQUESTS_BY_UID_SUCCESSFUL(301,"Book request fetched successfully by owner uid."),
@@ -46,6 +52,11 @@ public enum Status {
 	BOOK_REQUEST_REJECTED_SUCCESSFULLY(309,"Book request rejected successfully."),
 	BOOK_REQUEST_COULD_NOT_BE_REJECTED(310,"Book request could not be rejected."),
 	
+	//status codes for notifications
+	FETCH_NOTIFICATIONS_SUCCESSFUL(401 , "Notifications fetched successfully."),
+	FETCH_NOTIFICATIONS_FAILED(402 , "Notifications could not be fetched."),
+	NO_NOTIFICATIONS(403, "Notifications do not exist."),
+	
 	//status codes for helper entities
 	FETCH_STATES_SUCCESSFUL(501,"States fetched successfully."),
 	STATES_COULD_NOT_BE_FETCHED(502,"States not fetched."),
@@ -55,8 +66,8 @@ public enum Status {
 	BOOK_CATEGORIES_COULD_NOT_BE_FETCHED(506,"Book categories could not fetched."),
 	
 	//generic status codes
-	NO_RESULTS_FOUND(801 , "No results found for given parameters.");
-	
+	NO_RESULTS_FOUND(801 , "No results found for given parameters."),
+	OPERATION_UNSUCCESSFUL(802,"Operation unsuccessful.");
 	
 	private int id;
 	private String desc;

@@ -87,14 +87,9 @@ class SignInPanel extends React.Component {
 			this.setState({statusMessage:validity.message,displayMessage:true});
 			return;
 		}
-		$httpService.signIn(vals, data => {
-            if(data.success){
-            	$storage.set("user",data.user);
-                $pages.home();
-            }
-            else{
-            	this.setState({statusMessage:$sm.message(data.statusCode),displayMessage:true});
-            }
+		$httpService.signIn([],vals, data => {
+        	$storage.set("user",data.user);
+            $pages.home();
 		});
 	}
 
@@ -168,9 +163,9 @@ class SignUpPanel extends React.Component {
 			this.setState({statusMessage:validity.message,displayMessage:true});
 			return;
 		}
-		$httpService.signUp(user, res => {
+		$httpService.signUp([], user, res => {
             this.setState({statusMessage:$sm.message(res.statusCode),displayMessage:true});
-		},()=>{});
+		});
 	}
 
 	render(){

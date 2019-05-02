@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import com.sharebooks.coreEntities.enums.Active;
 import com.sharebooks.dateTime.LocalDateTime;
@@ -12,11 +14,10 @@ import com.sharebooks.entity.CoreEntity;
 import com.sharebooks.exception.JsonSerializationException;
 //import com.sharebooks.helperEntities.Address;
 import com.sharebooks.helperEntities.Preference;
-import com.sharebooks.util.JsonUtils;
+import com.sharebooks.util.JsonUtility;
 
 public final class User extends CoreEntity {
 	
-	private String uid;  //Will be generated using UUID class and will be used as primary key
 	private String username;
 	private String password;
 	private String name;
@@ -37,13 +38,7 @@ public final class User extends CoreEntity {
 	
 	public User(int id ,String uid, String username , String password , String name , String dob , int age, String address, String city, 
 				String state, String pincode, String contactNo, List<Preference> preferences, Active active, LocalDateTime creationTime, LocalDateTime lastModificationTime){
-		super(id,creationTime,lastModificationTime);
-		if(uid==null){
-			this.uid = UUID.randomUUID().toString();
-		}
-		else{
-			this.uid = uid;
-		}
+		super(id,uid,creationTime,lastModificationTime);
 		this.username = username;
 		this.password = password;
 		this.name = name;
@@ -64,11 +59,9 @@ public final class User extends CoreEntity {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public String serializeAsJson() throws JsonSerializationException {
+	public void serializeAsJson(JSONObject jo) throws JsonSerializationException {
 		try{
-			JSONObject jo = new JSONObject();
-			jo.put("id", id);
-			jo.put("uid", uid);
+			super.serializeAsJson(jo);
 			jo.put("username", username);
 			jo.put("password", password);
 			jo.put("name", name);
@@ -79,11 +72,8 @@ public final class User extends CoreEntity {
 			jo.put("state", state);
 			jo.put("pincode", pincode);
 			jo.put("contactNo", contactNo);
-			jo.put("preferences", JsonUtils.getSerializedList(preferences));
+			jo.put("preferences", JsonUtility.getJsonArrayFromList(preferences));
 			jo.put("active", active.id());
-			jo.put("creationTime", creationTime.toString());
-			jo.put("lastModificationTime", lastModificationTime.toString());
-			return jo.toString();
 		}
 		catch(Exception ex){
 			throw new JsonSerializationException(ex.getMessage());
@@ -122,7 +112,7 @@ public final class User extends CoreEntity {
 		map.put("state",state);
 		map.put("pincode",pincode);
 		map.put("contactNo",contactNo);
-		map.put("preferences", JsonUtils.getSerializedList(preferences));
+		map.put("preferences", JsonUtility.getJsonArrayFromList(preferences).toString());
 		map.put("active",active.id());
 		map.put("creationTime",creationTime.toString());
 		map.put("lastModificationTime",lastModificationTime.toString());

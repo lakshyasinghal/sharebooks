@@ -1,6 +1,8 @@
 package com.sharebooks.factory.entityFactory;
 
 import java.sql.ResultSet;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -86,6 +88,13 @@ public class BookRequestFactory implements EntityFactory<BookRequest>{
 		catch(ParseException ex){
 			throw ex;
 		}
+	}
+
+
+	@Override
+	public List<BookRequest> getListFromJson(String json) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

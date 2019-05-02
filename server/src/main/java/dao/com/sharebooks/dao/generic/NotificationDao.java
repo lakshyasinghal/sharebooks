@@ -1,12 +1,13 @@
 package com.sharebooks.dao.generic;
 
+import java.sql.SQLException;
 import java.util.List;
 import com.sharebooks.coreEntities.Notification;
 public interface NotificationDao extends Dao {
 
 public List<Notification> getAllNotifications();
 	
-	public List<Notification> getNotificationsByTargetUserId(int targetUserId);
+	public List<Notification> getNotifications(String recepientUid) throws SQLException,Exception;;
 	
-	public boolean createNotification(Notification notification);
+	public boolean updateNotification(Notification notification) throws SQLException,Exception;
 }

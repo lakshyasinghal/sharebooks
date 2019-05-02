@@ -1,9 +1,8 @@
 package com.sharebooks.factory.entityFactory;
 
 import java.sql.ResultSet;
-
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
-
 import com.sharebooks.helperEntities.City;
 
 public class CityFactory implements EntityFactory<City>{
@@ -49,6 +48,13 @@ public class CityFactory implements EntityFactory<City>{
 
 	@Override
 	public City createFromJson(String json) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public List<City> getListFromJson(String json) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

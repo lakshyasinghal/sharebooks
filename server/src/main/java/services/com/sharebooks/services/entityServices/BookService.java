@@ -98,6 +98,41 @@ public class BookService extends EntityService{
 	}
 	
 	
+	public List<Book> getBooksBySearchTerm(String searchTerm) throws Exception{
+		try{
+			List<Book> books = dao.getBooksBySearchTerm(searchTerm);
+			return books;
+		}
+		catch(SQLException ex){
+			sendExceptionMail(ExceptionType.SQL , ex);
+			LOGGER.debug(ex.getSQLState());
+			throw ex;
+		}
+		catch(Exception ex){
+			sendExceptionMail(ExceptionType.UNIDENTIFIED , ex);
+			LOGGER.debug(ex.getMessage());
+			throw ex;
+		}
+	}
+	
+	public List<Book> getBooksByCategory(String category) throws Exception{
+		try{
+			List<Book> books = dao.getBooksByCategory(category);
+			return books;
+		}
+		catch(SQLException ex){
+			sendExceptionMail(ExceptionType.SQL , ex);
+			LOGGER.debug(ex.getSQLState());
+			throw ex;
+		}
+		catch(Exception ex){
+			sendExceptionMail(ExceptionType.UNIDENTIFIED , ex);
+			LOGGER.debug(ex.getMessage());
+			throw ex;
+		}
+	}
+	
+	
 	//insert book method with book argument
 	public boolean createBook(Book book) throws SQLException,Exception{
 		//LOGGER.entering("BookService", "getBookById");

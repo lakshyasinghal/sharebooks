@@ -20,6 +20,8 @@ public interface UserDao extends Dao {
 	
 	public boolean createUser(User user) throws SQLException,Exception;
 	
+	public boolean updateProfile(String uid, String name, String username, String contactNo, String password) throws SQLException,Exception;
+	
 	public boolean updateUser(User user) throws SQLException,Exception;
 	
 	public boolean deleteUser(String uid) throws SQLException,Exception;
@@ -27,4 +29,6 @@ public interface UserDao extends Dao {
 	public boolean updateUserPassword(int id , String password) throws SQLException,Exception;
 	
 	public boolean updateContact(int id , String contactNo) throws SQLException,Exception;
+	
+	public boolean savePreferences(String uid , String preferencesJsonArr) throws SQLException,Exception;
 }

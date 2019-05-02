@@ -7,6 +7,7 @@ import com.sharebooks.coreEntities.Book;
 import com.sharebooks.coreEntities.enums.EntityType;
 import com.sharebooks.dao.generic.AbstractBookDao;
 import com.sharebooks.database.sql.*;
+import com.sharebooks.database.sql.customQueries.BookQueries;
 import com.sharebooks.database.sql.query.SqlDeleteQuery;
 import com.sharebooks.database.sql.query.SqlInsertQuery;
 import com.sharebooks.database.sql.query.SqlQuery;
@@ -22,6 +23,7 @@ public class BookSqlDao extends AbstractBookDao{
 	private EntityFactory<Book> factory;
 	private final Database database = Database.SHAREBOOKS;
 	private final Table table = Table.BOOKS;
+	private final BookQueries bookQueries = BookQueries.instance();
 
 	
 	public BookSqlDao(EntityFactory<Book> factory) {
@@ -51,6 +53,7 @@ public class BookSqlDao extends AbstractBookDao{
 		return books;
 	}
 	
+	
 
 	@Override
 	public Book getBook(String uid) throws SQLException,Exception {
@@ -65,6 +68,48 @@ public class BookSqlDao extends AbstractBookDao{
 		}
 		LOGGER.trace("Leaving getBookById");
 		return books.get(0);
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public List<Book> getBooksBySearchTerm(String searchTerm) throws Exception{
+		LOGGER.trace("Entering getBooksBySearchTerm");
+		List<Book> books = null;
+		//get sql read query
+		String query = bookQueries.getQueryForSearchTerm(searchTerm);
+		AbstractSqlQueryProcessor queryProcessor = SqlReadQueryProcessor.getInstance();
+		List<Entity> entityList = (List<Entity>)queryProcessor.processReadQuery(database.desc() , query, EntityType.BOOK);
+		books = convertIntoBookList(entityList);
+		LOGGER.trace("Leaving getBooksBySearchTerm");
+		return books;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Book> getSimilarBooks(Book book) throws SQLException, Exception {
+		LOGGER.trace("Entering getSimilarBooks");
+		List<Book> books = null;
+		//get sql read query
+		String query = bookQueries.getQueryForSearchTerm(book.title());
+		AbstractSqlQueryProcessor queryProcessor = SqlReadQueryProcessor.getInstance();
+		List<Entity> entityList = (List<Entity>)queryProcessor.processReadQuery(database.desc() , query, EntityType.BOOK);
+		books = convertIntoBookList(entityList);
+		LOGGER.trace("Leaving getSimilarBooks");
+		
+		return books;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Book> getBooksByCategory(String category) throws Exception{
+		LOGGER.trace("Entering getBooksByCategory");
+		List<Book> books = null;
+		//get sql read query
+		String query = bookQueries.getByCategoryQuery(category);
+		AbstractSqlQueryProcessor queryProcessor = SqlReadQueryProcessor.getInstance();
+		List<Entity> entityList = (List<Entity>)queryProcessor.processReadQuery(database.desc() , query, EntityType.BOOK);
+		books = convertIntoBookList(entityList);
+		LOGGER.trace("Leaving getBooksByCategory");
+		return books;
 	}
 
 	@Override

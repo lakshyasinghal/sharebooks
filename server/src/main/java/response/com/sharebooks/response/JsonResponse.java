@@ -5,6 +5,8 @@ import java.util.Map;
 import org.json.simple.JSONObject;
 import com.sharebooks.entity.Entity;
 import com.sharebooks.exception.JsonSerializationException;
+import com.sharebooks.serialization.json.JsonSerializable;
+import com.sharebooks.util.JsonUtility;
 
 
 
@@ -53,11 +55,11 @@ public class JsonResponse implements Response {
 			if(map!=null){
 				for(String key : map.keySet()){
 					Object obj = map.get(key);
-					if(obj instanceof Entity){
-						jo.put(key, ((Entity)obj).serializeAsJson());
+					if(obj instanceof JsonSerializable){
+						jo.put(key, JsonUtility.getJSONObjFromObj((JsonSerializable)obj));
 					}
 					else if(obj instanceof List){
-						jo.put(key, getSerializedList((List<Entity>)obj));
+						jo.put(key, JsonUtility.getJsonArrayFromList((List<JsonSerializable>)obj));
 					}
 					else if(obj instanceof String || obj instanceof Integer){
 						jo.put(key, obj);
@@ -69,28 +71,28 @@ public class JsonResponse implements Response {
 			}
 			
 			
-			return jo.toString();
+			return jo.toJSONString();
 		}
 		catch(Exception ex){
 			throw new JsonSerializationException(ex.getMessage());
 		}
 	}
 	
-	private String getSerializedList(List<Entity> list) throws JsonSerializationException{
-		StringBuilder serList = new StringBuilder();
-		if(list==null || list.size()==0){
-			return "[]";
-		}
-		serList.append("[");
-		int i=0;
-		for(int len=list.size() ; i<len-1 ; i++){
-			serList.append(list.get(i).serializeAsJson());
-			serList.append(",");
-		}
-		serList.append(list.get(i).serializeAsJson());
-		serList.append("]");
-		return serList.toString();
-	}
+//	private String getSerializedList(List<Entity> list) throws JsonSerializationException{
+//		StringBuilder serList = new StringBuilder();
+//		if(list==null || list.size()==0){
+//			return "[]";
+//		}
+//		serList.append("[");
+//		int i=0;
+//		for(int len=list.size() ; i<len-1 ; i++){
+//			serList.append(list.get(i).serializeAsJson());
+//			serList.append(",");
+//		}
+//		serList.append(list.get(i).serializeAsJson());
+//		serList.append("]");
+//		return serList.toString();
+//	}
 	
 	
 }

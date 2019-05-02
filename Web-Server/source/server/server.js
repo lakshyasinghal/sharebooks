@@ -96,6 +96,7 @@ function addRouters(){
 	//the order is important here
 	app.use('/api',routers.userRouter);
 	app.use('/api',routers.bookRouter);
+	app.use('/api',routers.notificationRouter);
 	app.use('/api',routers.fileUploader);
 	app.use('/api',routers.miscRouter);
 	app.use('/',routers.staticRouter);

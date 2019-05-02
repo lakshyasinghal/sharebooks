@@ -2,10 +2,7 @@ package com.sharebooks.factory.entityFactory;
 
 import java.sql.ResultSet;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
-
-import org.json.simple.JSONArray;
 
 import com.sharebooks.helperEntities.State;
 
@@ -49,6 +46,12 @@ public class StateFactory implements EntityFactory<State>{
 
 	@Override
 	public State createFromJson(String json) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<State> getListFromJson(String json) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

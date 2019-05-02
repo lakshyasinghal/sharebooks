@@ -1,12 +1,9 @@
 package com.sharebooks.factory.entityFactory;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -123,5 +120,11 @@ public class UserFactory implements EntityFactory<User>{
 			preferences.add(new Preference(category));
 		}
 		return preferences;
+	}
+
+	@Override
+	public List<User> getListFromJson(String json) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

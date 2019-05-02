@@ -21,10 +21,24 @@ public class BookResource {
 	}
 	
 	@GET
-	@Path("/books/{id}")
+	@Path("/books/{uid}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getBookById(@Context HttpServletRequest req , @PathParam("id") String id) throws Exception{
-		return requestProcessor.processGetBookRequest(id);
+	public String getBookById(@Context HttpServletRequest req , @PathParam("uid") String uid) throws Exception{
+		return requestProcessor.processGetBookRequest(uid);
+	}
+	
+	@GET
+	@Path("/books/search/{searchTerm}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getBooksBySearchTerm(@Context HttpServletRequest req , @PathParam("searchTerm") String searchTerm) throws Exception{
+		return requestProcessor.processGetBooksBySearchTermRequest(searchTerm);
+	}
+	
+	@GET
+	@Path("/books/category/{category}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getBooksByCategory(@Context HttpServletRequest req , @PathParam("category") String category) throws Exception{
+		return requestProcessor.processGetBooksByCategoryRequest(category);
 	}
 	
 	@PUT
@@ -42,12 +56,11 @@ public class BookResource {
 	}
 	
 	@POST
-	@Path("/books/{id}/image")
+	@Path("/books/{uid}/image")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String updateBook(@Context HttpServletRequest req, @PathParam("id") String id, @FormParam("imgSrc") String imgSrc) throws Exception{
-		return requestProcessor.processUploadImageSrcRequest(id,imgSrc);
+	public String updateBook(@Context HttpServletRequest req, @PathParam("uid") String uid, @FormParam("imgSrc") String imgSrc) throws Exception{
+		return requestProcessor.processUploadImageSrcRequest(uid,imgSrc);
 	}
-	
 	
 	@DELETE
 	@Path("/books")

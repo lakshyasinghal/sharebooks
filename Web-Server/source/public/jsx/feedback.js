@@ -45,10 +45,9 @@ class Feedback extends React.Component {
 		if(!this.isSubmitValid()){
 			return;
 		}
-		$httpService.saveFeedback({rating:rating,comments:comments}, (res)=>{
-			if(res.success){alert("Feedback saved successfully");}
-			else{alert("Some error occurred");}
-		}, ()=>{});
+		$httpService.saveFeedback([],{rating:rating,comments:comments}, (res)=>{
+			alert("Feedback saved successfully")
+		});
 	}
 
 	render(){

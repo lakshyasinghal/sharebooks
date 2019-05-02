@@ -13,7 +13,7 @@ const $categories = $config.$categories;
 const DropDown = utilModules.DropDown;
 const Message = utilModules.Message;
 
-const user = JSON.parse($storage.get("user"));
+const user = $storage.get("user");
 
 class AddBook extends React.Component {
 	constructor(props){
@@ -87,11 +87,9 @@ class AddBook extends React.Component {
 	}
 
 	successCallback(res){
-		if(res.success){
-			const messageConfig = {message:$sm.message(res.statusCode),type:"success",display:true};
-			this.setState({messageConfig:messageConfig});
-			this.messageOffTimer();
-		}
+		const messageConfig = {message:$sm.message(res.statusCode),type:"success",display:true};
+		this.setState({messageConfig:messageConfig});
+		this.messageOffTimer();
 	}
 
 	render(){
@@ -233,7 +231,7 @@ function validateBook(book){
 
 function addBook(book,successCallback){
 	//debugger;
-	$httpService.addBook(book,successCallback);
+	$httpService.addBook([],book,successCallback);
 	//setTimeout(uploadBookPhoto,3000);
 }
 

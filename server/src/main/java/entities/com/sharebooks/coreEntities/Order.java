@@ -19,7 +19,7 @@ public final class Order extends CoreEntity {
 		//nothing
 	}
 	
-	public Order(int id , String referenceNo , String requestRefNo , OrderType type , OrderStatus status , long buyerId , long sellerId
+	public Order(int id, String uid, String referenceNo , String requestRefNo , OrderType type , OrderStatus status , long buyerId , long sellerId
 			, double amount){
 		super(id);
 		this.referenceNo = referenceNo;
@@ -33,23 +33,15 @@ public final class Order extends CoreEntity {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public String serializeAsJson() throws JsonSerializationException {
-		try{
-			JSONObject jo = new JSONObject();
-			jo.put("id", id);
-			jo.put("referenceNo" , referenceNo);
-			jo.put("requestRefNo", requestRefNo);
-			jo.put("type" , type.id());
-			jo.put("status" , status.id());
-			jo.put("buyerId", buyerId);
-			jo.put("sellerId", sellerId);
-			jo.put("amount" , amount);
-			
-			return jo.toString();
-		}
-		catch(Exception ex){
-			throw new JsonSerializationException(ex.getMessage());
-		}
+	public void serializeAsJson(JSONObject jo) throws JsonSerializationException {
+		super.serializeAsJson(jo);
+		jo.put("referenceNo" , referenceNo);
+		jo.put("requestRefNo", requestRefNo);
+		jo.put("type" , type.id());
+		jo.put("status" , status.id());
+		jo.put("buyerId", buyerId);
+		jo.put("sellerId", sellerId);
+		jo.put("amount" , amount);
 	}
 
 	

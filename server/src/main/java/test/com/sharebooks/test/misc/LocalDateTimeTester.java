@@ -63,7 +63,7 @@ public class LocalDateTimeTester extends AbstractTester{
 	private void test6(){
 		try{
 			LocalDateTime localDateTime = LocalDateTime.buildFromString("2018-4-3 2:5:47");
-			display(localDateTime.serializeAsJson());
+			//display(localDateTime.serializeAsJson());
 		}
 		catch(Exception ex){
 			ex.printStackTrace();

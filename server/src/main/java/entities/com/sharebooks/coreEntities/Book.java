@@ -11,7 +11,6 @@ import com.sharebooks.exception.*;
 
 public final class Book extends CoreEntity implements Comparable<Book> {
 	
-	private String uid;
 	private String title;
 	private String author;
 	private String category;
@@ -34,13 +33,7 @@ public final class Book extends CoreEntity implements Comparable<Book> {
 	//constructor
 	public Book(int id, String uid, String title , String author , String category , String subcategory , int pages , String ownerUid , String imgSrc , AvailableStatus available , AvailableStatus buy , AvailableStatus rent , 
 			int buyAmount , int rentAmount, LocalDateTime creationTime, LocalDateTime lastModificationTime){
-		super(id , creationTime , lastModificationTime);
-		if(uid==null){
-			this.uid = UUID.randomUUID().toString();
-		}
-		else{
-			this.uid = uid;
-		}
+		super(id, uid, creationTime , lastModificationTime);
 		this.title = title;
 		this.author = author;
 		this.category = category;
@@ -65,27 +58,21 @@ public final class Book extends CoreEntity implements Comparable<Book> {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public String serializeAsJson() throws JsonSerializationException {
+	public void serializeAsJson(JSONObject jo) throws JsonSerializationException {
 		try{
-			JSONObject jo = new JSONObject();
-			jo.put("id", id());
-			jo.put("uid", uid());
+			super.serializeAsJson(jo);
 			jo.put("title", title());
 			jo.put("author", author());
 			jo.put("category", category());
 			jo.put("subcategory", subcategory());
 			jo.put("pages", pages());
 			jo.put("ownerUid" , ownerUid);
-			//jo.put("description", description.serializeAsJson());
 			jo.put("imgSrc", imgSrc);
 			jo.put("available" , available.id());
 			jo.put("buy", buy.id());
 			jo.put("rent" , rent.id());
 			jo.put("buyAmount" , buyAmount);
 			jo.put("rentAmount" , rentAmount);
-			jo.put("creationTime", creationTime.toString());
-			jo.put("lastModificationTime", lastModificationTime.toString());
-			return jo.toString();
 		}
 		catch(Exception ex){
 			throw new JsonSerializationException(ex.getMessage());

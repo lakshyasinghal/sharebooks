@@ -56,6 +56,21 @@ public class UserResource {
 		return "{success:\"false\"}";
 	}
 	
+	@POST
+	@Path("/users/{uid}/preferences")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String savePreferences(@PathParam("uid") String uid, @Context HttpServletRequest req) throws Exception{
+		return reqProcessor.processSavePreferencesRequest(uid,req);
+	}
+	
+	@POST
+	@Path("/users/{uid}/profile")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String updateProfile(@PathParam("uid") String uid, @FormParam("name") String name, @FormParam("username") String username, 
+			@FormParam("contactNo") String contactNo, @FormParam("password") String password) throws Exception{
+		return reqProcessor.processUpdateProfileRequest(uid,name,username,contactNo,password);
+	}
+	
 	@OPTIONS
 	@Path("/users")
 	@Produces(MediaType.APPLICATION_XML)

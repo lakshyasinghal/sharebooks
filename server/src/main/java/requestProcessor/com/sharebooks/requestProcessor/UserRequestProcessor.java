@@ -12,6 +12,7 @@ import com.sharebooks.exception.CacheException;
 import com.sharebooks.exception.UsernameAlreadyExistsException;
 import com.sharebooks.factory.entityFactory.EntityFactory;
 import com.sharebooks.factory.misc.ResponseFactory;
+import com.sharebooks.helperEntities.Preference;
 import com.sharebooks.response.Error;
 import com.sharebooks.response.Response;
 import com.sharebooks.response.Status;
@@ -199,6 +200,66 @@ public class UserRequestProcessor extends AbstractRequestProcessor{
 		}
 		Response response = responseFactory.getJsonResponse(success , statusCode , errorCode , null);
 		LOGGER.trace("Leaving processUpdateRequest");
+		return response.process();
+	}
+	
+	public String processSavePreferencesRequest(String uid, HttpServletRequest req) throws Exception{
+		LOGGER.trace("Entering processSavePreferencesRequest");
+		boolean success = false;
+		int statusCode = -1,errorCode = -1;
+		String preferencesJson = null;
+		List<Preference> preferences = null;
+		try{
+			preferencesJson = getJsonFromRequest(req);
+			preferences = (List<Preference>) FactorySource.getEntityFactory(EntityType.PREFERENCE.desc()).getListFromJson(preferencesJson);
+			success = userService.savePreferences(uid, preferences);
+			if(success){
+				statusCode = Status.PREFERENCES_SAVED_SUCCESSFULLY.id();
+			}
+			else{
+				statusCode = Status.PREFERENCES_NOT_SAVED.id();
+			}
+		}
+		catch(SQLException ex){
+			LOGGER.error("SQLException :",ex);
+			success = false;
+			errorCode = Error.DATABASE_ERROR.id();
+		}
+		catch(Exception ex){
+			LOGGER.error("Exception :",ex);
+			success = false;
+			errorCode = Error.GENERAL_EXCEPTION.id();
+		}
+		Response response = responseFactory.getJsonResponse(success , statusCode , errorCode , null);
+		LOGGER.trace("Leaving processSavePreferencesRequest");
+		return response.process();
+	}
+	
+	public String processUpdateProfileRequest(String uid, String name, String username, String contactNo, String password) throws Exception{
+		LOGGER.trace("Entering processUpdateProfileRequest");
+		boolean success = false;
+		int statusCode = -1,errorCode = -1;
+		try{
+			success = userService.updateProfile(uid, name, username, contactNo, password);
+			if(success){
+				statusCode = Status.USER_PROFILE_UPDATED.id();
+			}
+			else{
+				statusCode = Status.USER_PROFILE_NOT_UPDATED.id();
+			}
+		}
+		catch(SQLException ex){
+			LOGGER.error("SQLException :",ex);
+			success = false;
+			errorCode = Error.DATABASE_ERROR.id();
+		}
+		catch(Exception ex){
+			LOGGER.error("Exception :",ex);
+			success = false;
+			errorCode = Error.GENERAL_EXCEPTION.id();
+		}
+		Response response = responseFactory.getJsonResponse(success , statusCode , errorCode , null);
+		LOGGER.trace("Leaving processUpdateProfileRequest");
 		return response.process();
 	}
 }

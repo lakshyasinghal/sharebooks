@@ -4,6 +4,7 @@ package com.sharebooks.sources;
 import com.sharebooks.services.entityServices.BookRequestService;
 import com.sharebooks.services.entityServices.BookService;
 import com.sharebooks.services.entityServices.MiscService;
+import com.sharebooks.services.entityServices.NotificationService;
 import com.sharebooks.services.entityServices.UserService;
 
 
@@ -11,6 +12,7 @@ public class ServiceSource {
 	private static BookService bookService;
 	private static UserService userService;
 	private static BookRequestService bookRequestService;
+	private static NotificationService notificationService;
 	private static MiscService miscService;
 	
 	public static void init() throws Exception{
@@ -18,6 +20,7 @@ public class ServiceSource {
 			initBookService();
 			initUserService();
 			initBookRequestService();
+			initNotificationService();
 			initMiscService();
 		}
 		catch(Exception ex){
@@ -68,6 +71,20 @@ public class ServiceSource {
 	
 	
 	//not using cache with book requests
+	private static void initNotificationService() throws Exception{
+		try{
+			//Cache<User> userCache = (Cache<User>) CacheSource.getCache(EntityType.USER.desc());
+			//BookRequestDao dao = (BookRequestDao)DaoSource.getDao(EntityType.BOOK_REQUEST.desc());
+			//BookRequestService.init(dao);
+			notificationService = new NotificationService();
+		}
+		catch(Exception ex){
+			throw ex;
+		}
+	}
+	
+	
+	//not using cache with book requests
 	private static void initMiscService() throws Exception{
 		try{
 			//Cache<User> userCache = (Cache<User>) CacheSource.getCache(EntityType.USER.desc());
@@ -92,6 +109,10 @@ public class ServiceSource {
 	
 	public static BookRequestService getBookRequestService(){
 		return bookRequestService;
+	}
+	
+	public static NotificationService getNotificationService(){
+		return notificationService;
 	}
 	
 	public static MiscService getMiscService(){

@@ -33,9 +33,6 @@ class Results extends React.Component {
 	    this.getAllResults();
 	}
 
-	noResults(){
-
-	}
 
 	getSelectedBook(){
 		this.state.selectedBook = util.$storage.get("selectedBook");
@@ -48,16 +45,11 @@ class Results extends React.Component {
 	 */
 	getAllResults(){
 		var selectedBook = this.state.selectedBook;
-		$httpService.getAllResults({book:selectedBook} , (res)=>{
-			if(res.success){
-				const selectedBookResult = res.results[0];
-				const allRelatedResults = res.results[1];
-				this.setState({selectedBookResult:selectedBookResult,allRelatedResults:allRelatedResults});
-			}
-			else{
-				this.noResults();
-			}
-		} , ()=>{});
+		$httpService.getAllResults(null, {book:selectedBook}, (res)=>{
+			const selectedBookResult = res.results[0];
+			const allRelatedResults = res.results[1];
+			this.setState({selectedBookResult:selectedBookResult,allRelatedResults:allRelatedResults});
+		});
 	}
 
 	goHome(){

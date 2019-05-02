@@ -5,12 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
 import com.sharebooks.coreEntities.BookRequest;
+import com.sharebooks.coreEntities.Notification;
 import com.sharebooks.coreEntities.enums.EntityType;
+import com.sharebooks.coreEntities.enums.NotificationStatus;
+import com.sharebooks.coreEntities.enums.NotificationType;
 import com.sharebooks.dao.generic.BookRequestDao;
+import com.sharebooks.dateTime.LocalDateTime;
 import com.sharebooks.exception.CacheException;
 import com.sharebooks.exception.ExceptionType;
 import com.sharebooks.exception.MultipleInstanceException;
+import com.sharebooks.factory.entityFactory.NotificationFactory;
 import com.sharebooks.sources.DaoSource;
+import com.sharebooks.sources.FactorySource;
 
 public class BookRequestService extends EntityService {
 	//instanceCount varaible will help in replicating the singleton 
@@ -58,7 +64,9 @@ public class BookRequestService extends EntityService {
 	public boolean createBookRequest(BookRequest bookRequest) throws SQLException,Exception{
 		LOGGER.trace("Entering createBookRequest");
 		try{
-			boolean created = dao.createBookRequest(bookRequest);
+			NotificationFactory nf = (NotificationFactory) FactorySource.getEntityFactory(EntityType.NOTIFICATION.desc());
+			Notification notification = nf.create(bookRequest.bookOwnerUid(), NotificationType.BOOK_REQUEST, bookRequest.uid(), null);
+			boolean created = dao.createBookRequest(bookRequest,bookRequest.uid(),notification);
 			LOGGER.trace("Leaving createBookRequest");
 			return created;
 		}
@@ -92,7 +100,9 @@ public class BookRequestService extends EntityService {
 	public boolean acceptBookRequest(BookRequest bookRequest) throws SQLException,Exception{
 		LOGGER.trace("Entering acceptBookRequest");
 		try{
-			boolean accepted = dao.acceptBookRequest(bookRequest.uid(),bookRequest.bookUid());
+			NotificationFactory nf = (NotificationFactory) FactorySource.getEntityFactory(EntityType.NOTIFICATION.desc());
+			Notification notification = nf.create(bookRequest.requesterUid(), NotificationType.BOOK_REQUEST_ACCEPTANCE, bookRequest.uid(), null);
+			boolean accepted = dao.acceptBookRequest(bookRequest.uid(), notification);
 			LOGGER.trace("Leaving acceptBookRequest");
 			return accepted;
 		}
@@ -109,7 +119,9 @@ public class BookRequestService extends EntityService {
 	public boolean rejectBookRequest(BookRequest bookRequest) throws SQLException,Exception{
 		LOGGER.trace("Entering acceptBookRequest");
 		try{
-			boolean rejected = dao.rejectBookRequest(bookRequest.uid(),bookRequest.bookUid());
+			NotificationFactory nf = (NotificationFactory) FactorySource.getEntityFactory(EntityType.NOTIFICATION.desc());
+			Notification notification = nf.create(bookRequest.requesterUid(), NotificationType.BOOK_REQUEST_REJECTION, bookRequest.uid(), null);
+			boolean rejected = dao.rejectBookRequest(bookRequest.uid(), bookRequest.bookUid(), notification);
 			LOGGER.trace("Leaving acceptBookRequest");
 			return rejected;
 		}

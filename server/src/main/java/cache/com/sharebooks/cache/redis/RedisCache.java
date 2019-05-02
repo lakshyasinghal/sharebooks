@@ -1,44 +1,16 @@
 package com.sharebooks.cache.redis;
 
-import com.sharebooks.cache.DynamicCache;
-import com.sharebooks.entity.Entity;
+import redis.clients.jedis.Jedis;
 
 
-public class RedisCache<T extends Entity> implements DynamicCache<T> {
-
-	@Override
-	public void init(int capacity) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public T get(Object key) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void insert(Object key, T t) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void delete() throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public int size() {
-		return 0;
-	}
+public class RedisCache { 
 	
-	public void display(){
-		
-	}
-
-}
+	
+   public static void main(String[] args) { 
+      //Connecting to Redis server on localhost 
+      Jedis jedis = new Jedis("localhost"); 
+      System.out.println("Connection to server sucessfully"); 
+      //check whether server is running or not 
+      System.out.println("Server is running: "+jedis.ping()); 
+   }
+} 

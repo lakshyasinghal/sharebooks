@@ -1,6 +1,7 @@
 /* jshint esversion: 6 */
-
+const $config = require("./../static/config.js");
 //const dummyServer = require('./../data/dataRequestServer.js');
+const $sm = $config.$sm;
 
 const REQUEST_TYPE = {
 	POST: "POST",
@@ -24,7 +25,7 @@ var http = (function(){
 	function Http(){
 		var urlPart1 = "/api/";
 		//data is params here
-		this.get = function(serviceURL, content_type , data , successCallback , failureCallback){
+		this.get = function(serviceURL, content_type, pathParams, data , successCallback , failureCallback){
 			if(requestMode == 2){
 				var responseData = (dummyServer[url])(data);
 				successCallback(responseData);
@@ -32,8 +33,8 @@ var http = (function(){
 			}
 			else{
 				var http = new XMLHttpRequest();
-
-				var paramString = getParamString(data);
+				var paramString = getSuitableParams(data,content_type);
+				serviceURL = appendPathParams(serviceURL, pathParams);
 				
 				if(paramString != ""){
 					serviceURL = serviceURL + "?" + paramString;
@@ -47,7 +48,7 @@ var http = (function(){
 			}
 		};
 
-		this.post = function(serviceURL, content_type , data , successCallback , failureCallback){
+		this.post = function(serviceURL, content_type, pathParams, data , successCallback , failureCallback){
 			if(requestMode == 2){
 				var responseData = (dummyServer[url])(data);
 				successCallback(responseData);
@@ -56,6 +57,7 @@ var http = (function(){
 			else{
 				var http = new XMLHttpRequest();
 				var params = getSuitableParams(data,content_type);
+				serviceURL = appendPathParams(serviceURL, pathParams);
 				//true value will make the request asynchronous
 				http.open("POST", urlPart1+serviceURL, true);
 				http.setRequestHeader("Content-type", content_type);
@@ -65,10 +67,10 @@ var http = (function(){
 			}
 		};
 
-		this.put = function(serviceURL, content_type , data , successCallback , failureCallback){
+		this.put = function(serviceURL, content_type, pathParams, data , successCallback , failureCallback){
 			var http = new XMLHttpRequest();
 			var params = getSuitableParams(data,content_type);
-			
+			serviceURL = appendPathParams(serviceURL, pathParams);
 			//true value will make the request asynchronous
 			http.open("PUT", urlPart1+serviceURL, true);
 			http.setRequestHeader("Content-type", content_type);
@@ -112,7 +114,13 @@ function getOnReadyStateChangeCreator(http,successCallback,failureCallback){
 			    	}
 
 			       	if(http.status==200){
-			       		successCallback(responseText);
+			       		if(responseText.success){
+			       			tryParseJsonValues(responseText);
+			       			successCallback(responseText);
+			       		}
+			       		else{
+			       			//show status message corresponding to status code
+			       		}
 			       	}
 			        else{
 			        	//debugger;
@@ -135,14 +143,21 @@ function getOnReadyStateChangeCreator(http,successCallback,failureCallback){
 
 
 function getSuitableParams(data , content_type){
-	var params;
-	if(content_type==CONTENT_TYPE.JSON){
-		params = JSON.stringify(data);
+	var queryString = "";
+	if(content_type==undefined){
+		content_type = CONTENT_TYPE.FORM;
 	}
-	else{
-		params = getParamString(data);
+	
+	if(data!=null){
+		if(content_type==CONTENT_TYPE.JSON){
+			queryString = JSON.stringify(data);
+		}
+		else{
+			queryString = getParamString(data);
+		}
 	}
-	return params;
+	
+	return queryString;
 }
 
 
@@ -165,6 +180,34 @@ function getParamString(paramsObject){
 }
 
 
+//will convert api url of type books/search/? into books/search/head-first-java
+//the spaces will be replaced by '-' character
+//need to handle exceptions ************************************
+function appendPathParams(url, pathParams){
+	if(!pathParams || pathParams.length==0){
+		return url;
+	}
+	var urlTokens = url.split("?");
+	for(var i=0,len=urlTokens.length-1;i<len;i++){
+		urlTokens[i] += encodeURIComponent(pathParams[i]);  //encodeURIComponent will encode the spaces
+	}
+	return urlTokens.join('');
+}
+
+
+//this function will be extensively used to parse response object which might contain some unparsed json values
+function tryParseJsonValues(obj){
+	for(var key in obj){
+		try{
+			obj[key] = JSON.parse(obj[key]);
+		}
+		catch(err){
+
+		}
+	}
+}
+
+
 
 //httpService containing all the requests
 $httpService = (function(){
@@ -175,12 +218,14 @@ $httpService = (function(){
 	var GET_BOOK = "books";        //will become api/books/2
 	var GET_ALL_BOOKS = "books";   // will become api/books
 	var GET_BOOKS = "getBooks";
+	var GET_BOOKS_BY_SEARCH_TERM = "books/search/?";
 	var GET_USER = "users";
+	var GET_BOOK_CATEGORIES = "book-categories";
 	var GET_USER_BY_ID = "getUserById";
-	var FILTER_BY_CATEGORY = "books/category";           
-	var GET_BOOKS_BY_SEARCH_STRING = "books/search";
-	var UPDATE_USER = "users";                           //****
-	var GET_NOTIFICATIONS = "notifications";             //****
+	var FILTER_BY_CATEGORY = "books/category/?";         //api will be of type books/category/computer_science       
+	var UPDATE_USER = "users";  
+	var UPDATE_PROFILE = "users/?/profile";                         //  users/uid/profile
+	var GET_NOTIFICATIONS = "notifications/?";             // notifications/userUid
 	var GET_ALL_RESULTS = "getAllResults";
 	var GET_SIMILAR_BOOKS = "getSimilarBooks";
 	var ADD_BOOK_REQUEST = "bookRequests";
@@ -190,8 +235,8 @@ $httpService = (function(){
 	var GET_SUBCATEGORIES = "getSubcategories";
 	var SAVE_FEEDBACK = "saveFeedback";
 	var SAVE_COMPLAINT = "account/complaint";
-	var GET_PREFERENCE_OPTIONS = "preferences";
-	var SAVE_PREFERENCES = "account/preferences";
+	var GET_PREFERENCE_OPTIONS = "book-categories";
+	var SAVE_PREFERENCES = "users/?/preferences";
 	var GET_SELECTED_RESULT = "getSelectedResult";
 	var SAVE_BOOK_REQUEST = "saveBookRequest";
 
@@ -203,11 +248,14 @@ $httpService = (function(){
 		this.getBook = httpMethodFactory(REQUEST_TYPE.GET,GET_BOOK,CONTENT_TYPE.FORM);
 		this.getAllBooks = httpMethodFactory(REQUEST_TYPE.GET,GET_ALL_BOOKS,CONTENT_TYPE.FORM);
 		this.getBooks = httpMethodFactory(REQUEST_TYPE.GET,GET_BOOKS,CONTENT_TYPE.FORM);
+		this.getBooksBySearchTerm = httpMethodFactory(REQUEST_TYPE.GET,GET_BOOKS,CONTENT_TYPE.FORM);
 		this.getUser = httpMethodFactory(REQUEST_TYPE.GET,GET_USER,CONTENT_TYPE.FORM);
+		this.getBookCategories = httpMethodFactory(REQUEST_TYPE.GET,GET_BOOK_CATEGORIES,CONTENT_TYPE.FORM);
 		this.getUserById = httpMethodFactory(REQUEST_TYPE.GET,GET_USER_BY_ID,CONTENT_TYPE.FORM);
 		this.filterByCategory = httpMethodFactory(REQUEST_TYPE.GET,FILTER_BY_CATEGORY,CONTENT_TYPE.FORM);
-		this.getBooksBySearchString = httpMethodFactory(REQUEST_TYPE.GET,GET_BOOKS_BY_SEARCH_STRING,CONTENT_TYPE.FORM);
+		this.getBooksBySearchTerm = httpMethodFactory(REQUEST_TYPE.GET,GET_BOOKS_BY_SEARCH_TERM,CONTENT_TYPE.FORM);
 		this.updateUser = httpMethodFactory(REQUEST_TYPE.POST,UPDATE_USER,CONTENT_TYPE.FORM);
+		this.updateProfile = httpMethodFactory(REQUEST_TYPE.POST,UPDATE_PROFILE,CONTENT_TYPE.FORM);
 		this.getNotifications = httpMethodFactory(REQUEST_TYPE.GET,GET_NOTIFICATIONS,CONTENT_TYPE.FORM);
 		this.getAllResults = httpMethodFactory(REQUEST_TYPE.GET,GET_ALL_RESULTS,CONTENT_TYPE.FORM);
 		this.getSimilarBooks = httpMethodFactory(REQUEST_TYPE.POST,GET_SIMILAR_BOOKS,CONTENT_TYPE.FORM);
@@ -229,23 +277,23 @@ $httpService = (function(){
 
 
 /*this closure fuction will act as factory and will generate get,post and other functions with suitable serviceURL and content type*/
-function httpMethodFactory(request_type,serviceName,content_type){
+function httpMethodFactory(request_type,apiName,content_type){
 	var func = undefined;
 
 	switch (request_type) {
 		case "GET":
-			func = function(params,success,failure){
-				$http.get(serviceName,content_type,params,success,failure);
+			func = function(pathParams,params,success,failure){
+				$http.get(apiName,content_type,pathParams,params,success,failure);
 			};
 			break;
 		case "POST":
-			func = function(params,success,failure){
-				$http.post(serviceName,content_type,params,success,failure);
+			func = function(pathParams,params,success,failure){
+				$http.post(apiName,content_type,pathParams,params,success,failure);
 			};
 			break;
 		case "PUT":
-			func = function(params,success,failure){
-				$http.put(serviceName,content_type,params,success,failure);
+			func = function(pathParams,params,success,failure){
+				$http.put(apiName,content_type,pathParams,params,success,failure);
 			};
 			break;
 		default:

@@ -24,12 +24,10 @@ public final class BookCategory extends HelperEntity implements Comparable<BookC
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public String serializeAsJson() throws JsonSerializationException {
+	public void serializeAsJson(JSONObject jo) throws JsonSerializationException {
 		try{
-			JSONObject jo = new JSONObject();
 			jo.put("id", id);
 			jo.put("category", category);
-			return jo.toString();
 		}
 		catch(Exception ex){
 			throw new JsonSerializationException(ex.getMessage());

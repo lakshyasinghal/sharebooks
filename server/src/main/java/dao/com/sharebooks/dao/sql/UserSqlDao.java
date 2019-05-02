@@ -3,10 +3,14 @@ package com.sharebooks.dao.sql;
 import java.sql.SQLException;
 import java.util.*;
 import org.apache.log4j.Logger;
+
+import com.sharebooks.coreEntities.Book;
 import com.sharebooks.coreEntities.User;
 import com.sharebooks.coreEntities.enums.EntityType;
 import com.sharebooks.dao.generic.AbstractUserDao;
 import com.sharebooks.database.sql.*;
+import com.sharebooks.database.sql.customQueries.BookQueries;
+import com.sharebooks.database.sql.customQueries.UserQueries;
 import com.sharebooks.database.sql.query.SqlInsertQuery;
 import com.sharebooks.database.sql.query.SqlQuery;
 import com.sharebooks.database.sql.query.SqlReadQuery;
@@ -22,6 +26,7 @@ public class UserSqlDao extends AbstractUserDao{
 	private EntityFactory<User> factory;
 	private final Database database = Database.SHAREBOOKS;
 	private final Table table = Table.USERS;
+	private final UserQueries userQueries = UserQueries.instance();
 
 	
 	public UserSqlDao(EntityFactory<User> factory) {
@@ -130,6 +135,16 @@ public class UserSqlDao extends AbstractUserDao{
 		//LOGGER.exiting("UserSqlDao", "insertUser");
 		return rowsAffected>0?true:false;
 	}
+	
+	@Override
+	public boolean updateProfile(String uid, String name, String username, String contactNo, String password) throws SQLException, Exception {
+		LOGGER.trace("Entering updateProfile");
+		//get sql read query
+		String query = userQueries.queryForUpdateProfile(uid, name, username, contactNo, password);
+		AbstractSqlQueryProcessor queryProcessor = SqlUpdateQueryProcessor.getInstance();
+		int rowsAffected = queryProcessor.processUpdateQuery(database.desc(), query);
+		return rowsAffected>0?true:false;
+	}	
 
 	
 	public boolean updateUser(User user) throws SQLException,Exception{
@@ -144,6 +159,22 @@ public class UserSqlDao extends AbstractUserDao{
 		return rowsAffected>0?true:false;
 	}
 
+	@Override
+	//preferences will be of type json array
+	public boolean savePreferences(String uid, String preferences) throws SQLException, Exception {
+		LOGGER.trace("Entering savePreferences");
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("uid", uid);
+		map.put("preferences", preferences);
+		SqlQuery query = new SqlUpdateQuery(table.desc(), map);
+		query.build();
+		LOGGER.debug(query.toString());
+		AbstractSqlQueryProcessor queryProcessor = SqlUpdateQueryProcessor.getInstance();
+		int rowsAffected = queryProcessor.processUpdateQuery(database.desc(), query.toString());
+		LOGGER.trace("Leaving savePreferences");
+		return rowsAffected>0?true:false;
+	}
+	
 	@Override
 	public boolean deleteUser(String uid) {
 	

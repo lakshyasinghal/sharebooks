@@ -6,7 +6,7 @@ import $config from "./../scripts/static/config.js";
 import util from "./../scripts/utility/utility.js";
 const $pages = $config.$pages;
 const $sm = $config.$sm;
-
+const $storage = util.$storage;
 
 //const inputInfoArr = [{desc:'Name',prop:'name'},{desc:'Email',prop:'username'},{desc:'Mobile Number',prop:'contactNo'},{desc:'Password',prop:'password'}];
 
@@ -16,7 +16,12 @@ class Profile extends React.Component {
 		super(props);
 		this.state = {
 			user: {},
-			modifiedUser: {},
+			modifiedDetails: {
+				name:null,
+				username:null,
+				contactNo:null,
+				password:null
+			},
 			readOnlyValues: {
 				name:true,
 				username:true,
@@ -24,7 +29,7 @@ class Profile extends React.Component {
 				password:true
 			}
 		};
-		this.updateUser = this.updateUser.bind(this);
+		this.updateProfile = updateProfile.bind(this);
 		this.updateHandler = this.updateHandler.bind(this);
 		this.updateReadOnly = this.updateReadOnly.bind(this);
 	}
@@ -36,8 +41,15 @@ class Profile extends React.Component {
 
 	getUser(){
 		var user = util.$storage.get('user');
-		user = JSON.parse(user)||{};
-		this.setState({user:user,modifiedUser:user});
+		this.state.user = user;
+		//setting the initila state for modifiedDetails
+		{
+			this.state.modifiedDetails.name = user.name;
+			this.state.modifiedDetails.username = user.username;
+			this.state.modifiedDetails.contactNo = user.contactNo;
+			this.state.modifiedDetails.password = user.password;
+		}
+		this.forceUpdate();
 	}
 
 	updateReadOnly(fieldName){
@@ -53,21 +65,11 @@ class Profile extends React.Component {
 	 * @param  {[type]} newVal [current input value]
 	 */
 	updateHandler(prop,newVal){
-		const modifiedUser = this.state.modifiedUser;
-		modifiedUser[prop] = newVal;
+		const modifiedDetails = this.state.modifiedDetails;
+		modifiedDetails[prop] = newVal;
 	}
 
-	updateUser(){
-		const modifiedUser = this.state.modifiedUser;
-		$httpService.updateUser({user:modifiedUser}, (res)=>{
-			if(res.success){
-				alert("user updated successfully");
-			}
-			else{
-				alert("user wasn't updated");
-			}
-		},()=>{});
-	}
+	
 
 
 	render(){
@@ -80,7 +82,7 @@ class Profile extends React.Component {
 				<ProfileTable user={this.state.user} readOnlyValues={this.state.readOnlyValues} updateReadOnly={this.updateReadOnly} updateHandler={this.updateHandler}/>
 
 				<div id="btnPanel">
-					<button id="saveBtn" className="btn-warning" onClick={()=>{this.updateUser();}}>Save</button>
+					<button id="saveBtn" className="btn-warning" onClick={()=>{this.updateProfile(this.state.modifiedDetails);}}>Save</button>
 					<button id="doneBtn" className="btn-danger" onClick={()=>{$pages.home();}}>Done</button>
 				</div>
 			</div>
@@ -126,13 +128,23 @@ class ProfileTable extends React.Component {
 					</tr>
 					<tr>
 						<td>Password</td>
-						<td><input type="text" readOnly={readOnlyValues.password} className="form-control" id="pasword" defaultValue={user.password} onChange={valChangeHandler('password')} /></td>
+						<td><input type="password" readOnly={readOnlyValues.password} className="form-control" id="pasword" defaultValue={user.password} onChange={valChangeHandler('password')} /></td>
 						<td className="center-align"><button className="btn-info" onClick={()=>{updateReadOnly('password');}}>Edit</button></td>
 					</tr>
 				</tbody>
 			</table>
 		);
 	}
+}
+
+
+
+function updateProfile(modifiedDetails){
+	const user = $storage.get('user');
+	//const updateDetails = this.state.updateDetails;
+	$httpService.updateProfile([user.uid], modifiedDetails, (res)=>{
+		alert("user updated successfully");
+	});
 }
 
 

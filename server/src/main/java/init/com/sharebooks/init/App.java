@@ -1,7 +1,6 @@
 package com.sharebooks.init;
 
 import java.util.Map;
-
 import org.apache.log4j.Logger;
 import com.sharebooks.jetty.GenericServer;
 import com.sharebooks.jetty.JettyServer;

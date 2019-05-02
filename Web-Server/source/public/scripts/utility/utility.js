@@ -48,7 +48,8 @@ const $cookie = (function(){
 })();
 
 
-
+//the storgae function will store item in session storage if available else in cookie
+//Will return object it the item is json object
 const $storage = (function(){
 
 	function Storage(){
@@ -65,12 +66,15 @@ const $storage = (function(){
 		};
 
 		this.get = function(key){
-			if(window.sessionStorage){
-				return sessionStorage.getItem(key);
-			}
-			else{
-				return $cookie.get(key);
-			}
+			var item;
+			if(window.sessionStorage){item = sessionStorage.getItem(key);}
+			else{item = $cookie.get(key);}
+
+			//try to parse if it is a stringified json object 
+			try{item = JSON.parse(item);}
+			catch(err){}
+
+			return item;
 		}
 	}
 	return new Storage();

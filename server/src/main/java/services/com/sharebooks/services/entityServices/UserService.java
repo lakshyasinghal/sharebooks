@@ -12,8 +12,10 @@ import com.sharebooks.dao.generic.UserDao;
 import com.sharebooks.exception.ExceptionType;
 import com.sharebooks.exception.MultipleInstanceException;
 import com.sharebooks.exception.UsernameAlreadyExistsException;
+import com.sharebooks.helperEntities.Preference;
 import com.sharebooks.sources.CacheSource;
 import com.sharebooks.sources.DaoSource;
+import com.sharebooks.util.JsonUtility;
 import com.sharebooks.util.PasswordUtils;
 
 @SuppressWarnings("unchecked")
@@ -35,26 +37,24 @@ public class UserService extends EntityService{
 	
 	
 	
-	public User login(String username,String password) throws SQLException,Exception{
+	public User login(String username,String password) throws Exception{
 		User user = null;
 		try {
 			String encPass = PasswordUtils.encryptPassword(password);
 			user = dao.getUserByUsernameAndPassword(username,encPass);
 		} catch(SQLException ex){
 			sendExceptionMail(ExceptionType.SQL , ex);
-			LOGGER.debug("Exception in login", ex);
 			throw ex;
 		}
 		catch(Exception ex){
 			sendExceptionMail(ExceptionType.UNIDENTIFIED , ex);
-			LOGGER.debug("Exception in login", ex);
 			throw ex;
 		}
 		return user;
 	}
 	
 	
-	public boolean createUser(User user) throws SQLException,Exception{
+	public boolean createUser(User user) throws Exception{
 		LOGGER.trace("Entering createUser");
 		try{
 			User existingUser = null; 
@@ -73,29 +73,44 @@ public class UserService extends EntityService{
 		}
 		catch(SQLException ex){
 			sendExceptionMail(ExceptionType.SQL , ex);
-			LOGGER.debug(ex.getSQLState());
 			throw ex;
 		}
 		catch(Exception ex){
 			sendExceptionMail(ExceptionType.UNIDENTIFIED , ex);
-			LOGGER.debug(ex.getMessage());
 			throw ex;
 		}
 	}
 	
-	public List<User> getAllUsers() throws SQLException,Exception{
+	public boolean updateProfile(String uid, String name, String username, String contactNo, String password) throws Exception{
+		LOGGER.trace("Entering updateProfile");
+		try{
+			boolean updated = false;
+			password = PasswordUtils.encryptPassword(password);
+			updated = dao.updateProfile(uid, name, username, contactNo, password);
+			LOGGER.trace("Leaving updateProfile");
+			return updated;
+		}
+		catch(SQLException ex){
+			sendExceptionMail(ExceptionType.SQL , ex);
+			throw ex;
+		}
+		catch(Exception ex){
+			sendExceptionMail(ExceptionType.UNIDENTIFIED , ex);
+			throw ex;
+		}
+	}
+	
+	public List<User> getAllUsers() throws Exception{
 		try{
 			List<User> users = dao.getAllUsers();
 			return users;
 		}
 		catch(SQLException ex){
 			sendExceptionMail(ExceptionType.SQL , ex);
-			LOGGER.debug(ex.getSQLState());
 			throw ex;
 		}
 		catch(Exception ex){
 			sendExceptionMail(ExceptionType.UNIDENTIFIED , ex);
-			LOGGER.debug(ex.getMessage());
 			throw ex;
 		}
 	}
@@ -114,7 +129,7 @@ public class UserService extends EntityService{
 		}
 	}
 	
-	public boolean updateUser(User user) throws SQLException,Exception{
+	public boolean updateUser(User user) throws Exception{
 		LOGGER.trace("Entering updateUser");
 		boolean updated = false;
 		try{
@@ -124,12 +139,28 @@ public class UserService extends EntityService{
 		}
 		catch(SQLException ex){
 			sendExceptionMail(ExceptionType.SQL , ex);
-			LOGGER.debug(ex.getSQLState());
 			throw ex;
 		}
 		catch(Exception ex){
 			sendExceptionMail(ExceptionType.UNIDENTIFIED , ex);
-			LOGGER.debug(ex.getMessage());
+			throw ex;
+		}
+	}
+	
+	public boolean savePreferences(String uid, List<Preference> preferences) throws Exception{
+		LOGGER.trace("Entering savePreferences");
+		boolean updated = false;
+		try{
+			updated = dao.savePreferences(uid, JsonUtility.getJsonArrayFromList(preferences).toJSONString());
+			LOGGER.trace("Leaving savePreferences");
+			return updated;
+		}
+		catch(SQLException ex){
+			sendExceptionMail(ExceptionType.SQL , ex);
+			throw ex;
+		}
+		catch(Exception ex){
+			sendExceptionMail(ExceptionType.UNIDENTIFIED , ex);
 			throw ex;
 		}
 	}

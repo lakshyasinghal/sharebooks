@@ -11,7 +11,6 @@ import com.sharebooks.exception.JsonSerializationException;
 
 public final class BookRequest extends CoreEntity {
 
-	private String uid;          //will be generated using UUID class
 	private BookRequestType type;
 	private RequestStatus status;
 	private String bookUid;
@@ -26,13 +25,7 @@ public final class BookRequest extends CoreEntity {
 	
 	public BookRequest(int id , String uid , BookRequestType type , RequestStatus status , String bookUid , String bookOwnerUid
 			, String requesterUid , int requiredPeriod , String comments, LocalDateTime creationTime, LocalDateTime lastModificationTime){
-		super(id,creationTime,lastModificationTime);
-		if(uid==null){
-			this.uid = UUID.randomUUID().toString();
-		}
-		else{
-			this.uid = uid;
-		}
+		super(id,uid,creationTime,lastModificationTime);
 		this.type = type;
 		this.status = status;
 		this.bookUid = bookUid;
@@ -44,11 +37,9 @@ public final class BookRequest extends CoreEntity {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public String serializeAsJson() throws JsonSerializationException {
+	public void serializeAsJson(JSONObject jo) throws JsonSerializationException {
 		try{
-			JSONObject jo  = new JSONObject();
-			jo.put("id", id);
-			jo.put("uid", uid);
+			super.serializeAsJson(jo);
 			jo.put("type" , type.id());
 			jo.put("status", status.id());
 			jo.put("bookUid", bookUid);
@@ -56,11 +47,6 @@ public final class BookRequest extends CoreEntity {
 			jo.put("requesterUid", requesterUid);
 			jo.put("requiredPeriod", requiredPeriod);
 			jo.put("comments", comments);
-			jo.put("creationTime", creationTime.toString());
-			jo.put("creationTime", creationTime.toString());
-			jo.put("lastModificationTime", lastModificationTime.toString());
-			
-			return jo.toString();
 		}
 		catch(Exception ex){
 			throw new JsonSerializationException(ex.getMessage());

@@ -4,10 +4,12 @@ import Header from "./modules/header.js";
 import $httpService from "./../scripts/http/httpService.js";
 import $config from "./../scripts/static/config.js";
 import util from "./../scripts/utility/utility.js";
+
+const $storage = util.$storage;
 const $pages = $config.$pages;
 const $sm = $config.$sm;
 
-
+const user = $storage.get("user");
 
 class Preferences extends React.Component {
 	constructor(props){
@@ -29,15 +31,10 @@ class Preferences extends React.Component {
 	}
 
 	componentDidMount() {
-		$httpService.getPreferenceOptions(null,(res)=>{
-	 		if(res.success){
-	 			this.state.categories = res.results;
-	 			this.showPreferences();
-	 		}
-	 		else{
-	 			alert("Didn't get any preference categories");
-	 		}
-		},()=>{});
+		$httpService.getPreferenceOptions([],null,(res)=>{
+ 			this.state.categories = res.bookCategories;
+ 			this.showPreferences();
+		});
 
 	}
 
@@ -48,7 +45,7 @@ class Preferences extends React.Component {
 
 		for(let i = 0, len = categories.length; i < len; i++){
 			let obj = {};
-			obj.category = categories[i];
+			obj.category = categories[i].category;     //categories[i] is of the form {id:1,category:"Maths"}
 			obj.selected = false; 
 			obj.key = i;
 			categoryMapArr.push(obj);
@@ -65,10 +62,9 @@ class Preferences extends React.Component {
 				selPrefs.push(obj.category);
 			}
 		}
-		$httpService.savePreferences({preferences:selPrefs},(res)=>{
-			if(res.success){alert("Preferences saved successfully");}
-			else{alert("Preferences couldn't be saved");}
-		},()=>{});
+		$httpService.savePreferences([user.uid],selPrefs,(res)=>{
+			alert("Preferences saved successfully");
+		});
 	}
 
 	//will mark the preference as selected

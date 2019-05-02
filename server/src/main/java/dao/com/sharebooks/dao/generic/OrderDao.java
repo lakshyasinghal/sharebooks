@@ -5,7 +5,9 @@ import com.sharebooks.coreEntities.Order;
 
 public interface OrderDao extends Dao {
 	
-	public List<Order> getOrderByReferenceNo(String referenceNo);
+	
+
+
 	
 	public boolean createOrder(Order order);
 	

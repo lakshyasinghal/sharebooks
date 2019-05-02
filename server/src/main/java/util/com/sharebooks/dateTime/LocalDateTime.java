@@ -91,14 +91,6 @@ public class LocalDateTime implements JsonSerializable{
 		return builder.toString();
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public String serializeAsJson() throws JsonSerializationException {
-		JSONObject jo = new JSONObject();
-		jo.put("date" , year + "-" + twoDigitFormat(month) + "-" + twoDigitFormat(date));
-		jo.put("time", twoDigitFormat(hh) + ":" + twoDigitFormat(mm) + ":" + twoDigitFormat(ss));
-		return jo.toString();
-	}
 	
 	private static String twoDigitFormat(Object obj){
 		String result = null;
@@ -107,5 +99,13 @@ public class LocalDateTime implements JsonSerializable{
 			result = "0" + result;
 		}
 		return result;
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public void serializeAsJson(JSONObject jo) throws JsonSerializationException {
+		jo.put("date" , year + "-" + twoDigitFormat(month) + "-" + twoDigitFormat(date));
+		jo.put("time", twoDigitFormat(hh) + ":" + twoDigitFormat(mm) + ":" + twoDigitFormat(ss));
 	}
 }

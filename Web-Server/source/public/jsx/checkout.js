@@ -296,19 +296,14 @@ function getRentCompInfo(selectedResult){
 
 
 function fetchSelectedResult(successCallback){
-	$httpService.getSelectedResult({},successCallback,undefined);
+	$httpService.getSelectedResult([],{},successCallback,undefined);
 }
 
 /* type is rent or buy */
 function submitBookRequest(orderType,bookId,days,totalRent){
 	let params = {orderType:orderType,bookId:bookId,days:days,totalRent:totalRent};
-	$httpService.saveBookRequest(params,(res)=>{
-		if(res.success){
-			$pages.confirmation();
-		}
-		else{
-			alert("Some error occurred");
-		}
+	$httpService.saveBookRequest([],params,(res)=>{
+		$pages.confirmation();
 	});
 }
 
