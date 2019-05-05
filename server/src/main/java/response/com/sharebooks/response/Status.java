@@ -61,9 +61,16 @@ public enum Status {
 	FETCH_STATES_SUCCESSFUL(501,"States fetched successfully."),
 	STATES_COULD_NOT_BE_FETCHED(502,"States not fetched."),
 	FETCH_CITIES_SUCCESSFUL(503,"Cities fetched successfully."),
-	CITIES_COULD_NOT_BE_FETCHED(504,"Cities could not fetched."),
+	CITIES_COULD_NOT_BE_FETCHED(504,"Cities could not be fetched."),
 	FETCH_BOOK_CATEGORIES_SUCCESSFUL(505,"Book categories fetched successfully."),
 	BOOK_CATEGORIES_COULD_NOT_BE_FETCHED(506,"Book categories could not fetched."),
+	
+	
+	//status codes for all steps related to creating order
+	QUOTE_CREATED_SUCCESSFULLY(601,"QQuote created successfully."),
+	QUOTE_NOT_CREATED(602,"Quote could not be created."),
+	QUOTE_UPDATED_SUCCESSFULLY(603,"Quote updated successfully."),
+	QUOTE_NOT_UPDATED(604,"Quote could not be updated."),
 	
 	//generic status codes
 	NO_RESULTS_FOUND(801 , "No results found for given parameters."),

@@ -5,6 +5,8 @@ import com.sharebooks.services.entityServices.BookRequestService;
 import com.sharebooks.services.entityServices.BookService;
 import com.sharebooks.services.entityServices.MiscService;
 import com.sharebooks.services.entityServices.NotificationService;
+import com.sharebooks.services.entityServices.OrderService;
+import com.sharebooks.services.entityServices.QuoteService;
 import com.sharebooks.services.entityServices.UserService;
 
 
@@ -14,6 +16,8 @@ public class ServiceSource {
 	private static BookRequestService bookRequestService;
 	private static NotificationService notificationService;
 	private static MiscService miscService;
+	private static OrderService orderService;
+	private static QuoteService quoteService;
 	
 	public static void init() throws Exception{
 		try{
@@ -22,6 +26,8 @@ public class ServiceSource {
 			initBookRequestService();
 			initNotificationService();
 			initMiscService();
+			initOrderService();
+			initQuoteService();
 		}
 		catch(Exception ex){
 			throw ex;
@@ -97,6 +103,26 @@ public class ServiceSource {
 			throw ex;
 		}
 	}
+	
+	//not using cache with book requests
+	private static void initOrderService() throws Exception{
+		try{
+			orderService = new OrderService();
+		}
+		catch(Exception ex){
+			throw ex;
+		}
+	}
+	
+	//not using cache with book requests
+	private static void initQuoteService() throws Exception{
+		try{
+			quoteService = new QuoteService();
+		}
+		catch(Exception ex){
+			throw ex;
+		}
+	}
 		
 	
 	public static BookService getBookService(){
@@ -117,5 +143,13 @@ public class ServiceSource {
 	
 	public static MiscService getMiscService(){
 		return miscService;
+	}
+	
+	public static OrderService getOrderService(){
+		return orderService;
+	}
+	
+	public static QuoteService getQuoteService(){
+		return quoteService;
 	}
 }

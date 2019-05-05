@@ -32,6 +32,7 @@ public class SqlInsertQuery implements SqlQuery{
 	
 	//function will return string like    INSERT INTO BOOKS (id,title,authorName,category) VALUES (2,'Physics','H.C Verma','Science');
 	public void build(){
+		LOGGER.trace("Enetering build");
 		List<String> fields = fieldsFromMap(objMap);
 		List<Object> values = valuesFromMap(objMap);
 		//LOGGER.entering(this.getClass().getName(), "build");
@@ -60,7 +61,8 @@ public class SqlInsertQuery implements SqlQuery{
 		builder.append(")");
 		builder.append(";");
 		queryStr = builder.toString();
-		//LOGGER.exiting(this.getClass().getName(), "build");
+		LOGGER.debug("Query =>"+queryStr);
+		LOGGER.trace("Enetering build");
 	}
 	
 	

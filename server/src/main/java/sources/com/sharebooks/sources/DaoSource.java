@@ -13,6 +13,8 @@ import com.sharebooks.dao.sql.BookRequestSqlDao;
 import com.sharebooks.dao.sql.BookSqlDao;
 import com.sharebooks.dao.sql.CitySqlDao;
 import com.sharebooks.dao.sql.NotificationSqlDao;
+import com.sharebooks.dao.sql.OrderSqlDao;
+import com.sharebooks.dao.sql.QuoteSqlDao;
 import com.sharebooks.dao.sql.StateSqlDao;
 import com.sharebooks.dao.sql.UserSqlDao;
 import com.sharebooks.factory.entityFactory.EntityFactory;
@@ -51,6 +53,8 @@ public class DaoSource {
 			initCityDao();
 			initBookCategoryDao();
 			initNotificationDao();
+			initOrderDao();
+			initQuoteDao();
 		}
 		
 		private static void initBookDao(){
@@ -82,6 +86,14 @@ public class DaoSource {
 		
 		public static void initNotificationDao(){
 			daoMap.put(EntityType.NOTIFICATION.desc(), new NotificationSqlDao());
+		}
+		
+		public static void initOrderDao(){
+			daoMap.put(EntityType.ORDER.desc(), new OrderSqlDao());
+		}
+		
+		public static void initQuoteDao(){
+			daoMap.put(EntityType.Quote.desc(), new QuoteSqlDao());
 		}
 	}
 	

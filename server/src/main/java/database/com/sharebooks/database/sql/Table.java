@@ -4,7 +4,7 @@ package com.sharebooks.database.sql;
 public enum Table {
 	
 	BOOKS(1,"Books") , USERS(2,"Users") , BOOK_REQUESTS(3,"BookRequests") , ORDERS(4,"Orders") , NOTIFICATIONS(5 , "Notifications")
-	 , CITIES(6 , "Cities") , STATES(7 , "States"), BOOK_CATEGORIES(8, "BookCategories");
+	 , CITIES(6 , "Cities") , STATES(7 , "States"), BOOK_CATEGORIES(8, "BookCategories"), Quotes(9,"Quotes");
 	
 	private int id;
 	private String desc;

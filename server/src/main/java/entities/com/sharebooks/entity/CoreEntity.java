@@ -59,4 +59,15 @@ public abstract class CoreEntity extends Entity{
 		jo.put("lastModificationTime", JsonUtility.getJSONObjFromObj(lastModificationTime));
 	}
 	
+	public String uid(){
+		return uid;
+	}
+	
+	public LocalDateTime creationTime(){
+		return creationTime;
+	}
+	
+	public LocalDateTime lastModificationTime(){
+		return lastModificationTime;
+	}
 }

@@ -9,7 +9,8 @@ public enum EntityType {
 	STATE(6, "state"),
 	CITY(7, "city"),
 	NOTIFICATION(8,"notification"),
-	PREFERENCE(9,"preference");
+	PREFERENCE(9,"preference"),
+	Quote(10,"quote");
 	
 	
 	private int id;

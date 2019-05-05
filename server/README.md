@@ -36,3 +36,38 @@ http://tutorials.jenkov.com/jdbc
 4. Book redis cache
 5. Search proposal
 6. Fetch results
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#WEEKEND TASKS
+1. Select book request
+2. Fetch results
+3. Confirm book request
+4. Finalize requirements
+5. Place Order
+6. Feedback (including tables and everything else)
+
+
+#Steps
+BookViewQuote
+BookProposal
+BookOrder
+
+
+
+
+
+
+
