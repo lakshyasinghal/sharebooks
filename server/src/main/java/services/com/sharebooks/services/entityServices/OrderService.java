@@ -2,11 +2,11 @@ package com.sharebooks.services.entityServices;
 
 import org.apache.log4j.Logger;
 
-import com.sharebooks.coreEntities.Quote;
-import com.sharebooks.coreEntities.enums.EntityType;
 import com.sharebooks.dao.generic.BookDao;
 import com.sharebooks.dao.generic.OrderDao;
 import com.sharebooks.dao.generic.UserDao;
+import com.sharebooks.entities.coreEntities.Quote;
+import com.sharebooks.entities.coreEntities.enums.EntityType;
 import com.sharebooks.exception.MultipleInstanceException;
 import com.sharebooks.factory.entityFactory.QuoteFactory;
 import com.sharebooks.sources.DaoSource;

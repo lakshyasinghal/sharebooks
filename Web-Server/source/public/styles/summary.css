@@ -1,0 +1,132 @@
+body {
+	height: 100%;
+}
+
+
+.jumbotron {
+	background-color: #FFFFFF;
+	padding-top: 0px;
+}
+
+
+#mainContainer {
+	/*background-color: #000000;*/
+	height: 100%;
+	padding: 0;
+}
+
+
+
+/*--------------------*/
+#bodyContainer {
+	position: relative;
+	height: calc(100% - 80px);
+    width: 80%;
+    height: 500px;
+    margin: auto;
+}
+
+
+/*--------------------*/
+#titleContainer {
+	position: relative;
+	height: 90px;
+}
+
+
+#homeButton {
+	position: absolute;
+	width: 70px;
+	height: 70px;
+	top: 50%;
+	transform: translateY(-50%);
+	border-radius: 50%;
+	background-color: #FFFFFF;
+	cursor: pointer;
+}
+
+#homeButton {
+	left: 110px;
+	color: green;
+	border : 2px solid green;
+}
+
+#homeButton:hover {
+	/*border: 2px solid red;*/
+	background-color: green;
+	color: #FFFFFF;
+	box-shadow: 0 0px 10px green;
+}
+
+#homeButton span {
+	position: absolute;
+	font-size: 20px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50% , -50%);
+}
+
+
+
+
+.pageTitle {
+	position: absolute;
+	font-size: 35px;
+	color: #555;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50% , -50%);
+	text-decoration: underline;
+}
+
+
+
+
+/*---------------------------------------------------------------------------*/
+
+#infoContainer {
+	position: relative;
+	width: 100%;
+    height: 300px;
+    margin: auto;
+    font-size: 18px;
+    padding: 20px;
+    border: 1px solid #188e63;
+    border-radius: 5px;
+}
+
+#bookInfoContainer , #quoteInfoContainer{
+	display: inline-block;
+	position: absolute;
+	width: 50%;
+	height: 100%;
+	font-size: 
+}
+
+#quoteInfoContainer {
+	left: 50%;
+}
+
+#bookInfoContainer .infoPanel {
+	left: 175px;
+}
+
+
+#termsAndConditions a{
+	color: #188e63;
+	text-decoration: underline;
+}
+
+/*-------------------------------------*/
+#confirmButtonContainer {
+	margin-top: 50px;
+	position: relative;
+	text-align: center;
+	height: 20%;
+}
+
+#confirmButton {
+	background-color: #28a09b;
+	color: #FFFFFF;
+	outline: none;
+}

@@ -25,7 +25,7 @@ var http = (function(){
 	function Http(){
 		var urlPart1 = "/api/";
 		//data is params here
-		this.get = function(serviceURL, content_type, pathParams, data , successCallback , failureCallback){
+		this.get = function(apiURL, content_type, pathParams, data , successCallback , failureCallback){
 			if(requestMode == 2){
 				var responseData = (dummyServer[url])(data);
 				successCallback(responseData);
@@ -34,13 +34,13 @@ var http = (function(){
 			else{
 				var http = new XMLHttpRequest();
 				var paramString = getSuitableParams(data,content_type);
-				serviceURL = appendPathParams(serviceURL, pathParams);
+				apiURL = appendPathParams(apiURL, pathParams);
 				
 				if(paramString != ""){
-					serviceURL = serviceURL + "?" + paramString;
+					apiURL = apiURL + "?" + paramString;
 				}
 				//true value will make the request asynchronous
-				http.open("GET", urlPart1+serviceURL, true);
+				http.open("GET", urlPart1+apiURL, true);
 				http.setRequestHeader("Content-type", content_type);
 				ajaxHeader(http);
 				http.onreadystatechange = getOnReadyStateChangeCreator(http,successCallback,failureCallback);
@@ -48,7 +48,7 @@ var http = (function(){
 			}
 		};
 
-		this.post = function(serviceURL, content_type, pathParams, data , successCallback , failureCallback){
+		this.post = function(apiURL, content_type, pathParams, data , successCallback , failureCallback){
 			if(requestMode == 2){
 				var responseData = (dummyServer[url])(data);
 				successCallback(responseData);
@@ -57,9 +57,9 @@ var http = (function(){
 			else{
 				var http = new XMLHttpRequest();
 				var params = getSuitableParams(data,content_type);
-				serviceURL = appendPathParams(serviceURL, pathParams);
+				apiURL = appendPathParams(apiURL, pathParams);
 				//true value will make the request asynchronous
-				http.open("POST", urlPart1+serviceURL, true);
+				http.open("POST", urlPart1+apiURL, true);
 				http.setRequestHeader("Content-type", content_type);
 				ajaxHeader(http);
 				http.onreadystatechange = getOnReadyStateChangeCreator(http,successCallback,failureCallback);
@@ -67,12 +67,12 @@ var http = (function(){
 			}
 		};
 
-		this.put = function(serviceURL, content_type, pathParams, data , successCallback , failureCallback){
+		this.put = function(apiURL, content_type, pathParams, data , successCallback , failureCallback){
 			var http = new XMLHttpRequest();
 			var params = getSuitableParams(data,content_type);
-			serviceURL = appendPathParams(serviceURL, pathParams);
+			apiURL = appendPathParams(apiURL, pathParams);
 			//true value will make the request asynchronous
-			http.open("PUT", urlPart1+serviceURL, true);
+			http.open("PUT", urlPart1+apiURL, true);
 			http.setRequestHeader("Content-type", content_type);
 			ajaxHeader(http);
 			http.onreadystatechange = getOnReadyStateChangeCreator(http,successCallback,failureCallback);
@@ -97,7 +97,7 @@ var http = (function(){
 var $http = http.instance();
 
 
-
+//we are this header so that we can recognize it as a ajax request at web server
 function ajaxHeader(http){
 	http.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 }
@@ -115,19 +115,20 @@ function getOnReadyStateChangeCreator(http,successCallback,failureCallback){
 
 			       	if(http.status==200){
 			       		if(responseText.success){
-			       			tryParseJsonValues(responseText);
+			       			//tryParseJsonValues(responseText);
 			       			successCallback(responseText);
 			       		}
 			       		else{
 			       			//show status message corresponding to status code
+			       			//will use generic template on each page to display the message
 			       		}
 			       	}
 			        else{
-			        	//debugger;
 			        	if(failureCallback){
 			        		failureCallback(responseText);
 			        	}
 			        	else{
+			        		//for now using alert but needs to be replaced by proper error handling template
 			        		var message = "Failure occurred";
 			        		message+="\nStatus : "+ http.status;
 			        		message+="\nFailure handler not defined";
@@ -181,7 +182,7 @@ function getParamString(paramsObject){
 
 
 //will convert api url of type books/search/? into books/search/head-first-java
-//the spaces will be replaced by '-' character
+//the spaces will be replaced by '%20'
 //need to handle exceptions ************************************
 function appendPathParams(url, pathParams){
 	if(!pathParams || pathParams.length==0){
@@ -226,7 +227,12 @@ $httpService = (function(){
 	var UPDATE_USER = "users";  
 	var UPDATE_PROFILE = "users/?/profile";                         //  users/uid/profile
 	var GET_NOTIFICATIONS = "notifications/?";             // notifications/userUid
-	var GET_ALL_RESULTS = "getAllResults";
+	var GET_RESULT = "results/?";                          // results/bookUid
+	var GET_SIMILAR_RESULTS = "results";
+	var CREATE_QUOTE = "quotes";
+	var GET_SUMMARY_INFO = "quotes/summary/?";              // quotes/summary/quoteUid
+	var CONFIRM_QUOTE = "quotes/confirm/?";					// quotes/confirm/quoteUid
+	//var GET_ALL_RESULTS = "getAllResults";
 	var GET_SIMILAR_BOOKS = "getSimilarBooks";
 	var ADD_BOOK_REQUEST = "bookRequests";
 	var SEND_OTP = "sendOTP";
@@ -239,6 +245,7 @@ $httpService = (function(){
 	var SAVE_PREFERENCES = "users/?/preferences";
 	var GET_SELECTED_RESULT = "getSelectedResult";
 	var SAVE_BOOK_REQUEST = "saveBookRequest";
+	
 
 	function HttpService(){
 		this.signIn = httpMethodFactory(REQUEST_TYPE.POST,SIGN_IN,CONTENT_TYPE.FORM);
@@ -257,7 +264,12 @@ $httpService = (function(){
 		this.updateUser = httpMethodFactory(REQUEST_TYPE.POST,UPDATE_USER,CONTENT_TYPE.FORM);
 		this.updateProfile = httpMethodFactory(REQUEST_TYPE.POST,UPDATE_PROFILE,CONTENT_TYPE.FORM);
 		this.getNotifications = httpMethodFactory(REQUEST_TYPE.GET,GET_NOTIFICATIONS,CONTENT_TYPE.FORM);
-		this.getAllResults = httpMethodFactory(REQUEST_TYPE.GET,GET_ALL_RESULTS,CONTENT_TYPE.FORM);
+		this.getResult = httpMethodFactory(REQUEST_TYPE.GET,GET_RESULT,null);
+		this.getSimilarResults = httpMethodFactory(REQUEST_TYPE.GET,GET_SIMILAR_RESULTS,CONTENT_TYPE.JSON);
+		this.createQuote = httpMethodFactory(REQUEST_TYPE.PUT,CREATE_QUOTE,CONTENT_TYPE.JSON);
+		this.getSummaryInfo = httpMethodFactory(REQUEST_TYPE.GET,GET_SUMMARY_INFO,undefined);
+		this.confirmQuote = httpMethodFactory(REQUEST_TYPE.POST,CONFIRM_QUOTE,undefined);
+		//this.getAllResults = httpMethodFactory(REQUEST_TYPE.GET,GET_ALL_RESULTS,CONTENT_TYPE.FORM);
 		this.getSimilarBooks = httpMethodFactory(REQUEST_TYPE.POST,GET_SIMILAR_BOOKS,CONTENT_TYPE.FORM);
 		this.addBookRequest = httpMethodFactory(REQUEST_TYPE.POST,ADD_BOOK_REQUEST,CONTENT_TYPE.FORM);
 		this.sendOTP = httpMethodFactory(REQUEST_TYPE.POST,SEND_OTP,CONTENT_TYPE.FORM);
@@ -276,7 +288,7 @@ $httpService = (function(){
 })();
 
 
-/*this closure fuction will act as factory and will generate get,post and other functions with suitable serviceURL and content type*/
+/*this closure fuction will act as factory and will generate get,post and other functions with suitable apiURL and content type*/
 function httpMethodFactory(request_type,apiName,content_type){
 	var func = undefined;
 

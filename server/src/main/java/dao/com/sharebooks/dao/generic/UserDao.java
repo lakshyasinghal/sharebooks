@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import com.sharebooks.coreEntities.User;
+import com.sharebooks.entities.coreEntities.User;
 
 public interface UserDao extends Dao {
 	
@@ -12,7 +12,9 @@ public interface UserDao extends Dao {
 	
 	public User getUserByUsernameAndPassword(String username , String password) throws SQLException,Exception;
 	
-	public List<User> getUsers(Map<String,Object> maps) throws SQLException,Exception;
+	public List<User> getUsers(Map<String,Object> map) throws SQLException,Exception;
+	
+	public List<User> getUsers(List<String> uidList) throws SQLException,Exception;
 	
 	public List<User> getAllUsers() throws SQLException,Exception;
 	

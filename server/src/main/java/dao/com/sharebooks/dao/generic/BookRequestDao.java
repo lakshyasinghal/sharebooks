@@ -2,12 +2,15 @@ package com.sharebooks.dao.generic;
 
 import java.sql.SQLException;
 import java.util.List;
-import com.sharebooks.coreEntities.BookRequest;
-import com.sharebooks.coreEntities.Notification;
+
+import com.sharebooks.entities.coreEntities.BookRequest;
+import com.sharebooks.entities.coreEntities.Notification;
 
 public interface BookRequestDao extends Dao{
 	
 	public List<BookRequest> getAllBookRequests() throws SQLException,Exception;
+	
+	public BookRequest getBookRequest(String uid) throws SQLException,Exception;
 	
 	public List<BookRequest> getBookRequestsByBookOwnerUid(String uid) throws SQLException,Exception;
 	

@@ -3,7 +3,8 @@ package com.sharebooks.factory.entityFactory;
 import java.sql.ResultSet;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
-import com.sharebooks.helperEntities.City;
+
+import com.sharebooks.entities.helperEntities.City;
 
 public class CityFactory implements EntityFactory<City>{
 	private static CityFactory cityFactory;

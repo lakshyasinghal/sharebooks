@@ -4,7 +4,7 @@
   "description": "Sharebooks web server",
   "main": "app.js",
   "scripts": {
-    "test": "No tests specified",
+    "test": "mocha",
     "build-react": "webpack --watch --config ./config/webpack.config.js",
     "dev": "nodemon app.js",
     "prod": ""

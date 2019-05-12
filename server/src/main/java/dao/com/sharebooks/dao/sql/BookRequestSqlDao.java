@@ -7,12 +7,6 @@ import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Logger;
 
-import com.sharebooks.coreEntities.Book;
-import com.sharebooks.coreEntities.BookRequest;
-import com.sharebooks.coreEntities.Notification;
-import com.sharebooks.coreEntities.enums.AvailableStatus;
-import com.sharebooks.coreEntities.enums.EntityType;
-import com.sharebooks.coreEntities.enums.RequestStatus;
 import com.sharebooks.dao.generic.AbstractBookRequestDao;
 import com.sharebooks.database.sql.AbstractSqlQueryProcessor;
 import com.sharebooks.database.sql.Database;
@@ -25,7 +19,13 @@ import com.sharebooks.database.sql.query.SqlInsertQuery;
 import com.sharebooks.database.sql.query.SqlQuery;
 import com.sharebooks.database.sql.query.SqlReadQuery;
 import com.sharebooks.database.sql.query.SqlUpdateQuery;
-import com.sharebooks.entity.Entity;
+import com.sharebooks.entities.coreEntities.Book;
+import com.sharebooks.entities.coreEntities.BookRequest;
+import com.sharebooks.entities.coreEntities.Notification;
+import com.sharebooks.entities.coreEntities.enums.AvailableStatus;
+import com.sharebooks.entities.coreEntities.enums.EntityType;
+import com.sharebooks.entities.coreEntities.enums.RequestStatus;
+import com.sharebooks.entities.entity.Entity;
 import com.sharebooks.factory.entityFactory.EntityFactory;
 
 @SuppressWarnings("unchecked")
@@ -45,6 +45,26 @@ public class BookRequestSqlDao extends AbstractBookRequestDao{
 		return null;
 	}
 
+	public BookRequest getBookRequest(String uid) throws SQLException,Exception {
+		LOGGER.trace("Entering getBookRequest");
+		LOGGER.debug("uid:"+uid);
+		List<BookRequest> bookRequests = null;
+		Map<String , Object> map = new HashMap<String , Object>();
+		map.put("uid", uid);
+		AbstractSqlQueryProcessor queryProcessor = SqlReadQueryProcessor.getInstance();
+		SqlQuery query = new SqlReadQuery(table.desc() , map);
+		query.build();
+		LOGGER.info(query.toString());
+		List<Entity> entityList = (List<Entity>)queryProcessor.processReadQuery(database.desc() , query.toString(), EntityType.BOOK_REQUEST);
+		bookRequests = convertIntoBookRequestList(entityList);
+		LOGGER.trace("Leaving getBookRequest");
+		if(bookRequests!=null && bookRequests.size()>0){
+			return bookRequests.get(0);
+		}
+		else{
+			return null;
+		}
+	}
 	
 	@Override
 	public List<BookRequest> getBookRequestsByBookOwnerUid(String bookOwnerUid) throws SQLException, Exception {

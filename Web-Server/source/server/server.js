@@ -46,7 +46,7 @@ function addSessionValidator(){
 		console.log("isAjax =>",isAjax);
 		/*check if session exists by checking whether the user object is set in session
 		The user object will only be set if the user has looged in*/
-		if(!session.user){   //session doesn't exist
+		if(session.user){   //session doesn't exist
 			if(isNoSessionUrl(url,method)){   //the url and method type don't need an existing session
 				next();
 			}
@@ -93,12 +93,13 @@ function addStaticResources(){
 }
 
 function addRouters(){
-	//the order is important here
-	app.use('/api',routers.userRouter);
-	app.use('/api',routers.bookRouter);
-	app.use('/api',routers.notificationRouter);
-	app.use('/api',routers.fileUploader);
-	app.use('/api',routers.miscRouter);
+	//the order is important here as the static router should come at end. You must not disturb the order.
+	for(var key in routers){
+		if(key!="staticRouter"){
+			app.use('/api',routers[key]);
+		}
+	}
+	//the static router must come at the end or else it will create havoc on routes
 	app.use('/',routers.staticRouter);
 }
 

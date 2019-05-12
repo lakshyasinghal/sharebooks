@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
-import com.sharebooks.helperEntities.State;
+import com.sharebooks.entities.helperEntities.State;
 
 public class StateFactory implements EntityFactory<State>{
 	private static StateFactory stateFactory;

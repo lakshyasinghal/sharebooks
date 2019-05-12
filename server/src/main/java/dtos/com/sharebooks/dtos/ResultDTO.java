@@ -2,13 +2,13 @@ package com.sharebooks.dtos;
 
 import org.json.simple.JSONObject;
 
-import com.sharebooks.coreEntities.Book;
-import com.sharebooks.coreEntities.User;
+import com.sharebooks.entities.coreEntities.Book;
+import com.sharebooks.entities.coreEntities.User;
 import com.sharebooks.exception.JsonSerializationException;
 import com.sharebooks.util.JsonUtility;
 
 public class ResultDTO extends DTO{
-	private ResultUser user;
+	private UserInfo user;
 	private Book book;
 	
 	public ResultDTO(){
@@ -16,7 +16,7 @@ public class ResultDTO extends DTO{
 	}
 	
 	public ResultDTO(User user, Book book){
-		this.user = new ResultUser(user);
+		this.user = new UserInfo(user);
 		this.book = book;
 	}
 

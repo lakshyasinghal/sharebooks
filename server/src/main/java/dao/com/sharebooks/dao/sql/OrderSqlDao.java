@@ -3,8 +3,7 @@ package com.sharebooks.dao.sql;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import com.sharebooks.coreEntities.Order;
-import com.sharebooks.coreEntities.Quote;
+
 import com.sharebooks.dao.generic.AbstractOrderDao;
 import com.sharebooks.database.sql.AbstractSqlQueryProcessor;
 import com.sharebooks.database.sql.Database;
@@ -13,6 +12,8 @@ import com.sharebooks.database.sql.Table;
 import com.sharebooks.database.sql.customQueries.OrderQueries;
 import com.sharebooks.database.sql.query.SqlInsertQuery;
 import com.sharebooks.database.sql.query.SqlQuery;
+import com.sharebooks.entities.coreEntities.Order;
+import com.sharebooks.entities.coreEntities.Quote;
 
 
 public class OrderSqlDao extends AbstractOrderDao{

@@ -248,6 +248,32 @@ body {
 	float: right;
 }
 
+#startDateContainer .block1 {
+	position: relative;
+	display: inline-block;
+	width: 30%;
+}
+
+#startDateContainer .block2 {
+	position: relative;
+	display: inline-block;
+	width: 70%;
+	float: right;
+}
+
+#startDateContainer input {
+	bottom: 10px;
+    position: relative;
+	width: 150px;
+	font-size: 18px;
+    height: 47px;
+    border-color: #28a09b;
+}
+
+#startDateContainer {
+	margin-bottom: 30px;
+}
+
 .box {
 	position: absolute;
 	height: 50px;
@@ -267,9 +293,41 @@ body {
 	transform: translate(-50% , -50%);
 }
 
+#deliveryTypeContainer .block1 {
+	position: relative;
+	display: inline-block;
+	width: 30%;
+}
 
+#deliveryTypeContainer .block2 {
+	position: relative;
+	display: inline-block;
+	width: 70%;
+	float: right;
+}
 
+#deliveryTypeContainer .optionTab {
+	position: relative;
+    width: 70px;
+    height: 45px;
+	display: inline-block;
+	margin-right: 20px;
+	border : 1px solid #28a09b;
+	border-radius: 3px;
+	cursor: pointer;
+}
 
+#deliveryTypeContainer .boxText {
+	font-size: 15px;
+}
+
+#deliveryTypeContainer .selected {
+	background-color: #28a09b;
+}
+
+#deliveryTypeContainer .selected .boxText {
+	color: #ffffff;
+}
 /*-----------------------------------------------------------------*/
 
 #buyDetailsContainer {
@@ -307,7 +365,9 @@ body {
 
 
 #proceedButtonContainer {
+	margin-top: 50px;
 	position: relative;
+	left: 150px;
 	height: 20%;
 }
 

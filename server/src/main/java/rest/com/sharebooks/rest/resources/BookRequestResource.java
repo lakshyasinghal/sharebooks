@@ -17,7 +17,7 @@ public class BookRequestResource {
 	@GET
 	@Path("/book-requests/{uid}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getBookRequestsByOwnerUid(@PathParam("uid") String uid) throws Exception{
+	public String getBookRequests(@PathParam("uid") String uid) throws Exception{
 		return requestProcessor.processGetBookRequestsByUid(uid);
 	}
 	
@@ -28,6 +28,7 @@ public class BookRequestResource {
 		return requestProcessor.processCreateBookRequest(req);
 	}
 	
+	//might not be required
 	@POST
 	@Path("/book-requests")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -36,16 +37,16 @@ public class BookRequestResource {
 	}
 	
 	@POST
-	@Path("/book-requests/accept")
+	@Path("/book-requests/accept/{uid}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String acceptBookRequest(@Context HttpServletRequest req) throws Exception{
-		return requestProcessor.processAcceptBookRequest(req);
+	public String acceptBookRequest(@Context HttpServletRequest req, @PathParam("uid") String uid) throws Exception{
+		return requestProcessor.processAcceptBookRequest(uid);
 	}
 	
 	@POST
-	@Path("/book-requests/reject")
+	@Path("/book-requests/reject/{uid}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String rejectBookRequest(@Context HttpServletRequest req) throws Exception{
-		return requestProcessor.processRejectBookRequest(req);
+	public String rejectBookRequest(@Context HttpServletRequest req, @PathParam("uid") String uid) throws Exception{
+		return requestProcessor.processRejectBookRequest(uid);
 	}
 }

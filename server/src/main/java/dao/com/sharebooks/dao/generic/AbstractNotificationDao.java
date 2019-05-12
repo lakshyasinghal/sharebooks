@@ -2,8 +2,9 @@ package com.sharebooks.dao.generic;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.sharebooks.coreEntities.Notification;
-import com.sharebooks.entity.Entity;
+
+import com.sharebooks.entities.coreEntities.Notification;
+import com.sharebooks.entities.entity.Entity;
 
 
 public abstract class AbstractNotificationDao implements NotificationDao {

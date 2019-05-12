@@ -7,9 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import com.sharebooks.coreEntities.BookRequest;
-import com.sharebooks.coreEntities.enums.BookRequestType;
-import com.sharebooks.coreEntities.enums.RequestStatus;
+
+import com.sharebooks.entities.coreEntities.BookRequest;
+import com.sharebooks.entities.coreEntities.enums.BookRequestType;
+import com.sharebooks.entities.coreEntities.enums.RequestStatus;
 import com.sharebooks.exception.FactoryException;
 
 public class BookRequestFactory implements EntityFactory<BookRequest>{
@@ -54,11 +55,11 @@ public class BookRequestFactory implements EntityFactory<BookRequest>{
 			String bookUid = rs.getString("bookUid");
 			String bookOwnerUid = rs.getString("bookOwnerUid");
 			String requesterUid = rs.getString("requesterUid");
-			int requiredPeriod = rs.getInt("requiredPeriod");
+			String quoteUid = rs.getString("quoteUid");
 			String comments = rs.getString("comments");
 			
 			BookRequest book = new BookRequest(id , uid , type , status , bookUid , bookOwnerUid
-					, requesterUid , requiredPeriod , comments, null, null);
+					, requesterUid , quoteUid , comments, null, null);
 			return book;
 		}
 		catch(Exception ex){
@@ -80,9 +81,9 @@ public class BookRequestFactory implements EntityFactory<BookRequest>{
 			String bookUid = (String)jo.get("bookUid");
 			String bookOwnerUid = (String)jo.get("bookOwnerUid");
 			String requesterUid = (String)jo.get("requesterUid");
-			int requiredPeriod = (int)(long)jo.get("requiredPeriod");
+			String quoteUid = (String)jo.get("quoteUid");
 			String comments = (String)jo.get("comments");
-			BookRequest bookRequest = new BookRequest(id,uid,type,status,bookUid,bookOwnerUid,requesterUid,requiredPeriod,comments,null,null);
+			BookRequest bookRequest = new BookRequest(id,uid,type,status,bookUid,bookOwnerUid,requesterUid,quoteUid,comments,null,null);
 			return bookRequest;
 		}
 		catch(ParseException ex){

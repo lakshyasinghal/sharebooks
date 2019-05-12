@@ -1,6 +1,9 @@
 var $logger = require("./../logs/log.js");
 
-
+const getURLPathParamByIndex = function(index){
+	var param = window.location.pathname.split('/')[index];
+	return param;
+};
 
 const $cookie = (function(){
 
@@ -49,7 +52,7 @@ const $cookie = (function(){
 
 
 //the storgae function will store item in session storage if available else in cookie
-//Will return object it the item is json object
+//Will return object if the item is json object
 const $storage = (function(){
 
 	function Storage(){
@@ -79,6 +82,33 @@ const $storage = (function(){
 	}
 	return new Storage();
 })();
+
+
+Array.prototype.copy = function(){
+
+}
+
+
+const clone = function(obj){
+	//debugger;
+	var clonedObj = null;
+	if(obj instanceof Array){
+		clonedObj = [];
+		for(var i=0,len=obj.length;i<len;i++){
+			clonedObj[i] = clone(obj[i]);
+		}
+	}
+	else if(obj instanceof Object){
+		clonedObj = {};
+		for(var key in obj){
+			clonedObj[key] = clone(obj[key]);
+		}
+	}
+	else{
+		clonedObj = obj;
+	}
+	return clonedObj;
+}
 
 
 
@@ -135,7 +165,9 @@ var $validations = {
 
 var util = {
 	$storage: $storage,
-	$validations:$validations
+	$validations:$validations,
+	clone:clone,
+	getURLPathParamByIndex:getURLPathParamByIndex
 };
 
 

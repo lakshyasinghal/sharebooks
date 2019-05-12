@@ -3,8 +3,7 @@ package com.sharebooks.dao.sql;
 import java.sql.SQLException;
 import java.util.*;
 import org.apache.log4j.Logger;
-import com.sharebooks.coreEntities.Book;
-import com.sharebooks.coreEntities.enums.EntityType;
+
 import com.sharebooks.dao.generic.AbstractBookDao;
 import com.sharebooks.database.sql.*;
 import com.sharebooks.database.sql.customQueries.BookQueries;
@@ -13,7 +12,9 @@ import com.sharebooks.database.sql.query.SqlInsertQuery;
 import com.sharebooks.database.sql.query.SqlQuery;
 import com.sharebooks.database.sql.query.SqlReadQuery;
 import com.sharebooks.database.sql.query.SqlUpdateQuery;
-import com.sharebooks.entity.Entity;
+import com.sharebooks.entities.coreEntities.Book;
+import com.sharebooks.entities.coreEntities.enums.EntityType;
+import com.sharebooks.entities.entity.Entity;
 import com.sharebooks.factory.entityFactory.EntityFactory;
 
 
@@ -90,7 +91,7 @@ public class BookSqlDao extends AbstractBookDao{
 		LOGGER.trace("Entering getSimilarBooks");
 		List<Book> books = null;
 		//get sql read query
-		String query = bookQueries.getQueryForSearchTerm(book.title());
+		String query = bookQueries.getSimilarBooksQuery(book.title());
 		AbstractSqlQueryProcessor queryProcessor = SqlReadQueryProcessor.getInstance();
 		List<Entity> entityList = (List<Entity>)queryProcessor.processReadQuery(database.desc() , query, EntityType.BOOK);
 		books = convertIntoBookList(entityList);

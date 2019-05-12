@@ -2,7 +2,7 @@ package com.sharebooks.cache.lruCache;
 
 import java.util.*;
 import com.sharebooks.cache.*;
-import com.sharebooks.entity.Entity;
+import com.sharebooks.entities.entity.Entity;
 import com.sharebooks.exception.CacheException;
 
 

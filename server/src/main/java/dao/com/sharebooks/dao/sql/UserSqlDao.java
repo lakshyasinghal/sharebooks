@@ -4,9 +4,6 @@ import java.sql.SQLException;
 import java.util.*;
 import org.apache.log4j.Logger;
 
-import com.sharebooks.coreEntities.Book;
-import com.sharebooks.coreEntities.User;
-import com.sharebooks.coreEntities.enums.EntityType;
 import com.sharebooks.dao.generic.AbstractUserDao;
 import com.sharebooks.database.sql.*;
 import com.sharebooks.database.sql.customQueries.BookQueries;
@@ -15,7 +12,10 @@ import com.sharebooks.database.sql.query.SqlInsertQuery;
 import com.sharebooks.database.sql.query.SqlQuery;
 import com.sharebooks.database.sql.query.SqlReadQuery;
 import com.sharebooks.database.sql.query.SqlUpdateQuery;
-import com.sharebooks.entity.Entity;
+import com.sharebooks.entities.coreEntities.Book;
+import com.sharebooks.entities.coreEntities.User;
+import com.sharebooks.entities.coreEntities.enums.EntityType;
+import com.sharebooks.entities.entity.Entity;
 import com.sharebooks.factory.entityFactory.EntityFactory;
 
 
@@ -95,11 +95,24 @@ public class UserSqlDao extends AbstractUserDao{
 		LOGGER.trace("Leaving getUsers");
 		return users;
 	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public List<User> getUsers(List<String> uidList) throws SQLException,Exception{
+		LOGGER.trace("Entering getUsers");
+		List<User> users = null;
+		AbstractSqlQueryProcessor queryProcessor = SqlReadQueryProcessor.getInstance();
+		String query = userQueries.queryForGetUsersByUids(uidList);
+		List<Entity> entityList = (List<Entity>)queryProcessor.processReadQuery(database.desc() , query.toString(), EntityType.USER);
+		users = convertIntoUserList(entityList);
+		LOGGER.trace("Leaving getUsers");
+		return users;
+	}
 
 	@Override
 	public List<User> getAllUsers() throws SQLException, Exception {
 		LOGGER.trace("Entering getAllUsers");
-		List<User> users = getUsers(null);
+		List<User> users = getUsers(new HashMap<String,Object>());
 		LOGGER.trace("Leaving getAllUsers");
 		return users;
 	}

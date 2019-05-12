@@ -3,8 +3,9 @@ package com.sharebooks.dao.redis;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-import com.sharebooks.coreEntities.User;
+
 import com.sharebooks.dao.generic.UserDao;
+import com.sharebooks.entities.coreEntities.User;
 
 
 public class UserRedisDao extends GenericRedisDao implements UserDao{
@@ -23,6 +24,12 @@ public class UserRedisDao extends GenericRedisDao implements UserDao{
 
 	@Override
 	public List<User> getUsers(Map<String, Object> maps) throws SQLException, Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public List<User> getUsers(List<String> uidList) throws SQLException, Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -81,5 +88,7 @@ public class UserRedisDao extends GenericRedisDao implements UserDao{
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	
 
 }

@@ -1,21 +1,20 @@
 package com.sharebooks.requestProcessor;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Logger;
-import com.sharebooks.coreEntities.Notification;
+
+import com.sharebooks.entities.coreEntities.Notification;
 import com.sharebooks.factory.misc.ResponseFactory;
-import com.sharebooks.response.Error;
 import com.sharebooks.response.Response;
-import com.sharebooks.response.Status;
+import com.sharebooks.response.enums.Status;
 import com.sharebooks.services.entityServices.NotificationService;
 import com.sharebooks.sources.FactorySource;
 import com.sharebooks.sources.ServiceSource;
 
 
-public class NotificationRequestProcessor {
+public class NotificationRequestProcessor extends AbstractRequestProcessor{
 	private static NotificationRequestProcessor instance = new NotificationRequestProcessor();
 	private static final Logger LOGGER = Logger.getLogger(NotificationRequestProcessor.class.getName());
 	private final ResponseFactory responseFactory = FactorySource.getResponseFactory();
@@ -49,15 +48,9 @@ public class NotificationRequestProcessor {
 			success = true;
 			map.put("notifications", notifications);
 		}
-		catch(SQLException ex){
-			LOGGER.error("",ex);
-			success = false;
-			errorCode = Error.DATABASE_ERROR.id();
-		}
 		catch(Exception ex){
-			LOGGER.error("",ex);
-			success = false;
-			errorCode = Error.GENERAL_EXCEPTION.id();
+			log(ex,LOGGER);
+			errorCode = errorCode(ex);
 		}
 		Response response = responseFactory.getJsonResponse(success , statusCode , errorCode , map);
 		return response.process();

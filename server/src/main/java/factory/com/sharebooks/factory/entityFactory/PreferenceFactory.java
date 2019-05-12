@@ -7,7 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import com.sharebooks.helperEntities.Preference;
+
+import com.sharebooks.entities.helperEntities.Preference;
 
 
 public class PreferenceFactory implements EntityFactory<Preference>{

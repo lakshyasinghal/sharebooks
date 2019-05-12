@@ -1,11 +1,12 @@
 package com.sharebooks.connectionPool;
 
+import static com.sharebooks.util.messages.ExceptionMessages.*;
+import static com.sharebooks.util.messages.InfoMessages.*;
+
 import java.sql.Connection;
 import org.apache.log4j.Logger;
 import com.sharebooks.exception.ConnectionPoolException;
 import com.sharebooks.factory.dbConnectionFactory.DBConnFactory;
-import static com.sharebooks.messages.ExceptionMessages.*;
-import static com.sharebooks.messages.InfoMessages.*;
 
 public class SqlConnectionPool implements ConnectionPool{
 	private static final Logger LOGGER = Logger.getLogger(SqlConnectionPool.class.getName());

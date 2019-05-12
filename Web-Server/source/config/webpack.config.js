@@ -199,6 +199,19 @@ var _exports = [{
 	resolve: _resolve,
 	plugins: _plugins,
 	devServer: _devServer
+},
+{
+	mode:"development",
+	entry: jsxPath + "/summary.js",
+	output: {
+	   path: jsPath,
+	   publicPath: "/",
+	   filename: "summary.js"
+	},
+	module: _module,
+	resolve: _resolve,
+	plugins: _plugins,
+	devServer: _devServer
 }];
 
 addHotUpdateFilePath();

@@ -1,7 +1,7 @@
 package com.sharebooks.test.misc;
 
-import com.sharebooks.dateTime.LocalDateTime;
 import com.sharebooks.test.AbstractTester;
+import com.sharebooks.util.dateTime.LocalDateTime;
 
 public class LocalDateTimeTester extends AbstractTester{
 	

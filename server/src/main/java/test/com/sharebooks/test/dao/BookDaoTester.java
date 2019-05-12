@@ -1,8 +1,9 @@
 package com.sharebooks.test.dao;
 
 import java.util.List;
-import com.sharebooks.coreEntities.Book;
+
 import com.sharebooks.dao.generic.BookDao;
+import com.sharebooks.entities.coreEntities.Book;
 import com.sharebooks.sources.DaoSource;
 import com.sharebooks.test.AbstractTester;
 import com.sharebooks.test.util.DummyEntitySource;

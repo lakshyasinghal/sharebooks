@@ -1,6 +1,6 @@
 package com.sharebooks.cache.lruCache;
 
-import com.sharebooks.entity.Entity;
+import com.sharebooks.entities.entity.Entity;
 
 class CacheNode<T extends Entity> {
 	private CacheNode<T> prev;

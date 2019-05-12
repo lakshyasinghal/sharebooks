@@ -2,8 +2,9 @@ package com.sharebooks.dao.generic;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.sharebooks.entity.Entity;
-import com.sharebooks.helperEntities.City;
+
+import com.sharebooks.entities.entity.Entity;
+import com.sharebooks.entities.helperEntities.City;
 
 public abstract class AbstractCityDao implements CityDao{
 	

@@ -8,11 +8,12 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import com.sharebooks.coreEntities.User;
-import com.sharebooks.coreEntities.enums.Active;
-import com.sharebooks.dateTime.LocalDateTime;
+
+import com.sharebooks.entities.coreEntities.User;
+import com.sharebooks.entities.coreEntities.enums.Active;
+import com.sharebooks.entities.helperEntities.Preference;
 import com.sharebooks.exception.FactoryException;
-import com.sharebooks.helperEntities.Preference;
+import com.sharebooks.util.dateTime.LocalDateTime;
 
 public class UserFactory implements EntityFactory<User>{
 	private static UserFactory userFactory;

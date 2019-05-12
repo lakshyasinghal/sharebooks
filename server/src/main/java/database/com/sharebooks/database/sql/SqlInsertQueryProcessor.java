@@ -4,8 +4,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
-import com.sharebooks.coreEntities.enums.EntityType;
-import com.sharebooks.entity.Entity;
+
+import com.sharebooks.entities.coreEntities.enums.EntityType;
+import com.sharebooks.entities.entity.Entity;
 import com.sharebooks.exception.NonFunctionalMethodException;
 
 public class SqlInsertQueryProcessor extends AbstractSqlQueryProcessor{

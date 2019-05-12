@@ -7,12 +7,12 @@ import com.sharebooks.cache.DynamicCache;
 import com.sharebooks.cache.StaticCache;
 import com.sharebooks.cache.lruCache.LRUCache;
 import com.sharebooks.cache.staticCache.EntitySetCache;
-import com.sharebooks.coreEntities.*;
-import com.sharebooks.coreEntities.enums.EntityType;
-import com.sharebooks.entity.Entity;
-import com.sharebooks.helperEntities.BookCategory;
-import com.sharebooks.helperEntities.City;
-import com.sharebooks.helperEntities.State;
+import com.sharebooks.entities.coreEntities.*;
+import com.sharebooks.entities.coreEntities.enums.EntityType;
+import com.sharebooks.entities.entity.Entity;
+import com.sharebooks.entities.helperEntities.BookCategory;
+import com.sharebooks.entities.helperEntities.City;
+import com.sharebooks.entities.helperEntities.State;
 
 
 public class CacheSource {

@@ -3,7 +3,7 @@ package com.sharebooks.test.cache;
 import java.util.List;
 import com.sharebooks.cache.*;
 import com.sharebooks.cache.lruCache.LRUCache;
-import com.sharebooks.coreEntities.*;
+import com.sharebooks.entities.coreEntities.*;
 import com.sharebooks.test.AbstractTester;
 import com.sharebooks.test.util.DummyEntitySource;
 

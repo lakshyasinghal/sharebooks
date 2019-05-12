@@ -3,39 +3,48 @@ package com.sharebooks.util;
 import java.util.List;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+import com.sharebooks.entities.coreEntities.Quote;
+import com.sharebooks.exception.JsonDeserializationException;
 import com.sharebooks.exception.JsonSerializationException;
+import com.sharebooks.serialization.json.JsonDeserializable;
 import com.sharebooks.serialization.json.JsonSerializable;
 
 public class JsonUtility {
+
 	
-	
-//	public static String getSerializedList(List<? extends Object> list) throws JsonSerializationException{
-//		StringBuilder serList = new StringBuilder();
-//		if(list==null || list.size()==0){
-//			return "[]";
-//		}
-//		serList.append("[");
-//		int i=0;
-//		Object obj = null;
-//		for(int len=list.size() ; i<len ; i++){
-//			obj = list.get(i);
-//			if(obj instanceof Entity){
-//				Entity entity = (Entity)obj;
-//				serList.append(entity.serializeAsJson());
-//				if(i<len-1){
-//					serList.append(",");
-//				}
-//			}
-//		}
-//		serList.append("]");
-//		return serList.toString();
-//	}
+	public static String getJSONFromObj(JsonSerializable jsonSerializable) throws JsonSerializationException{
+		JSONObject jo = new JSONObject();
+		jsonSerializable.serializeAsJson(jo);
+		return jo.toJSONString();
+	} 
 	
 	public static JSONObject getJSONObjFromObj(JsonSerializable jsonSerializable) throws JsonSerializationException{
 		JSONObject jo = new JSONObject();
 		jsonSerializable.serializeAsJson(jo);
 		return jo;
 	}
+	
+	
+	public static JsonDeserializable getDeserializedObjectFromJson(JsonDeserializable jdObj, String json) throws Exception{
+		if(jdObj==null){
+			throw new RuntimeException("jdObj cannot be null.");
+		}
+		Object obj = new JSONParser().parse(json);
+		JSONObject jo = (JSONObject) obj;
+		jdObj.deserializeFromJson(jo);
+
+		return jdObj;
+	} 
+	
+	public static JsonDeserializable getDeserializedObjectFromJsonObject(JsonDeserializable jdObj, JSONObject jo) throws Exception{
+		if(jdObj==null){
+			throw new RuntimeException("jdObj cannot be null.");
+		}
+		jdObj.deserializeFromJson(jo);
+		return jdObj;
+	} 
 
 	
 	@SuppressWarnings("unchecked")

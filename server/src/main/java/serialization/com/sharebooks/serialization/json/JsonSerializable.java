@@ -7,5 +7,5 @@ import com.sharebooks.exception.JsonSerializationException;
 
 public interface JsonSerializable {
 	
-	public void serializeAsJson(JSONObject obj) throws JsonSerializationException;
+	public void serializeAsJson(JSONObject jo) throws JsonSerializationException;
 } 

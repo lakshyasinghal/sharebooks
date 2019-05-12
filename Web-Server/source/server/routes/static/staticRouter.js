@@ -12,6 +12,7 @@ The redirect boolean value and redirectionURL will be used in case redirection i
 function viewLocator(page,sessionRequired,redirect,redirectionURL){
 	return (function(req,res){
 		var session = req.session;
+		console.log("page =>",page);
 		//if session is required and session user does not exist, redirect to login page
 		if(sessionRequired && !session.user){
 			res.redirect('/');
@@ -34,10 +35,12 @@ function viewLocator(page,sessionRequired,redirect,redirectionURL){
 	router.get('/reset',viewLocator("reset.html",true));
 	router.get('/home',viewLocator("home.html",true));
 	router.get('/addBook',viewLocator("addBook.html",true));
-	router.get('/results',viewLocator("results.html",true));
-	router.get('/checkout',viewLocator("checkout.html",true));	
-	router.get('/confirmation',viewLocator("confirmation.html",true));
-	router.get('/feedback',viewLocator("feedback.html",true));	
+	router.get('/results/:bookUid',viewLocator("results.html",true));
+	router.get('/checkout/:actionType/:bookUid',viewLocator("checkout.html",true));	
+	router.get('/summary/:actionType/:quoteUid',viewLocator("summary.html",false));
+	router.get('/confirmation/:bookUid',viewLocator("confirmation.html",false));
+	router.get('/feedback',viewLocator("feedback.html",false));
+	router.get('/terms-and-conditions',viewLocator("termsAndConditions.html",false));	
 	router.get('/',viewLocator("login.html",false));
 	router.get('*',viewLocator("url_error.html",false));
 	//adding router to the app

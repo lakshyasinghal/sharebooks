@@ -2,7 +2,8 @@ package com.sharebooks.dao.generic;
 
 import java.sql.SQLException;
 import java.util.*;
-import com.sharebooks.coreEntities.Book;
+
+import com.sharebooks.entities.coreEntities.Book;
 
 
 public interface BookDao extends Dao {

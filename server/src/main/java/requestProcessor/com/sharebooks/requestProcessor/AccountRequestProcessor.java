@@ -1,6 +1,6 @@
 package com.sharebooks.requestProcessor;
 
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 
 //import com.sharebooks.coreEntities.Book;
 //import com.sharebooks.coreEntities.enums.EntityType;

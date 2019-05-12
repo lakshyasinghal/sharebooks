@@ -18,19 +18,21 @@ class Results extends React.Component {
 			headingText: "RESULTS",
 			selectedBook: null,
 			selectedBookResult: null,
-			allRelatedResults: [],
+			similarResults: [],
 			displayPart: {
-				curr:"all",
+				curr:"selected",
 				types: {
 					1:"selected",2:"all"
 				}
 			}
 		};
+		this.getResultSuccHandler = this.getResultSuccHandler.bind(this);
+		this.getSimilarResultsSuccHandler = this.getSimilarResultsSuccHandler.bind(this);
 	}
 
 	componentDidMount() {
 		this.getSelectedBook();
-	    this.getAllResults();
+	    getResult(this.state.selectedBook.uid,this.getResultSuccHandler);
 	}
 
 
@@ -38,18 +40,14 @@ class Results extends React.Component {
 		this.state.selectedBook = util.$storage.get("selectedBook");
 	}
 
+	getResultSuccHandler(res){
+		const selectedBookResult = res.result;
+		this.setState({selectedBookResult:selectedBookResult});
+	}
 
-	/**
-	 * will get the results in two parts. One will be selected book result and other will be all related results
-	 * @return {[type]} [description]
-	 */
-	getAllResults(){
-		var selectedBook = this.state.selectedBook;
-		$httpService.getAllResults(null, {book:selectedBook}, (res)=>{
-			const selectedBookResult = res.results[0];
-			const allRelatedResults = res.results[1];
-			this.setState({selectedBookResult:selectedBookResult,allRelatedResults:allRelatedResults});
-		});
+	getSimilarResultsSuccHandler(res){
+		const similarResults = res.results;
+		this.setState({similarResults:similarResults});
 	}
 
 	goHome(){
@@ -61,11 +59,12 @@ class Results extends React.Component {
 		const displayPart = this.state.displayPart.curr;
 		const selectedBookResult = this.state.selectedBookResult;
 		var results = [];
-		if(displayPart==displayTypes["1"] && selectedBookResult){
-			results.push(this.state.selectedBookResult);
+		if(selectedBookResult){
+			results.push(selectedBookResult);
 		}
-		else{
-			results = this.state.allRelatedResults;
+
+		if(displayPart==displayTypes["2"]){
+			results = results.concat(similarResults);
 		}
 
 		return (
@@ -108,16 +107,18 @@ class Body extends React.Component {
         super(props);
     }
 
-    renderResult(result,i){
+    renderResult(result){
+    	const book = result.book;
+    	const user = result.user;
     	return (
-    		<Result key={i} book={result.book} user={result.user} />
+    		<Result key={book.id} result={result} />
     	);
     }
 
     render() {
     	const results = this.props.results;
-    	const ResultComps = results.map((result,index) =>{
-			    				return this.renderResult(result, index);
+    	const ResultComps = results.map((result) =>{
+			    				return this.renderResult(result);
 			    			});
 
     	return (
@@ -138,8 +139,9 @@ class Result extends React.Component {
 
 
 	render(){
-		const book = this.props.book;
-		const user = this.props.user;
+		const result = this.props.result;
+		const book = result.book;
+		const user = result.user;
 		//const bookInfo = this.renderBookInfo(book);
 		//const userInfo = this.renderUserInfo(user);
 
@@ -151,17 +153,16 @@ class Result extends React.Component {
 						<img src={book.image} width="130" height="180"/>
 				
 						<div className="infoPanel">
-							<div className="bookName">NAME : {book.name}</div>
-							<div className="authorName">AUTHOR NAME : {book.authorName}</div>
+							<div className="bookTitle">NAME : {book.title}</div>
+							<div className="authorName">AUTHOR NAME : {book.author}</div>
 							<div className="category">CATEGORY : {book.category}</div>
-							<div className="subcategory">SUBCATEGORY : {book.subcategory}</div>
 							<div className="pages">PAGES : {book.pages}</div>
-							<div className="available">AVAILABLE : {book.available}</div>
+							<div className="available">AVAILABLE : {book.available==1?'YES':'NO'}</div>
 						</div>
 
 						<div className="buttonPanel">
-							<button className="btn btn-danger buy">Buy</button>
-							<button className="btn btn-danger rent">Rent</button>
+							<button className="btn btn-danger buy" disabled={book.buy==0 && book.available==0} onClick={()=>{buyBook(result);}}>Buy</button>
+							<button className="btn btn-danger rent" disabled={book.rent==0 && book.available==0} onClick={()=>{rentBook(result);}}>Rent</button>
 						</div>
 					</div>
 				</div>
@@ -170,13 +171,9 @@ class Result extends React.Component {
 					<div className="container">
 				
 						<div className="infoPanel">
-							<div className="userName">NAME : {user.name}</div>
-							<div className="age">AGE : {user.age}</div>
-							<div className="address">ADDRESS : {user.address}</div>
+							<div className="name">NAME : {user.name}</div>
 							<div className="city">CITY : {user.city}</div>
 							<div className="state">STATE : {user.state}</div>
-							<div className="pincode">PINCODE : {user.pincode}</div>
-							<div className="contactNo">CONTACT NO : {user.contactNo}</div>
 						</div>
 
 						<div className="buttonPanel">
@@ -192,5 +189,23 @@ class Result extends React.Component {
 //
 
 
+function getResult(bookUid,successHandler){
+	$httpService.getResult([bookUid], null, successHandler);
+}
+
+function getSimilarResults(book,successHandler){
+	$httpService.getSimilarResults([], book, successHandler);
+}
+
+
+function buyBook(result){
+	util.$storage.set('finalizedResult',result);
+	$pages.checkout(['buy',result.book.uid]);
+}
+
+function rentBook(result){
+	util.$storage.set('finalizedResult',result);
+	$pages.checkout(['rent',result.book.uid]);
+}
 
 ReactDOM.render(<Results/> , document.getElementById('app'));

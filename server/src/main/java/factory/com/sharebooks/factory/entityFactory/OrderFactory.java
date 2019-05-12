@@ -3,8 +3,9 @@ package com.sharebooks.factory.entityFactory;
 import java.sql.ResultSet;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
-import com.sharebooks.coreEntities.Order;
-import com.sharebooks.coreEntities.enums.*;
+
+import com.sharebooks.entities.coreEntities.Order;
+import com.sharebooks.entities.coreEntities.enums.*;
 import com.sharebooks.exception.FactoryException;
 
 public class OrderFactory implements EntityFactory<Order>{

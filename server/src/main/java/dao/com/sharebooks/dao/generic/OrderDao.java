@@ -1,8 +1,9 @@
 package com.sharebooks.dao.generic;
 
 import java.util.List;
-import com.sharebooks.coreEntities.Order;
-import com.sharebooks.coreEntities.Quote;
+
+import com.sharebooks.entities.coreEntities.Order;
+import com.sharebooks.entities.coreEntities.Quote;
 
 
 public interface OrderDao extends Dao {

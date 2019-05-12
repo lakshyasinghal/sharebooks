@@ -3,6 +3,9 @@ var $global = (function(){
 		ORDER_TYPE:{
 			RENT:1,
 			BUY:2
+		},
+		WINDOW_TYPE:{
+			BLANK:'blank'
 		}
 	};
 
@@ -16,9 +19,10 @@ var $pages = (function(){
 	var LOG_IN = "/login";
 	var SIGN_OUT = "/logout";
 	var HOME = "/home";
-	var RESULTS = "/results";
-	var CHECKOUT = "/checkout";
-	var CONFIRMATION = "/confirmation";
+	var RESULTS = "/results/?";               // will be results/bookuid
+	var CHECKOUT = "/checkout/?/?";           //will be of type checkout/buy/bookUid or checkout/rent/bookUid
+	var SUMMARY = "/summary/?/?";			  // will be summary/rent/quoteUid
+	var CONFIRMATION = "/confirmation/?";   //will be of type confirmation/bookRequestUid
 	var FEEDBACK = "/feedback";
 	var PROFILE = "/profile";
 	var COMPLAINTS = "/complaints";
@@ -27,6 +31,7 @@ var $pages = (function(){
 	var RESET_PASSWORD = "/reset";
 	var PREFERENCES = "/preferences";
 	var ADD_BOOK = "/addBook";
+	var TERMS_AND_CONDITIONS = "/terms-and-conditions";
 
 	function Pages(){
 		this.signIn = redirector(IN);
@@ -35,7 +40,9 @@ var $pages = (function(){
 		this.home = redirector(HOME);
 		this.results = redirector(RESULTS);
 		this.checkout = redirector(CHECKOUT);
+		this.summary = redirector(SUMMARY);
 		this.confirmation = redirector(CONFIRMATION);
+		this.termsAndConditions = redirector(TERMS_AND_CONDITIONS);
 		this.feedback = redirector(FEEDBACK);
 		this.profile = redirector(PROFILE);
 		this.complaints = redirector(COMPLAINTS);
@@ -47,13 +54,37 @@ var $pages = (function(){
 	}
 
 	function redirector(url){
-		return (function(){
-			window.location.href = url;
+		return (function(pathParams,windowType){
+			const finalURL = appendPathParams(url,pathParams);
+			if(windowType && windowType=='blank'){
+				window.open(finalURL);
+			}
+			else{
+				window.location.href = finalURL;
+			}
 		});
 	}
 
 	return new Pages();
 })();
+
+
+
+//will convert view url of type checkout/?/? into checkout/buy/wqeh8ey-3i2eh-he2o3-h328
+//the spaces will be replaced by '%20'
+//need to handle exceptions ************************************
+function appendPathParams(url, pathParams){
+	if(!pathParams || pathParams.length==0){
+		return url;
+	}
+	var urlTokens = url.split("?");
+	for(var i=0,len=urlTokens.length-1;i<len;i++){
+		urlTokens[i] += encodeURIComponent(pathParams[i]);  //encodeURIComponent will encode the spaces
+	}
+	return urlTokens.join('');
+}
+//*********Above function needs to be made common**********
+
 
 /* status message service for status codes received in http response */
 var $sm = (function(){
@@ -139,38 +170,37 @@ var $sm = (function(){
 })();
 
 
-var $categories = [{desc:"Commerce",value:"Commerce"},
-			   {desc:"Computer Science",value:"Computer Science"},
-			   {desc:"Literature",value:"Literature"},
-			   {desc:"Politics",value:"Politics"},
-			   {desc:"Science",value:"Science"},
-			   {desc:"Sports",value:"Sports"},
-			   {desc:"Commerce",value:"Commerce"},
-			   {desc:"Computer Science",value:"Computer Science"},
-			   {desc:"Literature",value:"Literature"},
-			   {desc:"Politics",value:"Politics"},
-			   {desc:"Science",value:"Science"},
-			   {desc:"Sports",value:"Sports"},
-			   {desc:"Commerce",value:"Commerce"},
-			   {desc:"Computer Science",value:"Computer Science"},
-			   {desc:"Literature",value:"Literature"},
-			   {desc:"Politics",value:"Politics"},
-			   {desc:"Science",value:"Science"},
-			   {desc:"Sports",value:"Sports"},
-			   {desc:"Commerce",value:"Commerce"},
-			   {desc:"Computer Science",value:"Computer Science"},
-			   {desc:"Literature",value:"Literature"},
-			   {desc:"Politics",value:"Politics"},
-			   {desc:"Science",value:"Science"},
-			   {desc:"Sports",value:"Sports"}
-			  ];
+// var $categories = [{desc:"Commerce",value:"Commerce"},
+// 			   {desc:"Computer Science",value:"Computer Science"},
+// 			   {desc:"Literature",value:"Literature"},
+// 			   {desc:"Politics",value:"Politics"},
+// 			   {desc:"Science",value:"Science"},
+// 			   {desc:"Sports",value:"Sports"},
+// 			   {desc:"Commerce",value:"Commerce"},
+// 			   {desc:"Computer Science",value:"Computer Science"},
+// 			   {desc:"Literature",value:"Literature"},
+// 			   {desc:"Politics",value:"Politics"},
+// 			   {desc:"Science",value:"Science"},
+// 			   {desc:"Sports",value:"Sports"},
+// 			   {desc:"Commerce",value:"Commerce"},
+// 			   {desc:"Computer Science",value:"Computer Science"},
+// 			   {desc:"Literature",value:"Literature"},
+// 			   {desc:"Politics",value:"Politics"},
+// 			   {desc:"Science",value:"Science"},
+// 			   {desc:"Sports",value:"Sports"},
+// 			   {desc:"Commerce",value:"Commerce"},
+// 			   {desc:"Computer Science",value:"Computer Science"},
+// 			   {desc:"Literature",value:"Literature"},
+// 			   {desc:"Politics",value:"Politics"},
+// 			   {desc:"Science",value:"Science"},
+// 			   {desc:"Sports",value:"Sports"}
+// 			  ];
 
 
 var $config = {
 	$global: $global,
 	$pages: $pages,
-	$sm: $sm,
-	$categories: $categories
+	$sm: $sm
 };
 
 

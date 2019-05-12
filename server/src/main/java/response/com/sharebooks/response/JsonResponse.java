@@ -2,8 +2,11 @@ package com.sharebooks.response;
 
 import java.util.List;
 import java.util.Map;
+
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
-import com.sharebooks.entity.Entity;
+
+import com.sharebooks.entities.entity.Entity;
 import com.sharebooks.exception.JsonSerializationException;
 import com.sharebooks.serialization.json.JsonSerializable;
 import com.sharebooks.util.JsonUtility;
@@ -11,7 +14,7 @@ import com.sharebooks.util.JsonUtility;
 
 
 public class JsonResponse implements Response {
-	
+	private static final Logger LOGGER = Logger.getLogger(JsonResponse.class.getName());
 	private final boolean success;
 	private final int statusCode;
 	private final int errorCode;
@@ -45,6 +48,7 @@ public class JsonResponse implements Response {
 	@SuppressWarnings("unchecked")
 	public String serializeAsJson() throws JsonSerializationException {
 		try{
+			String jsonStr = null;
 			JSONObject jo = new JSONObject();
 			jo.put("success", success);
 			jo.put("statusCode", statusCode);
@@ -70,8 +74,9 @@ public class JsonResponse implements Response {
 				}
 			}
 			
-			
-			return jo.toJSONString();
+			jsonStr = jo.toJSONString();
+			LOGGER.info(jsonStr);
+			return jsonStr;
 		}
 		catch(Exception ex){
 			throw new JsonSerializationException(ex.getMessage());

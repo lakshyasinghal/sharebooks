@@ -200,7 +200,7 @@ function selectBook(bookId){
 	if(book==null){return ;}
 	util.$storage.set("selectedBook",book);
 	/* redirect to results page */
-	$pages.results();
+	$pages.results([book.uid]);
 }
 
 

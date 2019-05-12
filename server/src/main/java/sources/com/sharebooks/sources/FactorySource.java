@@ -2,10 +2,15 @@ package com.sharebooks.sources;
 
 import java.util.*;
 
-import com.sharebooks.coreEntities.enums.EntityType;
-import com.sharebooks.entity.Entity;
+import com.sharebooks.dtos.DTO;
+import com.sharebooks.dtos.enums.DTOType;
+import com.sharebooks.entities.coreEntities.enums.EntityType;
+import com.sharebooks.entities.entity.Entity;
 import com.sharebooks.factory.dbConnectionFactory.DBConnFactory;
 import com.sharebooks.factory.dbConnectionFactory.SqlConnFactory;
+import com.sharebooks.factory.dtoFactory.DTOFactory;
+import com.sharebooks.factory.dtoFactory.ResultDTOFactory;
+import com.sharebooks.factory.dtoFactory.SummaryInfoFactory;
 import com.sharebooks.factory.entityFactory.BookCategoryFactory;
 //import com.sharebooks.factory.dbConnectionFactory.DBConnFactory;
 //import com.sharebooks.factory.dbConnectionFactory.SqlConnFactory;
@@ -29,12 +34,14 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 public class FactorySource {
 	private static Map<String , EntityFactory<? extends Entity>> entityFactoryMap = new HashMap<String , EntityFactory<? extends Entity>>();
+	private static Map<String , DTOFactory<? extends DTO>> dtoFactoryMap = new HashMap<String, DTOFactory<? extends DTO>>();
 	private static Map<String , DBConnFactory> dbConnFactoryMap = new HashMap<String , DBConnFactory>();
 	private static SqlSessionFactory sqlSessionFactory;
 	private static ResponseFactory responseFactory;
 	
 	public static void init(){
 		initEntityFactoryMap();
+		initDTOFactoryMap();
 		initDBConnFactoryMap();
 		//initSqlSessionFactory(PropertySource.getSqlConfigPropertyMap().get("SQL_CONFIG_FILE_PATH"));
 		initResponseFactory();
@@ -56,6 +63,17 @@ public class FactorySource {
 			entityFactoryMap.put(EntityType.NOTIFICATION.desc(), NotificationFactory.getInstance());
 			entityFactoryMap.put(EntityType.PREFERENCE.desc(), PreferenceFactory.getInstance());
 			entityFactoryMap.put(EntityType.Quote.desc(), QuoteFactory.getInstance());
+		}
+		catch(Exception ex){
+			
+		}
+	}
+	
+	
+	private static void initDTOFactoryMap(){
+		try{
+			dtoFactoryMap.put(DTOType.RESULT.desc(), ResultDTOFactory.getInstance());
+			dtoFactoryMap.put(DTOType.SUMMARY.desc(), SummaryInfoFactory.getInstance());
 		}
 		catch(Exception ex){
 			
@@ -93,6 +111,10 @@ public class FactorySource {
 	
 	public static EntityFactory<? extends Entity> getEntityFactory(String factoryName){
 		return entityFactoryMap.get(factoryName);
+	}
+	
+	public static DTOFactory<? extends DTO> getDTOFactory(String factoryName){
+		return dtoFactoryMap.get(factoryName);
 	}
 	
 //	public static DBConnFactory getDBConnFactory(String factoryName){

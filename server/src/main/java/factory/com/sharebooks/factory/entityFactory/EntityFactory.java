@@ -3,7 +3,8 @@ package com.sharebooks.factory.entityFactory;
 import java.sql.ResultSet;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
-import com.sharebooks.entity.Entity;
+
+import com.sharebooks.entities.entity.Entity;
 
 public interface EntityFactory<T extends Entity> {
 	

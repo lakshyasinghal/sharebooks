@@ -14,7 +14,12 @@ router.post('/login',function(req,res){
 		const statusCode = data.statusCode;
 		var user = null;
 		if(statusCode==STATUS_CODES.LOGIN_SUCCESSFUL){
-			user = JSON.parse(data.user);
+			try{
+				user = JSON.parse(data.user);
+			}
+			catch(err){
+				user = data.user;
+			}
 		} 
 		console.log("USER => ",user);
 		req.session.user = user;

@@ -1,6 +1,6 @@
 package com.sharebooks.test.factory;
 
-import com.sharebooks.coreEntities.*;
+import com.sharebooks.entities.coreEntities.*;
 import com.sharebooks.factory.entityFactory.*;
 import com.sharebooks.test.AbstractTester;
 

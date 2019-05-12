@@ -3,16 +3,17 @@ package com.sharebooks.requestProcessor;
 import java.util.*;
 import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
-//import java.io.IOException;
-import java.sql.SQLException;
-import com.sharebooks.coreEntities.Book;
-import com.sharebooks.coreEntities.enums.EntityType;
+
+import com.sharebooks.entities.coreEntities.Book;
+import com.sharebooks.entities.coreEntities.enums.EntityType;
 import com.sharebooks.exception.*;
 import com.sharebooks.factory.entityFactory.EntityFactory;
 import com.sharebooks.factory.misc.ResponseFactory;
 import com.sharebooks.requestProcessor.AbstractRequestProcessor;
+import com.sharebooks.requestProcessor.requestValidators.BookRequestValidator;
+import com.sharebooks.requestProcessor.requestValidators.ValidationMessage;
 import com.sharebooks.response.*;
-import com.sharebooks.response.Error;
+import com.sharebooks.response.enums.Status;
 import com.sharebooks.services.entityServices.BookService;
 import com.sharebooks.sources.FactorySource;
 //import com.sharebooks.sources.PropertySource;
@@ -31,7 +32,7 @@ public class BookRequestProcessor extends AbstractRequestProcessor{
 	private final ResponseFactory responseFactory = FactorySource.getResponseFactory();
 	private final BookService bookService = ServiceSource.getBookService();
 	private final EntityFactory<Book> factory = (EntityFactory<Book>) FactorySource.getEntityFactory(EntityType.BOOK.desc());
-	private static final String EMPTY_STRING = "";
+	private final BookRequestValidator validator = BookRequestValidator.getInstance();
 	
 	//private constructor to help make the class singleton
 	private BookRequestProcessor(){
@@ -58,17 +59,9 @@ public class BookRequestProcessor extends AbstractRequestProcessor{
 			statusCode = Status.FETCH_ALL_BOOKS_SUCCESSFUL.id();
 			map.put("books", books);
 		}
-		catch(CacheException ex){
-			errorCode = Error.CACHE_ERROR.id();
-			LOGGER.error("",ex);
-		}
-		catch(SQLException ex){
-			errorCode = Error.DATABASE_ERROR.id();
-			LOGGER.error("",ex);
-		}
 		catch(Exception ex){
-			errorCode = Error.GENERAL_EXCEPTION.id();
-			LOGGER.error("",ex);
+			log(ex,LOGGER);
+			errorCode = errorCode(ex);
 		}
 		
 		Response response = responseFactory.getJsonResponse(success , statusCode , errorCode , map);
@@ -85,8 +78,10 @@ public class BookRequestProcessor extends AbstractRequestProcessor{
 		int statusCode = -1;
 		int errorCode = -1;
 		try{
-			if(uid==null || uid.equals(EMPTY_STRING)){
-				errorCode = Error.ID_NOT_AVAILABLE_IN_REQUEST.id();
+			ValidationMessage vm = validator.validateGetBookRequest(uid);
+			if(!vm.success()){
+				statusCode = vm.statusCode();
+				errorCode = vm.errorCode();
 			}
 			else{
 				book = bookService.getBook(uid);
@@ -100,17 +95,9 @@ public class BookRequestProcessor extends AbstractRequestProcessor{
 				map.put("book", book);
 			}
 		}
-		catch(CacheException ex){
-			errorCode = Error.CACHE_ERROR.id();
-			LOGGER.error("CacheException",ex);
-		}
-		catch(SQLException ex){
-			errorCode = Error.DATABASE_ERROR.id();
-			LOGGER.error("SQLException",ex);
-		}
 		catch(Exception ex){
-			errorCode = Error.GENERAL_EXCEPTION.id();
-			LOGGER.error("Exception",ex);
+			log(ex,LOGGER);
+			errorCode = errorCode(ex);
 		}
 		
 		Response response = responseFactory.getJsonResponse(success , statusCode , errorCode , map);
@@ -145,17 +132,9 @@ public class BookRequestProcessor extends AbstractRequestProcessor{
 				statusCode = Status.OPERATION_UNSUCCESSFUL.id();
 			}
 		}
-		catch(CacheException ex){
-			errorCode = Error.CACHE_ERROR.id();
-			LOGGER.error("",ex);
-		}
-		catch(SQLException ex){
-			errorCode = Error.DATABASE_ERROR.id();
-			LOGGER.error("",ex);
-		}
 		catch(Exception ex){
-			errorCode = Error.GENERAL_EXCEPTION.id();
-			LOGGER.error("",ex);
+			log(ex,LOGGER);
+			errorCode = errorCode(ex);
 		}
 		
 		Response response = responseFactory.getJsonResponse(success , statusCode , errorCode , map);
@@ -183,17 +162,9 @@ public class BookRequestProcessor extends AbstractRequestProcessor{
 				statusCode = Status.OPERATION_UNSUCCESSFUL.id();
 			}
 		}
-		catch(CacheException ex){
-			errorCode = Error.CACHE_ERROR.id();
-			LOGGER.error("",ex);
-		}
-		catch(SQLException ex){
-			errorCode = Error.DATABASE_ERROR.id();
-			LOGGER.error("",ex);
-		}
 		catch(Exception ex){
-			errorCode = Error.GENERAL_EXCEPTION.id();
-			LOGGER.error("",ex);
+			log(ex,LOGGER);
+			errorCode = errorCode(ex);
 		}
 		
 		Response response = responseFactory.getJsonResponse(success , statusCode , errorCode , map);
@@ -224,13 +195,9 @@ public class BookRequestProcessor extends AbstractRequestProcessor{
 			success = true;
 			statusCode = Status.BOOK_ALREADY_EXISTS.id();
 		}
-		catch(SQLException ex){
-			LOGGER.error("SQLException",ex);
-			errorCode = Error.DATABASE_ERROR.id();
-		}
 		catch(Exception ex){
-			LOGGER.error("Exception",ex);
-			errorCode = Error.GENERAL_EXCEPTION.id();
+			log(ex,LOGGER);
+			errorCode = errorCode(ex);
 		}
 		
 		response = responseFactory.getJsonResponse(success , statusCode , errorCode , null);
@@ -252,31 +219,18 @@ public class BookRequestProcessor extends AbstractRequestProcessor{
 		int statusCode = -1;
 		int errorCode = -1;
 		try{
-			if(uid==null || uid.equals(EMPTY_STRING)){
-				errorCode = Error.ID_NOT_AVAILABLE_IN_REQUEST.id();
+			boolean deleted = bookService.deleteBook(uid);
+			if(deleted){
+				statusCode = Status.BOOK_DELETED_SUCCESSFULLY.id();
 			}
 			else{
-				boolean deleted = bookService.deleteBook(uid);
-				if(deleted){
-					statusCode = Status.BOOK_DELETED_SUCCESSFULLY.id();
-				}
-				else{
-					statusCode = Status.BOOK_DELETION_FAILED.id();
-				}
-				success = true;
+				statusCode = Status.BOOK_DELETION_FAILED.id();
 			}
-		}
-		catch(CacheException ex){
-			errorCode = Error.CACHE_ERROR.id();
-			LOGGER.error("CacheException",ex);
-		}
-		catch(SQLException ex){
-			errorCode = Error.DATABASE_ERROR.id();
-			LOGGER.error("SQLException",ex);
+			success = true;
 		}
 		catch(Exception ex){
-			errorCode = Error.GENERAL_EXCEPTION.id();
-			LOGGER.error("Exception",ex);
+			log(ex,LOGGER);
+			errorCode = errorCode(ex);
 		}
 		Response response = responseFactory.getJsonResponse(success , statusCode , errorCode , null);
 		return response.process();
@@ -302,17 +256,9 @@ public class BookRequestProcessor extends AbstractRequestProcessor{
 				statusCode = Status.BOOK_UPDATED_SUCCESSFULLY.id();
 			}
 		}
-		catch(CacheException ex){
-			LOGGER.error("CacheException :",ex);
-			errorCode = Error.CACHE_ERROR.id();
-		}
-		catch(SQLException ex){
-			LOGGER.error("SQLException :",ex);
-			errorCode = Error.DATABASE_ERROR.id();
-		}
 		catch(Exception ex){
-			LOGGER.error("Exception :",ex);
-			errorCode = Error.GENERAL_EXCEPTION.id();
+			log(ex,LOGGER);
+			errorCode = errorCode(ex);
 		}
 
 		Response response = responseFactory.getJsonResponse(success , statusCode , errorCode , null);
@@ -339,17 +285,9 @@ public class BookRequestProcessor extends AbstractRequestProcessor{
 				statusCode = Status.BOOK_UPDATED_SUCCESSFULLY.id();
 			}
 		}
-		catch(CacheException ex){
-			LOGGER.error("CacheException :",ex);
-			errorCode = Error.CACHE_ERROR.id();
-		}
-		catch(SQLException ex){
-			LOGGER.error("SQLException :",ex);
-			errorCode = Error.DATABASE_ERROR.id();
-		}
 		catch(Exception ex){
-			LOGGER.error("Exception :",ex);
-			errorCode = Error.GENERAL_EXCEPTION.id();
+			log(ex,LOGGER);
+			errorCode = errorCode(ex);
 		}
 
 		Response response = responseFactory.getJsonResponse(success , statusCode , errorCode , null);

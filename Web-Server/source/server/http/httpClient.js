@@ -62,7 +62,7 @@ function generateAxiosRequestFunc(req, res, successCallback){
 
 /*the res is the original express request response object 
 the closure function will provide the res object in the closure environment which otherwise wouldn't have been possible*/
-//the cuccessCallback is optional
+//the successCallback is optional
 function generateResponseHandler(res,successCallback){
 	/*We will send the status and data in res object available in response object. We don't need to do anything fancy here. */
 	return (function(response){

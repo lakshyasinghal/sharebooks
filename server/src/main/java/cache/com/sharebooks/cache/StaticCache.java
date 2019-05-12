@@ -1,7 +1,8 @@
 package com.sharebooks.cache;
 
 import java.util.List;
-import com.sharebooks.entity.Entity;
+
+import com.sharebooks.entities.entity.Entity;
 
 public interface StaticCache<T extends Entity> extends Cache<T> {
 	

@@ -1,7 +1,7 @@
 package com.sharebooks.cache.staticCache;
 
 import com.sharebooks.cache.StaticCache;
-import com.sharebooks.entity.Entity;
+import com.sharebooks.entities.entity.Entity;
 import com.sharebooks.exception.CacheException;
 import java.util.*;
 

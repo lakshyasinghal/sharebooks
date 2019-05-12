@@ -2,10 +2,11 @@ package com.sharebooks.dao.generic;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.sharebooks.entity.Entity;
-import com.sharebooks.helperEntities.BookCategory;
-import com.sharebooks.helperEntities.City;
-import com.sharebooks.helperEntities.State;
+
+import com.sharebooks.entities.entity.Entity;
+import com.sharebooks.entities.helperEntities.BookCategory;
+import com.sharebooks.entities.helperEntities.City;
+import com.sharebooks.entities.helperEntities.State;
 
 public abstract class AbstractMiscDao implements MiscDao{
 	

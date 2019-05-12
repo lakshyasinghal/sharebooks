@@ -8,10 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import com.sharebooks.coreEntities.Notification;
-import com.sharebooks.coreEntities.enums.NotificationStatus;
-import com.sharebooks.coreEntities.enums.NotificationType;
-import com.sharebooks.dateTime.LocalDateTime;
+
+import com.sharebooks.entities.coreEntities.Notification;
+import com.sharebooks.entities.coreEntities.enums.NotificationStatus;
+import com.sharebooks.entities.coreEntities.enums.NotificationType;
+import com.sharebooks.util.dateTime.LocalDateTime;
 
 
 public class NotificationFactory implements EntityFactory<Notification>{

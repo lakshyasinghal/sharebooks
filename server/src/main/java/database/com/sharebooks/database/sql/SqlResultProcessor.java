@@ -4,9 +4,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-//import com.sharebooks.coreEntities.*;
-import com.sharebooks.coreEntities.enums.EntityType;
-import com.sharebooks.entity.Entity;
+
+import com.sharebooks.entities.coreEntities.enums.EntityType;
+import com.sharebooks.entities.entity.Entity;
 import com.sharebooks.factory.entityFactory.EntityFactory;
 import com.sharebooks.sources.FactorySource;
 

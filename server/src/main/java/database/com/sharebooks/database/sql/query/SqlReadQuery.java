@@ -26,7 +26,7 @@ public class SqlReadQuery implements SqlQuery{
 		int i=0;
 		query.append("SELECT * FROM ");
 		query.append(tableName);
-		if(whereParamsMap != null){
+		if(whereParamsMap != null && whereParamsMap.size()>0){
 			query.append(" where ");
 			for(String key : whereParamsMap.keySet()){
 				if(i>0){

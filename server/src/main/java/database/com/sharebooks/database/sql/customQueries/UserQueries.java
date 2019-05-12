@@ -1,5 +1,7 @@
 package com.sharebooks.database.sql.customQueries;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import com.sharebooks.database.sql.Table;
 
@@ -34,6 +36,24 @@ public class UserQueries {
 		query.append(";");
 		LOGGER.debug("Query => " + query.toString());
 		return query.toString();
+	}
+	
+	public String queryForGetUsersByUids(List<String> uids){
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT * FROM ");
+		query.append(Table.USERS.desc());
+		query.append(" WHERE ");
+		query.append("UID in ");
+		query.append("(");
+		int i=0;
+		for(int len=uids.size();i<len-1;i++){
+			query.append(uids.get(i)+",");
+		}
+		query.append(uids.get(i));
+		query.append(")");
+		LOGGER.debug("Query => " + query.toString());
+		return query.toString();
+
 	}
 
 }

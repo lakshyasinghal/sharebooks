@@ -4,8 +4,9 @@ import java.sql.ResultSet;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+
+import com.sharebooks.entities.helperEntities.BookCategory;
 import com.sharebooks.exception.NonFunctionalMethodException;
-import com.sharebooks.helperEntities.BookCategory;
 
 
 public class BookCategoryFactory implements EntityFactory<BookCategory>{

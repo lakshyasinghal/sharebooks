@@ -3,10 +3,7 @@ package com.sharebooks.sources;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.log4j.Logger;
-import com.sharebooks.coreEntities.Book;
-import com.sharebooks.coreEntities.BookRequest;
-import com.sharebooks.coreEntities.User;
-import com.sharebooks.coreEntities.enums.EntityType;
+
 import com.sharebooks.dao.generic.Dao;
 import com.sharebooks.dao.sql.BookCategorySqlDao;
 import com.sharebooks.dao.sql.BookRequestSqlDao;
@@ -17,6 +14,10 @@ import com.sharebooks.dao.sql.OrderSqlDao;
 import com.sharebooks.dao.sql.QuoteSqlDao;
 import com.sharebooks.dao.sql.StateSqlDao;
 import com.sharebooks.dao.sql.UserSqlDao;
+import com.sharebooks.entities.coreEntities.Book;
+import com.sharebooks.entities.coreEntities.BookRequest;
+import com.sharebooks.entities.coreEntities.User;
+import com.sharebooks.entities.coreEntities.enums.EntityType;
 import com.sharebooks.factory.entityFactory.EntityFactory;
 import com.sharebooks.sources.enums.DaoType;
 

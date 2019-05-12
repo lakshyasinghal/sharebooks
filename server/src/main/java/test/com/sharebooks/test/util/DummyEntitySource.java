@@ -2,12 +2,10 @@ package com.sharebooks.test.util;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.sharebooks.coreEntities.Book;
-//import com.sharebooks.coreEntities.BookRequest;
-//import com.sharebooks.coreEntities.Order;
-import com.sharebooks.coreEntities.User;
-//import com.sharebooks.coreEntities.enums.Active;
-import com.sharebooks.coreEntities.enums.AvailableStatus;
+
+import com.sharebooks.entities.coreEntities.Book;
+import com.sharebooks.entities.coreEntities.User;
+import com.sharebooks.entities.coreEntities.enums.AvailableStatus;
 
 public class DummyEntitySource {
 	private static List<Book> books = new ArrayList<Book>();

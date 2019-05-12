@@ -2,8 +2,9 @@ package com.sharebooks.dao.generic;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.sharebooks.entity.Entity;
-import com.sharebooks.helperEntities.State;
+
+import com.sharebooks.entities.entity.Entity;
+import com.sharebooks.entities.helperEntities.State;
 
 public abstract class AbstractStateDao implements StateDao{
 	

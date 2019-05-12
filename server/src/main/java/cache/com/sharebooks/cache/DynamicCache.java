@@ -1,6 +1,6 @@
 package com.sharebooks.cache;
 
-import com.sharebooks.entity.Entity;
+import com.sharebooks.entities.entity.Entity;
 
 public interface DynamicCache<T extends Entity> extends Cache<T> {
 	

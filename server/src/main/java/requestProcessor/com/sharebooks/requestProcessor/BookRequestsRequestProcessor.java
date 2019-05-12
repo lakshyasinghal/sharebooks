@@ -1,18 +1,17 @@
 package com.sharebooks.requestProcessor;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
-import com.sharebooks.coreEntities.BookRequest;
-import com.sharebooks.coreEntities.enums.EntityType;
+
+import com.sharebooks.entities.coreEntities.BookRequest;
+import com.sharebooks.entities.coreEntities.enums.EntityType;
 import com.sharebooks.factory.entityFactory.EntityFactory;
 import com.sharebooks.factory.misc.ResponseFactory;
-import com.sharebooks.response.Error;
 import com.sharebooks.response.Response;
-import com.sharebooks.response.Status;
+import com.sharebooks.response.enums.Status;
 import com.sharebooks.services.entityServices.BookRequestService;
 import com.sharebooks.sources.FactorySource;
 import com.sharebooks.sources.ServiceSource;
@@ -62,13 +61,9 @@ public class BookRequestsRequestProcessor extends AbstractRequestProcessor {
 			map.put("received", receivedBookRequests);
 			map.put("sent", sentBookRequests);
 		}
-		catch(SQLException ex){
-			LOGGER.error("SQL Exception",ex);
-			errorCode = Error.DATABASE_ERROR.id();
-		}
 		catch(Exception ex){
-			LOGGER.error("Exception",ex);
-			errorCode = Error.GENERAL_EXCEPTION.id();
+			log(ex,LOGGER);
+			errorCode = errorCode(ex);
 		}
 		response = responseFactory.getJsonResponse(success , statusCode , errorCode , map);
 		LOGGER.trace("Leaving processGetBookRequestsByUid");
@@ -97,13 +92,9 @@ public class BookRequestsRequestProcessor extends AbstractRequestProcessor {
 				statusCode = Status.BOOK_REQUEST_NOT_CREATED.id();
 			}
 		}
-		catch(SQLException ex){
-			LOGGER.error("SQL Exception",ex);
-			errorCode = Error.DATABASE_ERROR.id();
-		}
 		catch(Exception ex){
-			LOGGER.error("Exception",ex);
-			errorCode = Error.GENERAL_EXCEPTION.id();
+			log(ex,LOGGER);
+			errorCode = errorCode(ex);
 		}
 		
 		response = responseFactory.getJsonResponse(success , statusCode , errorCode , null);
@@ -133,15 +124,9 @@ public class BookRequestsRequestProcessor extends AbstractRequestProcessor {
 				statusCode = Status.BOOK_REQUEST_NOT_UPDATED.id();
 			}
 		}
-		catch(SQLException ex){
-			LOGGER.error("SQLException :",ex);
-			success = false;
-			errorCode = Error.DATABASE_ERROR.id();
-		}
 		catch(Exception ex){
-			LOGGER.error("Exception :",ex);
-			success = false;
-			errorCode = Error.GENERAL_EXCEPTION.id();
+			log(ex,LOGGER);
+			errorCode = errorCode(ex);
 		}
 
 		Response response = responseFactory.getJsonResponse(success , statusCode , errorCode , null);
@@ -150,16 +135,12 @@ public class BookRequestsRequestProcessor extends AbstractRequestProcessor {
 	}
 	
 	
-	public String processAcceptBookRequest(HttpServletRequest req) throws Exception{
+	public String processAcceptBookRequest(String uid) throws Exception{
 		LOGGER.trace("Entering processAcceptBookRequest");
 		boolean success = false;
 		int statusCode = -1,errorCode = -1;
-		String bookJsonStr = null;
-		BookRequest bookRequest = null;
 		try{
-			bookJsonStr = getJsonFromRequest(req);
-			bookRequest = factory.createFromJson(bookJsonStr);
-			success = bookRequestService.acceptBookRequest(bookRequest);
+			success = bookRequestService.acceptBookRequest(uid);
 			if(success){
 				statusCode = Status.BOOK_REQUEST_ACCEPTED_SUCCESSFULLY.id();
 			}
@@ -167,15 +148,9 @@ public class BookRequestsRequestProcessor extends AbstractRequestProcessor {
 				statusCode = Status.BOOK_REQUEST_COULD_NOT_BE_ACCEPTED.id();
 			}
 		}
-		catch(SQLException ex){
-			LOGGER.error("SQLException :",ex);
-			success = false;
-			errorCode = Error.DATABASE_ERROR.id();
-		}
 		catch(Exception ex){
-			LOGGER.error("Exception :",ex);
-			success = false;
-			errorCode = Error.GENERAL_EXCEPTION.id();
+			log(ex,LOGGER);
+			errorCode = errorCode(ex);
 		}
 
 		Response response = responseFactory.getJsonResponse(success , statusCode , errorCode , null);
@@ -183,16 +158,12 @@ public class BookRequestsRequestProcessor extends AbstractRequestProcessor {
 		return response.process();
 	}
 	
-	public String processRejectBookRequest(HttpServletRequest req) throws Exception{
+	public String processRejectBookRequest(String uid) throws Exception{
 		LOGGER.trace("Entered processRejectBookRequest.");
 		boolean success = false;
 		int statusCode = -1,errorCode = -1;
-		String bookJsonStr = null;
-		BookRequest bookRequest = null;
 		try{
-			bookJsonStr = getJsonFromRequest(req);
-			bookRequest = factory.createFromJson(bookJsonStr);
-			success = bookRequestService.rejectBookRequest(bookRequest);
+			success = bookRequestService.rejectBookRequest(uid);
 			if(success){
 				statusCode = Status.BOOK_REQUEST_REJECTED_SUCCESSFULLY.id();
 			}
@@ -200,17 +171,11 @@ public class BookRequestsRequestProcessor extends AbstractRequestProcessor {
 				statusCode = Status.BOOK_REQUEST_COULD_NOT_BE_REJECTED.id();
 			}
 		}
-		catch(SQLException ex){
-			LOGGER.error("SQLException :",ex);
-			success = false;
-			errorCode = Error.DATABASE_ERROR.id();
-		}
 		catch(Exception ex){
-			LOGGER.error("Exception :",ex);
-			success = false;
-			errorCode = Error.GENERAL_EXCEPTION.id();
+			log(ex,LOGGER);
+			errorCode = errorCode(ex);
 		}
-
+		
 		Response response = responseFactory.getJsonResponse(success , statusCode , errorCode , null);
 		LOGGER.trace("Leaving processRejectBookRequest.");
 		return response.process();

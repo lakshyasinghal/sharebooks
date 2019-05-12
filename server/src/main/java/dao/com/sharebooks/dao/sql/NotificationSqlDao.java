@@ -5,9 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import com.sharebooks.coreEntities.Notification;
-import com.sharebooks.coreEntities.User;
-import com.sharebooks.coreEntities.enums.EntityType;
+
 import com.sharebooks.dao.generic.AbstractNotificationDao;
 import com.sharebooks.database.sql.AbstractSqlQueryProcessor;
 import com.sharebooks.database.sql.Database;
@@ -15,7 +13,10 @@ import com.sharebooks.database.sql.SqlReadQueryProcessor;
 import com.sharebooks.database.sql.Table;
 import com.sharebooks.database.sql.query.SqlQuery;
 import com.sharebooks.database.sql.query.SqlReadQuery;
-import com.sharebooks.entity.Entity;
+import com.sharebooks.entities.coreEntities.Notification;
+import com.sharebooks.entities.coreEntities.User;
+import com.sharebooks.entities.coreEntities.enums.EntityType;
+import com.sharebooks.entities.entity.Entity;
 import com.sharebooks.factory.entityFactory.EntityFactory;
 
 

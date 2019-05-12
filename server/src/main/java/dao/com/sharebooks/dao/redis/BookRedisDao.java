@@ -3,8 +3,9 @@ package com.sharebooks.dao.redis;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-import com.sharebooks.coreEntities.Book;
+
 import com.sharebooks.dao.generic.BookDao;
+import com.sharebooks.entities.coreEntities.Book;
 
 public class BookRedisDao extends GenericRedisDao implements BookDao{
 

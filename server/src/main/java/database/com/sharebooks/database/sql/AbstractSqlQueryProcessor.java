@@ -5,8 +5,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.sharebooks.connectionPool.ConnectionPoolManager;
-import com.sharebooks.coreEntities.enums.EntityType;
-import com.sharebooks.entity.Entity;
+import com.sharebooks.entities.coreEntities.enums.EntityType;
+import com.sharebooks.entities.entity.Entity;
 
 public abstract class AbstractSqlQueryProcessor {
 	

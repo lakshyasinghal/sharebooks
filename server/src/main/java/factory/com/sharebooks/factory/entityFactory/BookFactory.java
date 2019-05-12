@@ -4,10 +4,11 @@ import java.sql.ResultSet;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import com.sharebooks.coreEntities.Book;
-import com.sharebooks.coreEntities.enums.AvailableStatus;
-import com.sharebooks.dateTime.LocalDateTime;
+
+import com.sharebooks.entities.coreEntities.Book;
+import com.sharebooks.entities.coreEntities.enums.AvailableStatus;
 import com.sharebooks.exception.FactoryException;
+import com.sharebooks.util.dateTime.LocalDateTime;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
