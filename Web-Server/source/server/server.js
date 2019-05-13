@@ -1,15 +1,16 @@
 const path = require("path");
+const https = require("https");
+const fs = require('fs');
 const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+
+
 const routers = require("./routes/router");
 const enums = require(path.join(appRoot+"/models/enums/enums"));
-
 const STATUS_CODES = enums.ERROR_CODES; 
-
 const app = express();
-
 const noSessionUrls = [{url:"/",method:"GET"},{url:"/api/login",method:"POST"},{url:"/api/users",method:"PUT"}];
 
 
@@ -20,8 +21,29 @@ function start(){
 	addSessionValidator();
 	addRouters();
 	handleUnidentifiedRoutes();
+	
+	listen();
+}
 
-	var server = app.listen(config.port,function(){
+function listen(){
+	const isHttps = config.isHttps;
+	if(isHttps){
+		listenOnHttps();
+	}
+	else{
+		listenOnHttp();
+	}
+}
+
+function listenOnHttps(){
+	const httpsKeys = getHttpsKeys();
+	https.createServer(httpsKeys,app).listen(config.port,function(){
+		console.log("Server started on port ",config.port);
+	});
+}
+
+function listenOnHttp(){
+	app.listen(config.port,function(){
 		console.log("Server started on port ",config.port);
 	});
 }
@@ -46,7 +68,7 @@ function addSessionValidator(){
 		console.log("isAjax =>",isAjax);
 		/*check if session exists by checking whether the user object is set in session
 		The user object will only be set if the user has looged in*/
-		if(session.user){   //session doesn't exist
+		if(!session.user){   //session doesn't exist
 			if(isNoSessionUrl(url,method)){   //the url and method type don't need an existing session
 				next();
 			}
@@ -118,6 +140,15 @@ function handleUnidentifiedRoutes(){
 	});
 }
 
+//
+function getHttpsKeys(){
+	const key = fs.readFileSync(config.https.keyPath);
+	const cert = fs.readFileSync(config.https.certPath);
+
+	console.log("key =>",key);
+	console.log("cert =>",cert);
+	return {key:key,cert:cert,passphrase:'sharebooks'};
+}
 
 
 

@@ -37,11 +37,12 @@ function viewLocator(page,sessionRequired,redirect,redirectionURL){
 	router.get('/addBook',viewLocator("addBook.html",true));
 	router.get('/results/:bookUid',viewLocator("results.html",true));
 	router.get('/checkout/:actionType/:bookUid',viewLocator("checkout.html",true));	
-	router.get('/summary/:actionType/:quoteUid',viewLocator("summary.html",false));
-	router.get('/confirmation/:bookUid',viewLocator("confirmation.html",false));
-	router.get('/feedback',viewLocator("feedback.html",false));
-	router.get('/terms-and-conditions',viewLocator("termsAndConditions.html",false));	
-	router.get('/',viewLocator("login.html",false));
+	router.get('/summary/:actionType/:quoteUid',viewLocator("summary.html",true));
+	router.get('/confirmation/:bookUid',viewLocator("confirmation.html",true));
+	router.get('/feedback',viewLocator("feedback.html",true));
+	router.get('/terms-and-conditions',viewLocator("termsAndConditions.html",true));	
+	//router.get('/',viewLocator("login.html",false));
+	router.get('/',viewLocator("test.html",false));
 	router.get('*',viewLocator("url_error.html",false));
 	//adding router to the app
 })();
