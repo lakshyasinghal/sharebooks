@@ -62,13 +62,14 @@ function addSessionValidator(){
 		const method = req.method;
 		const session = req.session;
 		const isAjax = req.xhr;
+		const isSessionRequired = config.isSessionRequired;
 
 		console.log("Method =>",req.method);
 		console.log("Url =>",req.originalUrl);
 		console.log("isAjax =>",isAjax);
 		/*check if session exists by checking whether the user object is set in session
 		The user object will only be set if the user has looged in*/
-		if(!session.user){   //session doesn't exist
+		if(isSessionRequired && !session.user){   //session doesn't exist
 			if(isNoSessionUrl(url,method)){   //the url and method type don't need an existing session
 				next();
 			}

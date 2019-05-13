@@ -14,7 +14,7 @@ function viewLocator(page,sessionRequired,redirect,redirectionURL){
 		var session = req.session;
 		console.log("page =>",page);
 		//if session is required and session user does not exist, redirect to login page
-		if(sessionRequired && !session.user){
+		if(config.isSessionRequired && sessionRequired && !session.user){
 			res.redirect('/');
 		}
 		else if(redirect){
@@ -41,8 +41,8 @@ function viewLocator(page,sessionRequired,redirect,redirectionURL){
 	router.get('/confirmation/:bookUid',viewLocator("confirmation.html",true));
 	router.get('/feedback',viewLocator("feedback.html",true));
 	router.get('/terms-and-conditions',viewLocator("termsAndConditions.html",true));	
-	//router.get('/',viewLocator("login.html",false));
-	router.get('/',viewLocator("test.html",false));
+	router.get('/',viewLocator("login.html",false));
+	//router.get('/',viewLocator("test.html",false));
 	router.get('*',viewLocator("url_error.html",false));
 	//adding router to the app
 })();

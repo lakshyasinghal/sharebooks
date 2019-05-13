@@ -1,6 +1,6 @@
 {
 	"host":"localhost",
-	"port":443,
+	"port":8070,
 	"booksUploadDir":"/Users/lakshya.singhal/Desktop/uploads",
 	"staticResourcePaths":["public/resources/images","public/resources/images/background","public/resources/images/books","public/styles","public/lib/js","public/view-scripts"],
 	"sessionExpiry":300, 
@@ -14,5 +14,6 @@
 		"keyPath":"/Users/lakshya.singhal/Desktop/Personal/Tech/security/https/key.pem",
 		"certPath":"/Users/lakshya.singhal/Desktop/Personal/Tech/security/https/cert.pem"
 	},
-	"isHttps":1
+	"isHttps":0,
+	"isSessionRequired":0
 }
