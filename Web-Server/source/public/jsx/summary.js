@@ -201,12 +201,17 @@ function toggleTermsCheck(){
 function confirm(termsChecked){
 	if(!termsChecked){
 		alert("Please check terms and conditions first");
-		return ; 
+		return ;
 	}
 
 	const quoteUid = util.getURLPathParamByIndex(3);
 	$httpService.confirmQuote([quoteUid],null,res=>{
-		$pages.confirmation([res.bookRequestUid]);
+		if(res.success){
+			$pages.confirmation([res.bookRequestUid]);
+		}
+		else{
+			
+		}
 	});
 }
 

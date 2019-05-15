@@ -113,6 +113,7 @@ function addStaticResources(){
 	for(var i=0,l=paths.length;i<l;i++){
 		app.use('/static',express.static(paths[i]));
 	}
+	//app.use('/',express.static("."));
 }
 
 function addRouters(){
