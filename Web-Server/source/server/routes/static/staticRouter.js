@@ -39,7 +39,7 @@ function viewLocator(page,sessionRequired,redirect,redirectionURL){
 	router.get('/checkout/:actionType/:bookUid',viewLocator("checkout.html",true));	
 	router.get('/summary/:actionType/:quoteUid',viewLocator("summary.html",true));
 	router.get('/confirmation/:bookUid',viewLocator("confirmation.html",true));
-	router.get('/feedback',viewLocator("feedback.html",true));
+	router.get('/feedback/:userUid',viewLocator("feedback.html",true));
 	router.get('/terms-and-conditions',viewLocator("termsAndConditions.html",true));	
 	router.get('/',viewLocator("login.html",false));
 	//router.get('/',viewLocator("test.html",false));

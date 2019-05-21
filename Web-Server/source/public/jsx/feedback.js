@@ -36,16 +36,21 @@ class Feedback extends React.Component {
 			alert("Please select a rating");
 			return false;
 		}
+		if(comments.trim()==""){
+			alert("Please add comments.");
+			return false;
+		}
 		return true;
 	}
 
 	submit(){
 		const rating = this.state.selectedRating;
 		const comments = this.state.comments;
+		const userUid = util.getURLPathParamByIndex(2);
 		if(!this.isSubmitValid()){
 			return;
 		}
-		$httpService.saveFeedback([],{rating:rating,comments:comments}, (res)=>{
+		$httpService.saveFeedback([userUid],{rating:rating,comments:comments}, (res)=>{
 			alert("Feedback saved successfully")
 		});
 	}
