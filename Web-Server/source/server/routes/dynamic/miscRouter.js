@@ -9,4 +9,8 @@ router.put('/feedbacks/:userUid',function(req,res){
 	(requestGenerator.generateAxiosRequestFunc(req, res))();
 });
 
+router.put('/complaints/:userUid',function(req,res){
+	(requestGenerator.generateAxiosRequestFunc(req, res))();
+});
+
 module.exports = router;

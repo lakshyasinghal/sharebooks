@@ -5,12 +5,14 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+const helmet = require("helmet");
 
+const app = express();
 
 const routers = require("./routes/router");
 const enums = require(path.join(appRoot+"/models/enums/enums"));
 const STATUS_CODES = enums.ERROR_CODES; 
-const app = express();
+
 const noSessionUrls = [{url:"/",method:"GET"},{url:"/api/login",method:"POST"},{url:"/api/users",method:"PUT"}];
 
 
@@ -19,6 +21,7 @@ function start(){
 	configure();
 	addStaticResources();
 	addSessionValidator();
+	addSecurityHeaders();
 	addRouters();
 	handleUnidentifiedRoutes();
 	
@@ -54,6 +57,21 @@ function configure(){
 	app.use(cookieParser());
 	//needs to be modified and made robust
 	app.use(session({secret:config.sessionSecret,key:"",resave: true,saveUninitialized: false}));
+}
+
+
+function addSecurityHeaders(){
+	app.disable('x-powered-by');
+	app.use(function(req,res,next){
+		//cross site scripting header
+		res.set('X-XSS-Protection','1; mode=block');
+		//browser sniffing protection
+		res.set('X-Frame-Options',"SAMEORIGIN");
+		//no sniffing of mime types
+		res.set("X-Content-Type-Options","nosniff");
+		next();
+	});
+	//app.use(helmet());
 }
 
 function addSessionValidator(){

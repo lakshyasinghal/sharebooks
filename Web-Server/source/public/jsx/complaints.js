@@ -32,7 +32,6 @@ class Complaint extends React.Component {
 	}
 
 	isSubmitValid(complaintText){
-		debugger;
 		if(complaintText=="" && complaintText.length<50){
 			alert("Text cannot be less than 100 characters");
 			return false;
@@ -41,9 +40,10 @@ class Complaint extends React.Component {
 	}
 
 	submit(){
+		const userUid = util.getURLPathParamByIndex(2);
 		let complaintText = this.state.complaintText.trim();
 		if(!this.isSubmitValid(complaintText)){return ;}
-		$httpService.saveComplaint([],{complaint:complaintText} , res=>{
+		$httpService.saveComplaint([userUid],{complaint:complaintText} , res=>{
 			alert("Complaints saved successfully");
 		});
 	}
@@ -62,7 +62,7 @@ class Complaint extends React.Component {
 				</div>
 
 				<div id="buttonContainer">
-					<button className="btn btn-danger" id="submitBtn">Send Mail</button>
+					<button className="btn btn-danger" id="submitBtn">SAVE</button>
 				</div>
 			</div>
 		);

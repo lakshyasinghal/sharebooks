@@ -29,7 +29,7 @@ function viewLocator(page,sessionRequired,redirect,redirectionURL){
 (function createPageRoutes(){
 	//router.get('/login',viewLocator("login.html",false));
 	router.get('/about',viewLocator("about.html",true));
-	router.get('/complaints',viewLocator("complaints.html",true));
+	router.get('/complaints/:userUid',viewLocator("complaints.html",true));
 	router.get('/preferences',viewLocator("preferences.html",true));
 	router.get('/profile',viewLocator("profile.html",true));
 	router.get('/reset',viewLocator("reset.html",true));

@@ -22,3 +22,13 @@ Use redis for sessions
 #Task 4
 Start using mocha
 
+---------------------------------------------------------------------------------------
+
+#Task 5
+Prevent brute-force attacks against authorization
+
+
+---------------------------------------------------------------------------------------
+
+#Task 6
+Security Headers              DONE
