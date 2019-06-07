@@ -55,6 +55,44 @@ public abstract class CoreEntity extends Entity {
 		}
 	}
 	
+	
+	public CoreEntity(CoreEntityBuilder b) {
+		super(b);
+		this.uid = b.uid;
+		this.creationTime = b.creationTime;
+		this.lastModificationTime = b.lastModificationTime;
+	}
+	
+	
+	public static class CoreEntityBuilder extends Entity.EntityBuilder{
+		protected String uid;
+		protected LocalDateTime creationTime;
+		protected LocalDateTime lastModificationTime;
+		
+		public CoreEntityBuilder() {
+			this.uid = UUID.randomUUID().toString();
+			this.creationTime = new LocalDateTime();
+			this.lastModificationTime = new LocalDateTime();
+		}
+		
+		public CoreEntityBuilder uid(String uid) {
+			this.uid = uid;
+			return this;
+		}
+		
+		public CoreEntityBuilder creationTime(LocalDateTime creationTime) {
+			this.creationTime = creationTime;
+			return this;
+		}
+		
+		public CoreEntityBuilder uid(LocalDateTime lastModificationTime) {
+			this.lastModificationTime = lastModificationTime;
+			return this;
+		}
+	}
+	
+	
+	
 	public boolean equals(Object ob){
 		if(ob==null){
 			return false;

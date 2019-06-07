@@ -20,6 +20,23 @@ public abstract class Entity implements JsonSerializable{
 		this.id = id;
 	}
 	
+	public Entity(EntityBuilder b) {
+		this.id = b.id;
+	}
+	
+	public static class EntityBuilder {
+		private int id;
+		
+		public EntityBuilder() {
+			
+		}
+		
+		public EntityBuilder id(int id){
+			this.id = id;
+			return this;
+		}
+	}
+	
 	//will return a map representation of the entity object
 	public Map<String,Object> map() throws Exception{
 		Map<String,Object> map = new HashMap<String,Object>();	

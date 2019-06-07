@@ -3,8 +3,8 @@
 const webpack = require('webpack');
 
 
-const jsPath = "/Users/lakshya.singhal/Desktop/Personal/Tech/Apps/sharebooks/Web-Server/source/public/view-scripts";
-const jsxPath = "/Users/lakshya.singhal/Desktop/Personal/Tech/Apps/sharebooks/Web-Server/source/public/jsx";
+const jsPath = "/home/lakshya/Tech/Apps/sharebooks/Web-Server/source/public/view-scripts";
+const jsxPath = "/home/lakshya/Tech/Apps/sharebooks/Web-Server/source/public/jsx";
 const _hotUpdateChunkFilename = './../hot/hot-update.js';
 const _hotUpdateMainFilename = './../hot/hot-update.json';
 

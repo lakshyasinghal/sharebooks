@@ -1,6 +1,6 @@
 {
-	"host":"localhost",
-	"port":8090,
+	"httpPort":9000,
+	"httpsPort":8090,
 	"booksUploadDir":"/Users/lakshya.singhal/Desktop/uploads",
 	"staticResourcePaths":["public/resources/images","public/resources/images/background","public/resources/images/books","public/styles","public/lib/js","public/view-scripts"],
 	"sessionExpiry":300, 
@@ -11,10 +11,11 @@
 		"port":"8050"
 	},
 	"https":{
-		"keyPath":"/Users/lakshya.singhal/Desktop/Personal/Tech/security/https/sharebooks.key",
-		"certPath":"/Users/lakshya.singhal/Desktop/Personal/Tech/security/https/sharebooks.crt"
+		"keyPath":"/usr/certificates/sharebooks/key/sharebooks.key",
+		"certPath":"/usr/certificates/sharebooks/primary/primary.crt",
+		"caPath":"/usr/certificates/sharebooks/intermed/intermed.crt"
 	},
-	"isHttps":0,
+	"isHttps":1,
 	"isSessionRequired":0,
 	"mySQL":{
 		"host":"127.0.0.1",

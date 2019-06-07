@@ -31,23 +31,32 @@ function start(){
 function listen(){
 	const isHttps = config.isHttps;
 	if(isHttps){
-		listenOnHttps();
+		listenOnHttps(app);
 	}
 	else{
-		listenOnHttp();
+		listenOnHttp(app);
 	}
 }
 
-function listenOnHttps(){
+function listenOnHttps(app){
 	const httpsKeys = getHttpsKeys();
-	https.createServer(httpsKeys,app).listen(config.port,function(){
-		console.log("Server started on port ",config.port);
+	https.createServer(httpsKeys,app).listen(config.httpsPort,function(){
+		console.log("Https server started on port ",config.httpsPort);
+	});
+	activateHttpsRedirector();
+}
+
+function activateHttpsRedirector(){
+	httpsRedirector = express();
+	listenOnHttp(httpsRedirector);
+	httpsRedirector.use(function(req,res){
+		res.redirect("https://www.sharebooks.in"+req.originalUrl);
 	});
 }
 
-function listenOnHttp(){
-	app.listen(config.port,function(){
-		console.log("Server started on port ",config.port);
+function listenOnHttp(app){
+	app.listen(config.httpPort,function(){
+		console.log("Http server started on port ",config.httpPort);
 	});
 }
 
@@ -164,10 +173,12 @@ function handleUnidentifiedRoutes(){
 function getHttpsKeys(){
 	const key = fs.readFileSync(config.https.keyPath);
 	const cert = fs.readFileSync(config.https.certPath);
+	const ca = fs.readFileSync(config.https.caPath);
 
 	console.log("key =>",key);
 	console.log("cert =>",cert);
-	return {key:key,cert:cert,passphrase:'sharebooks'};
+	console.log("ca =>",ca);
+	return {key:key,cert:cert,ca:ca,passphrase:'sharebooks'};
 }
 
 
