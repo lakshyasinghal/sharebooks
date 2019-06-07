@@ -22,7 +22,7 @@ function startServer(){
 }
 
 //getPropertiesFromDB();
-startServer();s
+startServer();
 
 
 
