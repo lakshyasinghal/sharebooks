@@ -43,7 +43,7 @@ function viewLocator(page,sessionRequired,redirect,redirectionURL){
 	router.get('/terms-and-conditions',viewLocator("termsAndConditions.html",true));	
 	router.get('/',viewLocator("login.html",false));
 	//router.get('/',viewLocator("test.html",false));
-	router.get('*',viewLocator("url_error.html",false));
+	router.get('*',viewLocator("404_error.html",false));
 	//adding router to the app
 })();
 
