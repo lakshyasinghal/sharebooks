@@ -1,22 +1,24 @@
 package com.sharebooks.sources;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.sharebooks.appConfig.AppConfig;
 import com.sharebooks.connectionPool.ConnectionPool;
 import com.sharebooks.connectionPool.SqlConnectionPool;
 import com.sharebooks.database.sql.Database;
 import com.sharebooks.factory.dbConnectionFactory.DBConnFactory;
 import com.sharebooks.factory.dbConnectionFactory.SqlConnFactory;
+import com.sharebooks.properties.DatabaseProperties;
 
 public class ConnectionPoolSource {
-	private static Map<String , ConnectionPool> connectionPoolMap = new HashMap<String , ConnectionPool>(); 
-	
-	
-	
-	public static void init(){
-		//initDriver();
+	private static Map<String, ConnectionPool> connectionPoolMap = new HashMap<String, ConnectionPool>();
+
+	public static void init() {
+		// initDriver();
 		initSharebooksConnectionPool();
 	}
-	
+
 //	private static void initDriver(){
 //		try {
 //			Class.forName("com.mysql.jdbc.Driver");
@@ -25,21 +27,21 @@ public class ConnectionPoolSource {
 //			e.printStackTrace();
 //		}
 //	}
-	
-	private static void initSharebooksConnectionPool(){
-		String host = PropertySource.getDBProperty("SHAREBOOKS_DB_HOST");
-		String port = PropertySource.getDBProperty("SHAREBOOKS_DB_PORT");
-		String username = PropertySource.getDBProperty("SHAREBOOKS_DB_USERNAME");
-		String password = PropertySource.getDBProperty("SHAREBOOKS_DB_PASSWORD");
-		int capacity = Integer.parseInt(PropertySource.getDBProperty("SHAREBOOKS_CONNECTION_POOL_CAPACITY"));
+
+	private static void initSharebooksConnectionPool() {
+		String host = AppConfig.getDatabaseProperty(DatabaseProperties.SHAREBOOKS_DB_HOST);
+		String port = AppConfig.getDatabaseProperty(DatabaseProperties.SHAREBOOKS_DB_PORT);
+		String username = AppConfig.getDatabaseProperty(DatabaseProperties.SHAREBOOKS_DB_USERNAME);
+		String password = AppConfig.getDatabaseProperty(DatabaseProperties.SHAREBOOKS_DB_PASSWORD);
+		int capacity = Integer.parseInt(AppConfig.getDatabaseProperty(DatabaseProperties.SHAREBOOKS_CONNECTION_POOL_CAPACITY));
 		DBConnFactory connFactory = new SqlConnFactory();
-		
-		SqlConnectionPool connectionPool = new SqlConnectionPool(host , port , Database.SHAREBOOKS.desc() , username , password , capacity , connFactory);
+
+		SqlConnectionPool connectionPool = new SqlConnectionPool(host, port, Database.SHAREBOOKS.desc(), username,
+				password, capacity, connFactory);
 		connectionPoolMap.put(Database.SHAREBOOKS.desc(), connectionPool);
 	}
-	
-	
-	public static Map<String , ConnectionPool> getConnectionPoolMap(){
+
+	public static Map<String, ConnectionPool> getConnectionPoolMap() {
 		return connectionPoolMap;
 	}
 }
