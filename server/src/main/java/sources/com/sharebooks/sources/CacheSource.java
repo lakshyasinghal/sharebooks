@@ -7,6 +7,7 @@ import com.sharebooks.appConfig.AppConfig;
 import com.sharebooks.cache.Cache;
 import com.sharebooks.cache.DynamicCache;
 import com.sharebooks.cache.StaticCache;
+import com.sharebooks.cache.enums.CacheType;
 import com.sharebooks.cache.lruCache.LRUCache;
 import com.sharebooks.cache.staticCache.EntitySetCache;
 import com.sharebooks.entities.coreEntities.Book;
@@ -32,16 +33,19 @@ public class CacheSource {
 
 	private static void initBookCache() throws Exception {
 		DynamicCache<Book> cache = null;
-		String cacheType = AppConfig.getCacheProperty(CacheProperties.BOOK_CACHE_TYPE);
+		String cacheTypeAlias = AppConfig.getCacheProperty(CacheProperties.BOOK_CACHE_TYPE);
+		CacheType bookCacheType = CacheType.getCacheType(cacheTypeAlias);
 		int cacheCapacity = Integer.parseInt(AppConfig.getCacheProperty(CacheProperties.BOOK_CACHE_CAPACITY));
-		switch (cacheType) {
-		case "LRU":
+		switch (bookCacheType) {
+		case LRU:
 			cache = new LRUCache<Book>();
 			break;
-		case "MRU":
-			break;
-		case "MFU":
-			break;
+		case MRU:
+			throw new Exception();
+		case MFU:
+			throw new Exception();
+		case REDIS:
+			throw new Exception();
 		default:
 			break;
 		}
@@ -52,16 +56,19 @@ public class CacheSource {
 
 	private static void initUserCache() throws Exception {
 		DynamicCache<User> cache = null;
-		String cacheType = AppConfig.getCacheProperty(CacheProperties.USER_CACHE_TYPE);
+		String cacheTypeAlias = AppConfig.getCacheProperty(CacheProperties.USER_CACHE_TYPE);
+		CacheType bookCacheType = CacheType.getCacheType(cacheTypeAlias);
 		int cacheCapacity = Integer.parseInt(AppConfig.getCacheProperty(CacheProperties.USER_CACHE_CAPACITY));
-		switch (cacheType) {
-		case "LRU":
+		switch (bookCacheType) {
+		case LRU:
 			cache = new LRUCache<User>();
 			break;
-		case "MRU":
-			break;
-		case "MFU":
-			break;
+		case MRU:
+			throw new Exception();
+		case MFU:
+			throw new Exception();
+		case REDIS:
+			throw new Exception();
 		default:
 			break;
 		}
