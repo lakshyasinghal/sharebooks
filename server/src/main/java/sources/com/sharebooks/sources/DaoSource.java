@@ -34,7 +34,7 @@ public class DaoSource {
 
 	public static void init() {
 		LOGGER.debug("Entered DaoSource init");
-		String daoType = AppConfig.getDaoProperty(DaoProperties.DAO_TYPE);
+		String daoType = AppConfig.daoProp(DaoProperties.DAO_TYPE);
 		if (DaoType.SQL.desc().equals(daoType)) {
 			new SqlDaoInitializer().init();
 		} else if (DaoType.MYBATIS.desc().equals(daoType)) {

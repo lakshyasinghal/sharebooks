@@ -33,9 +33,9 @@ public class CacheSource {
 
 	private static void initBookCache() throws Exception {
 		DynamicCache<Book> cache = null;
-		String cacheTypeAlias = AppConfig.getCacheProperty(CacheProperties.BOOK_CACHE_TYPE);
+		String cacheTypeAlias = AppConfig.cacheProp(CacheProperties.BOOK_CACHE_TYPE);
 		CacheType bookCacheType = CacheType.getCacheType(cacheTypeAlias);
-		int cacheCapacity = Integer.parseInt(AppConfig.getCacheProperty(CacheProperties.BOOK_CACHE_CAPACITY));
+		int cacheCapacity = Integer.parseInt(AppConfig.cacheProp(CacheProperties.BOOK_CACHE_CAPACITY));
 		switch (bookCacheType) {
 		case LRU:
 			cache = new LRUCache<Book>();
@@ -56,9 +56,9 @@ public class CacheSource {
 
 	private static void initUserCache() throws Exception {
 		DynamicCache<User> cache = null;
-		String cacheTypeAlias = AppConfig.getCacheProperty(CacheProperties.USER_CACHE_TYPE);
+		String cacheTypeAlias = AppConfig.cacheProp(CacheProperties.USER_CACHE_TYPE);
 		CacheType bookCacheType = CacheType.getCacheType(cacheTypeAlias);
-		int cacheCapacity = Integer.parseInt(AppConfig.getCacheProperty(CacheProperties.USER_CACHE_CAPACITY));
+		int cacheCapacity = Integer.parseInt(AppConfig.cacheProp(CacheProperties.USER_CACHE_CAPACITY));
 		switch (bookCacheType) {
 		case LRU:
 			cache = new LRUCache<User>();

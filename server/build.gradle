@@ -29,12 +29,16 @@ sourceSets {
         java {
             srcDirs = []
             srcDir 'src/main/java/cache'
+            srcDir 'src/main/java/config'
             srcDir 'src/main/java/connectionPool'
             srcDir 'src/main/java/dao'
             srcDir 'src/main/java/database'
+            srcDir 'src/main/java/dtos'
             srcDir 'src/main/java/entities'
             srcDir 'src/main/java/exception'
             srcDir 'src/main/java/factory'
+            srcDir 'src/main/java/http'
+            srcDir 'src/main/java/jetty'
             srcDir 'src/main/java/init'
             srcDir 'src/main/java/listeners'
             srcDir 'src/main/java/logging'
@@ -48,6 +52,8 @@ sourceSets {
             srcDir 'src/main/java/sources'
             srcDir 'src/main/java/test'
             srcDir 'src/main/java/util'
+            srcDir 'src/main/java/payment'
+            srcDir 'src/main/java/tasks'
             srcDir 'src/main/resources'
         }
     }

@@ -17,20 +17,21 @@ import com.sharebooks.entities.entity.Entity;
 import com.sharebooks.entities.helperEntities.BookCategory;
 
 @SuppressWarnings("unchecked")
-public class BookCategorySqlDao extends AbstractBookCategoryDao{
+public class BookCategorySqlDao extends AbstractBookCategoryDao {
 	private static final Logger LOGGER = Logger.getLogger(BookCategorySqlDao.class.getName());
-	private final Database database = Database.SHAREBOOKS;
-	
+	private final Database database = Database.SHAREBOOKS_MASTER;
+
 	@Override
 	public List<BookCategory> getBookCategories() throws SQLException, Exception {
 		LOGGER.trace("Entered getBookCategories");
 		List<BookCategory> bookCategories = null;
 		AbstractSqlQueryProcessor queryProcessor = SqlReadQueryProcessor.getInstance();
-		//get sql read query
-		SqlQuery query = new SqlReadQuery(Table.BOOK_CATEGORIES.desc() , null);
+		// get sql read query
+		SqlQuery query = new SqlReadQuery(Table.BOOK_CATEGORIES.desc(), null);
 		query.build();
 		LOGGER.info(query.toString());
-		List<Entity> entityList = (List<Entity>)queryProcessor.processReadQuery(database.desc() , query.toString(), EntityType.BOOK_CATEGORY);
+		List<Entity> entityList = (List<Entity>) queryProcessor.processReadQuery(database.desc(), query.toString(),
+				EntityType.BOOK_CATEGORY);
 		bookCategories = convertIntoBookCategoryList(entityList);
 		LOGGER.trace("Leaving getBookCategories");
 		return bookCategories;

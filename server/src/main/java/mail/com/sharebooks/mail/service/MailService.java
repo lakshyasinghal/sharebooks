@@ -41,9 +41,9 @@ public class MailService {
 	}
 
 	public void createEmailMessage() throws AddressException, MessagingException {
-		String[] toEmails = { "lakshyasinghal33@gmail.com" };
+		String[] toEmails = { "lakshyasinghal333@gmail.com" };
 		String emailSubject = "Test Email";
-		String emailBody = "Hurray! The java mail api is working correctly.";
+		String emailBody = "Hahahahahahahaha";
 
 		mailSession = Session.getDefaultInstance(emailProperties, null);
 		emailMessage = new MimeMessage(mailSession);
@@ -61,8 +61,8 @@ public class MailService {
 	public void sendEmail() throws AddressException, MessagingException {
 
 		String emailHost = "smtp.gmail.com";
-		String fromUser = "lakshyasinghal333";// just the id alone without @gmail.com
-		String fromUserEmailPassword = "10103035nitj";
+		String fromUser = "lakshyasinghal33"; // just the id alone without @gmail.com
+		String fromUserEmailPassword = "nitj10103035";
 
 		Transport transport = mailSession.getTransport("smtp");
 

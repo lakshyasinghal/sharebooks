@@ -16,7 +16,10 @@ public class ConnectionPoolSource {
 
 	public static void init() {
 		// initDriver();
-		initSharebooksConnectionPool();
+		initMaster();
+		initCore();
+		initUserAcoounts();
+		initUserExperience();
 	}
 
 //	private static void initDriver(){
@@ -28,17 +31,56 @@ public class ConnectionPoolSource {
 //		}
 //	}
 
-	private static void initSharebooksConnectionPool() {
-		String host = AppConfig.getDatabaseProperty(DatabaseProperties.SHAREBOOKS_DB_HOST);
-		String port = AppConfig.getDatabaseProperty(DatabaseProperties.SHAREBOOKS_DB_PORT);
-		String username = AppConfig.getDatabaseProperty(DatabaseProperties.SHAREBOOKS_DB_USERNAME);
-		String password = AppConfig.getDatabaseProperty(DatabaseProperties.SHAREBOOKS_DB_PASSWORD);
-		int capacity = Integer.parseInt(AppConfig.getDatabaseProperty(DatabaseProperties.SHAREBOOKS_CONNECTION_POOL_CAPACITY));
-		DBConnFactory connFactory = new SqlConnFactory();
+	private static void initMaster() {
+		String host = AppConfig.databaseProp(DatabaseProperties.MASTER_HOST);
+		String port = AppConfig.databaseProp(DatabaseProperties.MASTER_PORT);
+		String username = AppConfig.databaseProp(DatabaseProperties.MASTER_USERNAME);
+		String password = AppConfig.databaseProp(DatabaseProperties.MASTER_PASSWORD);
+		int capacity = Integer.parseInt(AppConfig.databaseProp(DatabaseProperties.MASTER_POOL_CAPACITY));
+		DBConnFactory connFactory = SqlConnFactory.instance();
 
-		SqlConnectionPool connectionPool = new SqlConnectionPool(host, port, Database.SHAREBOOKS.desc(), username,
+		SqlConnectionPool connectionPool = new SqlConnectionPool(host, port, Database.SHAREBOOKS_MASTER.desc(),
+				username, password, capacity, connFactory);
+		connectionPoolMap.put(Database.SHAREBOOKS_MASTER.desc(), connectionPool);
+	}
+
+	private static void initCore() {
+		String host = AppConfig.databaseProp(DatabaseProperties.CORE_HOST);
+		String port = AppConfig.databaseProp(DatabaseProperties.CORE_PORT);
+		String username = AppConfig.databaseProp(DatabaseProperties.CORE_USERNAME);
+		String password = AppConfig.databaseProp(DatabaseProperties.CORE_PASSWORD);
+		int capacity = Integer.parseInt(AppConfig.databaseProp(DatabaseProperties.CORE_POOL_CAPACITY));
+		DBConnFactory connFactory = SqlConnFactory.instance();
+
+		SqlConnectionPool connectionPool = new SqlConnectionPool(host, port, Database.SHAREBOOKS_CORE.desc(), username,
 				password, capacity, connFactory);
-		connectionPoolMap.put(Database.SHAREBOOKS.desc(), connectionPool);
+		connectionPoolMap.put(Database.SHAREBOOKS_CORE.desc(), connectionPool);
+	}
+
+	private static void initUserAcoounts() {
+		String host = AppConfig.databaseProp(DatabaseProperties.USER_ACCOUNTS_HOST);
+		String port = AppConfig.databaseProp(DatabaseProperties.USER_ACCOUNTS_PORT);
+		String username = AppConfig.databaseProp(DatabaseProperties.USER_ACCOUNTS_USERNAME);
+		String password = AppConfig.databaseProp(DatabaseProperties.USER_ACCOUNTS_PASSWORD);
+		int capacity = Integer.parseInt(AppConfig.databaseProp(DatabaseProperties.USER_ACCOUNTS_POOL_CAPACITY));
+		DBConnFactory connFactory = SqlConnFactory.instance();
+
+		SqlConnectionPool connectionPool = new SqlConnectionPool(host, port, Database.SHAREBOOKS_USER_ACCOUNTS.desc(),
+				username, password, capacity, connFactory);
+		connectionPoolMap.put(Database.SHAREBOOKS_USER_ACCOUNTS.desc(), connectionPool);
+	}
+
+	private static void initUserExperience() {
+		String host = AppConfig.databaseProp(DatabaseProperties.USER_EXPERIENCE_HOST);
+		String port = AppConfig.databaseProp(DatabaseProperties.USER_EXPERIENCE_PORT);
+		String username = AppConfig.databaseProp(DatabaseProperties.USER_EXPERIENCE_USERNAME);
+		String password = AppConfig.databaseProp(DatabaseProperties.USER_EXPERIENCE_PASSWORD);
+		int capacity = Integer.parseInt(AppConfig.databaseProp(DatabaseProperties.USER_EXPERIENCE_POOL_CAPACITY));
+		DBConnFactory connFactory = SqlConnFactory.instance();
+
+		SqlConnectionPool connectionPool = new SqlConnectionPool(host, port, Database.SHAREBOOKS_USER_EXPERIENCE.desc(),
+				username, password, capacity, connFactory);
+		connectionPoolMap.put(Database.SHAREBOOKS_USER_EXPERIENCE.desc(), connectionPool);
 	}
 
 	public static Map<String, ConnectionPool> getConnectionPoolMap() {
