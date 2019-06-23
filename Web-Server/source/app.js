@@ -18,7 +18,12 @@ const server = require("./server/server.js");
 
 
 function startServer(){
-	server.start();
+	try{
+		server.start();
+	}
+	catch(err){
+		console.log(err);
+	}
 }
 
 //getPropertiesFromDB();

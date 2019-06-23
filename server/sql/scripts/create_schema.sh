@@ -32,7 +32,8 @@ create_tables(){
 
 create_core_tables(){
 	echo "creating core tables...\n"
-	for table_script in "${Core[@]}"; do
+	for table_script in "${Core[@]}"
+	do
 		echo "creating $table_script...\n"
 		mysql -u $username -p$pwd Sharebooks_Core < "$db_dir/Core/$table_script"
 	done

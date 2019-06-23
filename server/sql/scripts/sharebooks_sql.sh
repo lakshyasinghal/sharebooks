@@ -3,18 +3,22 @@
 username='lakshya'
 pwd='lakshya'
 
-db_dir="/home/lakshya/Tech/Apps/sharebooks/server/sql/schema/dev/databases/"
+schema_dir="/home/lakshya/Tech/Apps/sharebooks/server/sql/schema/dev/databases/"
+data_dir="/home/lakshya/Tech/Apps/sharebooks/server/sql/data/"
 
 sharebooks_core=(BookRequests.sql Books.sql Orders.sql Quotes.sql)
 #Sharebooks_Analytics
 #Sharebooks_AWS
 #Sharebooks_Config
-sharebooks_master=(BookCategories.sql Cities.sql States.sql)
+sharebooks_master=(BookCategories.sql States.sql Cities.sql)
 #Sharebooks_SMS 
 #Sharebooks_SystemTracking
 sharebooks_userAccounts=(Users.sql Subscriptions.sql)
 sharebooks_userExperience=(Complaints.sql Feedbacks.sql)
 
+
+
+data_master=(Cities.sql)
 
 # for name in "${sharebooks_core[@]}"
 # do
@@ -33,6 +37,15 @@ create_tables(){
 	create_user_experience_tables
 }
 
+init_master(){
+	echo 'Putting data in master tables'
+	for table_script in "${data_master[@]}"
+	do
+		echo "Initializing $table_script...\n"
+		mysql -u $username -p$pwd Sharebooks_Master < "$data_dir/Master/$table_script"
+	done
+}
+
 
 
 create_core_tables(){
@@ -40,7 +53,7 @@ create_core_tables(){
 	for table_script in "${sharebooks_core[@]}"
 	do
 		echo "creating $table_script...\n"
-		mysql -u $username -p$pwd Sharebooks_Core < "$db_dir/Core/$table_script"
+		mysql -u $username -p$pwd Sharebooks_Core < "$schema_dir/Core/$table_script"
 	done
 }
 
@@ -49,7 +62,7 @@ create_master_tables(){
 	for table_script in "${sharebooks_master[@]}"
 	do
 		echo "creating $table_script...\n"
-		mysql -u $username -p$pwd Sharebooks_Master < "$db_dir/Master/$table_script"
+		mysql -u $username -p$pwd Sharebooks_Master < "$schema_dir/Master/$table_script"
 	done
 }
 
@@ -58,7 +71,7 @@ create_uesr_account_tables(){
 	for table_script in "${sharebooks_userAccounts[@]}"
 	do
 		echo "creating $table_script...\n"
-		mysql -u $username -p$pwd Sharebooks_UserAccounts < "$db_dir/UserAccounts/$table_script"
+		mysql -u $username -p$pwd Sharebooks_UserAccounts < "$schema_dir/UserAccounts/$table_script"
 	done
 }
 
@@ -67,11 +80,15 @@ create_user_experience_tables(){
 	for table_script in "${sharebooks_userExperience[@]}"
 	do
 		echo "creating $table_script...\n"
-		mysql -u $username -p$pwd Sharebooks_UserExperience < "$db_dir/UserExperience/$table_script"
+		mysql -u $username -p$pwd Sharebooks_UserExperience < "$schema_dir/UserExperience/$table_script"
 	done
 }
 
 
 
+
+
+
 #createDatabases
-create_tables
+#create_tables
+init_master
