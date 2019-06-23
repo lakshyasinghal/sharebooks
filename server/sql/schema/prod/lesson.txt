@@ -1,0 +1,118 @@
+SELECT VERSION();
+SELECT DATABASE();
+SELECT USER();
+SHOW STATUS;
+SHOW VARIABLES;
+
+SELECT CONCAT(id, name, work_date) FROM employees;
+RAND()
+SQRT()
+CHAR_LENGTH()
+
+SELECT "abcde" REGEXP "[a-z]{5}";
+
+INSERT IGNORE
+REPLACE
+
+Clustered indexes
+Non-clustered indexes
+
+Primary key is a clustered index
+
+Indexes are usually created in form of B-trees
+
+
+SHOW TRIGGERS;
+SHOW INDEX FROM Users;
+DROP TRIGGER trigger_name;
+
+SET FOREIGN_KEY_CHECKS = 0;
+SET FOREIGN_KEY_CHECKS = 1;
+
+Engines - InnoDB , MyIsiam , Memory ...
+
+The default file size limit for a table is 4GB
+
+
+--------------------OUTPUT OF MYSQL----------------
+
+SELECT * FROM Users INTO OUTFILE '/tmp/tutorials.txt'
+FIELDS TERMINATED BY ',' ENCLOSED BY '"'
+LINES TERMINATED BY '\r\n';
+
+---------------------------------------------------------------
+
+
+
+-----------------EXPORT----------------------
+
+mysqldump -u root -p --no-create-info \ --tab=/tmp tutorials tutorials_tbl
+
+mysqldump -u root -p Sharebooks Books Users BookRequests > sharebooks_dump.txt
+
+mysql -u root -p Sharebooks < sharebooks_dump.txt
+
+mysqldump -u root -p Sharebooks | mysql -h other-host.com Sharebooks
+
+---------------------------------------------
+
+
+
+
+-------Creating new user---------
+
+Use mysql;
+Insert into user (Host,User,Select_priv,Insert_priv,Update_priv,Create_priv,Delete_priv) values ('localhost','lakshya','Y','Y','Y','Y','N');
+FLUSH PRIVILEGES;
+
+----------------------------------
+
+
+
+-------------------UNION--------------------
+
+Union is used to 
+--------------------------------------------
+
+
+
+------------------Date & Time---------------
+
+CURRENT_TIMESTAMP , CURRENT_DATE , CURRENT_TIME
+NOW
+
+--------------------------------------------
+
+
+
+------------------REGEX----------------------
+
+Select 'lakshya.singhal@gmail.com' REGEXP '^[a-z0-9]+[a-z0-9_.%-]*@[a-z0-9]+[.]{1}[a-z]{2,6}$';
+
+---------------------------------------------
+
+
+SELECT name, IFNULL(id,'Unknown') AS 'id' FROM taxpayer;
+
+mysql -u USER_NAME –xml -e 'SELECT * FROM table_name' > table_name.xml
+
+
+
+
+
+
+
+
+
+
+
+*For more insight, refer tutorials point web site
+
+
+
+
+
+
+
+
+

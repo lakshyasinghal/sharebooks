@@ -16,20 +16,22 @@ import com.sharebooks.entities.coreEntities.enums.EntityType;
 import com.sharebooks.entities.entity.Entity;
 import com.sharebooks.entities.helperEntities.City;
 
-public class CitySqlDao extends AbstractCityDao{
+public class CitySqlDao extends AbstractCityDao {
 	private static final Logger LOGGER = Logger.getLogger(CitySqlDao.class.getName());
-	private final Database database = Database.SHAREBOOKS;
-	
+	private final Database database = Database.SHAREBOOKS_MASTER;
+
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<City> getCities() throws SQLException, Exception {
 		LOGGER.trace("Entered getCities");
 		List<City> cities = null;
 		AbstractSqlQueryProcessor queryProcessor = SqlReadQueryProcessor.getInstance();
-		//get sql read query
-		SqlQuery query = new SqlReadQuery(Table.CITIES.desc() , null);
+		// get sql read query
+		SqlQuery query = new SqlReadQuery(Table.CITIES.desc(), null);
 		query.build();
 		LOGGER.info(query.toString());
-		List<Entity> entityList = (List<Entity>)queryProcessor.processReadQuery(database.desc() , query.toString(), EntityType.CITY);
+		List<Entity> entityList = (List<Entity>) queryProcessor.processReadQuery(database.desc(), query.toString(),
+				EntityType.CITY);
 		cities = convertIntoCityList(entityList);
 		LOGGER.trace("Leaving getCities");
 		return cities;

@@ -1,17 +1,11 @@
 package com.sharebooks.logging;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.*;
-import java.util.logging.*;
-
-import com.sharebooks.sources.PropertySource;
+//import com.sharebooks.sources.PropertySource;
 
 /*Deprecated class
  Using apache 4j logger now */
 public class LoggerConfigurator {
-	
-	
+
 //	public static void configure() throws Exception{
 //		Map<String,String> loggingPropertyMap = PropertySource.getLoggingPropertyMap();
 //		configureLogManager(loggingPropertyMap);

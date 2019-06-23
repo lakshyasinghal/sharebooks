@@ -14,22 +14,18 @@ import com.sharebooks.database.sql.Table;
 import com.sharebooks.database.sql.query.SqlQuery;
 import com.sharebooks.database.sql.query.SqlReadQuery;
 import com.sharebooks.entities.coreEntities.Notification;
-import com.sharebooks.entities.coreEntities.User;
 import com.sharebooks.entities.coreEntities.enums.EntityType;
 import com.sharebooks.entities.entity.Entity;
-import com.sharebooks.factory.entityFactory.EntityFactory;
-
 
 public class NotificationSqlDao extends AbstractNotificationDao {
 	private static final Logger LOGGER = Logger.getLogger(NotificationSqlDao.class.getName());
-	//private EntityFactory<User> factory;
-	private final Database database = Database.SHAREBOOKS;
+	// private EntityFactory<User> factory;
+	private final Database database = Database.SHAREBOOKS_CORE;
 	private final Table table = Table.NOTIFICATIONS;
 
-	
 	@Override
 	public List<Notification> getAllNotifications() {
-		
+
 		return null;
 	}
 
@@ -38,14 +34,15 @@ public class NotificationSqlDao extends AbstractNotificationDao {
 	public List<Notification> getNotifications(String receiverUid) throws Exception {
 		LOGGER.trace("Entered getNotifications");
 		List<Notification> notifications = null;
-		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("receiverUid", receiverUid);
 		AbstractSqlQueryProcessor queryProcessor = SqlReadQueryProcessor.getInstance();
-		//get sql read query
-		SqlQuery query = new SqlReadQuery(table.desc() , map);
+		// get sql read query
+		SqlQuery query = new SqlReadQuery(table.desc(), map);
 		query.build();
 		LOGGER.info(query.toString());
-		List<Entity> entityList = (List<Entity>)queryProcessor.processReadQuery(database.desc() , query.toString(), EntityType.NOTIFICATION);
+		List<Entity> entityList = (List<Entity>) queryProcessor.processReadQuery(database.desc(), query.toString(),
+				EntityType.NOTIFICATION);
 		notifications = convertIntoNotificationList(entityList);
 		LOGGER.trace("Leaving getNotifications");
 		return notifications;
@@ -56,6 +53,5 @@ public class NotificationSqlDao extends AbstractNotificationDao {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 
 }
