@@ -40,6 +40,7 @@ sourceSets {
             srcDir 'src/main/java/http'
             srcDir 'src/main/java/jetty'
             srcDir 'src/main/java/init'
+            srcDir 'src/main/java/jetty'
             srcDir 'src/main/java/listeners'
             srcDir 'src/main/java/logging'
             srcDir 'src/main/java/mail'
