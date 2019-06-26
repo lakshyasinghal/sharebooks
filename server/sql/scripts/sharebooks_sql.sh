@@ -3,8 +3,8 @@
 username='lakshya'
 pwd='lakshya'
 
-schema_dir="/home/lakshya/Tech/Apps/sharebooks/server/sql/schema/dev/databases/"
-data_dir="/home/lakshya/Tech/Apps/sharebooks/server/sql/data/"
+schema_dir="/Users/lakshya.singhal/Desktop/Personal/Tech/Apps/sharebooks/server/sql/schema/dev/databases"
+data_dir="/Users/lakshya.singhal/Desktop/Personal/Tech/Apps/sharebooks/server/sql/data"
 
 sharebooks_core=(BookRequests.sql Books.sql Orders.sql Quotes.sql)
 #Sharebooks_Analytics
@@ -18,7 +18,7 @@ sharebooks_userExperience=(Complaints.sql Feedbacks.sql)
 
 
 
-data_master=(Cities.sql)
+data_master=(BookCategories.sql States.sql Cities.sql)
 
 # for name in "${sharebooks_core[@]}"
 # do
@@ -89,6 +89,6 @@ create_user_experience_tables(){
 
 
 
-#createDatabases
-#create_tables
+createDatabases
+create_tables
 init_master

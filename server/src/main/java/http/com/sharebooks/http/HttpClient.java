@@ -10,11 +10,14 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import com.sharebooks.http.enums.ContentType;
 import com.sharebooks.http.enums.HttpMethod;
 import com.sharebooks.util.HttpUtlity;
 
 public class HttpClient {
+	private static final Logger LOGGER = Logger.getLogger(HttpClient.class);
 
 	private String url;
 	private HttpMethod method;
@@ -22,7 +25,7 @@ public class HttpClient {
 	private String json;
 	private ContentType contenType;
 	private Map<String, String> headerMap;
-	private String data;
+	// private String data;
 	private boolean isHttps;
 	private int connTimeout;
 	private int readTimeout;
@@ -108,8 +111,7 @@ public class HttpClient {
 		}
 	}
 
-	public String makeRequest() throws Exception {
-		String resStr = null;
+	public HttpResponse makeRequest() throws Exception {
 		URL url = new URL(this.url);
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		con.setRequestMethod(method.desc());
@@ -128,14 +130,14 @@ public class HttpClient {
 		// will execute the request
 		// con.connect();
 		int status = con.getResponseCode();
+		String resData = null;
+		String resMessage = con.getResponseMessage();
 		if (status == 200 || status == 201) {
-			resStr = readResponse(con);
-			System.out.println(resStr);
-		} else {
-			System.out.println(con.getResponseMessage());
+			resData = readResponse(con);
+			LOGGER.info("HTTP Response => " + resData);
 		}
 
-		return resStr;
+		return new HttpResponse(status, resMessage, resData);
 	}
 
 	public void setRequestHeaders(HttpURLConnection con) {

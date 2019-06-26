@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.json.simple.JSONObject;
 
-import com.mysql.jdbc.JDBC4ClientInfoProvider;
 import com.sharebooks.entities.coreEntities.enums.QuoteStatus;
 import com.sharebooks.entities.coreEntities.enums.QuoteType;
 import com.sharebooks.entities.entity.CoreEntity;
@@ -56,7 +55,7 @@ public class Quote extends CoreEntity implements JsonSerializable, JsonDeseriali
 			super.serializeAsJson(jo);
 			jo.put("bookUid", bookUid);
 			jo.put("userUid", userUid);
-			//jo.put("status", JsonUtility.getJSONObjFromObj(status));
+			// jo.put("status", JsonUtility.getJSONObjFromObj(status));
 			jo.put("status", status.id());
 			jo.put("type", type.id());
 			jo.put("rentInfo", JsonUtility.getJSONObjFromObj(rentInfo));
@@ -68,14 +67,16 @@ public class Quote extends CoreEntity implements JsonSerializable, JsonDeseriali
 	}
 
 	@Override
-	public void deserializeFromJson(JSONObject jo) throws JsonDeserializationException,Exception {
+	public void deserializeFromJson(JSONObject jo) throws JsonDeserializationException, Exception {
 		super.deserializeFromJson(jo);
 		bookUid = (String) jo.get("bookUid");
 		userUid = (String) jo.get("userUid");
-		status = jo.get("status") != null ? QuoteStatus.valueOf((int)(long) jo.get("status")) : null;
+		status = jo.get("status") != null ? QuoteStatus.valueOf((int) (long) jo.get("status")) : null;
 		type = jo.get("type") != null ? QuoteType.valueOf((int) (long) jo.get("type")) : null;
-		rentInfo = (RentInfo)JsonUtility.getDeserializedObjectFromJsonObject(new RentInfo(), (JSONObject) jo.get("rentInfo"));
-		buyInfo = (BuyInfo)JsonUtility.getDeserializedObjectFromJsonObject(new BuyInfo(), (JSONObject) jo.get("buyInfo"));
+		rentInfo = (RentInfo) JsonUtility.getDeserializedObjectFromJsonObject(new RentInfo(),
+				(JSONObject) jo.get("rentInfo"));
+		buyInfo = (BuyInfo) JsonUtility.getDeserializedObjectFromJsonObject(new BuyInfo(),
+				(JSONObject) jo.get("buyInfo"));
 		totalAmount = jo.get("totalAmount") != null ? (int) (long) jo.get("totalAmount") : -1;
 	}
 

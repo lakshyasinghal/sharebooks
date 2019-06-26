@@ -1,4 +1,4 @@
-package com.sharebooks.payment.gateways;
+package com.sharebooks.payment.enums;
 
 public enum PaymentGateway {
 	INSTAMOJO(1, "Instamojo"), CASHFREE(2, "Cashfree");
