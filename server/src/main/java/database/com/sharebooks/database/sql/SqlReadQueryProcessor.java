@@ -10,42 +10,63 @@ import com.sharebooks.entities.coreEntities.enums.EntityType;
 import com.sharebooks.entities.entity.Entity;
 import com.sharebooks.exception.NonFunctionalMethodException;
 
-
 //The role of SqlReadQueryProcessor and other similar classes will be to first execute the query and then return the processed result set
-public class SqlReadQueryProcessor extends AbstractSqlQueryProcessor{
+public class SqlReadQueryProcessor extends AbstractSqlQueryProcessor {
 	private static SqlReadQueryProcessor queryProcessor = new SqlReadQueryProcessor();
-	
-	private SqlReadQueryProcessor(){
-		
+
+	private SqlReadQueryProcessor() {
+
 	}
-	
-	public static SqlReadQueryProcessor getInstance(){
+
+	public static SqlReadQueryProcessor getInstance() {
 		return queryProcessor;
 	}
-	
-	public List<? extends Entity> processReadQuery(String dbName , String query , EntityType entityType) throws SQLException,Exception{
+
+	public List<? extends Entity> processReadQuery(String dbName, String query, EntityType entityType)
+			throws SQLException, Exception {
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
-		try{
+		try {
 			SqlResultProcessor resultProcessor = SqlResultProcessor.getInstance();
 			SqlQueryExecutor executor = SqlQueryExecutor.getInstance();
 			conn = getConnection(dbName);
 			stmt = conn.createStatement();
 			rs = executor.executeRead(stmt, query);
 			List<? extends Entity> entityList = resultProcessor.process(rs, entityType);
-			
+
 			return entityList;
-		}
-		finally{
-			if(rs!=null){
+		} finally {
+			if (rs != null) {
 				rs.close();
 			}
-			if(stmt != null){
+			if (stmt != null) {
 				stmt.close();
 			}
-			if(conn != null){
-				releaseConnection(dbName , conn);
+			if (conn != null) {
+				releaseConnection(dbName, conn);
+			}
+		}
+	}
+
+	@Override
+	public ResultSet processReadQuery(String dbName, String query) throws SQLException, Exception {
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		try {
+			SqlQueryExecutor executor = SqlQueryExecutor.getInstance();
+			conn = getConnection(dbName);
+			stmt = conn.createStatement();
+			rs = executor.executeRead(stmt, query);
+
+			return rs;
+		} finally {
+			if (stmt != null) {
+				stmt.close();
+			}
+			if (conn != null) {
+				releaseConnection(dbName, conn);
 			}
 		}
 	}
@@ -69,5 +90,5 @@ public class SqlReadQueryProcessor extends AbstractSqlQueryProcessor{
 	public List<Integer> processTransaction(String dbName, List<String> queries) throws SQLException, Exception {
 		throw new NonFunctionalMethodException();
 	}
-	
+
 }

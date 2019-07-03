@@ -7,6 +7,7 @@ DROP DATABASE IF EXISTS Sharebooks_SMS;
 DROP DATABASE IF EXISTS Sharebooks_SystemTracking;
 DROP DATABASE IF EXISTS Sharebooks_UserAccounts;
 DROP DATABASE IF EXISTS Sharebooks_UserExperience;
+DROP DATABASE IF EXISTS Sharebooks_Payments;
 
 
 CREATE DATABASE IF NOT EXISTS Sharebooks_Analytics;
@@ -18,4 +19,4 @@ CREATE DATABASE IF NOT EXISTS Sharebooks_SMS;
 CREATE DATABASE IF NOT EXISTS Sharebooks_SystemTracking;
 CREATE DATABASE IF NOT EXISTS Sharebooks_UserAccounts; 
 CREATE DATABASE IF NOT EXISTS Sharebooks_UserExperience;
-
+CREATE DATABASE IF NOT EXISTS Sharebooks_Payments;

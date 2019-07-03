@@ -1,29 +1,34 @@
 package com.sharebooks.database.sql;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.*;
+import java.util.List;
 
 import com.sharebooks.entities.coreEntities.enums.EntityType;
 import com.sharebooks.entities.entity.Entity;
 import com.sharebooks.exception.NonFunctionalMethodException;
 
-public class SqlInsertQueryProcessor extends AbstractSqlQueryProcessor{
+public class SqlInsertQueryProcessor extends AbstractSqlQueryProcessor {
 	private static SqlInsertQueryProcessor queryProcessor = new SqlInsertQueryProcessor();
-	
-	private SqlInsertQueryProcessor(){
-		
+
+	private SqlInsertQueryProcessor() {
+
 	}
-	
-	public static SqlInsertQueryProcessor getInstance(){
+
+	public static SqlInsertQueryProcessor getInstance() {
 		return queryProcessor;
 	}
-	
-	
+
 	@Override
 	public List<? extends Entity> processReadQuery(String dbName, String query, EntityType entityType)
 			throws Exception {
+		throw new NonFunctionalMethodException();
+	}
+
+	@Override
+	public ResultSet processReadQuery(String dbName, String query) throws Exception {
 		throw new NonFunctionalMethodException();
 	}
 
@@ -33,29 +38,26 @@ public class SqlInsertQueryProcessor extends AbstractSqlQueryProcessor{
 	}
 
 	@Override
-	public int processInsertQuery(String dbName, String query , boolean processInBatch) throws SQLException,Exception {
+	public int processInsertQuery(String dbName, String query, boolean processInBatch) throws SQLException, Exception {
 		Connection conn = null;
 		Statement stmt = null;
 		int rowsAffected = -1;
-		try{
+		try {
 			SqlQueryExecutor executor = SqlQueryExecutor.getInstance();
 			conn = getConnection(dbName);
 			stmt = conn.createStatement();
-			rowsAffected = executor.executeUpdate(stmt, query);			
+			rowsAffected = executor.executeUpdate(stmt, query);
 			return rowsAffected;
-		}
-		catch(SQLException ex){
+		} catch (SQLException ex) {
 			throw ex;
-		}
-		catch(Exception ex){
+		} catch (Exception ex) {
 			throw ex;
-		}
-		finally{
-			if(stmt != null){
+		} finally {
+			if (stmt != null) {
 				stmt.close();
 			}
-			if(conn != null){
-				releaseConnection(dbName , conn);
+			if (conn != null) {
+				releaseConnection(dbName, conn);
 			}
 		}
 	}

@@ -1,0 +1,28 @@
+DROP TABLE IF EXISTS PaymentRequests;
+
+CREATE TABLE PaymentRequests (
+	Seq_Id BIGINT(19) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	
+	Id VARCHAR(32) NOT NULL UNIQUE,
+	Phone VARCHAR(10),
+	Email VARCHAR(50),
+	Buyer_Name VARCHAR(50),
+	Purpose VARCHAR(20),
+	Status VARCHAR(15),
+	Send_SMS VARCHAR(10),
+	Send_Email VARCHAR(10),
+	SMS_Status VARCHAR(10),
+	Email_Status VARCHAR(10),
+	ShortUrl VARCHAR(50),
+	LongUrl VARCHAR(100) NOT NULL,
+	Redirect_Url VARCHAR(100),
+	Webhook VARCHAR(100),
+	Created_At VARCHAR(50),
+	Modified_At VARCHAR(50),
+	Allow_Repeated_Payments VARCHAR(10)
+) ENGINE=INNODB;
+
+
+
+
+

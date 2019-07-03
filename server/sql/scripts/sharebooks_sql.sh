@@ -16,7 +16,7 @@ sharebooks_master=(BookCategories.sql States.sql Cities.sql)
 sharebooks_userAccounts=(Users.sql Subscriptions.sql)
 sharebooks_userExperience=(Complaints.sql Feedbacks.sql)
 
-
+sharebooks_payments=(PaymentRequests.sql PaymentRequestWebhooks.sql)
 
 data_master=(BookCategories.sql States.sql Cities.sql)
 
@@ -33,8 +33,9 @@ createDatabases(){
 create_tables(){
 	create_core_tables
 	create_master_tables
-	create_uesr_account_tables
+	create_user_account_tables
 	create_user_experience_tables
+	create_payments_tables
 }
 
 init_master(){
@@ -66,7 +67,7 @@ create_master_tables(){
 	done
 }
 
-create_uesr_account_tables(){
+create_user_account_tables(){
 	echo "\n\ncreating user accounts tables...\n"
 	for table_script in "${sharebooks_userAccounts[@]}"
 	do
@@ -81,6 +82,15 @@ create_user_experience_tables(){
 	do
 		echo "creating $table_script...\n"
 		mysql -u $username -p$pwd Sharebooks_UserExperience < "$schema_dir/UserExperience/$table_script"
+	done
+}
+
+create_payments_tables(){
+	echo "\n\ncreating payment tables...\n"
+	for table_script in "${sharebooks_payments[@]}"
+	do
+		echo "creating $table_script...\n"
+		mysql -u $username -p$pwd Sharebooks_Payments < "$schema_dir/Payments/$table_script"
 	done
 }
 

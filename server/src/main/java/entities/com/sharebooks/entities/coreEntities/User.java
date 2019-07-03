@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import com.sharebooks.entities.coreEntities.enums.AccountType;
 import com.sharebooks.entities.coreEntities.enums.Active;
 import com.sharebooks.entities.entity.CoreEntity;
 import com.sharebooks.entities.helperEntities.Preference;
@@ -17,8 +16,8 @@ import com.sharebooks.serialization.json.JsonSerializable;
 import com.sharebooks.util.JsonUtility;
 import com.sharebooks.util.dateTime.LocalDateTime;
 
-public final class User extends CoreEntity implements JsonSerializable,Comparable<User> {
-	
+public final class User extends CoreEntity implements JsonSerializable, Comparable<User> {
+
 	private String username;
 	private String password;
 	private String name;
@@ -30,16 +29,17 @@ public final class User extends CoreEntity implements JsonSerializable,Comparabl
 	private String pincode;
 	private String contactNo;
 	private List<Preference> preferences;
+	private AccountType accountType;
 	private Active active;
-	
-	public User(){
-		
+
+	public User() {
+
 	}
 
-	
-	public User(int id ,String uid, String username , String password , String name , String dob , int age, String address, String city, 
-				String state, String pincode, String contactNo, List<Preference> preferences, Active active, LocalDateTime creationTime, LocalDateTime lastModificationTime){
-		super(id,uid,creationTime,lastModificationTime);
+	public User(int id, String uid, String username, String password, String name, String dob, int age, String address,
+			String city, String state, String pincode, String contactNo, List<Preference> preferences,
+			AccountType accountType, Active active, LocalDateTime creationTime, LocalDateTime lastModificationTime) {
+		super(id, uid, creationTime, lastModificationTime);
 		this.username = username;
 		this.password = password;
 		this.name = name;
@@ -51,22 +51,25 @@ public final class User extends CoreEntity implements JsonSerializable,Comparabl
 		this.pincode = pincode;
 		this.contactNo = contactNo;
 		this.preferences = new ArrayList<Preference>();
-		if(preferences!=null){
-			this.preferences.addAll(preferences);   //to make it immutable
+		if (accountType != null) {
+			this.accountType = accountType;
+		} else {
+			this.accountType = AccountType.UNREGISTERED;
+		}
+		if (preferences != null) {
+			this.preferences.addAll(preferences); // to make it immutable
 		}
 		this.active = active;
 	}
-	
-	
-	public int compareTo(User user){
+
+	public int compareTo(User user) {
 		return uid.compareTo(user.uid);
 	}
-	
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public void serializeAsJson(JSONObject jo) throws JsonSerializationException {
-		try{
+		try {
 			super.serializeAsJson(jo);
 			jo.put("username", username);
 			jo.put("password", password);
@@ -79,104 +82,109 @@ public final class User extends CoreEntity implements JsonSerializable,Comparabl
 			jo.put("pincode", pincode);
 			jo.put("contactNo", contactNo);
 			jo.put("preferences", JsonUtility.getJsonArrayFromList(preferences));
+			jo.put("accountType", accountType.id());
 			jo.put("active", active.id());
-		}
-		catch(Exception ex){
+		} catch (Exception ex) {
 			throw new JsonSerializationException(ex.getMessage());
 		}
 	}
-	
-	public User cloneWithNewPassword(String password){
-		return new User(this.id, this.uid, this.username, password, this.name, this.dob, this.age, this.address, this.city, this.state, this.pincode, this.contactNo, this.preferences, this.active, this.creationTime, this.lastModificationTime);
+
+	public User cloneWithNewPassword(String password) {
+		return new User(this.id, this.uid, this.username, password, this.name, this.dob, this.age, this.address,
+				this.city, this.state, this.pincode, this.contactNo, this.preferences, this.accountType, this.active,
+				this.creationTime, this.lastModificationTime);
 	}
-	
-	
-	//toString method
-	public String toString(){
+
+	// toString method
+	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("id:" + id + "\n");
 		builder.append("uid:" + uid + "\n");
 		builder.append("username:" + username + "\n");
-		
+
 		return builder.toString();
 	}
-	
-	
-	//will return a map representing the user
-	//will be mostly used when inserting new user or updating existing one into database
-	public Map<String,Object> map() throws Exception{
-		Map<String,Object> map = new HashMap<String,Object>();
-		//putting super object fields into map
-		Map<String,Object> superMap = super.map();
+
+	// will return a map representing the user
+	// will be mostly used when inserting new user or updating existing one into
+	// database
+	public Map<String, Object> map() throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		// putting super object fields into map
+		Map<String, Object> superMap = super.map();
 		map.putAll(superMap);
-		
-		map.put("username",username);
-		map.put("password",password);
-		map.put("name",name);
-		map.put("dob",dob);
-		map.put("age",age);
-		map.put("address",address);
-		map.put("city",city);
-		map.put("state",state);
-		map.put("pincode",pincode);
-		map.put("contactNo",contactNo);
+
+		map.put("username", username);
+		map.put("password", password);
+		map.put("name", name);
+		map.put("dob", dob);
+		map.put("age", age);
+		map.put("address", address);
+		map.put("city", city);
+		map.put("state", state);
+		map.put("pincode", pincode);
+		map.put("contactNo", contactNo);
 		map.put("preferences", JsonUtility.getJsonArrayFromList(preferences).toString());
-		map.put("active",active.id());
+		map.put("accountType", accountType.id());
+		map.put("active", active.id());
 		return map;
 	}
 
-	
-	public String uid(){
+	public String uid() {
 		return uid;
 	}
-	
-	public String username(){
+
+	public String username() {
 		return username;
 	}
-	
-	public String password(){
+
+	public String password() {
 		return password;
 	}
-	
-	public String name(){
+
+	public String name() {
 		return name;
 	}
-	
-	public String dob(){
+
+	public String dob() {
 		return dob;
 	}
-	
-	public int age(){
+
+	public int age() {
 		return age;
 	}
-	
-	public String address(){
+
+	public String address() {
 		return address;
 	}
-	
-	public String city(){
+
+	public String city() {
 		return city;
 	}
-	
-	public String state(){
+
+	public String state() {
 		return state;
 	}
-	
-	public String pincode(){
+
+	public String pincode() {
 		return pincode;
 	}
-	
-	public String contactNo(){
+
+	public String contactNo() {
 		return contactNo;
 	}
-	
-	public List<Preference> preferences(){
+
+	public List<Preference> preferences() {
 		List<Preference> preferences = new ArrayList<Preference>();
 		preferences.addAll(this.preferences);
 		return preferences;
 	}
-	
-	public Active active(){
+
+	public AccountType accountType() {
+		return accountType;
+	}
+
+	public Active active() {
 		return active;
 	}
 }

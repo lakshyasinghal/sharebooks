@@ -1,8 +1,13 @@
 package com.sharebooks.payment.entities;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 
 import com.sharebooks.entities.entity.CoreEntity;
+import com.sharebooks.exception.JsonSerializationException;
 
 public class GenericPaymentRequest implements PaymentRequest {
 	private static Logger LOGGER = Logger.getLogger(GenericPaymentRequest.class);
@@ -156,6 +161,55 @@ public class GenericPaymentRequest implements PaymentRequest {
 		public PaymentRequest build() {
 			return new GenericPaymentRequest(this);
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public void serializeAsJson(JSONObject jo) throws JsonSerializationException {
+		try {
+			// super.serializeAsJson(jo);
+//			jo.put("amount", amount);
+//			jo.put("buyer", buyer);
+//			jo.put("buyer_name", buyer_name);
+//			jo.put("buyer_phone", buyer_phone);
+//			jo.put("currency", currency);
+//			jo.put("fees", fees);
+//			jo.put("longurl", longurl);
+//			jo.put("mac", mac);
+//			jo.put("payment_id", payment_id);
+//			jo.put("payment_request_id", payment_request_id);
+//			jo.put("purpose", purpose);
+//			jo.put("shorturl", shorturl);
+//			jo.put("status", status.id());
+		} catch (Exception ex) {
+			throw new JsonSerializationException(ex.getMessage());
+		}
+	}
+
+	public Map<String, Object> map() throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		// putting super object fields into map
+		// Map<String, Object> superMap = super.map();
+		// map.putAll(superMap);
+
+		map.put("id", id);
+		map.put("phone", phone);
+		map.put("email", email);
+		map.put("buyer_name", buyer_name);
+		map.put("purpose", purpose);
+		map.put("status", status);
+		map.put("send_sms", send_sms);
+		map.put("send_email", send_email);
+		map.put("sms_status", sms_status);
+		map.put("email_status", email_status);
+		map.put("shorturl", shorturl);
+		map.put("longurl", longurl);
+		map.put("redirect_url", redirect_url);
+		map.put("webhook", webhook);
+		map.put("created_at", created_at);
+		map.put("modified_at", modified_at);
+		map.put("allow_repeated_payments", allow_repeated_payments);
+		return map;
 	}
 
 	public String id() {

@@ -1,18 +1,19 @@
 package com.sharebooks.entities.coreEntities;
 
+import java.util.HashMap;
+import java.util.Map;
 
-import java.util.*;
 import org.json.simple.JSONObject;
 
 import com.sharebooks.entities.coreEntities.enums.AvailableStatus;
 import com.sharebooks.entities.entity.CoreEntity;
-import com.sharebooks.exception.*;
+import com.sharebooks.exception.JsonSerializationException;
 //import com.sharebooks.helperEntities.*;
 import com.sharebooks.serialization.json.JsonSerializable;
 import com.sharebooks.util.dateTime.LocalDateTime;
 
-public final class Book extends CoreEntity implements JsonSerializable,Comparable<Book> {
-	
+public final class Book extends CoreEntity implements JsonSerializable, Comparable<Book> {
+
 	private String title;
 	private String author;
 	private String category;
@@ -25,24 +26,23 @@ public final class Book extends CoreEntity implements JsonSerializable,Comparabl
 	private AvailableStatus rent;
 	private int buyAmount;
 	private int rentAmount;
-	
-	
-	public Book(){
-		//nothing
+
+	public Book() {
+		// nothing
 	}
 
-	
-	//constructor
-	public Book(int id, String uid, String title , String author , String category , String subcategory , int pages , String ownerUid , String imgSrc , AvailableStatus available , AvailableStatus buy , AvailableStatus rent , 
-			int buyAmount , int rentAmount, LocalDateTime creationTime, LocalDateTime lastModificationTime){
-		super(id, uid, creationTime , lastModificationTime);
+	// constructor
+	public Book(int id, String uid, String title, String author, String category, String subcategory, int pages,
+			String ownerUid, String imgSrc, AvailableStatus available, AvailableStatus buy, AvailableStatus rent,
+			int buyAmount, int rentAmount, LocalDateTime creationTime, LocalDateTime lastModificationTime) {
+		super(id, uid, creationTime, lastModificationTime);
 		this.title = title;
 		this.author = author;
 		this.category = category;
 		this.subcategory = subcategory;
 		this.pages = pages;
 		this.ownerUid = ownerUid;
-		//this.description = description;
+		// this.description = description;
 		this.imgSrc = imgSrc;
 		this.available = available;
 		this.buy = buy;
@@ -50,125 +50,118 @@ public final class Book extends CoreEntity implements JsonSerializable,Comparabl
 		this.buyAmount = buyAmount;
 		this.rentAmount = rentAmount;
 	}
-	
-	
+
 	@Override
 	public int compareTo(Book book) {
 		return title.compareTo(book.title());
 	}
-	
-	
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public void serializeAsJson(JSONObject jo) throws JsonSerializationException {
-		try{
+		try {
 			super.serializeAsJson(jo);
 			jo.put("title", title());
 			jo.put("author", author());
 			jo.put("category", category());
 			jo.put("subcategory", subcategory());
 			jo.put("pages", pages());
-			jo.put("ownerUid" , ownerUid);
+			jo.put("ownerUid", ownerUid);
 			jo.put("imgSrc", imgSrc);
-			jo.put("available" , available.id());
+			jo.put("available", available.id());
 			jo.put("buy", buy.id());
-			jo.put("rent" , rent.id());
-			jo.put("buyAmount" , buyAmount);
-			jo.put("rentAmount" , rentAmount);
-		}
-		catch(Exception ex){
+			jo.put("rent", rent.id());
+			jo.put("buyAmount", buyAmount);
+			jo.put("rentAmount", rentAmount);
+		} catch (Exception ex) {
 			throw new JsonSerializationException(ex.getMessage());
 		}
 	}
-	
-	
-	//toString method
-	public String toString(){
+
+	// toString method
+	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("id:" + id + "\n");
 		builder.append("title:" + title + "\n");
 		return builder.toString();
 	}
-	
-	
-	//will return a map representation of the book object
-	//will be mostly used when inserting new book or updating existing book into database
-	public Map<String,Object> map() throws Exception{
-		Map<String,Object> map = new HashMap<String,Object>();
-		//putting super object fields into map
-		Map<String,Object> superMap = super.map();
+
+	// will return a map representation of the book object
+	// will be mostly used when inserting new book or updating existing book into
+	// database
+	public Map<String, Object> map() throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		// putting super object fields into map
+		Map<String, Object> superMap = super.map();
 		map.putAll(superMap);
-		
-		map.put("title",title);
-		map.put("author",author);
-		map.put("category",category);
-		map.put("subcategory",subcategory);
-		map.put("pages",pages);
-		map.put("ownerUid",ownerUid);
-		map.put("imgSrc",imgSrc);
-		map.put("available",available.id());
-		map.put("buy",buy.id());
-		map.put("rent",rent.id());
-		map.put("buyAmount",buyAmount);
-		map.put("rentAmount",rentAmount);
+
+		map.put("title", title);
+		map.put("author", author);
+		map.put("category", category);
+		map.put("subcategory", subcategory);
+		map.put("pages", pages);
+		map.put("ownerUid", ownerUid);
+		map.put("imgSrc", imgSrc);
+		map.put("available", available.id());
+		map.put("buy", buy.id());
+		map.put("rent", rent.id());
+		map.put("buyAmount", buyAmount);
+		map.put("rentAmount", rentAmount);
 
 		return map;
 	}
-	
-	
-	
-	//getter methods
-	
-	public String uid(){
+
+	// getter methods
+
+	public String uid() {
 		return uid;
 	}
-	
-	public String title(){
+
+	public String title() {
 		return title;
 	}
-	
-	public String author(){
+
+	public String author() {
 		return author;
 	}
-	
-	public String category(){
+
+	public String category() {
 		return category;
 	}
-	
-	public String subcategory(){
+
+	public String subcategory() {
 		return subcategory;
 	}
-	
-	public int pages(){
+
+	public int pages() {
 		return pages;
 	}
-	
-	public String ownerUid(){
+
+	public String ownerUid() {
 		return ownerUid;
 	}
-	
-	public String imgSrc(){
+
+	public String imgSrc() {
 		return imgSrc;
 	}
-	
-	public AvailableStatus available(){
+
+	public AvailableStatus available() {
 		return available;
 	}
-	
-	public AvailableStatus buy(){
+
+	public AvailableStatus buy() {
 		return buy;
 	}
-	
-	public AvailableStatus rent(){
+
+	public AvailableStatus rent() {
 		return rent;
 	}
-	
-	public int buyAmount(){
+
+	public int buyAmount() {
 		return buyAmount;
 	}
-	
-	public int rentAmount(){
+
+	public int rentAmount() {
 		return rentAmount;
 	}
 }

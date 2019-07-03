@@ -10,6 +10,8 @@ import org.apache.log4j.Logger;
 import com.sharebooks.entities.coreEntities.enums.EntityType;
 import com.sharebooks.factory.entityFactory.QuoteFactory;
 import com.sharebooks.factory.misc.ResponseFactory;
+import com.sharebooks.payment.entities.PaymentRequestWebhook;
+import com.sharebooks.payment.factory.PaymentRequestWebhookFactory;
 import com.sharebooks.payment.services.PaymentService;
 import com.sharebooks.response.Response;
 import com.sharebooks.response.enums.Status;
@@ -20,6 +22,7 @@ public class PaymentRequestProcessor extends AbstractRequestProcessor {
 	private static final Logger LOGGER = Logger.getLogger(PaymentRequestProcessor.class.getName());
 	private final ResponseFactory responseFactory = FactorySource.getResponseFactory();
 	private final PaymentService paymentService = new PaymentService();
+	private final PaymentRequestWebhookFactory webhookFactory = PaymentRequestWebhookFactory.instance();
 
 	QuoteFactory quoteFactory = (QuoteFactory) FactorySource.getEntityFactory(EntityType.Quote.desc());
 
@@ -32,7 +35,7 @@ public class PaymentRequestProcessor extends AbstractRequestProcessor {
 		return instance;
 	}
 
-	public String processRegistrationPaymentURLRequest(String userUid) throws Exception {
+	public String processRegistrationPaymentURL(String userUid) throws Exception {
 		LOGGER.trace("Entering processRegistrationPaymentUrlRequest");
 		boolean success = false;
 		int statusCode = -1;
@@ -58,27 +61,21 @@ public class PaymentRequestProcessor extends AbstractRequestProcessor {
 		return response.process();
 	}
 
-	public String processUpdatePaymentStatusRequest(HttpServletRequest req) throws Exception {
+	public String processUpdateRegistrationPaymentStatus(HttpServletRequest req) throws Exception {
 		LOGGER.trace("Entering processUpdatePaymentStatusRequest");
 		boolean success = false;
-		Map<String, Object> map = new HashMap<String, Object>();
 		Response response = null;
+		int errorCode = -1;
+		PaymentRequestWebhook paymentRequestWebhook = webhookFactory.createFromHttpRequest(req);
 		try {
-			String longurl = paymentService.registrationPaymentURLRequest(userUid);
-			if (longurl != null) {
-				success = true;
-				map.put("longurl", longurl);
-				statusCode = Status.FETCH_REGISTRATION_PAYMENT_URL_SUCCESSFUL.id();
-			} else {
-				statusCode = Status.FETCH_REGISTRATION_PAYMENT_URL_FAILED.id();
-			}
+			success = paymentService.updatePaymentStatus(paymentRequestWebhook);
 		} catch (Exception ex) {
 			log(ex, LOGGER);
 			errorCode = errorCode(ex);
 		}
 
-		response = responseFactory.getJsonResponse(success, statusCode, errorCode, map);
-		LOGGER.trace("Leaving processRegistrationPaymentUrlRequest");
+		response = responseFactory.getJsonResponse(success, -1, errorCode, null);
+		LOGGER.trace("Leaving processUpdatePaymentStatusRequest");
 		return response.process();
 	}
 

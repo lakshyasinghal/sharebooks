@@ -3,7 +3,8 @@ package com.sharebooks.database.sql;
 public enum Database {
 
 	SHAREBOOKS_CORE(1, "Sharebooks_Core"), SHAREBOOKS_MASTER(2, "Sharebooks_Master"),
-	SHAREBOOKS_USER_ACCOUNTS(3, "Sharebooks_UserAccounts"), SHAREBOOKS_USER_EXPERIENCE(4, "Sharebooks_UserExperience");
+	SHAREBOOKS_USER_ACCOUNTS(3, "Sharebooks_UserAccounts"), SHAREBOOKS_USER_EXPERIENCE(4, "Sharebooks_UserExperience"),
+	SHAREBOOKS_PAYMENTS(5, "Sharebooks_Payments");
 
 	private int id;
 	private String desc;

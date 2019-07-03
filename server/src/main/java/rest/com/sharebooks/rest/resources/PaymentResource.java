@@ -22,14 +22,14 @@ public class PaymentResource {
 	@Path("/registration/payment/url/{userUid}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getRegistrationPaymentURL(@PathParam("userUid") String userUid) throws Exception {
-		return requestProcessor.processRegistrationPaymentURLRequest(userUid);
+		return requestProcessor.processRegistrationPaymentURL(userUid);
 	}
 
 	@POST
-	@Path("/payment/update")
+	@Path("registration/payment")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String updatePaymentStatus(@Context HttpServletRequest req) throws Exception {
-		return requestProcessor.processUpdatePaymentStatusRequest(req);
+	public String updateRegistrationPaymentStatus(@Context HttpServletRequest req) throws Exception {
+		return requestProcessor.processUpdateRegistrationPaymentStatus(req);
 	}
 
 //	@PUT

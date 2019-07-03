@@ -11,7 +11,7 @@ public enum PaymentStatus {
 		this.desc = desc;
 	}
 
-	public PaymentStatus get(String desc) {
+	public static PaymentStatus get(String desc) {
 		if (desc == null) {
 			return null;
 		} else if (desc.equals(CREDIT.desc())) {
@@ -23,7 +23,7 @@ public enum PaymentStatus {
 		}
 	}
 
-	public PaymentStatus get(int id) {
+	public static PaymentStatus get(int id) {
 		switch (id) {
 		case 1:
 			return CREDIT;
