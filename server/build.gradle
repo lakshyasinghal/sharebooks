@@ -56,6 +56,7 @@ sourceSets {
             srcDir 'src/main/java/payment'
             srcDir 'src/main/java/tasks'
             srcDir 'src/main/java/config'
+            srcDir 'src/main/java/twitter'
             srcDir 'src/main/resources'
         }
     }

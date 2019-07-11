@@ -1,10 +1,10 @@
 package com.sharebooks.database.sql;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Map;
 
 import com.sharebooks.entities.coreEntities.enums.EntityType;
 import com.sharebooks.entities.entity.Entity;
@@ -28,7 +28,8 @@ public class SqlInsertQueryProcessor extends AbstractSqlQueryProcessor {
 	}
 
 	@Override
-	public ResultSet processReadQuery(String dbName, String query) throws Exception {
+	public List<Map<String, Object>> processReadQuery(String dbName, String query, Map<String, String> columns)
+			throws SQLException, Exception {
 		throw new NonFunctionalMethodException();
 	}
 

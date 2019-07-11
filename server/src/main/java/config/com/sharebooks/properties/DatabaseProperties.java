@@ -25,4 +25,10 @@ public class DatabaseProperties {
 	public static final String USER_EXPERIENCE_PASSWORD = "USER_EXPERIENCE_PASSWORD";
 	public static final String USER_EXPERIENCE_POOL_CAPACITY = "USER_EXPERIENCE_POOL_CAPACITY";
 
+	public static final String PAYMENTS_HOST = "PAYMENTS_HOST";
+	public static final String PAYMENTS_PORT = "PAYMENTS_PORT";
+	public static final String PAYMENTS_USERNAME = "PAYMENTS_USERNAME";
+	public static final String PAYMENTS_PASSWORD = "PAYMENTS_PASSWORD";
+	public static final String PAYMENTS_POOL_CAPACITY = "PAYMENTS_POOL_CAPACITY";
+
 }

@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS `States` (
   `Id` TINYINT unsigned NOT NULL AUTO_INCREMENT,
-  `State` VARCHAR(40) NOT NULL,
+  `Name` VARCHAR(40) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `States` (
 -- Dumping data for table `state_list`
 --
 
-INSERT INTO `States` (`Id`, `State`) VALUES
+INSERT INTO `States` (`Id`, `Name`) VALUES
 ( 1 , 'Andaman & Nicobar Islands' ),
 ( 2 , 'Andhra Pradesh' ),
 ( 3 , 'Arunachal Pradesh' ),

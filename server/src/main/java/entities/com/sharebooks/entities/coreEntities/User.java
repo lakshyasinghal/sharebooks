@@ -9,6 +9,7 @@ import org.json.simple.JSONObject;
 
 import com.sharebooks.entities.coreEntities.enums.AccountType;
 import com.sharebooks.entities.coreEntities.enums.Active;
+import com.sharebooks.entities.coreEntities.enums.SubscriptionStatus;
 import com.sharebooks.entities.entity.CoreEntity;
 import com.sharebooks.entities.helperEntities.Preference;
 import com.sharebooks.exception.JsonSerializationException;
@@ -30,6 +31,8 @@ public final class User extends CoreEntity implements JsonSerializable, Comparab
 	private String contactNo;
 	private List<Preference> preferences;
 	private AccountType accountType;
+	private int isRegistered;
+	private SubscriptionStatus subscriptionStatus;
 	private Active active;
 
 	public User() {
@@ -38,7 +41,8 @@ public final class User extends CoreEntity implements JsonSerializable, Comparab
 
 	public User(int id, String uid, String username, String password, String name, String dob, int age, String address,
 			String city, String state, String pincode, String contactNo, List<Preference> preferences,
-			AccountType accountType, Active active, LocalDateTime creationTime, LocalDateTime lastModificationTime) {
+			AccountType accountType, int isRegistered, SubscriptionStatus subscriptionStatus, Active active,
+			LocalDateTime creationTime, LocalDateTime lastModificationTime) {
 		super(id, uid, creationTime, lastModificationTime);
 		this.username = username;
 		this.password = password;
@@ -51,13 +55,18 @@ public final class User extends CoreEntity implements JsonSerializable, Comparab
 		this.pincode = pincode;
 		this.contactNo = contactNo;
 		this.preferences = new ArrayList<Preference>();
+		if (preferences != null) {
+			this.preferences.addAll(preferences); // to make it immutable
+		}
+
 		if (accountType != null) {
 			this.accountType = accountType;
 		} else {
 			this.accountType = AccountType.UNREGISTERED;
 		}
-		if (preferences != null) {
-			this.preferences.addAll(preferences); // to make it immutable
+		this.isRegistered = isRegistered;
+		if (subscriptionStatus == null) {
+			this.subscriptionStatus = SubscriptionStatus.PENDING;
 		}
 		this.active = active;
 	}
@@ -83,6 +92,8 @@ public final class User extends CoreEntity implements JsonSerializable, Comparab
 			jo.put("contactNo", contactNo);
 			jo.put("preferences", JsonUtility.getJsonArrayFromList(preferences));
 			jo.put("accountType", accountType.id());
+			jo.put("isRegistered", isRegistered);
+			jo.put("subscriptionStatus", subscriptionStatus.id());
 			jo.put("active", active.id());
 		} catch (Exception ex) {
 			throw new JsonSerializationException(ex.getMessage());
@@ -91,8 +102,8 @@ public final class User extends CoreEntity implements JsonSerializable, Comparab
 
 	public User cloneWithNewPassword(String password) {
 		return new User(this.id, this.uid, this.username, password, this.name, this.dob, this.age, this.address,
-				this.city, this.state, this.pincode, this.contactNo, this.preferences, this.accountType, this.active,
-				this.creationTime, this.lastModificationTime);
+				this.city, this.state, this.pincode, this.contactNo, this.preferences, this.accountType,
+				this.isRegistered, this.subscriptionStatus, this.active, this.creationTime, this.lastModificationTime);
 	}
 
 	// toString method
@@ -126,6 +137,8 @@ public final class User extends CoreEntity implements JsonSerializable, Comparab
 		map.put("contactNo", contactNo);
 		map.put("preferences", JsonUtility.getJsonArrayFromList(preferences).toString());
 		map.put("accountType", accountType.id());
+		map.put("isRegistered", isRegistered);
+		map.put("subscriptionStatus", subscriptionStatus.id());
 		map.put("active", active.id());
 		return map;
 	}
@@ -182,6 +195,14 @@ public final class User extends CoreEntity implements JsonSerializable, Comparab
 
 	public AccountType accountType() {
 		return accountType;
+	}
+
+	public int isRegistered() {
+		return isRegistered;
+	}
+
+	public SubscriptionStatus subscriptionStatus() {
+		return subscriptionStatus;
 	}
 
 	public Active active() {

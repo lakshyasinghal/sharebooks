@@ -9,12 +9,14 @@ import com.sharebooks.dao.generic.PaymentDao;
 import com.sharebooks.dao.generic.UserDao;
 import com.sharebooks.entities.coreEntities.User;
 import com.sharebooks.entities.coreEntities.enums.EntityType;
+import com.sharebooks.entities.coreEntities.enums.SubscriptionStatus;
 import com.sharebooks.exception.MultipleInstanceException;
 import com.sharebooks.http.HttpClient;
 import com.sharebooks.http.service.HttpService;
 import com.sharebooks.payment.entities.PaymentRequest;
 import com.sharebooks.payment.entities.PaymentRequestWebhook;
 import com.sharebooks.payment.entities.PaymentRequest_Request;
+import com.sharebooks.payment.enums.PaymentStatus;
 import com.sharebooks.payment.enums.PaymentType;
 import com.sharebooks.payment.factory.PaymentRequestFactory;
 import com.sharebooks.payment.factory.PaymentRequest_RequestFactory;
@@ -41,14 +43,14 @@ public class PaymentService {
 	}
 
 	// will return a long url pertaining to the payment request created
-	public String registrationPaymentURLRequest(String userUid) throws SQLException, Exception {
+	public String subscriptionPaymentURLRequest(String userUid) throws SQLException, Exception {
 		User user = userDao.getUser(userUid);
-		String amount = AppConfig.paymentProp(PaymentProperties.REGISTRATION_AMOUNT);
-		String purpose = PaymentType.REGISTRATION.desc();
+		String amount = AppConfig.paymentProp(PaymentProperties.SUBSCRIPTION_AMOUNT);
+		String purpose = PaymentType.SUBSCRIPTION.desc();
 
 		// get payment request using factory
 		PaymentRequest_Request paymentRequest_Request = PaymentRequest_RequestFactory.getInstance()
-				.getPaymentRequest(amount, purpose, user.name(), user.username(), user.contactNo());
+				.getPaymentRequest(amount, PaymentType.SUBSCRIPTION, user.name(), user.username(), user.contactNo());
 
 		// make http request
 		HttpClient httpClient = paymentRequest_Request.serializeAsHttp();
@@ -59,15 +61,26 @@ public class PaymentService {
 		// get the payment request response from http response
 		PaymentRequest paymentRequest = paymentRequestFactory
 				.createFromJson(PaymentUtility.getPaymentReqFromHttpRespJson(data));
+
 		// store the response in db
+		paymentDao.createPaymentRequest(paymentRequest);
 
 		// obtain the payment url and return
 		return paymentRequest.longurl();
 	}
 
-	public boolean updatePaymentStatus(PaymentRequestWebhook paymentRequestWebhook) throws SQLException, Exception {
+	public boolean updateSubscriptionPaymentStatus(PaymentRequestWebhook paymentRequestWebhook)
+			throws SQLException, Exception {
 		String payment_id = paymentRequestWebhook.paymentId();
 		String email = paymentDao.getUserEmailByPaymentId(payment_id);
+
+		PaymentStatus paymentStatus = paymentRequestWebhook.status();
+		// if payment credited, mark user as subscribed or renewed
+		if (paymentStatus == PaymentStatus.CREDIT) {
+			userDao.updateSubscriptionStatusByEmail(email, SubscriptionStatus.SUBSCRIBED.id());
+		}
+
+		paymentDao.updatePaymentRequestAndCreateWebhook(paymentRequestWebhook, payment_id, paymentStatus);
 
 		return false;
 	}

@@ -5,7 +5,8 @@ public enum Table {
 
 	BOOKS(1, "Books"), USERS(2, "Users"), BOOK_REQUESTS(3, "BookRequests"), ORDERS(4, "Orders"),
 	NOTIFICATIONS(5, "Notifications"), CITIES(6, "Cities"), STATES(7, "States"), BOOK_CATEGORIES(8, "BookCategories"),
-	Quotes(9, "Quotes"), PAYMENT_REQUEST(10, "PaymentRequest"), PAYMENT_REQUEST_WEBHOOK(11, "PaymentRequestWebhook");
+	QUOTES(9, "Quotes"), PAYMENT_REQUEST(10, "PaymentRequests"), PAYMENT_REQUEST_WEBHOOK(11, "PaymentRequestWebhooks"),
+	SUBSCRIPTIONS(12, "Subscriptions");
 
 	private int id;
 	private String desc;

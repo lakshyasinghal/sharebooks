@@ -1,16 +1,16 @@
 CREATE TABLE IF NOT EXISTS Cities (
 	`Id` int(5),
-	`City` VARCHAR(40) NOT NULL,
+	`Name` VARCHAR(40) NOT NULL,
 	`StateId` int NOT NULL,
 	PRIMARY KEY (Id),
-	CONSTRAINT UNIQUE_CITY UNIQUE (City , StateId)
+	CONSTRAINT UNIQUE_CITY UNIQUE (Name , StateId)
 ) ENGINE=InnoDB;
 
 --
 -- Dumping data for table `state_list`
 --
 
-INSERT INTO `Cities` (`Id`, `City`, `StateId`) VALUES
+INSERT INTO `Cities` (`Id`, `Name`, `StateId`) VALUES
 (1, 'Kolhapur', 21),
 (2, 'Port Blair', 1),
 (3, 'Adilabad', 2),

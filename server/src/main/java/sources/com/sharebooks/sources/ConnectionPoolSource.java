@@ -20,6 +20,7 @@ public class ConnectionPoolSource {
 		initCore();
 		initUserAcoounts();
 		initUserExperience();
+		initPayments();
 	}
 
 //	private static void initDriver(){
@@ -81,6 +82,19 @@ public class ConnectionPoolSource {
 		SqlConnectionPool connectionPool = new SqlConnectionPool(host, port, Database.SHAREBOOKS_USER_EXPERIENCE.desc(),
 				username, password, capacity, connFactory);
 		connectionPoolMap.put(Database.SHAREBOOKS_USER_EXPERIENCE.desc(), connectionPool);
+	}
+
+	private static void initPayments() {
+		String host = AppConfig.databaseProp(DatabaseProperties.PAYMENTS_HOST);
+		String port = AppConfig.databaseProp(DatabaseProperties.PAYMENTS_PORT);
+		String username = AppConfig.databaseProp(DatabaseProperties.PAYMENTS_USERNAME);
+		String password = AppConfig.databaseProp(DatabaseProperties.PAYMENTS_PASSWORD);
+		int capacity = Integer.parseInt(AppConfig.databaseProp(DatabaseProperties.PAYMENTS_POOL_CAPACITY));
+		DBConnFactory connFactory = SqlConnFactory.instance();
+
+		SqlConnectionPool connectionPool = new SqlConnectionPool(host, port, Database.SHAREBOOKS_PAYMENTS.desc(),
+				username, password, capacity, connFactory);
+		connectionPoolMap.put(Database.SHAREBOOKS_PAYMENTS.desc(), connectionPool);
 	}
 
 	public static Map<String, ConnectionPool> getConnectionPoolMap() {

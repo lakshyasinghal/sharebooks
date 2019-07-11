@@ -14,8 +14,10 @@ import org.json.simple.parser.ParseException;
 import com.sharebooks.entities.coreEntities.User;
 import com.sharebooks.entities.coreEntities.enums.AccountType;
 import com.sharebooks.entities.coreEntities.enums.Active;
+import com.sharebooks.entities.coreEntities.enums.SubscriptionStatus;
 import com.sharebooks.entities.helperEntities.Preference;
 import com.sharebooks.exception.FactoryException;
+import com.sharebooks.util.JsonUtility;
 import com.sharebooks.util.dateTime.LocalDateTime;
 
 public class UserFactory implements EntityFactory<User> {
@@ -62,6 +64,8 @@ public class UserFactory implements EntityFactory<User> {
 		String contactNo = rs.getString("contactNo");
 		List<Preference> preferences = getPreferenceListFromJson(rs.getString("preferences"));
 		AccountType accountType = AccountType.get(rs.getInt("accountType"));
+		int isRegistered = rs.getInt("isRegistered");
+		SubscriptionStatus subscriptionStatus = SubscriptionStatus.get(rs.getInt("subscriptionStatus"));
 		Active active = Active.valueOf(rs.getInt("active"));
 		String creationTimeStr = (rs.getTimestamp("creationTime")).toString();
 		LocalDateTime creationTime = LocalDateTime.buildFromString(creationTimeStr);
@@ -69,7 +73,7 @@ public class UserFactory implements EntityFactory<User> {
 		LocalDateTime lastModificationTime = LocalDateTime.buildFromString(lastModificationTimeStr);
 
 		User user = new User(id, uid, username, password, name, dob, age, address, city, state, pincode, contactNo,
-				preferences, accountType, active, creationTime, lastModificationTime);
+				preferences, accountType, isRegistered, subscriptionStatus, active, creationTime, lastModificationTime);
 		return user;
 	}
 
@@ -94,7 +98,10 @@ public class UserFactory implements EntityFactory<User> {
 			String contactNo = (String) jo.get("contactNo");
 			// will be null during creation and needs to be handled for modify requests
 			List<Preference> preferences = getPreferenceListFromJson((String) jo.get("preferences"));
-			AccountType accountType = AccountType.get((int) (long) jo.get("accountType"));
+			AccountType accountType = AccountType.get(JsonUtility.getIntValueFromJsonObject(jo, "accountType", 0));
+			int isRegistered = JsonUtility.getIntValueFromJsonObject(jo, "isRegistered", 0);
+			SubscriptionStatus subscriptionStatus = SubscriptionStatus
+					.get(JsonUtility.getIntValueFromJsonObject(jo, "subscriptionStatus", 1));
 			Active active = jo.get("active") == null ? Active.ACTIVE : Active.valueOf((int) (long) jo.get("active"));
 			String creationTimeStr = (String) jo.get("creationTime");
 			String lastModificationTimeStr = (String) jo.get("lastModificationTime");
@@ -105,7 +112,8 @@ public class UserFactory implements EntityFactory<User> {
 					: LocalDateTime.buildFromString(lastModificationTimeStr);
 
 			User user = new User(id, uid, username, password, name, dob, age, address, city, state, pincode, contactNo,
-					preferences, accountType, active, creationTime, lastModificationTime);
+					preferences, accountType, isRegistered, subscriptionStatus, active, creationTime,
+					lastModificationTime);
 			return user;
 		} catch (ParseException ex) {
 			throw ex;

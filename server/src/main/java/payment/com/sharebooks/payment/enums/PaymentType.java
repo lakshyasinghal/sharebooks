@@ -1,7 +1,7 @@
 package com.sharebooks.payment.enums;
 
 public enum PaymentType {
-	REGISTRATION(1, "User Registration"), OTHER(2, "Buy Or Rent Book");
+	SUBSCRIPTION(1, "Subscription"), OTHER(2, "Buy Or Rent Book");
 
 	private int id;
 	private String desc;
@@ -12,14 +12,12 @@ public enum PaymentType {
 	}
 
 	public static PaymentType get(int id) {
-		switch (id) {
-		case 1:
-			return REGISTRATION;
-		case 2:
-			return OTHER;
-		default:
-			return null;
+		for (PaymentType type : PaymentType.values()) {
+			if (type.id == id) {
+				return type;
+			}
 		}
+		return null;
 	}
 
 	public int id() {

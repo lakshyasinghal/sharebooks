@@ -35,21 +35,22 @@ public class PaymentRequestProcessor extends AbstractRequestProcessor {
 		return instance;
 	}
 
-	public String processRegistrationPaymentURL(String userUid) throws Exception {
-		LOGGER.trace("Entering processRegistrationPaymentUrlRequest");
+	// will return response containing payment url for Subscription
+	public String processSubscriptionPaymentURL(String userUid) throws Exception {
+		LOGGER.trace("Entering processSubscriptionPaymentUrlRequest");
 		boolean success = false;
 		int statusCode = -1;
 		int errorCode = -1;
 		Map<String, Object> map = new HashMap<String, Object>();
 		Response response = null;
 		try {
-			String longurl = paymentService.registrationPaymentURLRequest(userUid);
+			String longurl = paymentService.subscriptionPaymentURLRequest(userUid);
 			if (longurl != null) {
 				success = true;
 				map.put("longurl", longurl);
-				statusCode = Status.FETCH_REGISTRATION_PAYMENT_URL_SUCCESSFUL.id();
+				statusCode = Status.FETCH_SUBSCRIPTION_PAYMENT_URL_SUCCESSFUL.id();
 			} else {
-				statusCode = Status.FETCH_REGISTRATION_PAYMENT_URL_FAILED.id();
+				statusCode = Status.FETCH_SUBSCRIPTION_PAYMENT_URL_FAILED.id();
 			}
 		} catch (Exception ex) {
 			log(ex, LOGGER);
@@ -57,18 +58,19 @@ public class PaymentRequestProcessor extends AbstractRequestProcessor {
 		}
 
 		response = responseFactory.getJsonResponse(success, statusCode, errorCode, map);
-		LOGGER.trace("Leaving processRegistrationPaymentUrlRequest");
+		LOGGER.trace("Leaving processSubscriptionPaymentUrlRequest");
 		return response.process();
 	}
 
-	public String processUpdateRegistrationPaymentStatus(HttpServletRequest req) throws Exception {
+	// only the http status code returned will be important in the response
+	public String processUpdateSubscriptionPaymentStatus(HttpServletRequest req) throws Exception {
 		LOGGER.trace("Entering processUpdatePaymentStatusRequest");
 		boolean success = false;
 		Response response = null;
 		int errorCode = -1;
 		PaymentRequestWebhook paymentRequestWebhook = webhookFactory.createFromHttpRequest(req);
 		try {
-			success = paymentService.updatePaymentStatus(paymentRequestWebhook);
+			success = paymentService.updateSubscriptionPaymentStatus(paymentRequestWebhook);
 		} catch (Exception ex) {
 			log(ex, LOGGER);
 			errorCode = errorCode(ex);

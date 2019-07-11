@@ -5,19 +5,19 @@ import org.json.simple.JSONObject;
 import com.sharebooks.entities.entity.HelperEntity;
 import com.sharebooks.exception.JsonSerializationException;
 
-public class State extends HelperEntity implements Comparable<State>{
-	
+public class State extends HelperEntity implements Comparable<State> {
+
 	private String name;
-	
-	public State(){
-		//nothing
+
+	public State() {
+		// nothing
 	}
-	
-	public State(int id, String name){
+
+	public State(int id, String name) {
 		super(id);
 		this.name = name;
 	}
-	
+
 	@Override
 	public int compareTo(State state) {
 		return name.compareTo(state.name());
@@ -25,13 +25,12 @@ public class State extends HelperEntity implements Comparable<State>{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void serializeAsJson(JSONObject jo) throws JsonSerializationException {	
-		jo.put("id" , id);
-		jo.put("name" , name);
+	public void serializeAsJson(JSONObject jo) throws JsonSerializationException {
+		jo.put("id", id);
+		jo.put("name", name);
 	}
-	
-	
-	public String name(){
+
+	public String name() {
 		return name;
 	}
 }

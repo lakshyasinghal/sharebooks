@@ -1,10 +1,10 @@
 package com.sharebooks.database.sql;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -58,7 +58,8 @@ public class SqlDeleteQueryProcessor extends AbstractSqlQueryProcessor {
 	}
 
 	@Override
-	public ResultSet processReadQuery(String dbName, String query) throws Exception {
+	public List<Map<String, Object>> processReadQuery(String dbName, String query, Map<String, String> columns)
+			throws SQLException, Exception {
 		throw new NonFunctionalMethodException();
 	}
 
@@ -77,4 +78,5 @@ public class SqlDeleteQueryProcessor extends AbstractSqlQueryProcessor {
 	public List<Integer> processTransaction(String dbName, List<String> queries) throws SQLException, Exception {
 		throw new NonFunctionalMethodException();
 	}
+
 }

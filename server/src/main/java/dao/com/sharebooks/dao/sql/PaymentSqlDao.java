@@ -3,6 +3,7 @@ package com.sharebooks.dao.sql;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -51,9 +52,15 @@ public class PaymentSqlDao extends AbstractPaymentDao {
 			LOGGER.trace("Entering getUserEmailByPaymentId");
 			String query = paymentQueries.getUserEmailByPaymentIdQuery(payment_id);
 			AbstractSqlQueryProcessor queryProcessor = SqlReadQueryProcessor.getInstance();
-			rs = queryProcessor.processReadQuery(database.desc(), query);
-			rs.next();
-			String email = rs.getString("email");
+
+			// preparing coumn map
+			Map<String, String> columnMap = new HashMap<String, String>();
+			columnMap.put("email", "string");
+
+			List<Map<String, Object>> resultMapList = queryProcessor.processReadQuery(database.desc(), query,
+					columnMap);
+
+			String email = (String) resultMapList.get(0).get("email");
 			LOGGER.trace("Leaving getUserEmailByPaymentId");
 			return email;
 		} finally {

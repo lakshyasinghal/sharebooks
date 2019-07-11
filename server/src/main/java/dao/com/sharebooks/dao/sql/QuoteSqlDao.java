@@ -34,7 +34,7 @@ public class QuoteSqlDao extends AbstractQuoteDao {
 		List<Quote> quotes = null;
 		Map<String, Object> filterMap = new HashMap<String, Object>();
 		filterMap.put("uid", uid);
-		SqlQuery query = new SqlReadQuery(Table.Quotes.desc(), filterMap);
+		SqlQuery query = new SqlReadQuery(Table.QUOTES.desc(), filterMap);
 		query.build();
 		AbstractSqlQueryProcessor queryProcessor = SqlReadQueryProcessor.getInstance();
 		List<Entity> entityList = (List<Entity>) queryProcessor.processReadQuery(database.desc(), query.toString(),
@@ -55,7 +55,7 @@ public class QuoteSqlDao extends AbstractQuoteDao {
 		Map<String, Object> quoteMap = quote.map();
 		// remove id field and id value from map as it won't be required in insert query
 		quoteMap.remove("id");
-		SqlQuery query = new SqlInsertQuery(Table.Quotes.desc(), quoteMap);
+		SqlQuery query = new SqlInsertQuery(Table.QUOTES.desc(), quoteMap);
 		query.build();
 		AbstractSqlQueryProcessor queryProcessor = SqlInsertQueryProcessor.getInstance();
 		int rowsAffected = queryProcessor.processInsertQuery(database.desc(), query.toString(), false);
@@ -68,7 +68,7 @@ public class QuoteSqlDao extends AbstractQuoteDao {
 	public boolean updateQuote(Quote quote) throws Exception {
 		LOGGER.trace("Entering updateQuote");
 		Map<String, Object> quoteMap = quote.map();
-		SqlQuery query = new SqlUpdateQuery(Table.Quotes.desc(), quoteMap);
+		SqlQuery query = new SqlUpdateQuery(Table.QUOTES.desc(), quoteMap);
 		query.build();
 		AbstractSqlQueryProcessor queryProcessor = SqlUpdateQueryProcessor.getInstance();
 		int rowsAffected = queryProcessor.processUpdateQuery(database.desc(), query.toString());
@@ -81,7 +81,7 @@ public class QuoteSqlDao extends AbstractQuoteDao {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("uid", uid);
 		map.put("status", status);
-		SqlQuery query = new SqlUpdateQuery(Table.Quotes.desc(), map);
+		SqlQuery query = new SqlUpdateQuery(Table.QUOTES.desc(), map);
 		query.build();
 		AbstractSqlQueryProcessor queryProcessor = SqlUpdateQueryProcessor.getInstance();
 		int rowsAffected = queryProcessor.processUpdateQuery(database.desc(), query.toString());

@@ -209,4 +209,31 @@ public class UserSqlDao extends AbstractUserDao {
 		return false;
 	}
 
+	@Override
+	public boolean updateSubscriptionStatusByEmail(String email, int subscriptionStatus)
+			throws SQLException, Exception {
+		LOGGER.trace("Entering updateSubscriptionStatusByEmail");
+		String query = userQueries.updateSubscriptionStatusByEmail(email, subscriptionStatus);
+		// SqlQuery query = new SqlUpdateQuery(table.desc(), map);
+		// query.build();
+		LOGGER.debug(query.toString());
+		AbstractSqlQueryProcessor queryProcessor = SqlUpdateQueryProcessor.getInstance();
+		int rowsAffected = queryProcessor.processUpdateQuery(database.desc(), query);
+		LOGGER.trace("Leaving updateSubscriptionStatusByEmail");
+		return rowsAffected > 0 ? true : false;
+	}
+
+	@Override
+	public boolean updateRegistrationStatusByEmail(String email, int isRegistered) throws SQLException, Exception {
+		LOGGER.trace("Entering updateRegistrationStatusByEmail");
+		String query = userQueries.updateRegistrationStatusByEmail(email, isRegistered);
+		// SqlQuery query = new SqlUpdateQuery(table.desc(), map);
+		// query.build();
+		LOGGER.debug(query.toString());
+		AbstractSqlQueryProcessor queryProcessor = SqlUpdateQueryProcessor.getInstance();
+		int rowsAffected = queryProcessor.processUpdateQuery(database.desc(), query);
+		LOGGER.trace("Leaving updateRegistrationStatusByEmail");
+		return rowsAffected > 0 ? true : false;
+	}
+
 }

@@ -1,11 +1,11 @@
 package com.sharebooks.database.sql;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -32,7 +32,8 @@ public class SqlTransactionProcessor extends AbstractSqlQueryProcessor {
 	}
 
 	@Override
-	public ResultSet processReadQuery(String dbName, String query) throws Exception {
+	public List<Map<String, Object>> processReadQuery(String dbName, String query, Map<String, String> columns)
+			throws SQLException, Exception {
 		throw new NonFunctionalMethodException();
 	}
 

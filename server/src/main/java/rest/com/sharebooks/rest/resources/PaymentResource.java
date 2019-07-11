@@ -19,17 +19,18 @@ public class PaymentResource {
 	private PaymentRequestProcessor requestProcessor = PaymentRequestProcessor.getInstance();
 
 	@GET
-	@Path("/registration/payment/url/{userUid}")
+	@Path("/subscription/payment/url/{userUid}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getRegistrationPaymentURL(@PathParam("userUid") String userUid) throws Exception {
-		return requestProcessor.processRegistrationPaymentURL(userUid);
+	public String getSubscriptionPaymentURL(@PathParam("userUid") String userUid) throws Exception {
+		return requestProcessor.processSubscriptionPaymentURL(userUid);
 	}
 
+	// this is the webhook for payments and will be hit by payment gateway servers
 	@POST
-	@Path("registration/payment")
+	@Path("subscription/payment")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String updateRegistrationPaymentStatus(@Context HttpServletRequest req) throws Exception {
-		return requestProcessor.processUpdateRegistrationPaymentStatus(req);
+	public String updateSubscriptionPaymentStatus(@Context HttpServletRequest req) throws Exception {
+		return requestProcessor.processUpdateSubscriptionPaymentStatus(req);
 	}
 
 //	@PUT
