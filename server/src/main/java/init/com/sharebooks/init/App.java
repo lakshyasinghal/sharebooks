@@ -2,10 +2,11 @@ package com.sharebooks.init;
 
 import org.apache.log4j.Logger;
 
-import com.sharebooks.appConfig.AppConfig;
+import com.sharebooks.config.appConfig.AppConfig;
+import com.sharebooks.config.properties.ServerProperties;
 import com.sharebooks.jetty.GenericServer;
 import com.sharebooks.jetty.JettyServer;
-import com.sharebooks.properties.ServerProperties;
+import com.sharebooks.sms.service.SmsService;
 import com.sharebooks.sources.CacheSource;
 import com.sharebooks.sources.ConnectionPoolSource;
 import com.sharebooks.sources.DaoSource;
@@ -41,6 +42,9 @@ public class App {
 		int idleTimeout = Integer.parseInt(AppConfig.serverProp(ServerProperties.SERVER_IDLE_TIMEOUT));
 		GenericServer server = new JettyServer(port, idleTimeout);
 		server.start();
+		// testMailService();
+		// testGeocodingService();
+		testSmsService();
 	}
 
 	private static void launch() throws Exception {
@@ -48,5 +52,25 @@ public class App {
 		initialize();
 		startServer();
 		LOGGER.info("Application launched");
+	}
+
+//	private static void testMailService() {
+//		MailService.instance().sendErrorMail(new Exception("Your app is fucked."));
+//	}
+//
+//	private static void testGeocodingService() throws Exception {
+//		Address address = new Address.AddressBuilder().line1("74 B").line2("Sec 11").city("Faridabad").state("Haryana")
+//				.build();
+//		GeoCoordinates coordinates = GeocodingService.instance().getCoordinatesFromAddress(address);
+//		System.out.println(coordinates.lat());
+//		System.out.println(coordinates.lng());
+//	}
+
+	private static void testSmsService() throws Exception {
+		String message = "How are you, sucker?";
+		String numbers = "8448054935";
+
+		boolean success = SmsService.instnace().sendSms(message, numbers);
+		System.out.println("Success in sending sms =>" + success);
 	}
 }

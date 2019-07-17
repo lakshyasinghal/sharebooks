@@ -1,11 +1,11 @@
 package com.sharebooks.payment.factory;
 
-import com.sharebooks.appConfig.AppConfig;
+import com.sharebooks.config.appConfig.AppConfig;
+import com.sharebooks.config.properties.PaymentProperties;
 import com.sharebooks.payment.entities.GenericPaymentRequest_Request;
 import com.sharebooks.payment.entities.GenericPaymentRequest_Request.GenericPaymentRequest_RequestBuilder;
 import com.sharebooks.payment.entities.PaymentRequest_Request;
 import com.sharebooks.payment.enums.PaymentType;
-import com.sharebooks.properties.PaymentProperties;
 import com.sharebooks.util.PaymentRequestUtility;
 
 public class PaymentRequest_RequestFactory {

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +15,7 @@ import org.apache.log4j.Logger;
 
 import com.sharebooks.http.enums.ContentType;
 import com.sharebooks.http.enums.HttpMethod;
-import com.sharebooks.util.HttpUtlity;
+import com.sharebooks.util.HttpUtility;
 
 public class HttpClient {
 	private static final Logger LOGGER = Logger.getLogger(HttpClient.class);
@@ -112,7 +113,7 @@ public class HttpClient {
 	}
 
 	public HttpResponse makeRequest() throws Exception {
-		URL url = new URL(this.url);
+		URL url = getURL();
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		con.setRequestMethod(method.desc());
 
@@ -140,18 +141,26 @@ public class HttpClient {
 		return new HttpResponse(status, resMessage, resData);
 	}
 
-	public void setRequestHeaders(HttpURLConnection con) {
+	private URL getURL() throws MalformedURLException, UnsupportedEncodingException {
+		if (method == HttpMethod.GET && parameters.size() > 0) {
+			this.url = this.url + "?" + getData();
+		}
+		URL url = new URL(this.url);
+		return url;
+	}
+
+	private void setRequestHeaders(HttpURLConnection con) {
 		for (String header : headerMap.keySet()) {
 			con.setRequestProperty(header, headerMap.get(header));
 		}
 	}
 
-	public void setTimeouts(HttpURLConnection con) {
+	private void setTimeouts(HttpURLConnection con) {
 		con.setConnectTimeout(connTimeout);
 		con.setReadTimeout(readTimeout);
 	}
 
-	public String readResponse(HttpURLConnection con) throws Exception {
+	private String readResponse(HttpURLConnection con) throws Exception {
 		try {
 			// int status = con.getResponseCode();
 
@@ -173,7 +182,7 @@ public class HttpClient {
 	private String getData() throws UnsupportedEncodingException {
 		String data = null;
 		if (contenType.equals(ContentType.APPLICATION_FORM)) {
-			data = HttpUtlity.getParamsString(parameters);
+			data = HttpUtility.getParamsString(parameters);
 		} else if (contenType.equals(ContentType.JSON)) {
 			data = this.json;
 		}

@@ -14,7 +14,7 @@ import com.sharebooks.http.enums.Header;
 import com.sharebooks.http.enums.HttpMethod;
 import com.sharebooks.serialization.json.JsonSerializable;
 import com.sharebooks.util.BooleanUtils;
-import com.sharebooks.util.StringUtils;
+import com.sharebooks.util.StringUtility;
 
 public class GenericPaymentRequest_Request extends CoreEntity implements PaymentRequest_Request, JsonSerializable {
 
@@ -163,19 +163,19 @@ public class GenericPaymentRequest_Request extends CoreEntity implements Payment
 		Map<String, String> dataMap = new HashMap<String, String>();
 		dataMap.put("amount", amount);
 		dataMap.put("purpose", purpose);
-		if (!StringUtils.isEmptyOrNull(buyer_name)) {
+		if (!StringUtility.isEmptyOrNull(buyer_name)) {
 			dataMap.put("buyer_name", buyer_name);
 		}
-		if (!StringUtils.isEmptyOrNull(email)) {
+		if (!StringUtility.isEmptyOrNull(email)) {
 			dataMap.put("email", email);
 		}
-		if (!StringUtils.isEmptyOrNull(phone)) {
+		if (!StringUtility.isEmptyOrNull(phone)) {
 			dataMap.put("phone", phone);
 		}
-		if (!StringUtils.isEmptyOrNull(redirect_url)) {
+		if (!StringUtility.isEmptyOrNull(redirect_url)) {
 			dataMap.put("redirect_url", redirect_url);
 		}
-		if (!StringUtils.isEmptyOrNull(webhook)) {
+		if (!StringUtility.isEmptyOrNull(webhook)) {
 			dataMap.put("webhook", webhook);
 		}
 		dataMap.put("allow_repeated_payments", BooleanUtils.getString(allow_repeated_payments));

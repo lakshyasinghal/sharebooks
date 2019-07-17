@@ -3,13 +3,14 @@ package com.sharebooks.sources;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.sharebooks.appConfig.AppConfig;
 import com.sharebooks.cache.Cache;
 import com.sharebooks.cache.DynamicCache;
 import com.sharebooks.cache.StaticCache;
 import com.sharebooks.cache.enums.CacheType;
 import com.sharebooks.cache.lruCache.LRUCache;
 import com.sharebooks.cache.staticCache.EntitySetCache;
+import com.sharebooks.config.appConfig.AppConfig;
+import com.sharebooks.config.properties.CacheProperties;
 import com.sharebooks.entities.coreEntities.Book;
 import com.sharebooks.entities.coreEntities.User;
 import com.sharebooks.entities.coreEntities.enums.EntityType;
@@ -17,7 +18,6 @@ import com.sharebooks.entities.entity.Entity;
 import com.sharebooks.entities.helperEntities.BookCategory;
 import com.sharebooks.entities.helperEntities.City;
 import com.sharebooks.entities.helperEntities.State;
-import com.sharebooks.properties.CacheProperties;
 
 public class CacheSource {
 	private static Map<String, Cache<? extends Entity>> cacheMap = new HashMap<String, Cache<? extends Entity>>();

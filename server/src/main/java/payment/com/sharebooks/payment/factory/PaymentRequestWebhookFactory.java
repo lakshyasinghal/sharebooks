@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 import com.sharebooks.payment.entities.PaymentRequestWebhook;
 import com.sharebooks.payment.entities.PaymentRequestWebhook.PaymentRequestWebhookBuilder;
 import com.sharebooks.payment.enums.PaymentStatus;
-import com.sharebooks.util.HttpUtlity;
+import com.sharebooks.util.HttpUtility;
 
 public class PaymentRequestWebhookFactory {
 	private static Logger LOGGER = Logger.getLogger(PaymentRequestWebhookFactory.class);
@@ -29,12 +29,12 @@ public class PaymentRequestWebhookFactory {
 	}
 
 	public PaymentRequestWebhook createFromHttpRequest(HttpServletRequest req) throws Exception {
-		double amount = HttpUtlity.doubleVal(req, "amount");
+		double amount = HttpUtility.doubleVal(req, "amount");
 		String buyer = req.getParameter("buyer");
 		String buyer_name = req.getParameter("buyer_name");
 		String buyer_phone = req.getParameter("buyer_phone");
 		String currency = req.getParameter("currency");
-		double fees = HttpUtlity.doubleVal(req, "fees");
+		double fees = HttpUtility.doubleVal(req, "fees");
 		String longurl = req.getParameter("longurl");
 		String mac = req.getParameter("mac");
 		String payment_id = req.getParameter("payment_id");

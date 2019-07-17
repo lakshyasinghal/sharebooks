@@ -13,17 +13,29 @@ import javax.mail.internet.MimeMessage;
 import com.sharebooks.mail.enums.MailBodyContentType;
 
 public abstract class GenericMail implements Mail {
-	private String port;
-	private String[] toEmails;
-	private String subject;
-	private String body;
-	private MailBodyContentType contentType;
-	private String host;
-	private String user;
-	private String password;
+	protected String port;
+	protected String[] toEmails;
+	protected String subject;
+	protected String body;
+	protected MailBodyContentType contentType;
+	protected String host;
+	protected String user;
+	protected String password;
 
 	public GenericMail() {
 
+	}
+
+	public GenericMail(String port, String[] toEmails, String subject, String body, MailBodyContentType contentType,
+			String host, String user, String password) {
+		this.port = port;
+		this.toEmails = toEmails;
+		this.subject = subject;
+		this.body = body;
+		this.contentType = contentType;
+		this.host = host;
+		this.user = user;
+		this.password = password;
 	}
 
 	@Override

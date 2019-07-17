@@ -40,6 +40,7 @@ public class HttpService {
 			throw new HttpRequestFailedException(statusCode, resMessage);
 		}
 
+		LOGGER.debug("Response Data => " + data);
 		return data;
 	}
 

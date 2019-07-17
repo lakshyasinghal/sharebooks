@@ -3,13 +3,13 @@ package com.sharebooks.sources;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.sharebooks.appConfig.AppConfig;
+import com.sharebooks.config.appConfig.AppConfig;
+import com.sharebooks.config.properties.DatabaseProperties;
 import com.sharebooks.connectionPool.ConnectionPool;
 import com.sharebooks.connectionPool.SqlConnectionPool;
 import com.sharebooks.database.sql.Database;
 import com.sharebooks.factory.dbConnectionFactory.DBConnFactory;
 import com.sharebooks.factory.dbConnectionFactory.SqlConnFactory;
-import com.sharebooks.properties.DatabaseProperties;
 
 public class ConnectionPoolSource {
 	private static Map<String, ConnectionPool> connectionPoolMap = new HashMap<String, ConnectionPool>();

@@ -5,7 +5,8 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import com.sharebooks.appConfig.AppConfig;
+import com.sharebooks.config.appConfig.AppConfig;
+import com.sharebooks.config.properties.DaoProperties;
 import com.sharebooks.dao.generic.Dao;
 import com.sharebooks.dao.sql.BookCategorySqlDao;
 import com.sharebooks.dao.sql.BookRequestSqlDao;
@@ -22,7 +23,6 @@ import com.sharebooks.entities.coreEntities.BookRequest;
 import com.sharebooks.entities.coreEntities.User;
 import com.sharebooks.entities.coreEntities.enums.EntityType;
 import com.sharebooks.factory.entityFactory.EntityFactory;
-import com.sharebooks.properties.DaoProperties;
 import com.sharebooks.sources.enums.DaoType;
 
 public class DaoSource {

@@ -12,7 +12,7 @@ import com.sharebooks.factory.entityFactory.QuoteFactory;
 import com.sharebooks.factory.misc.ResponseFactory;
 import com.sharebooks.payment.entities.PaymentRequestWebhook;
 import com.sharebooks.payment.factory.PaymentRequestWebhookFactory;
-import com.sharebooks.payment.services.PaymentService;
+import com.sharebooks.payment.service.PaymentService;
 import com.sharebooks.response.Response;
 import com.sharebooks.response.enums.Status;
 import com.sharebooks.sources.FactorySource;

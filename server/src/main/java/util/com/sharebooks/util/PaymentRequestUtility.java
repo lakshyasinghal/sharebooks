@@ -1,7 +1,7 @@
 package com.sharebooks.util;
 
+import com.sharebooks.config.properties.PaymentProperties;
 import com.sharebooks.payment.enums.PaymentType;
-import com.sharebooks.properties.PaymentProperties;
 
 public class PaymentRequestUtility {
 
