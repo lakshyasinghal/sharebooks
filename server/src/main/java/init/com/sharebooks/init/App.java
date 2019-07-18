@@ -6,7 +6,6 @@ import com.sharebooks.config.appConfig.AppConfig;
 import com.sharebooks.config.properties.ServerProperties;
 import com.sharebooks.jetty.GenericServer;
 import com.sharebooks.jetty.JettyServer;
-import com.sharebooks.sms.service.SmsService;
 import com.sharebooks.sources.CacheSource;
 import com.sharebooks.sources.ConnectionPoolSource;
 import com.sharebooks.sources.DaoSource;
@@ -44,7 +43,8 @@ public class App {
 		server.start();
 		// testMailService();
 		// testGeocodingService();
-		testSmsService();
+		// testSmsService();
+		// testUrlShortenerService();
 	}
 
 	private static void launch() throws Exception {
@@ -66,11 +66,18 @@ public class App {
 //		System.out.println(coordinates.lng());
 //	}
 
-	private static void testSmsService() throws Exception {
-		String message = "How are you, sucker?";
-		String numbers = "8448054935";
+//	private static void testSmsService() throws Exception {
+//		String message = "How are you, sucker?";
+//		String numbers = "8448054935";
+//
+//		boolean success = SmsService.instnace().sendSms(message, numbers);
+//		System.out.println("Success in sending sms =>" + success);
+//	}
 
-		boolean success = SmsService.instnace().sendSms(message, numbers);
-		System.out.println("Success in sending sms =>" + success);
-	}
+//	private static void testUrlShortenerService() throws Exception {
+//		String longUrl = "http://www.google.com/fuck-you";
+//
+//		String shortUrl = UrlShortenerService.instance().getShortUrl(longUrl);
+//		System.out.println("Short url =>" + shortUrl);
+//	}
 }

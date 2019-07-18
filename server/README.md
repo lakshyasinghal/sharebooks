@@ -79,3 +79,5 @@ API Links
 Geocoding => https://rapidapi.com/googlecloud/api/google-maps-geocoding
 
 Sending sms => http://api.textlocal.in/docs/sendsms
+
+Url shortener => https://dev.bitly.com/links.html
