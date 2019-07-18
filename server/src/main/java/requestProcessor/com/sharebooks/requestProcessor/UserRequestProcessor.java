@@ -3,7 +3,9 @@ package com.sharebooks.requestProcessor;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 
 import com.sharebooks.entities.coreEntities.User;
@@ -19,50 +21,48 @@ import com.sharebooks.sources.FactorySource;
 import com.sharebooks.sources.ServiceSource;
 
 @SuppressWarnings("unchecked")
-public class UserRequestProcessor extends AbstractRequestProcessor{
+public class UserRequestProcessor extends AbstractRequestProcessor {
 	private static UserRequestProcessor processor = new UserRequestProcessor();
 	private static final Logger LOGGER = Logger.getLogger(UserRequestProcessor.class.getName());
 	private final ResponseFactory responseFactory = FactorySource.getResponseFactory();
 	private final UserService userService = ServiceSource.getUserService();
-	private final EntityFactory<User> factory = (EntityFactory<User>) FactorySource.getEntityFactory(EntityType.USER.desc());
-	
-	//private constructor to help make the class singleton
-	private UserRequestProcessor(){
-		
+	private final EntityFactory<User> factory = (EntityFactory<User>) FactorySource
+			.getEntityFactory(EntityType.USER.desc());
+
+	// private constructor to help make the class singleton
+	private UserRequestProcessor() {
+
 	}
-	
-	//get singleton instance of the class
-	public static UserRequestProcessor getInstance(){
+
+	// get singleton instance of the class
+	public static UserRequestProcessor getInstance() {
 		return processor;
 	}
-	
-	
-	public String processLoginRequest(String username , String password) throws Exception{
+
+	public String processLoginRequest(String username, String password) throws Exception {
 		LOGGER.trace("Entering login in UserRequestProcessor");
-		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		User user = null;
 		boolean success = false;
-		int statusCode=-1,errorCode=-1;
-		try{
-			user = userService.login(username,password);
-			if(user==null){
-				statusCode=Status.INCORRECT_LOGIN_CREDENTIALS.id();
+		int statusCode = -1, errorCode = -1;
+		try {
+			user = userService.login(username, password);
+			if (user == null) {
+				statusCode = Status.INCORRECT_LOGIN_CREDENTIALS.id();
+			} else {
+				success = true;
+				statusCode = Status.LOGIN_SUCCESSFUL.id();
+				map.put("user", user);
 			}
-			else{
-				success=true;
-				statusCode=Status.LOGIN_SUCCESSFUL.id();
-				map.put("user",user);
-			}
-		}
-		catch(Exception ex){
-			log(ex,LOGGER);
+		} catch (Exception ex) {
+			log(ex, LOGGER);
 			errorCode = errorCode(ex);
 		}
 		Response response = responseFactory.getJsonResponse(success, statusCode, errorCode, map);
 		return response.process();
 	}
-	
-	public String processCreateUserRequest(HttpServletRequest req) throws Exception{
+
+	public String processCreateUserRequest(HttpServletRequest req) throws Exception {
 		LOGGER.trace("Entering processCreateRequest");
 		boolean success = false;
 		int statusCode = -1;
@@ -74,159 +74,137 @@ public class UserRequestProcessor extends AbstractRequestProcessor{
 			userJsonStr = getJsonFromRequest(req);
 			user = factory.createFromJson(userJsonStr);
 			success = userService.createUser(user);
-			if(success){
+			if (success) {
 				statusCode = Status.USER_CREATED_SUCCESSFULLY.id();
-			}
-			else{
+			} else {
 				statusCode = Status.USER_NOT_CREATED.id();
 			}
-		}
-		catch(UsernameAlreadyExistsException ex){
+		} catch (UsernameAlreadyExistsException ex) {
 			LOGGER.debug(ex.getMessage());
 			statusCode = Status.USERNAME_ALREADY_EXISTS.id();
-		}
-		catch(Exception ex){
-			log(ex,LOGGER);
+		} catch (Exception ex) {
+			log(ex, LOGGER);
 			errorCode = errorCode(ex);
 		}
-		response = responseFactory.getJsonResponse(success , statusCode , errorCode , null);
+		response = responseFactory.getJsonResponse(success, statusCode, errorCode, null);
 		LOGGER.trace("Leaving processCreateRequest");
 		return response.process();
 	}
-	
-	
-	public String processGetAllUsersRequest() throws Exception{
-		Map<String,Object> map = new HashMap<String,Object>();
+
+	public String processGetAllUsersRequest() throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
 		List<User> users = null;
 		boolean success = false;
-		int statusCode = -1,errorCode = -1;
-		try{
+		int statusCode = -1, errorCode = -1;
+		try {
 			users = userService.getAllUsers();
-			if(users==null || users.size()==0){
+			if (users == null || users.size() == 0) {
 				statusCode = Status.NO_USERS_EXIST.id();
-			}
-			else{
+			} else {
 				statusCode = Status.FETCH_ALL_USERS_SUCCESSFUL.id();
 				success = true;
 			}
 			map.put("users", users);
-		}
-		catch(Exception ex){
-			log(ex,LOGGER);
+		} catch (Exception ex) {
+			log(ex, LOGGER);
 			errorCode = errorCode(ex);
 		}
-		Response response = responseFactory.getJsonResponse(success , statusCode , errorCode , map);
+		Response response = responseFactory.getJsonResponse(success, statusCode, errorCode, map);
 		return response.process();
 	}
-	
-	
+
 	public String processGetUserRequest(String uid) throws Exception {
-		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		User user = null;
 		boolean success = false;
 		int statusCode = -1;
 		int errorCode = -1;
-		try{
+		try {
 			user = userService.getUser(uid);
-			if(user==null){
+			if (user == null) {
 				statusCode = Status.NO_RESULTS_FOUND.id();
-			}
-			else{
+			} else {
 				statusCode = Status.FETCH_USER_BY_ID_SUCCESSFUL.id();
 			}
 			success = true;
 			map.put("user", user);
-		}
-		catch(Exception ex){
-			log(ex,LOGGER);
+		} catch (Exception ex) {
+			log(ex, LOGGER);
 			errorCode = errorCode(ex);
 		}
-		Response response = responseFactory.getJsonResponse(success , statusCode , errorCode , map);
+		Response response = responseFactory.getJsonResponse(success, statusCode, errorCode, map);
 		return response.process();
 	}
-	
-	public String processUpdateUserRequest(HttpServletRequest req) throws Exception{
+
+	public String processUpdateUserRequest(HttpServletRequest req) throws Exception {
 		LOGGER.trace("Entering processUpdateRequest");
 		boolean success = false;
-		int statusCode = -1,errorCode = -1;
+		int statusCode = -1, errorCode = -1;
 		String userJsonStr = null;
 		User user = null;
-		try{
+		try {
 			userJsonStr = getJsonFromRequest(req);
 			user = factory.createFromJson(userJsonStr);
 			success = userService.updateUser(user);
-			if(success){
+			if (success) {
 				statusCode = Status.USER_UPDATED_SUCCESSFULLY.id();
-			}
-			else{
+			} else {
 				statusCode = Status.USER_NOT_UPDATED.id();
 			}
-			
-		}
-		catch(Exception ex){
-			log(ex,LOGGER);
+
+		} catch (Exception ex) {
+			log(ex, LOGGER);
 			errorCode = errorCode(ex);
 		}
-		Response response = responseFactory.getJsonResponse(success , statusCode , errorCode , null);
+		Response response = responseFactory.getJsonResponse(success, statusCode, errorCode, null);
 		LOGGER.trace("Leaving processUpdateRequest");
 		return response.process();
 	}
-	
-	public String processSavePreferencesRequest(String uid, HttpServletRequest req) throws Exception{
+
+	public String processSavePreferencesRequest(String uid, HttpServletRequest req) throws Exception {
 		LOGGER.trace("Entering processSavePreferencesRequest");
 		boolean success = false;
-		int statusCode = -1,errorCode = -1;
+		int statusCode = -1, errorCode = -1;
 		String preferencesJson = null;
 		List<Preference> preferences = null;
-		try{
+		try {
 			preferencesJson = getJsonFromRequest(req);
-			preferences = (List<Preference>) FactorySource.getEntityFactory(EntityType.PREFERENCE.desc()).getListFromJson(preferencesJson);
+			preferences = (List<Preference>) FactorySource.getEntityFactory(EntityType.PREFERENCE.desc())
+					.getListFromJson(preferencesJson);
 			success = userService.savePreferences(uid, preferences);
-			if(success){
+			if (success) {
 				statusCode = Status.PREFERENCES_SAVED_SUCCESSFULLY.id();
-			}
-			else{
+			} else {
 				statusCode = Status.PREFERENCES_NOT_SAVED.id();
 			}
-		}
-		catch(Exception ex){
-			log(ex,LOGGER);
+		} catch (Exception ex) {
+			log(ex, LOGGER);
 			errorCode = errorCode(ex);
 		}
-		Response response = responseFactory.getJsonResponse(success , statusCode , errorCode , null);
+		Response response = responseFactory.getJsonResponse(success, statusCode, errorCode, null);
 		LOGGER.trace("Leaving processSavePreferencesRequest");
 		return response.process();
 	}
-	
-	public String processUpdateProfileRequest(String uid, String name, String username, String contactNo, String password) throws Exception{
+
+	public String processUpdateProfileRequest(String uid, String name, String username, String contactNo,
+			String password) throws Exception {
 		LOGGER.trace("Entering processUpdateProfileRequest");
 		boolean success = false;
-		int statusCode = -1,errorCode = -1;
-		try{
+		int statusCode = -1, errorCode = -1;
+		try {
 			success = userService.updateProfile(uid, name, username, contactNo, password);
-			if(success){
+			if (success) {
 				statusCode = Status.USER_PROFILE_UPDATED.id();
-			}
-			else{
+			} else {
 				statusCode = Status.USER_PROFILE_NOT_UPDATED.id();
 			}
-		}
-		catch(Exception ex){
-			log(ex,LOGGER);
+		} catch (Exception ex) {
+			log(ex, LOGGER);
 			errorCode = errorCode(ex);
 		}
-		Response response = responseFactory.getJsonResponse(success , statusCode , errorCode , null);
+		Response response = responseFactory.getJsonResponse(success, statusCode, errorCode, null);
 		LOGGER.trace("Leaving processUpdateProfileRequest");
 		return response.process();
 	}
+
 }
-
-
-
-
-
-
-
-
-
-
