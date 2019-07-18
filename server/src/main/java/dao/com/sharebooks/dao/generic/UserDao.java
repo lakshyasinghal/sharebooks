@@ -13,6 +13,8 @@ public interface UserDao extends Dao {
 
 	public User getUserByUsernameAndPassword(String username, String password) throws SQLException, Exception;
 
+	public User getUserByUidAndContact(String uid, String contactNo) throws SQLException, Exception;
+
 	public List<User> getUsers(Map<String, Object> map) throws SQLException, Exception;
 
 	public List<User> getUsers(List<String> uidList) throws SQLException, Exception;
@@ -25,6 +27,8 @@ public interface UserDao extends Dao {
 
 	public boolean updateProfile(String uid, String name, String username, String contactNo, String password)
 			throws SQLException, Exception;
+
+	public boolean updatePassword(String uid, String newPassword) throws SQLException, Exception;
 
 	public boolean updateUser(User user) throws SQLException, Exception;
 

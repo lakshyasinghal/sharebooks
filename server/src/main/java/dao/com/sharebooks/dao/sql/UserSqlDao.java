@@ -85,6 +85,30 @@ public class UserSqlDao extends AbstractUserDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
+	public User getUserByUidAndContact(String uid, String contactNo) throws SQLException, Exception {
+		LOGGER.trace("Entering getUserByUidAndContact");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("uid", uid);
+		map.put("contactNo", contactNo);
+		User user = null;
+		AbstractSqlQueryProcessor queryProcessor = SqlReadQueryProcessor.getInstance();
+		// get sql read query
+		SqlQuery query = new SqlReadQuery(table.desc(), map);
+		query.build();
+		LOGGER.debug(query.toString());
+		List<Entity> entityList = (List<Entity>) queryProcessor.processReadQuery(database.desc(), query.toString(),
+				EntityType.USER);
+
+		List<User> users = convertIntoUserList(entityList);
+		if (users.size() != 0) {
+			user = users.get(0);
+		}
+		LOGGER.trace("Leaving getUserByUsernameAndPassword");
+		return user;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
 	public List<User> getUsers(Map<String, Object> map) throws SQLException, Exception {
 		LOGGER.trace("Entering getUsers");
 		List<User> users = null;
@@ -125,7 +149,6 @@ public class UserSqlDao extends AbstractUserDao {
 	public User getUser(String uid) throws SQLException, Exception {
 		LOGGER.trace("Entering GetUsersById");
 		LOGGER.trace("uid:" + uid);
-		;
 		User user = null;
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("uid", uid);
@@ -160,6 +183,20 @@ public class UserSqlDao extends AbstractUserDao {
 		String query = userQueries.queryForUpdateProfile(uid, name, username, contactNo, password);
 		AbstractSqlQueryProcessor queryProcessor = SqlUpdateQueryProcessor.getInstance();
 		int rowsAffected = queryProcessor.processUpdateQuery(database.desc(), query);
+		return rowsAffected > 0 ? true : false;
+	}
+
+	@Override
+	public boolean updatePassword(String uid, String newPassword) throws SQLException, Exception {
+		LOGGER.trace("Entering updatePassword");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("uid", uid);
+		map.put("password", newPassword);
+		SqlQuery query = new SqlUpdateQuery(table.desc(), map);
+		query.build();
+		AbstractSqlQueryProcessor queryProcessor = SqlUpdateQueryProcessor.getInstance();
+		int rowsAffected = queryProcessor.processUpdateQuery(database.desc(), query.toString());
+		LOGGER.trace("Leaving updatePassword");
 		return rowsAffected > 0 ? true : false;
 	}
 

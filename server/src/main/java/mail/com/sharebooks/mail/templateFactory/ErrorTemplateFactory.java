@@ -22,7 +22,7 @@ public class ErrorTemplateFactory {
 		return instance;
 	}
 
-	public ErrorTemplate getErrorTemplate(Exception ex) {
+	public ErrorTemplate create(Exception ex) {
 		return new ApplicationErrorTemplate(ex);
 	}
 }

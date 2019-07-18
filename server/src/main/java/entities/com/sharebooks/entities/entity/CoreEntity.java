@@ -77,7 +77,7 @@ public abstract class CoreEntity extends Entity {
 			return this;
 		}
 
-		public CoreEntityBuilder uid(LocalDateTime lastModificationTime) {
+		public CoreEntityBuilder lastModificationTime(LocalDateTime lastModificationTime) {
 			this.lastModificationTime = lastModificationTime;
 			return this;
 		}

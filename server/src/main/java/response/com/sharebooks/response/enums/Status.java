@@ -38,7 +38,12 @@ public enum Status {
 	PREFERENCES_NOT_SAVED(209, "User preferences could not be saved."),
 	USER_PROFILE_UPDATED(210, "User profile updated successfully."),
 	USER_PROFILE_NOT_UPDATED(211, "User profile could not be updated."),
-	USER_NOT_CREATED(203, "User could not be created."),
+	USER_NOT_CREATED(203, "User could not be created."), OTP_SENT_SUCCESSFULLY(221, "Otp sent successfully"),
+	INVALID_OTP_USER(222, "Invalid contact number. Please try again!"),
+	OTP_VERIFIED_SUCCESSFULLY(223, "OTP has been verified successfully"),
+	INVALID_OTP_ENTERED(224, "OTP entered by you is invalid."), OTP_EXPIRED(225, "OTP entered by you is expired."),
+	PASSWORD_RESET_SUCCESSFULLY(226, "Password has been reset successfully"),
+	PASSWORD_LINK_EXPIRED(227, "Your password link has expired."),
 
 	// status codes for book requests
 	FETCH_BOOK_REQUESTS_BY_UID_SUCCESSFUL(301, "Book request fetched successfully by owner uid."),

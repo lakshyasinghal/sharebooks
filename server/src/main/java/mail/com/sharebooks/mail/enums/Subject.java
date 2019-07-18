@@ -1,7 +1,7 @@
 package com.sharebooks.mail.enums;
 
 public enum Subject {
-	INTERNAL_SERVER_ERROR("Internal Server Error");
+	INTERNAL_SERVER_ERROR("Internal Server Error"), PASSWORD_RESET_LINK("Sharebooks Password Reset Link");
 
 	private String desc;
 

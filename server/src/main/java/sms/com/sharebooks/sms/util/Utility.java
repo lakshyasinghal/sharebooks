@@ -9,7 +9,7 @@ import com.sharebooks.config.properties.SmsProperties;
 import com.sharebooks.sms.enums.SmsProvider;
 import com.sharebooks.util.StringUtility;
 
-public class SmsUtility {
+public class Utility {
 
 	public static SmsProvider getSmsProvider() {
 		int smsProviderId = Integer.parseInt(AppConfig.smsProp(SmsProperties.SMS_PROVIDER));
