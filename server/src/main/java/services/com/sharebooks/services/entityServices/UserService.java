@@ -36,7 +36,7 @@ public class UserService extends EntityService {
 	private static int instanceCount = 0;
 	private static final Logger LOGGER = Logger.getLogger(UserService.class.getName());
 	private final MailService mailService = MailService.instance();
-	private final SmsService smsService = SmsService.instnace();
+	private final SmsService smsService = SmsService.instance();
 	private final Cache<User> cache = (Cache<User>) CacheSource.getCache(EntityType.USER.desc());
 	private final UserDao userDao = (UserDao) DaoSource.getDao(EntityType.USER.desc());
 	private final OTPDao otpDao = (OTPDao) DaoSource.getDao(EntityType.ONE_TIME_PASSWORD.desc());
