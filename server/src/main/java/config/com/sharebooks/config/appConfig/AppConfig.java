@@ -12,6 +12,7 @@ public class AppConfig {
 	private static Config geocodingConfig;
 	private static Config smsConfig;
 	private static Config urlShortenerConfig;
+	private static Config tasksConfig;
 
 	public static void init(String ConfigFileFolderPath) throws Exception {
 		cacheConfig = new Config(ConfigFileFolderPath, ConfigFile.CACHE.fileName());
@@ -23,6 +24,7 @@ public class AppConfig {
 		geocodingConfig = new Config(ConfigFileFolderPath, ConfigFile.GEOCODING.fileName());
 		smsConfig = new Config(ConfigFileFolderPath, ConfigFile.SMS.fileName());
 		urlShortenerConfig = new Config(ConfigFileFolderPath, ConfigFile.URL_SHORTENER.fileName());
+		tasksConfig = new Config(ConfigFileFolderPath, ConfigFile.SMS.fileName());
 	}
 
 	// getter methods
@@ -63,5 +65,9 @@ public class AppConfig {
 
 	public static String urlShortenerProp(String propName) {
 		return urlShortenerConfig.propVal(propName);
+	}
+
+	public static String tasksProp(String propName) {
+		return tasksConfig.propVal(propName);
 	}
 }

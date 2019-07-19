@@ -4,7 +4,7 @@ public enum ConfigFile {
 	CACHE(1, "Cache.properties"), DATABASE(2, "Database.properties"), SERVER(3, "Server.properties"),
 	PAYMENT(4, "Payment.properties"), DAO(5, "Dao.properties"), MISCELLANEOUS(6, "Miscellaneous.properties"),
 	MAIL(7, "Mail.properties"), GEOCODING(8, "Geocoding.properties"), SMS(9, "Sms.properties"),
-	URL_SHORTENER(10, "UrlShortener.properties");
+	URL_SHORTENER(10, "UrlShortener.properties"), TASKS(11, "Tasks.properties");
 
 	private int id;
 	private String fileName;
