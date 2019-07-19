@@ -5,7 +5,7 @@ import com.sharebooks.http.service.HttpService;
 import com.sharebooks.sms.entities.SmsRequest;
 import com.sharebooks.sms.enums.SmsProvider;
 import com.sharebooks.sms.factory.SmsRequestFactory;
-import com.sharebooks.sms.util.SmsUtility;
+import com.sharebooks.sms.util.Utility;
 
 public class SmsService {
 	private static SmsService instance;
@@ -31,7 +31,7 @@ public class SmsService {
 	// will return success status
 	public boolean sendSms(String message, String numbers) throws Exception {
 		// get SmsRequest instance
-		SmsProvider smsProvider = SmsUtility.getSmsProvider();
+		SmsProvider smsProvider = Utility.getSmsProvider();
 		SmsRequest smsRequest = smsRequestFactory.create(smsProvider, message, numbers);
 
 		// extract httpClient from SmsRequest
@@ -41,7 +41,7 @@ public class SmsService {
 		String data = httpService.makeRequest(client);
 
 		// parse the json and return status
-		return SmsUtility.getSmsRequestSuccessStatus(data);
+		return Utility.getSmsRequestSuccessStatus(data);
 	}
 
 }

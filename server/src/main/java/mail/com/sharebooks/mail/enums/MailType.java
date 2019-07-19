@@ -1,5 +1,5 @@
 package com.sharebooks.mail.enums;
 
 public enum MailType {
-	ERROR;
+	ERROR, PASSWORD_RESET;
 }

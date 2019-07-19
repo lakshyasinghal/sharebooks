@@ -13,7 +13,9 @@ import com.sharebooks.dao.sql.BookRequestSqlDao;
 import com.sharebooks.dao.sql.BookSqlDao;
 import com.sharebooks.dao.sql.CitySqlDao;
 import com.sharebooks.dao.sql.NotificationSqlDao;
+import com.sharebooks.dao.sql.OTPSqlDao;
 import com.sharebooks.dao.sql.OrderSqlDao;
+import com.sharebooks.dao.sql.PasswordResetLinkSqlDao;
 import com.sharebooks.dao.sql.PaymentSqlDao;
 import com.sharebooks.dao.sql.QuoteSqlDao;
 import com.sharebooks.dao.sql.StateSqlDao;
@@ -58,6 +60,8 @@ public class DaoSource {
 			initOrderDao();
 			initQuoteDao();
 			initPaymentDao();
+			initOTPDao();
+			initPasswordResetLinkDao();
 		}
 
 		private static void initBookDao() {
@@ -104,6 +108,14 @@ public class DaoSource {
 
 		public static void initPaymentDao() {
 			daoMap.put("payment", new PaymentSqlDao());
+		}
+
+		public static void initOTPDao() {
+			daoMap.put(EntityType.ONE_TIME_PASSWORD.desc(), new OTPSqlDao());
+		}
+
+		public static void initPasswordResetLinkDao() {
+			daoMap.put(EntityType.PASSWORD_RESET_LINK.desc(), new PasswordResetLinkSqlDao());
 		}
 	}
 

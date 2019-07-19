@@ -7,7 +7,7 @@ import java.util.Map;
 import com.sharebooks.dao.generic.UserDao;
 import com.sharebooks.entities.coreEntities.User;
 
-public class UserRedisDao extends GenericRedisDao implements UserDao {
+public abstract class UserRedisDao extends GenericRedisDao implements UserDao {
 
 	@Override
 	public User getByUsername(String username) throws SQLException, Exception {
@@ -99,6 +99,12 @@ public class UserRedisDao extends GenericRedisDao implements UserDao {
 			throws SQLException, Exception {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public User getUserByUidAndContact(String uid, String contactNo) throws SQLException, Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
