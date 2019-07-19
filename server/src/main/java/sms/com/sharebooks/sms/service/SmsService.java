@@ -16,7 +16,7 @@ public class SmsService {
 
 	}
 
-	public static SmsService instnace() {
+	public static SmsService instance() {
 		if (instance == null) {
 			synchronized (SmsService.class) {
 				if (instance == null) {
