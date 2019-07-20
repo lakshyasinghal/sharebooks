@@ -9,7 +9,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import com.sharebooks.dao.generic.AbstractPaymentDao;
+import com.sharebooks.dao.generic.PaymentDao;
 import com.sharebooks.database.sql.AbstractSqlQueryProcessor;
 import com.sharebooks.database.sql.Database;
 import com.sharebooks.database.sql.SqlInsertQueryProcessor;
@@ -23,7 +23,7 @@ import com.sharebooks.payment.entities.PaymentRequest;
 import com.sharebooks.payment.entities.PaymentRequestWebhook;
 import com.sharebooks.payment.enums.PaymentStatus;
 
-public class PaymentSqlDao extends AbstractPaymentDao {
+public class PaymentSqlDao extends AbstractSqlDao implements PaymentDao {
 	private static final Logger LOGGER = Logger.getLogger(PaymentSqlDao.class.getName());
 	private final Database database = Database.SHAREBOOKS_PAYMENTS;
 	private final PaymentQueries paymentQueries = PaymentQueries.instance();

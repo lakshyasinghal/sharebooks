@@ -103,7 +103,7 @@ public class DaoSource {
 		}
 
 		public static void initQuoteDao() {
-			daoMap.put(EntityType.Quote.desc(), new QuoteSqlDao());
+			daoMap.put(EntityType.QUOTE.desc(), new QuoteSqlDao());
 		}
 
 		public static void initPaymentDao() {

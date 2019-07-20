@@ -6,18 +6,14 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import com.sharebooks.dao.generic.AbstractNotificationDao;
-import com.sharebooks.database.sql.AbstractSqlQueryProcessor;
+import com.sharebooks.dao.generic.NotificationDao;
+import com.sharebooks.dao.util.EntityConverterUtility;
 import com.sharebooks.database.sql.Database;
-import com.sharebooks.database.sql.SqlReadQueryProcessor;
 import com.sharebooks.database.sql.Table;
-import com.sharebooks.database.sql.query.SqlQuery;
-import com.sharebooks.database.sql.query.SqlReadQuery;
 import com.sharebooks.entities.coreEntities.Notification;
 import com.sharebooks.entities.coreEntities.enums.EntityType;
-import com.sharebooks.entities.entity.Entity;
 
-public class NotificationSqlDao extends AbstractNotificationDao {
+public class NotificationSqlDao extends AbstractSqlDao implements NotificationDao {
 	private static final Logger LOGGER = Logger.getLogger(NotificationSqlDao.class.getName());
 	// private EntityFactory<User> factory;
 	private final Database database = Database.SHAREBOOKS_CORE;
@@ -33,19 +29,10 @@ public class NotificationSqlDao extends AbstractNotificationDao {
 	@Override
 	public List<Notification> getNotifications(String receiverUid) throws Exception {
 		LOGGER.trace("Entered getNotifications");
-		List<Notification> notifications = null;
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("receiverUid", receiverUid);
-		AbstractSqlQueryProcessor queryProcessor = SqlReadQueryProcessor.getInstance();
-		// get sql read query
-		SqlQuery query = new SqlReadQuery(table.desc(), map);
-		query.build();
-		LOGGER.info(query.toString());
-		List<Entity> entityList = (List<Entity>) queryProcessor.processReadQuery(database.desc(), query.toString(),
-				EntityType.NOTIFICATION);
-		notifications = convertIntoNotificationList(entityList);
-		LOGGER.trace("Leaving getNotifications");
-		return notifications;
+		return EntityConverterUtility
+				.convertIntoNotificationList(super.get(map, database, table, EntityType.NOTIFICATION));
 	}
 
 	@Override

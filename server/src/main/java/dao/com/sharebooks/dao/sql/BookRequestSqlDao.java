@@ -8,27 +8,22 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import com.sharebooks.dao.generic.AbstractBookRequestDao;
-import com.sharebooks.database.sql.AbstractSqlQueryProcessor;
+import com.sharebooks.dao.generic.BookRequestDao;
+import com.sharebooks.dao.util.EntityConverterUtility;
 import com.sharebooks.database.sql.Database;
-import com.sharebooks.database.sql.SqlReadQueryProcessor;
-import com.sharebooks.database.sql.SqlTransactionProcessor;
-import com.sharebooks.database.sql.SqlUpdateQueryProcessor;
 import com.sharebooks.database.sql.Table;
 import com.sharebooks.database.sql.query.SqlInsertQuery;
 import com.sharebooks.database.sql.query.SqlQuery;
-import com.sharebooks.database.sql.query.SqlReadQuery;
 import com.sharebooks.database.sql.query.SqlUpdateQuery;
 import com.sharebooks.entities.coreEntities.BookRequest;
 import com.sharebooks.entities.coreEntities.Notification;
 import com.sharebooks.entities.coreEntities.enums.AvailableStatus;
 import com.sharebooks.entities.coreEntities.enums.EntityType;
 import com.sharebooks.entities.coreEntities.enums.RequestStatus;
-import com.sharebooks.entities.entity.Entity;
 import com.sharebooks.factory.entityFactory.EntityFactory;
 
 @SuppressWarnings("unchecked")
-public class BookRequestSqlDao extends AbstractBookRequestDao {
+public class BookRequestSqlDao extends AbstractSqlDao implements BookRequestDao {
 	private static final Logger LOGGER = Logger.getLogger(BookRequestSqlDao.class.getName());
 	private EntityFactory<BookRequest> factory;
 	private final Database database = Database.SHAREBOOKS_CORE;
@@ -45,39 +40,21 @@ public class BookRequestSqlDao extends AbstractBookRequestDao {
 
 	public BookRequest getBookRequest(String uid) throws SQLException, Exception {
 		LOGGER.trace("Entering getBookRequest");
-		LOGGER.debug("uid:" + uid);
-		List<BookRequest> bookRequests = null;
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("uid", uid);
-		AbstractSqlQueryProcessor queryProcessor = SqlReadQueryProcessor.getInstance();
-		SqlQuery query = new SqlReadQuery(table.desc(), map);
-		query.build();
-		LOGGER.info(query.toString());
-		List<Entity> entityList = (List<Entity>) queryProcessor.processReadQuery(database.desc(), query.toString(),
-				EntityType.BOOK_REQUEST);
-		bookRequests = convertIntoBookRequestList(entityList);
-		LOGGER.trace("Leaving getBookRequest");
-		if (bookRequests != null && bookRequests.size() > 0) {
-			return bookRequests.get(0);
-		} else {
-			return null;
+		BookRequest bookRequest = null;
+		try {
+			bookRequest = (BookRequest) super.getByUid(uid, database, table, EntityType.BOOK_REQUEST);
+		} catch (Exception ex) {
 		}
+		return bookRequest;
 	}
 
 	@Override
 	public List<BookRequest> getBookRequestsByBookOwnerUid(String bookOwnerUid) throws SQLException, Exception {
 		LOGGER.trace("Entering getBookRequestByBookOwnerUid");
-		LOGGER.debug("owner uid:" + bookOwnerUid);
-		List<BookRequest> bookRequests = null;
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("bookOwnerUid", bookOwnerUid);
-		AbstractSqlQueryProcessor queryProcessor = SqlReadQueryProcessor.getInstance();
-		SqlQuery query = new SqlReadQuery(table.desc(), map);
-		query.build();
-		LOGGER.info(query.toString());
-		List<Entity> entityList = (List<Entity>) queryProcessor.processReadQuery(database.desc(), query.toString(),
-				EntityType.BOOK_REQUEST);
-		bookRequests = convertIntoBookRequestList(entityList);
+		List<BookRequest> bookRequests = EntityConverterUtility
+				.convertIntoBookRequestList(super.get(map, database, table, EntityType.BOOK_REQUEST));
 		LOGGER.trace("Leaving getBookRequestByBookOwnerUid");
 		return bookRequests;
 	}
@@ -85,18 +62,10 @@ public class BookRequestSqlDao extends AbstractBookRequestDao {
 	@Override
 	public List<BookRequest> getBookRequestsByRequesterUid(String requesterUid) throws SQLException, Exception {
 		LOGGER.trace("Entering getBookRequestsByRequesterUid");
-		LOGGER.debug("requesterUid:" + requesterUid);
-		List<BookRequest> bookRequests = null;
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("requesterUid", requesterUid);
-		AbstractSqlQueryProcessor queryProcessor = SqlReadQueryProcessor.getInstance();
-		SqlQuery query = new SqlReadQuery(table.desc(), map);
-		query.build();
-		LOGGER.info(query.toString());
-		List<Entity> entityList = (List<Entity>) queryProcessor.processReadQuery(database.desc(), query.toString(),
-				EntityType.BOOK_REQUEST);
-		bookRequests = convertIntoBookRequestList(entityList);
-		LOGGER.trace("bookRequests :" + bookRequests);
+		List<BookRequest> bookRequests = EntityConverterUtility
+				.convertIntoBookRequestList(super.get(map, database, table, EntityType.BOOK_REQUEST));
 		LOGGER.trace("Leaving getBookRequestsByRequesterUid");
 		return bookRequests;
 	}
@@ -106,19 +75,21 @@ public class BookRequestSqlDao extends AbstractBookRequestDao {
 	// status, creating notification
 	public boolean createBookRequest(BookRequest bookRequest, String bookUid, Notification notification)
 			throws SQLException, Exception {
-		LOGGER.trace("Entering createBookRequest");
-		boolean updated = true;
+		LOGGER.trace("Entered createBookRequest");
 		List<String> queries = new LinkedList<String>();
+
 		Map<String, Object> bookRequestMap = bookRequest.map();
 		bookRequestMap.remove("id");
 		SqlQuery brQuery = new SqlInsertQuery(table.desc(), bookRequestMap);
 		brQuery.build();
+
 		// getting update query for book in which it will be marked not available
 		Map<String, Object> bookMap = new HashMap<String, Object>();
 		bookMap.put("uid", bookUid);
 		bookMap.put("available", AvailableStatus.NOT_AVAILABLE.id());
 		SqlQuery bookQuery = new SqlUpdateQuery(Table.BOOKS.desc(), bookMap);
 		bookQuery.build();
+
 		// create notification
 		Map<String, Object> notificationMap = notification.map();
 		notificationMap.remove("id");
@@ -130,30 +101,13 @@ public class BookRequestSqlDao extends AbstractBookRequestDao {
 		queries.add(bookQuery.toString());
 		queries.add(notificationQuery.toString());
 
-		AbstractSqlQueryProcessor queryProcessor = SqlTransactionProcessor.getInstance();
-		// rowsAffectedResults will contain list of results corresponding to each
-		// executed query
-		List<Integer> rowsAffectedResults = queryProcessor.processTransaction(database.desc(), queries);
-		for (Integer rowsAffected : rowsAffectedResults) {
-			updated = updated && (rowsAffected > 0);
-		}
-		LOGGER.trace("Leaving createBookRequest");
-		return updated;
+		return super.processTransaction(queries, database);
 	}
 
 	@Override
 	public boolean updateBookRequest(BookRequest bookRequest) throws SQLException, Exception {
 		LOGGER.trace("Entering updateBookRequest");
-		// getting the map representation of book request which will be used to form the
-		// query
-		Map<String, Object> bookRequestMap = bookRequest.map();
-		SqlQuery query = new SqlUpdateQuery(table.desc(), bookRequestMap);
-		query.build();
-		LOGGER.debug(query.toString());
-		AbstractSqlQueryProcessor queryProcessor = SqlUpdateQueryProcessor.getInstance();
-		int rowsAffected = queryProcessor.processUpdateQuery(database.desc(), query.toString());
-		LOGGER.trace("Leaving updateBookRequest");
-		return rowsAffected > 0 ? true : false;
+		return super.update(bookRequest, database, table);
 	}
 
 	@Override
@@ -161,14 +115,15 @@ public class BookRequestSqlDao extends AbstractBookRequestDao {
 	// notification
 	public boolean acceptBookRequest(String bookRequestUid, Notification notification) throws SQLException, Exception {
 		LOGGER.trace("Entered acceptBookRequest");
-		boolean updated = true;
 		List<String> queries = new LinkedList<String>();
+
 		// getting update query for book request
 		Map<String, Object> bookRequestMap = new HashMap<String, Object>();
 		bookRequestMap.put("uid", bookRequestUid);
 		bookRequestMap.put("status", RequestStatus.ACCEPTED.id());
 		SqlQuery brQuery = new SqlUpdateQuery(Table.BOOK_REQUESTS.desc(), bookRequestMap);
 		brQuery.build();
+
 		// create notification
 		Map<String, Object> notificationMap = notification.map();
 		notificationMap.remove("id");
@@ -179,15 +134,7 @@ public class BookRequestSqlDao extends AbstractBookRequestDao {
 		queries.add(brQuery.toString());
 		queries.add(notificationQuery.toString());
 
-		AbstractSqlQueryProcessor queryProcessor = SqlTransactionProcessor.getInstance();
-		// rowsAffectedResults will contain list of results corresponding to each
-		// executed query
-		List<Integer> rowsAffectedResults = queryProcessor.processTransaction(database.desc(), queries);
-		for (Integer rowsAffected : rowsAffectedResults) {
-			updated = updated && (rowsAffected > 0);
-		}
-		LOGGER.trace("Leaving acceptBookRequest");
-		return updated;
+		return super.processTransaction(queries, database);
 	}
 
 	@Override
@@ -196,14 +143,15 @@ public class BookRequestSqlDao extends AbstractBookRequestDao {
 	public boolean rejectBookRequest(String bookRequestUid, String bookUid, Notification notification)
 			throws SQLException, Exception {
 		LOGGER.trace("Entered acceptBookRequest");
-		boolean updated = true;
 		List<String> queries = new LinkedList<String>();
+
 		// getting update query for book request
 		Map<String, Object> bookRequestMap = new HashMap<String, Object>();
 		bookRequestMap.put("uid", bookRequestUid);
 		bookRequestMap.put("status", RequestStatus.REJECTED.id());
 		SqlQuery brQuery = new SqlUpdateQuery(Table.BOOK_REQUESTS.desc(), bookRequestMap);
 		brQuery.build();
+
 		// getting update query for book in which it will be marked available from not
 		// available
 		Map<String, Object> bookMap = new HashMap<String, Object>();
@@ -211,6 +159,7 @@ public class BookRequestSqlDao extends AbstractBookRequestDao {
 		bookMap.put("available", AvailableStatus.AVAILABLE.id());
 		SqlQuery bookQuery = new SqlUpdateQuery(Table.BOOKS.desc(), bookMap);
 		bookQuery.build();
+
 		// create notification
 		Map<String, Object> notificationMap = notification.map();
 		notificationMap.remove("id");
@@ -222,15 +171,7 @@ public class BookRequestSqlDao extends AbstractBookRequestDao {
 		queries.add(bookQuery.toString());
 		queries.add(notificationQuery.toString());
 
-		AbstractSqlQueryProcessor queryProcessor = SqlTransactionProcessor.getInstance();
-		// rowsAffectedResults will contain list of results corresponding to each
-		// executed query
-		List<Integer> rowsAffectedResults = queryProcessor.processTransaction(database.desc(), queries);
-		for (Integer rowsAffected : rowsAffectedResults) {
-			updated = updated && (rowsAffected > 0);
-		}
-		LOGGER.trace("Leaving acceptBookRequest");
-		return updated;
+		return super.processTransaction(queries, database);
 	}
 
 }

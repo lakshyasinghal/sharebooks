@@ -57,7 +57,7 @@ public class FactorySource {
 			entityFactoryMap.put(EntityType.BOOK_CATEGORY.desc(), BookCategoryFactory.getInstance());
 			entityFactoryMap.put(EntityType.NOTIFICATION.desc(), NotificationFactory.getInstance());
 			entityFactoryMap.put(EntityType.PREFERENCE.desc(), PreferenceFactory.getInstance());
-			entityFactoryMap.put(EntityType.Quote.desc(), QuoteFactory.getInstance());
+			entityFactoryMap.put(EntityType.QUOTE.desc(), QuoteFactory.getInstance());
 			entityFactoryMap.put(EntityType.ONE_TIME_PASSWORD.desc(), OTPFactory.getInstance());
 		} catch (Exception ex) {
 

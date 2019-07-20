@@ -24,7 +24,7 @@ public class PaymentRequestProcessor extends AbstractRequestProcessor {
 	private final PaymentService paymentService = new PaymentService();
 	private final PaymentRequestWebhookFactory webhookFactory = PaymentRequestWebhookFactory.instance();
 
-	QuoteFactory quoteFactory = (QuoteFactory) FactorySource.getEntityFactory(EntityType.Quote.desc());
+	QuoteFactory quoteFactory = (QuoteFactory) FactorySource.getEntityFactory(EntityType.QUOTE.desc());
 
 	private PaymentRequestProcessor() {
 
