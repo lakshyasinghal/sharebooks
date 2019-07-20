@@ -81,3 +81,7 @@ Geocoding => https://rapidapi.com/googlecloud/api/google-maps-geocoding
 Sending sms => http://api.textlocal.in/docs/sendsms
 
 Url shortener => https://dev.bitly.com/links.html
+
+Git merge => https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging
+
+NoSql => https://beginnersbook.com
