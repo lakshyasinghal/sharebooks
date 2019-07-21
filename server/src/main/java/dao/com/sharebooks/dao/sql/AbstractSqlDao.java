@@ -15,11 +15,11 @@ import com.sharebooks.database.sql.SqlReadQueryProcessor;
 import com.sharebooks.database.sql.SqlTransactionProcessor;
 import com.sharebooks.database.sql.SqlUpdateQueryProcessor;
 import com.sharebooks.database.sql.Table;
-import com.sharebooks.database.sql.query.SqlDeleteQuery;
-import com.sharebooks.database.sql.query.SqlInsertQuery;
-import com.sharebooks.database.sql.query.SqlQuery;
-import com.sharebooks.database.sql.query.SqlReadQuery;
-import com.sharebooks.database.sql.query.SqlUpdateQuery;
+import com.sharebooks.database.sql.queries.SqlDeleteQuery;
+import com.sharebooks.database.sql.queries.SqlInsertQuery;
+import com.sharebooks.database.sql.queries.SqlQuery;
+import com.sharebooks.database.sql.queries.SqlReadQuery;
+import com.sharebooks.database.sql.queries.SqlUpdateQuery;
 import com.sharebooks.entities.coreEntities.enums.EntityType;
 import com.sharebooks.entities.entity.Entity;
 

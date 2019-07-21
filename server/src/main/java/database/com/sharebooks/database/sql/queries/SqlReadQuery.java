@@ -1,17 +1,17 @@
-package com.sharebooks.database.sql.query;
+package com.sharebooks.database.sql.queries;
 
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-public class SqlDeleteQuery implements SqlQuery {
-	private static final Logger LOGGER = Logger.getLogger(SqlDeleteQuery.class);
+public class SqlReadQuery implements SqlQuery {
+	private static final Logger LOGGER = Logger.getLogger(SqlReadQuery.class);
 	private final String tableName;
 	private final Map<String, Object> whereParamsMap;
 
 	private String queryStr = null;
 
-	public SqlDeleteQuery(String tableName, Map<String, Object> whereParamsMap) {
+	public SqlReadQuery(String tableName, Map<String, Object> whereParamsMap) {
 		this.tableName = tableName;
 		this.whereParamsMap = whereParamsMap;
 	}
@@ -26,9 +26,9 @@ public class SqlDeleteQuery implements SqlQuery {
 	public void build() {
 		StringBuilder query = new StringBuilder();
 		int i = 0;
-		query.append("DELETE FROM ");
+		query.append("SELECT * FROM ");
 		query.append(tableName);
-		if (whereParamsMap != null) {
+		if (whereParamsMap != null && whereParamsMap.size() > 0) {
 			query.append(" where ");
 			for (String key : whereParamsMap.keySet()) {
 				if (i > 0) {

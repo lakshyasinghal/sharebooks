@@ -1,4 +1,4 @@
-package com.sharebooks.database.sql.query;
+package com.sharebooks.database.sql.queries;
 
 import java.util.ArrayList;
 import java.util.Iterator;

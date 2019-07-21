@@ -3,10 +3,9 @@ package com.sharebooks.test.database;
 import java.util.HashMap;
 import java.util.*;
 
-//import com.mysql.fabric.xmlrpc.base.Array;
-import com.sharebooks.database.sql.query.SqlDeleteQuery;
-import com.sharebooks.database.sql.query.SqlInsertQuery;
-import com.sharebooks.database.sql.query.SqlReadQuery;
+import com.sharebooks.database.sql.queries.SqlDeleteQuery;
+import com.sharebooks.database.sql.queries.SqlInsertQuery;
+import com.sharebooks.database.sql.queries.SqlReadQuery;
 import com.sharebooks.test.AbstractTester;
 
 public class SqlQueryTester extends AbstractTester{

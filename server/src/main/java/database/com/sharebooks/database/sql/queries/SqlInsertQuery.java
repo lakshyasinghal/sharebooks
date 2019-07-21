@@ -1,4 +1,4 @@
-package com.sharebooks.database.sql.query;
+package com.sharebooks.database.sql.queries;
 
 import java.util.List;
 import java.util.Map;
