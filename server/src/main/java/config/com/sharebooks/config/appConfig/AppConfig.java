@@ -13,6 +13,7 @@ public class AppConfig {
 	private static Config smsConfig;
 	private static Config urlShortenerConfig;
 	private static Config tasksConfig;
+	private static Config redisConfig;
 
 	public static void init(String ConfigFileFolderPath) throws Exception {
 		cacheConfig = new Config(ConfigFileFolderPath, ConfigFile.CACHE.fileName());
@@ -25,6 +26,7 @@ public class AppConfig {
 		smsConfig = new Config(ConfigFileFolderPath, ConfigFile.SMS.fileName());
 		urlShortenerConfig = new Config(ConfigFileFolderPath, ConfigFile.URL_SHORTENER.fileName());
 		tasksConfig = new Config(ConfigFileFolderPath, ConfigFile.SMS.fileName());
+		redisConfig = new Config(ConfigFileFolderPath, ConfigFile.REDIS.fileName());
 	}
 
 	// getter methods
@@ -69,5 +71,9 @@ public class AppConfig {
 
 	public static String tasksProp(String propName) {
 		return tasksConfig.propVal(propName);
+	}
+
+	public static String redisProp(String propName) {
+		return redisConfig.propVal(propName);
 	}
 }

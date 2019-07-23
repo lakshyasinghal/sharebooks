@@ -123,7 +123,7 @@ dependencies {
 
     compile 'org.mybatis:mybatis-migrations:3.3.2'
     
-    compile 'redis.clients:jedis:1.5.0'
+    compile 'redis.clients:jedis:2.4.2'
    
     compile 'org.hibernate:hibernate-core:3.6.7.Final'
     // Declare the dependency for your favourite test framework you want to use in your tests.
