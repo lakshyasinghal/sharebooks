@@ -34,8 +34,6 @@ public interface UserDao extends Dao {
 
 	public boolean deleteUser(String uid) throws SQLException, Exception;
 
-	public boolean updateUserPassword(int id, String password) throws SQLException, Exception;
-
 	public boolean updateContact(int id, String contactNo) throws SQLException, Exception;
 
 	public boolean savePreferences(String uid, String preferencesJsonArr) throws SQLException, Exception;

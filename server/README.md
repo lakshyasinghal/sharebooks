@@ -85,3 +85,7 @@ Url shortener => https://dev.bitly.com/links.html
 Git merge => https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging
 
 NoSql => https://beginnersbook.com
+
+Mongo CRUD => https://www.journaldev.com/3963/mongodb-java-crud-example-tutorial
+
+JMeter => https://www.blazemeter.com/blog/getting-started-jmeter-basic-tutorial/

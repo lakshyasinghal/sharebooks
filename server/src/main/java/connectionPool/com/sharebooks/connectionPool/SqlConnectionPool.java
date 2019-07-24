@@ -9,8 +9,9 @@ import org.apache.log4j.Logger;
 
 import com.sharebooks.exception.ConnectionPoolException;
 import com.sharebooks.factory.dbConnectionFactory.DBConnFactory;
+import com.sharebooks.factory.dbConnectionFactory.SqlConnFactory;
 
-public class SqlConnectionPool implements ConnectionPool {
+public class SqlConnectionPool implements DatabaseConnectionPool {
 	private static final Logger LOGGER = Logger.getLogger(SqlConnectionPool.class.getName());
 
 	private String host;
@@ -22,14 +23,13 @@ public class SqlConnectionPool implements ConnectionPool {
 	private int[] connStatusArray;
 	private int capacity;
 	private int size;
-	private DBConnFactory connFactory;
+	private DBConnFactory connFactory = SqlConnFactory.instance();
 
 	public SqlConnectionPool() {
 		// nothing
 	}
 
-	public SqlConnectionPool(String host, String port, String name, String username, String password, int capacity,
-			DBConnFactory connFactory) {
+	public SqlConnectionPool(String host, String port, String name, String username, String password, int capacity) {
 		this.host = host;
 		this.port = port;
 		this.name = name;
@@ -38,7 +38,6 @@ public class SqlConnectionPool implements ConnectionPool {
 		this.capacity = capacity;
 		connections = new Connection[capacity];
 		connStatusArray = new int[capacity];
-		this.connFactory = connFactory;
 	}
 
 	public void init(int capacity) throws Exception {
@@ -46,7 +45,7 @@ public class SqlConnectionPool implements ConnectionPool {
 	}
 
 	@Override
-	public Connection getSqlConnection() throws ConnectionPoolException, Exception {
+	public Connection getConnection() throws ConnectionPoolException, Exception {
 		// LOGGER.entering(getClass().getName(), "getConnection");
 		Connection conn = null;
 		synchronized (this) {
@@ -106,7 +105,8 @@ public class SqlConnectionPool implements ConnectionPool {
 	// The thread occupying sql connection will enter this method to release the
 	// connection and notify any of the waiting threads
 	@Override
-	public void releaseSqlConnection(Connection conn) throws Exception {
+	public void releaseConnection(Object connObj) throws Exception {
+		Connection conn = (Connection) connObj;
 		// LOGGER.entering(getClass().getName(), "releaseConnection");
 		synchronized (this) {
 			for (int i = 0; i < size; i++) {

@@ -7,8 +7,8 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import com.sharebooks.database.enums.Database;
 import com.sharebooks.database.sql.AbstractSqlQueryProcessor;
-import com.sharebooks.database.sql.Database;
 import com.sharebooks.database.sql.SqlDeleteQueryProcessor;
 import com.sharebooks.database.sql.SqlInsertQueryProcessor;
 import com.sharebooks.database.sql.SqlReadQueryProcessor;

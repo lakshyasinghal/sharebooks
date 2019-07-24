@@ -1,33 +1,40 @@
 package com.sharebooks.database.mongo;
 
-import org.bson.Document;
+import org.apache.log4j.Logger;
 
-import com.mongodb.MongoClient;
-import com.mongodb.MongoCredential;
-import com.mongodb.client.MongoCollection;
+import com.mongodb.DBCollection;
+import com.mongodb.WriteResult;
 import com.mongodb.client.MongoDatabase;
+import com.sharebooks.database.mongo.queries.MongoInsertQuery;
 
-public class MongoInsertQueryProcessor {
+public class MongoInsertQueryProcessor extends AbstractMongoQueryProcessor {
+	private static final Logger LOGGER = Logger.getLogger(MongoInsertQueryProcessor.class);
+	private static MongoInsertQueryProcessor instance;
 
-	public void insert() {
-		MongoClient mongo = new MongoClient("localhost", 27017);
+	private MongoInsertQueryProcessor() {
+	}
 
-		// Creating Credentials
-		MongoCredential credential;
-		credential = MongoCredential.createCredential("sampleUser", "myDb", "password".toCharArray());
-		System.out.println("Connected to the database successfully");
+	public static MongoInsertQueryProcessor instance() {
+		if (instance == null) {
+			synchronized (MongoInsertQueryProcessor.class) {
+				if (instance == null) {
+					instance = new MongoInsertQueryProcessor();
+				}
+			}
+		}
+		return instance;
+	}
 
-		// Accessing the database
-		MongoDatabase database = mongo.getDatabase("myDb");
-
-		// Retrieving a collection
-		MongoCollection<Document> collection = database.getCollection("sampleCollection");
-		System.out.println("Collection sampleCollection selected successfully");
-
-		Document document = new Document("title", "MongoDB").append("id", 1).append("description", "database")
-				.append("likes", 100).append("url", "http://www.tutorialspoint.com/mongodb/")
-				.append("by", "tutorials point");
-		collection.insertOne(document);
-		System.out.println("Document inserted successfully");
+	public int process(String dbName, String collectionName, MongoInsertQuery query) throws Exception {
+		LOGGER.trace("Entered insert method");
+		// Getting access to the database
+		MongoDatabase database = getConnection(dbName);
+		// Retrieve the collection
+		DBCollection col = (DBCollection) database.getCollection(collectionName);
+		query.build();
+		WriteResult result = col.insert(query.query());
+		LOGGER.debug("Document inserted successfully");
+		LOGGER.trace("Leaving insert method");
+		return result.getN();
 	}
 }

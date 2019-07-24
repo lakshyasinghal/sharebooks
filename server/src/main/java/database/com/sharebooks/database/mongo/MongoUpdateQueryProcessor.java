@@ -1,55 +1,40 @@
 package com.sharebooks.database.mongo;
 
-import org.bson.Document;
+import org.apache.log4j.Logger;
 
-import com.mongodb.MongoClient;
-import com.mongodb.MongoCredential;
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
+import com.mongodb.DBCollection;
+import com.mongodb.WriteResult;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.Updates;
+import com.sharebooks.database.mongo.queries.MongoUpdateQuery;
 
-public class MongoUpdateQueryProcessor {
+public class MongoUpdateQueryProcessor extends AbstractMongoQueryProcessor {
+	private static final Logger LOGGER = Logger.getLogger(MongoUpdateQueryProcessor.class);
+	private static MongoUpdateQueryProcessor instance;
 
-	public void update() {
-		MongoClient mongo = null;
-		try {
-			// Creating a Mongo client
-			mongo = new MongoClient("localhost", 27017);
+	private MongoUpdateQueryProcessor() {
+	}
 
-			// Creating Credentials
-			MongoCredential credential;
-			credential = MongoCredential.createCredential("sampleUser", "myDb", "password".toCharArray());
-			System.out.println("Connected to the database successfully");
-
-			// Accessing the database
-			MongoDatabase database = mongo.getDatabase("myDb");
-
-			// Retrieving a collection
-			MongoCollection<Document> collection = database.getCollection("sampleCollection");
-			System.out.println("Collection myCollection selected successfully");
-
-			collection.updateOne(Filters.eq("id", 1), Updates.set("likes", 150));
-			System.out.println("Document update successfully...");
-
-			// Retrieving the documents after updation
-			// Getting the iterable object
-			FindIterable<Document> iterDoc = collection.find();
-			int i = 1;
-
-			// Getting the iterator
-			MongoCursor<Document> it = iterDoc.iterator();
-
-			while (it.hasNext()) {
-				System.out.println(it.next());
-				i++;
+	public static MongoUpdateQueryProcessor instance() {
+		if (instance == null) {
+			synchronized (MongoUpdateQueryProcessor.class) {
+				if (instance == null) {
+					instance = new MongoUpdateQueryProcessor();
+				}
 			}
-		} catch (Exception ex) {
-
-		} finally {
-			mongo.close();
 		}
+		return instance;
+	}
+
+	public int process(String dbName, String collectionName, MongoUpdateQuery query) throws Exception {
+		LOGGER.trace("Entered process method");
+		// Getting access to the database
+		MongoDatabase database = getConnection(dbName);
+		// Retrieve the collection
+		DBCollection col = (DBCollection) database.getCollection(collectionName);
+		query.build();
+		WriteResult result = col.update(query.queryObj(), query.updateObj());
+		LOGGER.debug("Document updated successfully");
+		LOGGER.trace("Leaving process method");
+		return result.getN();
 	}
 }

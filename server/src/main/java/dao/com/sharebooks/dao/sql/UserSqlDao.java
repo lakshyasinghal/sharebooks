@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 
 import com.sharebooks.dao.generic.UserDao;
 import com.sharebooks.dao.util.EntityConverterUtility;
-import com.sharebooks.database.sql.Database;
+import com.sharebooks.database.enums.Database;
 import com.sharebooks.database.sql.Table;
 import com.sharebooks.database.sql.customQueries.UserQueries;
 import com.sharebooks.entities.coreEntities.User;
@@ -20,7 +20,7 @@ public class UserSqlDao extends AbstractSqlDao implements UserDao {
 	private static final Logger LOGGER = Logger.getLogger(UserSqlDao.class.getName());
 	@SuppressWarnings("unused")
 	private EntityFactory<User> factory;
-	private final Database database = Database.SHAREBOOKS_USER_ACCOUNTS;
+	private final Database database = Database.USER_ACCOUNTS;
 	private final Table table = Table.USERS;
 	private final UserQueries userQueries = UserQueries.instance();
 
@@ -147,12 +147,6 @@ public class UserSqlDao extends AbstractSqlDao implements UserDao {
 
 	@Override
 	public boolean deleteUser(String uid) {
-		return false;
-	}
-
-	@Override
-	public boolean updateUserPassword(int id, String password) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

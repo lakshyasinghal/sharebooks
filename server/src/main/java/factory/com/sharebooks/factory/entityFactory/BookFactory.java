@@ -5,49 +5,48 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import com.mongodb.DBObject;
 import com.sharebooks.entities.coreEntities.Book;
 import com.sharebooks.entities.coreEntities.enums.AvailableStatus;
 import com.sharebooks.exception.FactoryException;
 import com.sharebooks.util.dateTime.LocalDateTime;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-public class BookFactory implements EntityFactory<Book>{
+public class BookFactory implements EntityFactory<Book> {
 	private static BookFactory bookFactory;
-	
-	private BookFactory(){
-		//nothing goes here
+
+	private BookFactory() {
+		// nothing goes here
 	}
-	
-	public static BookFactory getInstance() throws Exception{
-		try{
-			if(bookFactory ==  null){
-				synchronized(BookFactory.class){
-					if(bookFactory ==  null){
+
+	public static BookFactory getInstance() throws Exception {
+		try {
+			if (bookFactory == null) {
+				synchronized (BookFactory.class) {
+					if (bookFactory == null) {
 						bookFactory = new BookFactory();
 					}
 				}
 			}
-			
+
 			return bookFactory;
-		}
-		catch(Exception ex){
+		} catch (Exception ex) {
 			throw ex;
 		}
 	}
-	
-	
+
 	@Override
-	public Book createFromHttpRequest(HttpServletRequest req) throws Exception{
-		
+	public Book createFromHttpRequest(HttpServletRequest req) throws Exception {
+
 		return null;
 	}
 
 	@Override
-	public Book createFromResultSet(ResultSet rs) throws FactoryException,Exception{
-		
+	public Book createFromResultSet(ResultSet rs) throws FactoryException, Exception {
+
 		int id = rs.getInt("id");
 		String uid = rs.getString("uid");
 		String title = rs.getString("title");
@@ -66,50 +65,57 @@ public class BookFactory implements EntityFactory<Book>{
 		LocalDateTime creationTime = LocalDateTime.buildFromString(creationTimeStr);
 		String lastModificationTimeStr = (rs.getTimestamp("lastModificationTime")).toString();
 		LocalDateTime lastModificationTime = LocalDateTime.buildFromString(lastModificationTimeStr);
-		
-		Book book = new Book(id ,uid, title , author , category , subcategory , pages , ownerUid , imgSrc , available , 
-				buy , rent , buyAmount , rentAmount , creationTime , lastModificationTime);
+
+		Book book = new Book(id, uid, title, author, category, subcategory, pages, ownerUid, imgSrc, available, buy,
+				rent, buyAmount, rentAmount, creationTime, lastModificationTime);
 		return book;
 	}
 
 	@Override
 	public Book createFromJson(String json) throws Exception {
-		try{
+		try {
 			JSONParser parser = new JSONParser();
 			Object obj = parser.parse(json);
-			JSONObject jo = (JSONObject)obj;
-			
-			int id = jo.get("id")==null?-1:(int)(long)jo.get("id");
-			String uid = (String)jo.get("uid");
-			String title = (String)jo.get("title");
-			String author = (String)jo.get("author");
-			String category = (String)jo.get("category");
-			String subcategory = jo.get("subcategory")==null?"":(String)jo.get("subcategory");
-			int pages = jo.get("pages")==null?-1:(int)(long)jo.get("pages");
-			String ownerUid = (String)jo.get("ownerUid");
-			String imgSrc = jo.get("imgSrc")==null?"":(String)jo.get("imgSrc");
-			AvailableStatus available = AvailableStatus.valueOf((int)(long)jo.get("available"));
-			AvailableStatus buy = AvailableStatus.valueOf((int)(long)jo.get("buy"));
-			AvailableStatus rent = AvailableStatus.valueOf((int)(long)jo.get("rent"));
-			int buyAmount = (int)(long)jo.get("buyAmount");
-			int rentAmount = (int)(long)jo.get("rentAmount");
-			String creationTimeStr = (String)jo.get("creationTime");
-			String lastModificationTimeStr = (String)jo.get("lastModificationTime");
-			
-			LocalDateTime creationTime = creationTimeStr==null?null:LocalDateTime.buildFromString(creationTimeStr);
-			LocalDateTime lastModificationTime = lastModificationTimeStr==null?null:LocalDateTime.buildFromString(lastModificationTimeStr);
-			
-			Book book = new Book(id, uid, title, author, category, subcategory, pages, ownerUid, imgSrc, available,
-					buy, rent, buyAmount, rentAmount, creationTime, lastModificationTime); 
+			JSONObject jo = (JSONObject) obj;
+
+			int id = jo.get("id") == null ? -1 : (int) (long) jo.get("id");
+			String uid = (String) jo.get("uid");
+			String title = (String) jo.get("title");
+			String author = (String) jo.get("author");
+			String category = (String) jo.get("category");
+			String subcategory = jo.get("subcategory") == null ? "" : (String) jo.get("subcategory");
+			int pages = jo.get("pages") == null ? -1 : (int) (long) jo.get("pages");
+			String ownerUid = (String) jo.get("ownerUid");
+			String imgSrc = jo.get("imgSrc") == null ? "" : (String) jo.get("imgSrc");
+			AvailableStatus available = AvailableStatus.valueOf((int) (long) jo.get("available"));
+			AvailableStatus buy = AvailableStatus.valueOf((int) (long) jo.get("buy"));
+			AvailableStatus rent = AvailableStatus.valueOf((int) (long) jo.get("rent"));
+			int buyAmount = (int) (long) jo.get("buyAmount");
+			int rentAmount = (int) (long) jo.get("rentAmount");
+			String creationTimeStr = (String) jo.get("creationTime");
+			String lastModificationTimeStr = (String) jo.get("lastModificationTime");
+
+			LocalDateTime creationTime = creationTimeStr == null ? null
+					: LocalDateTime.buildFromString(creationTimeStr);
+			LocalDateTime lastModificationTime = lastModificationTimeStr == null ? null
+					: LocalDateTime.buildFromString(lastModificationTimeStr);
+
+			Book book = new Book(id, uid, title, author, category, subcategory, pages, ownerUid, imgSrc, available, buy,
+					rent, buyAmount, rentAmount, creationTime, lastModificationTime);
 			return book;
-		}
-		catch(ParseException ex){
+		} catch (ParseException ex) {
 			throw ex;
 		}
 	}
 
 	@Override
 	public List<Book> getListFromJson(String json) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Book createFromMongoDatabaseObject(DBObject dbObj) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

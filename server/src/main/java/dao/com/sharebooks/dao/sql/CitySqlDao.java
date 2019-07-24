@@ -7,14 +7,14 @@ import org.apache.log4j.Logger;
 
 import com.sharebooks.dao.generic.CityDao;
 import com.sharebooks.dao.util.EntityConverterUtility;
-import com.sharebooks.database.sql.Database;
+import com.sharebooks.database.enums.Database;
 import com.sharebooks.database.sql.Table;
 import com.sharebooks.entities.coreEntities.enums.EntityType;
 import com.sharebooks.entities.helperEntities.City;
 
 public class CitySqlDao extends AbstractSqlDao implements CityDao {
 	private static final Logger LOGGER = Logger.getLogger(CitySqlDao.class.getName());
-	private final Database database = Database.SHAREBOOKS_MASTER;
+	private final Database database = Database.MASTER;
 
 	@SuppressWarnings("unchecked")
 	@Override

@@ -8,7 +8,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.sharebooks.dao.generic.OTPDao;
-import com.sharebooks.database.sql.Database;
+import com.sharebooks.database.enums.Database;
 import com.sharebooks.database.sql.Table;
 import com.sharebooks.database.sql.customQueries.OTPQueries;
 import com.sharebooks.entities.coreEntities.OneTimePassword;
@@ -17,7 +17,7 @@ import com.sharebooks.entities.coreEntities.enums.EntityType;
 public class OTPSqlDao extends AbstractSqlDao implements OTPDao {
 	private static final Logger LOGGER = Logger.getLogger(OTPSqlDao.class);
 	// private EntityFactory<User> factory;
-	private final Database database = Database.SHAREBOOKS_USER_ACCOUNTS;
+	private final Database database = Database.USER_ACCOUNTS;
 	private final Table table = Table.ONE_TIME_PASSWORDS;
 	private final OTPQueries otpQueries = OTPQueries.instance();
 

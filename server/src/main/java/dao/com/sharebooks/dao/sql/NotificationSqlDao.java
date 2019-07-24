@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 
 import com.sharebooks.dao.generic.NotificationDao;
 import com.sharebooks.dao.util.EntityConverterUtility;
-import com.sharebooks.database.sql.Database;
+import com.sharebooks.database.enums.Database;
 import com.sharebooks.database.sql.Table;
 import com.sharebooks.entities.coreEntities.Notification;
 import com.sharebooks.entities.coreEntities.enums.EntityType;
@@ -16,7 +16,7 @@ import com.sharebooks.entities.coreEntities.enums.EntityType;
 public class NotificationSqlDao extends AbstractSqlDao implements NotificationDao {
 	private static final Logger LOGGER = Logger.getLogger(NotificationSqlDao.class.getName());
 	// private EntityFactory<User> factory;
-	private final Database database = Database.SHAREBOOKS_CORE;
+	private final Database database = Database.CORE;
 	private final Table table = Table.NOTIFICATIONS;
 
 	@Override

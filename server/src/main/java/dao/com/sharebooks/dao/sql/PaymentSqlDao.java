@@ -10,8 +10,8 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.sharebooks.dao.generic.PaymentDao;
+import com.sharebooks.database.enums.Database;
 import com.sharebooks.database.sql.AbstractSqlQueryProcessor;
-import com.sharebooks.database.sql.Database;
 import com.sharebooks.database.sql.SqlInsertQueryProcessor;
 import com.sharebooks.database.sql.SqlReadQueryProcessor;
 import com.sharebooks.database.sql.SqlTransactionProcessor;
@@ -25,7 +25,7 @@ import com.sharebooks.payment.enums.PaymentStatus;
 
 public class PaymentSqlDao extends AbstractSqlDao implements PaymentDao {
 	private static final Logger LOGGER = Logger.getLogger(PaymentSqlDao.class.getName());
-	private final Database database = Database.SHAREBOOKS_PAYMENTS;
+	private final Database database = Database.PAYMENTS;
 	private final PaymentQueries paymentQueries = PaymentQueries.instance();
 
 	public PaymentSqlDao() {
@@ -85,8 +85,7 @@ public class PaymentSqlDao extends AbstractSqlDao implements PaymentDao {
 		queries.add(query1.toString());
 		queries.add(query2);
 		AbstractSqlQueryProcessor queryProcessor = SqlTransactionProcessor.getInstance();
-		List<Integer> rowsAffectedResults = queryProcessor.processTransaction(Database.SHAREBOOKS_PAYMENTS.desc(),
-				queries);
+		List<Integer> rowsAffectedResults = queryProcessor.processTransaction(Database.PAYMENTS.desc(), queries);
 		for (Integer rowsAffected : rowsAffectedResults) {
 			updated = updated && (rowsAffected > 0);
 		}

@@ -1,15 +1,15 @@
 package com.sharebooks.database.mongo;
 
 public enum Collection {
-	USER(1, "User", "User_Accounts");
+	USERS(1, "User", "User_Accounts"), BOOKS(2, "Books", "Core"), SUBSCRIPTIONS(3, "Subscriptions", "User_Accounts");
 
 	private int id;
-	private String name;
+	private String desc;
 	private String dbName;
 
-	private Collection(int id, String name, String dbName) {
+	private Collection(int id, String desc, String dbName) {
 		this.id = id;
-		this.dbName = name;
+		this.desc = desc;
 		this.dbName = dbName;
 	}
 
@@ -17,8 +17,8 @@ public enum Collection {
 		return id;
 	}
 
-	public String naam() {
-		return name;
+	public String desc() {
+		return desc;
 	}
 
 	public String dbName() {

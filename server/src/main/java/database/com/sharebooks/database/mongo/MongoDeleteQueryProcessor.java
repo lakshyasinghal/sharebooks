@@ -1,57 +1,41 @@
 package com.sharebooks.database.mongo;
 
-import org.bson.Document;
+import org.apache.log4j.Logger;
 
-import com.mongodb.MongoClient;
-import com.mongodb.MongoCredential;
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
+import com.mongodb.DBCollection;
+import com.mongodb.WriteResult;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Filters;
+import com.sharebooks.database.mongo.queries.MongoDeleteQuery;
 
-public class MongoDeleteQueryProcessor {
+public class MongoDeleteQueryProcessor extends AbstractMongoQueryProcessor {
 
-	public void delete() {
-		MongoClient mongo = null;
-		try {
-			// Creating a Mongo client
-			mongo = new MongoClient("localhost", 27017);
+	private static final Logger LOGGER = Logger.getLogger(MongoInsertQueryProcessor.class);
+	private static MongoDeleteQueryProcessor instance;
 
-			// Creating Credentials
-			MongoCredential credential;
-			credential = MongoCredential.createCredential("sampleUser", "myDb", "password".toCharArray());
-			System.out.println("Connected to the database successfully");
+	private MongoDeleteQueryProcessor() {
+	}
 
-			// Accessing the database
-			MongoDatabase database = mongo.getDatabase("myDb");
-
-			// Retrieving a collection
-			MongoCollection<Document> collection = database.getCollection("sampleCollection");
-			System.out.println("Collection sampleCollection selected successfully");
-
-			// Deleting the documents
-			collection.deleteOne(Filters.eq("id", 1));
-			System.out.println("Document deleted successfully...");
-
-			// Retrieving the documents after updation
-			// Getting the iterable object
-			FindIterable<Document> iterDoc = collection.find();
-			int i = 1;
-
-			// Getting the iterator
-			MongoCursor<Document> it = iterDoc.iterator();
-
-			while (it.hasNext()) {
-				System.out.println("Inserted Document: " + i);
-				System.out.println(it.next());
-				i++;
+	public static MongoDeleteQueryProcessor instance() {
+		if (instance == null) {
+			synchronized (MongoDeleteQueryProcessor.class) {
+				if (instance == null) {
+					instance = new MongoDeleteQueryProcessor();
+				}
 			}
-		} catch (Exception ex) {
-
-		} finally {
-
-			mongo.close();
 		}
+		return instance;
+	}
+
+	public int process(String dbName, String collectionName, MongoDeleteQuery query) throws Exception {
+		LOGGER.trace("Entered insert method");
+		// Getting access to the database
+		MongoDatabase database = getConnection(dbName);
+		// Retrieve the collection
+		DBCollection col = (DBCollection) database.getCollection(collectionName);
+		query.build();
+		WriteResult result = col.remove(query.query());
+		LOGGER.debug("Document inserted successfully");
+		LOGGER.trace("Leaving insert method");
+		return result.getN();
 	}
 }

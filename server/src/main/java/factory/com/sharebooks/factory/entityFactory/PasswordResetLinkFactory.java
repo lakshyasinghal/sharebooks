@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.mongodb.DBObject;
 import com.sharebooks.entities.coreEntities.PasswordResetLink;
 import com.sharebooks.entities.coreEntities.PasswordResetLink.PasswordResetLinkBuilder;
 import com.sharebooks.util.dateTime.LocalDateTime;
@@ -54,6 +55,12 @@ public class PasswordResetLinkFactory implements EntityFactory<PasswordResetLink
 
 	@Override
 	public List<PasswordResetLink> getListFromJson(String json) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PasswordResetLink createFromMongoDatabaseObject(DBObject dbObj) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

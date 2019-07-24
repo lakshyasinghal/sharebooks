@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 
 import com.sharebooks.dao.generic.BookRequestDao;
 import com.sharebooks.dao.util.EntityConverterUtility;
-import com.sharebooks.database.sql.Database;
+import com.sharebooks.database.enums.Database;
 import com.sharebooks.database.sql.Table;
 import com.sharebooks.database.sql.queries.SqlInsertQuery;
 import com.sharebooks.database.sql.queries.SqlQuery;
@@ -26,7 +26,7 @@ import com.sharebooks.factory.entityFactory.EntityFactory;
 public class BookRequestSqlDao extends AbstractSqlDao implements BookRequestDao {
 	private static final Logger LOGGER = Logger.getLogger(BookRequestSqlDao.class.getName());
 	private EntityFactory<BookRequest> factory;
-	private final Database database = Database.SHAREBOOKS_CORE;
+	private final Database database = Database.CORE;
 	private final Table table = Table.BOOK_REQUESTS;
 
 	public BookRequestSqlDao(EntityFactory<BookRequest> factory) {

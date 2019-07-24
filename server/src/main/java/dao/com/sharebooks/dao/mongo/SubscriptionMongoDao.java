@@ -1,4 +1,4 @@
-package com.sharebooks.dao.sql;
+package com.sharebooks.dao.mongo;
 
 import java.sql.SQLException;
 
@@ -6,20 +6,18 @@ import org.apache.log4j.Logger;
 
 import com.sharebooks.dao.generic.SubscriptionDao;
 import com.sharebooks.database.enums.Database;
-import com.sharebooks.database.sql.Table;
+import com.sharebooks.database.mongo.Collection;
 import com.sharebooks.entities.coreEntities.Subscription;
 import com.sharebooks.entities.coreEntities.User;
 
-public class SubscrptionSqlDao extends AbstractSqlDao implements SubscriptionDao {
-	private static final Logger LOGGER = Logger.getLogger(SubscrptionSqlDao.class.getName());
+public class SubscriptionMongoDao extends AbstractMongoDao implements SubscriptionDao {
+	private static final Logger LOGGER = Logger.getLogger(SubscriptionMongoDao.class.getName());
 	private final Database database = Database.USER_ACCOUNTS;
-	private final Table table = Table.SUBSCRIPTIONS;
-	// private final SubscriptionQueries userQueries =
-	// SubscriptionQueries.instance();
+	private final Collection collection = Collection.SUBSCRIPTIONS;
 
 	@Override
 	public boolean createSubscription(Subscription subscription) throws SQLException, Exception {
-		return super.create(subscription, database, table);
+		return super.create(subscription, database, collection);
 	}
 
 	@Override

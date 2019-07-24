@@ -11,6 +11,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import com.mongodb.DBObject;
 import com.sharebooks.entities.coreEntities.User;
 import com.sharebooks.entities.coreEntities.enums.AccountType;
 import com.sharebooks.entities.coreEntities.enums.Active;
@@ -139,5 +140,34 @@ public class UserFactory implements EntityFactory<User> {
 	public List<User> getListFromJson(String json) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public User createFromMongoDatabaseObject(DBObject dbObj) throws Exception {
+		int id = (int) dbObj.get("id");
+		String uid = (String) dbObj.get("uid");
+		String username = (String) dbObj.get("username");
+		String password = (String) dbObj.get("password");
+		String name = (String) dbObj.get("name");
+		String dob = (String) dbObj.get("dob");
+		int age = (int) dbObj.get("age");
+		String address = (String) dbObj.get("address");
+		String city = (String) dbObj.get("city");
+		String state = (String) dbObj.get("state");
+		String pincode = (String) dbObj.get("pincode");
+		String contactNo = (String) dbObj.get("contactNo");
+		List<Preference> preferences = getPreferenceListFromJson((String) dbObj.get("preferences"));
+		AccountType accountType = AccountType.get((int) dbObj.get("accountType"));
+		int isRegistered = (int) dbObj.get("isRegistered");
+		SubscriptionStatus subscriptionStatus = SubscriptionStatus.get((int) dbObj.get("subscriptionStatus"));
+		Active active = Active.valueOf((int) dbObj.get("active"));
+		String creationTimeStr = (String) dbObj.get("creationTime");
+		LocalDateTime creationTime = LocalDateTime.buildFromString(creationTimeStr);
+		String lastModificationTimeStr = (String) dbObj.get("");
+		LocalDateTime lastModificationTime = LocalDateTime.buildFromString(lastModificationTimeStr);
+
+		User user = new User(id, uid, username, password, name, dob, age, address, city, state, pincode, contactNo,
+				preferences, accountType, isRegistered, subscriptionStatus, active, creationTime, lastModificationTime);
+		return user;
 	}
 }

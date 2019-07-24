@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 
 import com.sharebooks.dao.generic.BookDao;
 import com.sharebooks.dao.util.EntityConverterUtility;
-import com.sharebooks.database.sql.Database;
+import com.sharebooks.database.enums.Database;
 import com.sharebooks.database.sql.Table;
 import com.sharebooks.database.sql.customQueries.BookQueries;
 import com.sharebooks.entities.coreEntities.Book;
@@ -19,7 +19,7 @@ import com.sharebooks.factory.entityFactory.EntityFactory;
 public class BookSqlDao extends AbstractSqlDao implements BookDao {
 	private static final Logger LOGGER = Logger.getLogger(BookSqlDao.class.getName());
 	private EntityFactory<Book> factory;
-	private final Database database = Database.SHAREBOOKS_CORE;
+	private final Database database = Database.CORE;
 	private final Table table = Table.BOOKS;
 	private final BookQueries bookQueries = BookQueries.instance();
 

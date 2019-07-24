@@ -1,105 +1,86 @@
 package com.sharebooks.connectionPool;
 
-import static java.lang.String.format;
-
 import org.apache.log4j.Logger;
-//import org.mongodb.morphia.Datastore;
-//import org.mongodb.morphia.Morphia;
 
 import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
-import com.mongodb.MongoClientURI;
-import com.mongodb.MongoException;
-import com.mongodb.WriteConcern;
-//import com.test.MongoConnectionPool.models.BaseMongoDO;
+import com.mongodb.client.MongoDatabase;
+import com.sharebooks.exception.NonFunctionalMethodException;
+import com.sharebooks.factory.dbConnectionFactory.MongoClientFactory;
 
-public class MongoConnectionPool {
-	private static Logger logger = Logger.getLogger(MongoConnectionPool.class);
-	private static MongoConnectionPool instance = new MongoConnectionPool();
+//This class will be used as a wrapper for MongoClient which itself is a mongo connection pool container
+public class MongoConnectionPool implements DatabaseConnectionPool {
+	private static Logger LOGGER = Logger.getLogger(MongoConnectionPool.class);
+	private MongoClient mongoClient;
+	private String dbName;
 
-	private MongoClient mongo = null;
-	// private Datastore dataStore = null;
-	// private Morphia morphia = null;
-
-	private MongoConnectionPool() {
+	public MongoConnectionPool(MongoConnectionPoolBuilder b) throws Exception {
+		dbName = b.name;
+		mongoClient = MongoClientFactory.instance().getMongoClient(b.host, b.port, b.name, b.username, b.password,
+				b.capacity);
 	}
 
-	@SuppressWarnings("deprecation")
-	public MongoClient getMongo() throws RuntimeException {
-		if (mongo == null) {
-			logger.debug("Starting Mongo");
-			MongoClientOptions.Builder options = MongoClientOptions.builder().connectionsPerHost(4)
-					.maxConnectionIdleTime((60 * 1_000)).maxConnectionLifeTime((120 * 1_000));
-			;
+	public static class MongoConnectionPoolBuilder {
+		private String host;
+		private int port;
+		private String name; // database name
+		private String username;
+		private String password;
+		private int capacity;
 
-			MongoClientURI uri = new MongoClientURI("mongodb://localhost:27017/test", options);
-
-			logger.info("About to connect to MongoDB @ " + uri.toString());
-
-			try {
-				mongo = new MongoClient(uri);
-				mongo.setWriteConcern(WriteConcern.ACKNOWLEDGED);
-			} catch (MongoException ex) {
-				logger.error("An error occoured when connecting to MongoDB", ex);
-			} catch (Exception ex) {
-				logger.error("An error occoured when connecting to MongoDB", ex);
-			}
-
-			// To be able to wait for confirmation after writing on the DB
-			mongo.setWriteConcern(WriteConcern.ACKNOWLEDGED);
+		public MongoConnectionPoolBuilder host(String host) {
+			this.host = host;
+			return this;
 		}
 
-		return mongo;
-	}
+		public MongoConnectionPoolBuilder port(int port) {
+			this.port = port;
+			return this;
+		}
 
-//	public Morphia getMorphia() {
-//		if (morphia == null) {
-//			logger.debug("Starting Morphia");
-//			morphia = new Morphia();
-//
-//			logger.debug(format("Mapping packages for clases within %s", BaseMongoDO.class.getName()));
-//			morphia.mapPackageFromClass(BaseMongoDO.class);
-//		}
-//
-//		return morphia;
-//	}
-//
-//	public Datastore getDatastore() {
-//		if (dataStore == null) {
-//			String dbName = "testdb";
-//			logger.debug(format("Starting DataStore on DB: %s", dbName));
-//			dataStore = getMorphia().createDatastore(getMongo(), dbName);
-//		}
-//
-//		return dataStore;
-//	}
+		public MongoConnectionPoolBuilder name(String name) {
+			this.name = name;
+			return this;
+		}
 
-	public void init() {
-		logger.debug("Bootstraping");
-		getMongo();
-//		getMorphia();
-//		getDatastore();
-	}
+		public MongoConnectionPoolBuilder username(String username) {
+			this.username = username;
+			return this;
+		}
 
-	public void close() {
-		logger.info("Closing MongoDB connection");
-		if (mongo != null) {
-			try {
-				mongo.close();
-				logger.debug("Nulling the connection dependency objects");
-				mongo = null;
-//				morphia = null;
-//				dataStore = null;
-			} catch (Exception e) {
-				logger.error(format("An error occurred when closing the MongoDB connection\n%s", e.getMessage()));
-			}
-		} else {
-			logger.warn("mongo object was null, wouldn't close connection");
+		public MongoConnectionPoolBuilder password(String password) {
+			this.password = password;
+			return this;
+		}
+
+		public MongoConnectionPoolBuilder capacity(int capacity) {
+			this.capacity = capacity;
+			return this;
+		}
+
+		public MongoConnectionPool build() throws Exception {
+			return new MongoConnectionPool(this);
 		}
 	}
 
-	public static MongoConnectionPool getInstance() {
-		return instance;
+	@Override
+	public void init(int capacity) throws Exception {
+		throw new NonFunctionalMethodException();
 	}
 
+	@Override
+	public MongoDatabase getConnection() throws Exception {
+		LOGGER.debug("Getting mongo connection to database " + dbName);
+		return mongoClient.getDatabase(dbName);
+	}
+
+	@Override
+	public void releaseConnection(Object obj) throws Exception {
+		// do nothing
+	}
+
+	@Override
+	public int capacity() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

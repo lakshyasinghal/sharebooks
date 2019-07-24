@@ -6,7 +6,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.sharebooks.dao.generic.QuoteDao;
-import com.sharebooks.database.sql.Database;
+import com.sharebooks.database.enums.Database;
 import com.sharebooks.database.sql.Table;
 import com.sharebooks.database.sql.customQueries.QuoteQueries;
 import com.sharebooks.entities.coreEntities.Quote;
@@ -14,7 +14,7 @@ import com.sharebooks.entities.coreEntities.enums.EntityType;
 
 public class QuoteSqlDao extends AbstractSqlDao implements QuoteDao {
 	private static final Logger LOGGER = Logger.getLogger(OrderSqlDao.class.getName());
-	private final Database database = Database.SHAREBOOKS_CORE;
+	private final Database database = Database.CORE;
 	private final QuoteQueries quoteQueries = QuoteQueries.instance();
 
 	@Override

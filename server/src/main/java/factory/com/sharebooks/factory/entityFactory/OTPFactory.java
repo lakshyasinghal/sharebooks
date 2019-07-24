@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.mongodb.DBObject;
 import com.sharebooks.entities.coreEntities.OneTimePassword;
 import com.sharebooks.entities.coreEntities.OneTimePassword.OneTimePasswordBuilder;
 import com.sharebooks.util.OTPUtility;
@@ -65,6 +66,12 @@ public class OTPFactory implements EntityFactory<OneTimePassword> {
 
 	@Override
 	public List<OneTimePassword> getListFromJson(String json) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public OneTimePassword createFromMongoDatabaseObject(DBObject dbObj) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -2,40 +2,40 @@ package com.sharebooks.factory.entityFactory;
 
 import java.sql.ResultSet;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
+import com.mongodb.DBObject;
 import com.sharebooks.entities.helperEntities.State;
 
-public class StateFactory implements EntityFactory<State>{
+public class StateFactory implements EntityFactory<State> {
 	private static StateFactory stateFactory;
-	
-	private StateFactory(){
-		//nothing goes here
+
+	private StateFactory() {
+		// nothing goes here
 	}
-	
-	public static StateFactory getInstance() throws Exception{
-		try{
-			if(stateFactory ==  null){
-				synchronized(StateFactory.class){
-					if(stateFactory ==  null){
+
+	public static StateFactory getInstance() throws Exception {
+		try {
+			if (stateFactory == null) {
+				synchronized (StateFactory.class) {
+					if (stateFactory == null) {
 						stateFactory = new StateFactory();
 					}
 				}
 			}
 			return stateFactory;
-		}
-		catch(Exception ex){
+		} catch (Exception ex) {
 			throw ex;
 		}
 	}
-	
-	
+
 	@Override
-	public State createFromResultSet(ResultSet rs) throws Exception {	
+	public State createFromResultSet(ResultSet rs) throws Exception {
 		int id = rs.getInt("id");
 		String name = rs.getString("name");
-		
-		return new State(id,name);
+
+		return new State(id, name);
 	}
 
 	@Override
@@ -55,5 +55,11 @@ public class StateFactory implements EntityFactory<State>{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
+	@Override
+	public State createFromMongoDatabaseObject(DBObject dbObj) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
