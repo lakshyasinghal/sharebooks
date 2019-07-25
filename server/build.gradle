@@ -6,6 +6,12 @@
  * For more details take a look at the Java Quickstart chapter in the Gradle
  * user guide available at http://gradle.org/docs/2.5/userguide/tutorial_java_projects.html
  */
+ 
+//Manifest parameters
+def appName = 'SharebooksBackend'
+def versionId = '1.0.0'
+def mainClassName = 'com.sharebooks.init.App'
+def classpath = ''
 
 def jacksonVersion = '2.6.3'
 def log4j2Version = '2.3'
@@ -63,6 +69,47 @@ sourceSets {
             srcDir 'src/main/resources'
         }
     }
+}
+
+//Task to copy dependencies to the assigned folder
+task copyToLib(type: Copy) {
+    into "$buildDir/libs/lib"
+    from configurations.compile
+}
+
+jar{
+	dependsOn copyToLib
+	baseName = project.name + '-' + versionId
+	manifest {
+		attributes 'Implementation-Title': appName,
+				   'Implementation-Version': versionId,
+				   'Main-Class': mainClassName,
+				   'Class-Path': classpath,
+	               'Built-JDK': System.getProperty('java.version'),
+				   'Built-By': System.getProperty('user.name'),
+	               'Built-Date': new Date()
+	}
+}
+
+//Build a standalone jar.
+task uberjar(type: Jar) {
+	baseName = project.name + '_' + versionId
+    from files(sourceSets.main.output.classesDir)
+    from {configurations.compile.collect {it.isDirectory() ? it : zipTree(it)}} {
+        exclude "META-INF/*.SF"
+        exclude "META-INF/*.DSA"
+        exclude "META-INF/*.RSA"
+	}
+	manifest {
+		attributes 'Implementation-Title': appName,
+				   'Implementation-Version': versionId,
+				   'Main-Class': mainClassName,
+	               'Built-JDK': System.getProperty('java.version'),
+				   'Built-By': System.getProperty('user.name'),
+	               'Built-Date': new Date()
+	}
+	zip64 true
+	with jar
 }
 
 
@@ -132,3 +179,8 @@ dependencies {
     // 'test.useTestNG()' to your build script.
     testCompile 'junit:junit:4.12'
 }
+
+
+//test {
+//    useJUnitPlatform()
+//}

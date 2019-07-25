@@ -71,7 +71,8 @@ BookOrder
 Completed quote and book request api's. Need integration with client side.
 
 
-
+Jar command
+java -jar xyz.jar arg0 arg1
 
 
 API Links
@@ -85,3 +86,5 @@ Url shortener => https://dev.bitly.com/links.html
 Git merge => https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging
 
 NoSql => https://beginnersbook.com
+
+JUnit => https://www.vogella.com/tutorials/JUnit/article.html
