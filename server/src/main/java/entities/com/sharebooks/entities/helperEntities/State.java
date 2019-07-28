@@ -4,8 +4,9 @@ import org.json.simple.JSONObject;
 
 import com.sharebooks.entities.entity.HelperEntity;
 import com.sharebooks.exception.JsonSerializationException;
+import com.sharebooks.serialization.string.StringSerializable;
 
-public class State extends HelperEntity implements Comparable<State> {
+public class State extends HelperEntity implements Comparable<State>, StringSerializable {
 
 	private String name;
 
@@ -26,11 +27,19 @@ public class State extends HelperEntity implements Comparable<State> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void serializeAsJson(JSONObject jo) throws JsonSerializationException {
-		jo.put("id", id);
+		super.serializeAsJson(jo);
 		jo.put("name", name);
+	}
+
+	@Override
+	public String serializeAsString() throws Exception {
+		JSONObject jo = new JSONObject();
+		serializeAsJson(jo);
+		return jo.toJSONString();
 	}
 
 	public String name() {
 		return name;
 	}
+
 }

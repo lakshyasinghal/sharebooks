@@ -60,6 +60,7 @@ sourceSets {
             srcDir 'src/main/java/geo'
             srcDir 'src/main/java/urlShortener'
             srcDir 'src/main/java/sms'
+            srcDir 'src/main/java/redis'
             srcDir 'src/main/resources'
         }
     }
