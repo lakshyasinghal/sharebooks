@@ -32,6 +32,7 @@ public class UserMongoDao extends AbstractMongoDao implements UserDao {
 		try {
 			user = (User) super.getFirst(map, database, collection, EntityType.USER);
 		} catch (Exception ex) {
+			throw ex;
 		}
 		LOGGER.trace("Leaving getUserByUsernameAndPassword");
 		return user;

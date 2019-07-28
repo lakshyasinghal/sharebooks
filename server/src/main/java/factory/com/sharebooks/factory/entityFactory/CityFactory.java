@@ -5,7 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.mongodb.DBObject;
+import org.bson.Document;
+
 import com.sharebooks.entities.helperEntities.City;
 
 public class CityFactory implements EntityFactory<City> {
@@ -59,7 +60,7 @@ public class CityFactory implements EntityFactory<City> {
 	}
 
 	@Override
-	public City createFromMongoDatabaseObject(DBObject dbObj) throws Exception {
+	public City createFromMongoDocument(Document doc) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

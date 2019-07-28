@@ -1,6 +1,8 @@
 package com.sharebooks.dao.mongo;
 
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -9,6 +11,7 @@ import com.sharebooks.database.enums.Database;
 import com.sharebooks.database.mongo.Collection;
 import com.sharebooks.entities.coreEntities.Subscription;
 import com.sharebooks.entities.coreEntities.User;
+import com.sharebooks.entities.coreEntities.enums.EntityType;
 
 public class SubscriptionMongoDao extends AbstractMongoDao implements SubscriptionDao {
 	private static final Logger LOGGER = Logger.getLogger(SubscriptionMongoDao.class.getName());
@@ -18,6 +21,21 @@ public class SubscriptionMongoDao extends AbstractMongoDao implements Subscripti
 	@Override
 	public boolean createSubscription(Subscription subscription) throws SQLException, Exception {
 		return super.create(subscription, database, collection);
+	}
+
+	@Override
+	public Subscription getByUserUid(String userUid) throws Exception {
+		LOGGER.trace("Entering getByUserUid");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userUid", userUid);
+		Subscription subs = null;
+		try {
+			subs = (Subscription) super.getFirst(map, database, collection, EntityType.SUBSCRIPTION);
+		} catch (Exception ex) {
+			throw ex;
+		}
+		LOGGER.trace("Leaving getByUserUid");
+		return subs;
 	}
 
 	@Override

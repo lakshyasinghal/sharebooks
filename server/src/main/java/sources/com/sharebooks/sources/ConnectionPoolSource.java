@@ -50,7 +50,7 @@ public class ConnectionPoolSource {
 	public static void addToMongoMap(String dbName, String host, String port, String username, String password,
 			int capacity) throws Exception {
 		MongoConnectionPoolBuilder b = new MongoConnectionPool.MongoConnectionPoolBuilder();
-		b.host(host).port(Integer.parseInt(port)).username(username).password(password).capacity(capacity);
+		b.name(dbName).host(host).port(Integer.parseInt(port)).username(username).password(password).capacity(capacity);
 		mongoConnectionPoolMap.put(dbName, b.build());
 	}
 

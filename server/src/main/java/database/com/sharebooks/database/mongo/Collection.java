@@ -1,7 +1,7 @@
 package com.sharebooks.database.mongo;
 
 public enum Collection {
-	USERS(1, "User", "User_Accounts"), BOOKS(2, "Books", "Core"), SUBSCRIPTIONS(3, "Subscriptions", "User_Accounts");
+	USERS(1, "Users", "User_Accounts"), BOOKS(2, "Books", "Core"), SUBSCRIPTIONS(3, "Subscriptions", "User_Accounts");
 
 	private int id;
 	private String desc;

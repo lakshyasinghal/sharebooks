@@ -6,12 +6,12 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.bson.Document;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import com.mongodb.DBObject;
 import com.sharebooks.entities.coreEntities.User;
 import com.sharebooks.entities.coreEntities.enums.AccountType;
 import com.sharebooks.entities.coreEntities.enums.Active;
@@ -143,27 +143,28 @@ public class UserFactory implements EntityFactory<User> {
 	}
 
 	@Override
-	public User createFromMongoDatabaseObject(DBObject dbObj) throws Exception {
-		int id = (int) dbObj.get("id");
-		String uid = (String) dbObj.get("uid");
-		String username = (String) dbObj.get("username");
-		String password = (String) dbObj.get("password");
-		String name = (String) dbObj.get("name");
-		String dob = (String) dbObj.get("dob");
-		int age = (int) dbObj.get("age");
-		String address = (String) dbObj.get("address");
-		String city = (String) dbObj.get("city");
-		String state = (String) dbObj.get("state");
-		String pincode = (String) dbObj.get("pincode");
-		String contactNo = (String) dbObj.get("contactNo");
-		List<Preference> preferences = getPreferenceListFromJson((String) dbObj.get("preferences"));
-		AccountType accountType = AccountType.get((int) dbObj.get("accountType"));
-		int isRegistered = (int) dbObj.get("isRegistered");
-		SubscriptionStatus subscriptionStatus = SubscriptionStatus.get((int) dbObj.get("subscriptionStatus"));
-		Active active = Active.valueOf((int) dbObj.get("active"));
-		String creationTimeStr = (String) dbObj.get("creationTime");
+	public User createFromMongoDocument(Document doc) throws Exception {
+		int id = doc.getInteger("id", -1);
+		String uid = doc.getString("uid");
+		String username = doc.getString("username");
+		String password = doc.getString("password");
+		String name = doc.getString("name");
+		String dob = doc.getString("dob");
+		int age = doc.getInteger("age");
+		String address = doc.getString("address");
+		String city = doc.getString("city");
+		String state = doc.getString("state");
+		String pincode = doc.getString("pincode");
+		String contactNo = doc.getString("contactNo");
+		List<Preference> preferences = getPreferenceListFromJson(doc.getString("preferences"));
+		AccountType accountType = AccountType.get(doc.getInteger("accountType"));
+		int isRegistered = doc.getInteger("isRegistered", 0);
+		SubscriptionStatus subscriptionStatus = SubscriptionStatus
+				.get(doc.getInteger("subscriptionStatus", SubscriptionStatus.PENDING.id()));
+		Active active = Active.valueOf(doc.getInteger("active"));
+		String creationTimeStr = doc.getString("creationTime");
 		LocalDateTime creationTime = LocalDateTime.buildFromString(creationTimeStr);
-		String lastModificationTimeStr = (String) dbObj.get("");
+		String lastModificationTimeStr = doc.getString("lastModificationTime");
 		LocalDateTime lastModificationTime = LocalDateTime.buildFromString(lastModificationTimeStr);
 
 		User user = new User(id, uid, username, password, name, dob, age, address, city, state, pincode, contactNo,

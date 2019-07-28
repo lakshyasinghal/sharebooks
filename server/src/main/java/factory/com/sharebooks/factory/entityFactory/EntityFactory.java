@@ -5,7 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.mongodb.DBObject;
+import org.bson.Document;
+
 import com.sharebooks.entities.entity.Entity;
 
 public interface EntityFactory<T extends Entity> {
@@ -14,7 +15,7 @@ public interface EntityFactory<T extends Entity> {
 
 	public T createFromResultSet(ResultSet rs) throws Exception;
 
-	public T createFromMongoDatabaseObject(DBObject dbObj) throws Exception;
+	public T createFromMongoDocument(Document doc) throws Exception;
 
 	public T createFromJson(String json) throws Exception;
 

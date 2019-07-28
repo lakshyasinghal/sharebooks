@@ -5,7 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.mongodb.DBObject;
+import org.bson.Document;
+
 import com.sharebooks.entities.helperEntities.BookCategory;
 import com.sharebooks.exception.NonFunctionalMethodException;
 
@@ -57,7 +58,7 @@ public class BookCategoryFactory implements EntityFactory<BookCategory> {
 	}
 
 	@Override
-	public BookCategory createFromMongoDatabaseObject(DBObject dbObj) throws Exception {
+	public BookCategory createFromMongoDocument(Document doc) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

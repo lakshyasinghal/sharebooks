@@ -23,6 +23,12 @@ public class SubscrptionSqlDao extends AbstractSqlDao implements SubscriptionDao
 	}
 
 	@Override
+	public Subscription getByUserUid(String userUid) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public boolean updateSubscription(User user) throws SQLException, Exception {
 		// TODO Auto-generated method stub
 		return false;

@@ -5,11 +5,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.bson.Document;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import com.mongodb.DBObject;
 import com.sharebooks.entities.coreEntities.Book;
 import com.sharebooks.entities.coreEntities.enums.AvailableStatus;
 import com.sharebooks.exception.FactoryException;
@@ -115,7 +115,7 @@ public class BookFactory implements EntityFactory<Book> {
 	}
 
 	@Override
-	public Book createFromMongoDatabaseObject(DBObject dbObj) throws Exception {
+	public Book createFromMongoDocument(Document doc) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

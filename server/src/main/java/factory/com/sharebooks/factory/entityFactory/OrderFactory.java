@@ -5,7 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.mongodb.DBObject;
+import org.bson.Document;
+
 import com.sharebooks.entities.coreEntities.Order;
 import com.sharebooks.entities.coreEntities.enums.OrderStatus;
 import com.sharebooks.entities.coreEntities.enums.OrderType;
@@ -72,7 +73,7 @@ public class OrderFactory implements EntityFactory<Order> {
 	}
 
 	@Override
-	public Order createFromMongoDatabaseObject(DBObject dbObj) throws Exception {
+	public Order createFromMongoDocument(Document doc) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

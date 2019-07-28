@@ -1,15 +1,15 @@
 package com.sharebooks.database.mongo;
 
 import org.apache.log4j.Logger;
+import org.bson.Document;
 
-import com.mongodb.DBCollection;
-import com.mongodb.WriteResult;
+import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.result.DeleteResult;
 import com.sharebooks.database.mongo.queries.MongoDeleteQuery;
 
 public class MongoDeleteQueryProcessor extends AbstractMongoQueryProcessor {
-
-	private static final Logger LOGGER = Logger.getLogger(MongoInsertQueryProcessor.class);
+	private static final Logger LOGGER = Logger.getLogger(MongoDeleteQueryProcessor.class);
 	private static MongoDeleteQueryProcessor instance;
 
 	private MongoDeleteQueryProcessor() {
@@ -31,11 +31,11 @@ public class MongoDeleteQueryProcessor extends AbstractMongoQueryProcessor {
 		// Getting access to the database
 		MongoDatabase database = getConnection(dbName);
 		// Retrieve the collection
-		DBCollection col = (DBCollection) database.getCollection(collectionName);
+		MongoCollection<Document> col = database.getCollection(collectionName);
 		query.build();
-		WriteResult result = col.remove(query.query());
+		DeleteResult result = col.deleteOne(query.filter());
 		LOGGER.debug("Document inserted successfully");
 		LOGGER.trace("Leaving insert method");
-		return result.getN();
+		return (int) result.getDeletedCount();
 	}
 }

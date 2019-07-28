@@ -14,18 +14,17 @@ import com.sharebooks.database.sql.Table;
 import com.sharebooks.database.sql.customQueries.UserQueries;
 import com.sharebooks.entities.coreEntities.User;
 import com.sharebooks.entities.coreEntities.enums.EntityType;
-import com.sharebooks.factory.entityFactory.EntityFactory;
 
 public class UserSqlDao extends AbstractSqlDao implements UserDao {
 	private static final Logger LOGGER = Logger.getLogger(UserSqlDao.class.getName());
 	@SuppressWarnings("unused")
-	private EntityFactory<User> factory;
+	// private EntityFactory<User> factory;
 	private final Database database = Database.USER_ACCOUNTS;
 	private final Table table = Table.USERS;
 	private final UserQueries userQueries = UserQueries.instance();
 
-	public UserSqlDao(EntityFactory<User> factory) {
-		this.factory = factory;
+	public UserSqlDao() {
+		// this.factory = factory;
 	}
 
 	@Override

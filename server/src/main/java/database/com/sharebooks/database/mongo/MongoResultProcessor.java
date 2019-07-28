@@ -4,8 +4,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
+import org.bson.Document;
+
 import com.sharebooks.entities.coreEntities.enums.EntityType;
 import com.sharebooks.entities.entity.Entity;
 import com.sharebooks.factory.entityFactory.EntityFactory;
@@ -22,14 +22,26 @@ public class MongoResultProcessor {
 		return resultProcessor;
 	}
 
-	public List<? extends Entity> process(DBCursor cursor, EntityType entityType) throws SQLException, Exception {
+//	public List<? extends Entity> process(DBCursor cursor, EntityType entityType) throws SQLException, Exception {
+//		List<Entity> entityList = new ArrayList<Entity>();
+//		EntityFactory<? extends Entity> factory = FactorySource.getEntityFactory(entityType.desc());
+//
+//		while (cursor.hasNext()) {
+//			DBObject dbObj = cursor.next();
+//			entityList.add(factory.createFromMongoDatabaseObject(dbObj));
+//		}
+//		return entityList;
+//	}
+
+	public List<? extends Entity> process(List<Document> documents, EntityType entityType)
+			throws SQLException, Exception {
 		List<Entity> entityList = new ArrayList<Entity>();
 		EntityFactory<? extends Entity> factory = FactorySource.getEntityFactory(entityType.desc());
 
-		while (cursor.hasNext()) {
-			DBObject dbObj = cursor.next();
-			entityList.add(factory.createFromMongoDatabaseObject(dbObj));
+		for (Document doc : documents) {
+			entityList.add(factory.createFromMongoDocument(doc));
 		}
+
 		return entityList;
 	}
 }

@@ -5,10 +5,10 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.bson.Document;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import com.mongodb.DBObject;
 import com.sharebooks.entities.coreEntities.Quote;
 import com.sharebooks.entities.coreEntities.enums.QuoteStatus;
 import com.sharebooks.entities.coreEntities.enums.QuoteType;
@@ -85,7 +85,7 @@ public class QuoteFactory implements EntityFactory<Quote> {
 	}
 
 	@Override
-	public Quote createFromMongoDatabaseObject(DBObject dbObj) throws Exception {
+	public Quote createFromMongoDocument(Document doc) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

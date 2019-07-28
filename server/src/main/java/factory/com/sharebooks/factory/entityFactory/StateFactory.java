@@ -5,7 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.mongodb.DBObject;
+import org.bson.Document;
+
 import com.sharebooks.entities.helperEntities.State;
 
 public class StateFactory implements EntityFactory<State> {
@@ -57,7 +58,7 @@ public class StateFactory implements EntityFactory<State> {
 	}
 
 	@Override
-	public State createFromMongoDatabaseObject(DBObject dbObj) throws Exception {
+	public State createFromMongoDocument(Document doc) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

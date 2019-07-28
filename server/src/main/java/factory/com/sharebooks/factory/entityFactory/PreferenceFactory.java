@@ -6,10 +6,10 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.bson.Document;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 
-import com.mongodb.DBObject;
 import com.sharebooks.entities.helperEntities.Preference;
 
 public class PreferenceFactory implements EntityFactory<Preference> {
@@ -69,7 +69,7 @@ public class PreferenceFactory implements EntityFactory<Preference> {
 	}
 
 	@Override
-	public Preference createFromMongoDatabaseObject(DBObject dbObj) throws Exception {
+	public Preference createFromMongoDocument(Document doc) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -58,16 +58,9 @@ public final class User extends CoreEntity implements JsonSerializable, Comparab
 		if (preferences != null) {
 			this.preferences.addAll(preferences); // to make it immutable
 		}
-
-		if (accountType != null) {
-			this.accountType = accountType;
-		} else {
-			this.accountType = AccountType.UNREGISTERED;
-		}
+		this.accountType = accountType != null ? accountType : AccountType.UNREGISTERED;
 		this.isRegistered = isRegistered;
-		if (subscriptionStatus == null) {
-			this.subscriptionStatus = SubscriptionStatus.PENDING;
-		}
+		this.subscriptionStatus = subscriptionStatus != null ? subscriptionStatus : SubscriptionStatus.PENDING;
 		this.active = active;
 	}
 

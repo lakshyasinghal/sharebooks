@@ -44,6 +44,7 @@ public class UserResource {
 		return reqProcessor.processGetUserRequest(uid);
 	}
 
+	// input type - json
 	@PUT
 	@Path("/users")
 	@Produces(MediaType.APPLICATION_JSON)

@@ -6,11 +6,11 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.bson.Document;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import com.mongodb.DBObject;
 import com.sharebooks.entities.coreEntities.Notification;
 import com.sharebooks.entities.coreEntities.enums.NotificationStatus;
 import com.sharebooks.entities.coreEntities.enums.NotificationType;
@@ -106,7 +106,7 @@ public class NotificationFactory implements EntityFactory<Notification> {
 	}
 
 	@Override
-	public Notification createFromMongoDatabaseObject(DBObject dbObj) throws Exception {
+	public Notification createFromMongoDocument(Document doc) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
