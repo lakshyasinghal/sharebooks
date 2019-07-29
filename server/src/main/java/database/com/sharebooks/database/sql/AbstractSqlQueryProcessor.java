@@ -31,13 +31,13 @@ public abstract class AbstractSqlQueryProcessor {
 			throws SQLException, Exception;
 
 	protected Connection getConnection(String dbName) throws SQLException, Exception {
-		Connection conn = ConnectionPoolManager.getConnection(dbName);
+		Connection conn = ConnectionPoolManager.getSqlConnection(dbName);
 		return conn;
 	}
 
 	protected void releaseConnection(String dbName, Connection conn) throws SQLException, Exception {
 		try {
-			ConnectionPoolManager.releaseConnection(dbName, conn);
+			ConnectionPoolManager.releaseSqlConnection(dbName, conn);
 		} catch (Exception ex) {
 			throw ex;
 		}

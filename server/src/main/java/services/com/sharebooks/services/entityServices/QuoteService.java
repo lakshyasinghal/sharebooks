@@ -20,7 +20,7 @@ import com.sharebooks.sources.FactorySource;
 public class QuoteService extends AbstractService{
 	private static int instanceCount = 0;
 	private static final Logger LOGGER = Logger.getLogger(QuoteService.class.getName());
-	private final QuoteDao quoteDao = (QuoteDao) DaoSource.getDao(EntityType.Quote.desc());
+	private final QuoteDao quoteDao = (QuoteDao) DaoSource.getDao(EntityType.QUOTE.desc());
 	private final UserDao userDao = (UserDao) DaoSource.getDao(EntityType.USER.desc());
 	private final BookDao bookDao = (BookDao) DaoSource.getDao(EntityType.BOOK.desc());
 	private final SummaryInfoFactory summaryInfoFactory = (SummaryInfoFactory)FactorySource.getDTOFactory(DTOType.SUMMARY.desc());

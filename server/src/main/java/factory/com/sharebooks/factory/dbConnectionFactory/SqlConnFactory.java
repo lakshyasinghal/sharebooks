@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import com.mongodb.MongoClient;
+import com.sharebooks.exception.NonFunctionalMethodException;
+
 public class SqlConnFactory implements DBConnFactory {
 	private static SqlConnFactory connFactory = new SqlConnFactory();
 
@@ -34,6 +37,12 @@ public class SqlConnFactory implements DBConnFactory {
 	private String getUrl(String host, String port, String dbName) {
 		String url = "jdbc:mysql://" + host + ":" + port + "/" + dbName;
 		return url;
+	}
+
+	@Override
+	public MongoClient getMongoConnection(String host, String port, String dbName, String username, String password)
+			throws Exception {
+		throw new NonFunctionalMethodException();
 	}
 
 }

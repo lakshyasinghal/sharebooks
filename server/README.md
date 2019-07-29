@@ -88,7 +88,8 @@ NoSql => https://beginnersbook.com
 
 Redis => https://auth0.com/blog/introduction-to-redis-install-cli-commands-and-data-types/
 
+Mongo CRUD => https://www.journaldev.com/3963/mongodb-java-crud-example-tutorial
 
+Mongo => https://docs.mongodb.com/manual/core/transactions/
 
-5b/1 b.p shahid bhagat block b new 
-9818783684
+JMeter => https://www.blazemeter.com/blog/getting-started-jmeter-basic-tutorial/

@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.bson.Document;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -139,5 +140,35 @@ public class UserFactory implements EntityFactory<User> {
 	public List<User> getListFromJson(String json) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public User createFromMongoDocument(Document doc) throws Exception {
+		int id = doc.getInteger("id", -1);
+		String uid = doc.getString("uid");
+		String username = doc.getString("username");
+		String password = doc.getString("password");
+		String name = doc.getString("name");
+		String dob = doc.getString("dob");
+		int age = doc.getInteger("age");
+		String address = doc.getString("address");
+		String city = doc.getString("city");
+		String state = doc.getString("state");
+		String pincode = doc.getString("pincode");
+		String contactNo = doc.getString("contactNo");
+		List<Preference> preferences = getPreferenceListFromJson(doc.getString("preferences"));
+		AccountType accountType = AccountType.get(doc.getInteger("accountType"));
+		int isRegistered = doc.getInteger("isRegistered", 0);
+		SubscriptionStatus subscriptionStatus = SubscriptionStatus
+				.get(doc.getInteger("subscriptionStatus", SubscriptionStatus.PENDING.id()));
+		Active active = Active.valueOf(doc.getInteger("active"));
+		String creationTimeStr = doc.getString("creationTime");
+		LocalDateTime creationTime = LocalDateTime.buildFromString(creationTimeStr);
+		String lastModificationTimeStr = doc.getString("lastModificationTime");
+		LocalDateTime lastModificationTime = LocalDateTime.buildFromString(lastModificationTimeStr);
+
+		User user = new User(id, uid, username, password, name, dob, age, address, city, state, pincode, contactNo,
+				preferences, accountType, isRegistered, subscriptionStatus, active, creationTime, lastModificationTime);
+		return user;
 	}
 }

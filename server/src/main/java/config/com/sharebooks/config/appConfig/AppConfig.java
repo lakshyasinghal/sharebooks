@@ -1,11 +1,16 @@
 package com.sharebooks.config.appConfig;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.sharebooks.config.enums.ConfigFile;
+import com.sharebooks.database.enums.Database;
 
 public class AppConfig {
 	private static Config cacheConfig;
 	private static Config daoConfig;
-	private static Config databaseConfig;
+	private static Map<String, Config> databaseConfigMap = new HashMap<String, Config>();
+	// private static Config databaseConfig;
 	private static Config paymentConfig;
 	private static Config serverConfig;
 	private static Config mailConfig;
@@ -18,7 +23,20 @@ public class AppConfig {
 	public static void init(String ConfigFileFolderPath) throws Exception {
 		cacheConfig = new Config(ConfigFileFolderPath, ConfigFile.CACHE.fileName());
 		daoConfig = new Config(ConfigFileFolderPath, ConfigFile.DAO.fileName());
-		databaseConfig = new Config(ConfigFileFolderPath, ConfigFile.DATABASE.fileName());
+		// database config
+		{
+			databaseConfigMap.put(Database.CORE.desc(),
+					new Config(ConfigFileFolderPath, ConfigFile.DATABASE_CORE.fileName()));
+			databaseConfigMap.put(Database.MASTER.desc(),
+					new Config(ConfigFileFolderPath, ConfigFile.DATABASE_MASTER.fileName()));
+			databaseConfigMap.put(Database.USER_ACCOUNTS.desc(),
+					new Config(ConfigFileFolderPath, ConfigFile.DATABASE_USERACCOUNTS.fileName()));
+			databaseConfigMap.put(Database.USER_EXPERIENCE.desc(),
+					new Config(ConfigFileFolderPath, ConfigFile.DATABASE_USEREXPERIENCE.fileName()));
+			databaseConfigMap.put(Database.PAYMENTS.desc(),
+					new Config(ConfigFileFolderPath, ConfigFile.DATABASE_PAYMENTS.fileName()));
+		}
+
 		paymentConfig = new Config(ConfigFileFolderPath, ConfigFile.PAYMENT.fileName());
 		serverConfig = new Config(ConfigFileFolderPath, ConfigFile.SERVER.fileName());
 		mailConfig = new Config(ConfigFileFolderPath, ConfigFile.MAIL.fileName());
@@ -41,8 +59,8 @@ public class AppConfig {
 		return daoConfig.propVal(propName);
 	}
 
-	public static String databaseProp(String propName) {
-		return databaseConfig.propVal(propName);
+	public static String databaseProp(String dbName, String propName) {
+		return databaseConfigMap.get(dbName).propVal(propName);
 	}
 
 	public static String paymentProp(String propName) {
