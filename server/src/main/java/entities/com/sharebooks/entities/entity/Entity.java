@@ -7,9 +7,10 @@ import org.json.simple.JSONObject;
 
 import com.sharebooks.exception.JsonDeserializationException;
 import com.sharebooks.exception.JsonSerializationException;
+import com.sharebooks.serialization.json.JsonDeserializable;
 import com.sharebooks.serialization.json.JsonSerializable;
 
-public abstract class Entity implements JsonSerializable {
+public abstract class Entity implements JsonSerializable, JsonDeserializable {
 	protected int id;
 
 	public Entity() {
@@ -54,6 +55,6 @@ public abstract class Entity implements JsonSerializable {
 	}
 
 	public void deserializeFromJson(JSONObject jo) throws JsonDeserializationException, Exception {
-
+		id = (int) jo.get("id");
 	}
 }

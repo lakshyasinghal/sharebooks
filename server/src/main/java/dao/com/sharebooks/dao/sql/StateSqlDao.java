@@ -16,11 +16,22 @@ public class StateSqlDao extends AbstractSqlDao implements StateDao {
 	private static final Logger LOGGER = Logger.getLogger(StateSqlDao.class.getName());
 	private final Database database = Database.MASTER;
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<State> getStates() throws SQLException, Exception {
 		LOGGER.trace("Entered getStates");
 		return EntityConverterUtility.convertIntoStateList(super.getAll(database, Table.STATES, EntityType.STATE));
+	}
+
+	@Override
+	public boolean insert(State state) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean insert(List<State> states) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

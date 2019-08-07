@@ -7,7 +7,7 @@ public enum ConfigFile {
 	URL_SHORTENER(10, "UrlShortener.properties"), DATABASE_CORE(11, "Database_Core.properties"),
 	DATABASE_MASTER(12, "Database_Master.properties"), DATABASE_USERACCOUNTS(13, "Database_UserAccounts.properties"),
 	DATABASE_USEREXPERIENCE(14, "Database_UserExperience.properties"),
-	DATABASE_PAYMENTS(15, "Database_Payments.properties");
+	DATABASE_PAYMENTS(15, "Database_Payments.properties"), REDIS(16, "Redis.properties");
 
 	private int id;
 	private String fileName;
@@ -16,7 +16,6 @@ public enum ConfigFile {
 	private ConfigFile(int id, String fileName) {
 		this.id = id;
 		this.fileName = fileName;
-
 	}
 
 	public int id() {

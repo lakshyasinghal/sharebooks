@@ -89,7 +89,10 @@ NoSql => https://beginnersbook.com
 
 
 JUnit => https://www.vogella.com/tutorials/JUnit/article.html
+Redis => https://auth0.com/blog/introduction-to-redis-install-cli-commands-and-data-types/
+
 Mongo CRUD => https://www.journaldev.com/3963/mongodb-java-crud-example-tutorial
 
 Mongo => https://docs.mongodb.com/manual/core/transactions/
+
 JMeter => https://www.blazemeter.com/blog/getting-started-jmeter-basic-tutorial/

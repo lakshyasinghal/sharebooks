@@ -11,7 +11,6 @@ import com.sharebooks.dao.generic.UserDao;
 import com.sharebooks.entities.coreEntities.User;
 import com.sharebooks.entities.coreEntities.enums.EntityType;
 import com.sharebooks.entities.coreEntities.enums.SubscriptionStatus;
-import com.sharebooks.exception.MultipleInstanceException;
 import com.sharebooks.http.HttpClient;
 import com.sharebooks.http.service.HttpService;
 import com.sharebooks.payment.entities.PaymentRequest;
@@ -26,20 +25,26 @@ import com.sharebooks.sources.DaoSource;
 
 public class PaymentService {
 	private static Logger LOGGER = Logger.getLogger(PaymentService.class);
-	private static int instanceCount = 0;
+	private static PaymentService instance;
 	private final UserDao userDao = (UserDao) DaoSource.getDao(EntityType.USER.desc());
 	private final PaymentDao paymentDao = (PaymentDao) DaoSource.getDao("payment");
 	// private PaymentFactory paymentFactory = PaymentFactory.getInstance();
 	private HttpService httpService = HttpService.instance();
 	private PaymentRequestFactory paymentRequestFactory = PaymentRequestFactory.instance();
 
-	public PaymentService() {
-		synchronized (PaymentService.class) {
-			if (instanceCount == 1) {
-				throw new MultipleInstanceException();
+	private PaymentService() {
+	}
+
+	public static PaymentService instance() {
+		if (instance == null) {
+			synchronized (PaymentService.class) {
+				if (instance == null) {
+					instance = new PaymentService();
+				}
 			}
-			instanceCount++;
 		}
+
+		return instance;
 	}
 
 	// will return a long url pertaining to the payment request created

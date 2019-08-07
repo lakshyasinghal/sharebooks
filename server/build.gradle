@@ -46,7 +46,6 @@ sourceSets {
             srcDir 'src/main/java/http'
             srcDir 'src/main/java/jetty'
             srcDir 'src/main/java/init'
-            srcDir 'src/main/java/jetty'
             srcDir 'src/main/java/listeners'
             srcDir 'src/main/java/logging'
             srcDir 'src/main/java/mail'
@@ -66,6 +65,7 @@ sourceSets {
             srcDir 'src/main/java/geo'
             srcDir 'src/main/java/urlShortener'
             srcDir 'src/main/java/sms'
+            srcDir 'src/main/java/redis'
             srcDir 'src/main/resources'
         }
     }
@@ -170,7 +170,7 @@ dependencies {
 
     compile 'org.mybatis:mybatis-migrations:3.3.2'
     
-    compile 'redis.clients:jedis:1.5.0'
+    compile 'redis.clients:jedis:2.4.2'
    
     compile 'org.hibernate:hibernate-core:3.6.7.Final'
     

@@ -7,7 +7,7 @@ import java.util.Map;
 import com.sharebooks.dao.generic.UserDao;
 import com.sharebooks.entities.coreEntities.User;
 
-public abstract class UserRedisDao extends GenericRedisDao implements UserDao {
+public abstract class UserRedisDao extends AbstractRedisDao implements UserDao {
 
 	@Override
 	public User getByUsername(String username) throws SQLException, Exception {

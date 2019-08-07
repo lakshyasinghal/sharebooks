@@ -1,14 +1,18 @@
 package com.sharebooks.factory.entityFactory;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.bson.Document;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import com.sharebooks.entities.helperEntities.BookCategory;
 import com.sharebooks.exception.NonFunctionalMethodException;
+import com.sharebooks.util.JsonUtility;
 
 public class BookCategoryFactory implements EntityFactory<BookCategory> {
 	private static BookCategoryFactory bookCategoryFactory;
@@ -53,13 +57,25 @@ public class BookCategoryFactory implements EntityFactory<BookCategory> {
 
 	@Override
 	public List<BookCategory> getListFromJson(String json) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		JSONArray array = JsonUtility.getJsonArrayFromJsonString(json);
+		List<BookCategory> list = new ArrayList<BookCategory>();
+		for (int i = 0, l = array.size(); i < l; i++) {
+			JSONObject jo = (JSONObject) array.get(i);
+			list.add(createFromJsonObject(jo));
+		}
+		return list;
 	}
 
 	@Override
 	public BookCategory createFromMongoDocument(Document doc) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	private BookCategory createFromJsonObject(JSONObject jo) {
+		int id = (int) (long) jo.get("id");
+		String category = (String) jo.get("category");
+
+		return new BookCategory(id, category);
 	}
 }

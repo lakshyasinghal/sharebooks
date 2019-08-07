@@ -16,12 +16,14 @@ import com.sharebooks.payment.service.PaymentService;
 import com.sharebooks.response.Response;
 import com.sharebooks.response.enums.Status;
 import com.sharebooks.sources.FactorySource;
+import com.sharebooks.sources.ServiceSource;
+import com.sharebooks.sources.enums.ServiceType;
 
 public class PaymentRequestProcessor extends AbstractRequestProcessor {
 	private static PaymentRequestProcessor instance = new PaymentRequestProcessor();
 	private static final Logger LOGGER = Logger.getLogger(PaymentRequestProcessor.class.getName());
 	private final ResponseFactory responseFactory = FactorySource.getResponseFactory();
-	private final PaymentService paymentService = new PaymentService();
+	private final PaymentService paymentService = (PaymentService) ServiceSource.service(ServiceType.PAYMENT.desc());
 	private final PaymentRequestWebhookFactory webhookFactory = PaymentRequestWebhookFactory.instance();
 
 	QuoteFactory quoteFactory = (QuoteFactory) FactorySource.getEntityFactory(EntityType.QUOTE.desc());

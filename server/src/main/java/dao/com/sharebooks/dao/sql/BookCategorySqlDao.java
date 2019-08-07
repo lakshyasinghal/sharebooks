@@ -23,4 +23,16 @@ public class BookCategorySqlDao extends AbstractSqlDao implements BookCategoryDa
 				.convertIntoBookCategoryList(super.getAll(database, Table.BOOK_CATEGORIES, EntityType.BOOK_CATEGORY));
 	}
 
+	@Override
+	public boolean insert(List<BookCategory> bookCategories) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean insert(BookCategory bookCategory) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

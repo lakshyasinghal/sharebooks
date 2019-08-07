@@ -2,7 +2,9 @@ package com.sharebooks.requestProcessor;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 
 import com.sharebooks.dtos.SummaryInfo;
@@ -15,12 +17,13 @@ import com.sharebooks.response.enums.Status;
 import com.sharebooks.services.entityServices.QuoteService;
 import com.sharebooks.sources.FactorySource;
 import com.sharebooks.sources.ServiceSource;
+import com.sharebooks.sources.enums.ServiceType;
 
-public class QuoteRequestProcessor extends AbstractRequestProcessor{
+public class QuoteRequestProcessor extends AbstractRequestProcessor {
 	private static QuoteRequestProcessor instance = new QuoteRequestProcessor();
 	private static final Logger LOGGER = Logger.getLogger(QuoteRequestProcessor.class.getName());
 	private final ResponseFactory responseFactory = FactorySource.getResponseFactory();
-	private final QuoteService quoteService = ServiceSource.getQuoteService();
+	private final QuoteService quoteService = (QuoteService) ServiceSource.service(ServiceType.QUOTE.desc());
 	QuoteFactory quoteFactory = (QuoteFactory) FactorySource.getEntityFactory(EntityType.QUOTE.desc());
 
 	private QuoteRequestProcessor() {
@@ -31,8 +34,7 @@ public class QuoteRequestProcessor extends AbstractRequestProcessor{
 	public static QuoteRequestProcessor getInstance() {
 		return instance;
 	}
-	
-	
+
 	public String processGetQuoteRequest(String uid) throws Exception {
 		LOGGER.trace("Entering processGetQuoteRequest");
 		boolean success = false;
@@ -42,16 +44,15 @@ public class QuoteRequestProcessor extends AbstractRequestProcessor{
 		Response response = null;
 		try {
 			Quote quote = quoteService.getQuote(uid);
-			if (quote!=null) {
+			if (quote != null) {
 				success = true;
 				map.put("quote", quote);
 				statusCode = Status.FETCH_QUOTE_SUCCESSFUL.id();
 			} else {
 				statusCode = Status.FETCH_QUOTE_FAILED.id();
 			}
-		} 
-		catch(Exception ex){
-			log(ex,LOGGER);
+		} catch (Exception ex) {
+			log(ex, LOGGER);
 			errorCode = errorCode(ex);
 		}
 
@@ -80,16 +81,15 @@ public class QuoteRequestProcessor extends AbstractRequestProcessor{
 			} else {
 				statusCode = Status.QUOTE_NOT_CREATED.id();
 			}
-		} 
-		catch(Exception ex){
-			log(ex,LOGGER);
+		} catch (Exception ex) {
+			log(ex, LOGGER);
 			errorCode = errorCode(ex);
 		}
 		response = responseFactory.getJsonResponse(success, statusCode, errorCode, map);
 		LOGGER.trace("Leaving processCreateQuoteRequest");
 		return response.process();
 	}
-	
+
 	public String processUpdateQuoteRequest(HttpServletRequest req) throws Exception {
 		LOGGER.trace("Entering processUpdateQuoteRequest");
 		boolean success = false;
@@ -106,17 +106,15 @@ public class QuoteRequestProcessor extends AbstractRequestProcessor{
 			} else {
 				statusCode = Status.QUOTE_NOT_UPDATED.id();
 			}
-		} 
-		catch(Exception ex){
-			log(ex,LOGGER);
+		} catch (Exception ex) {
+			log(ex, LOGGER);
 			errorCode = errorCode(ex);
 		}
 		response = responseFactory.getJsonResponse(success, statusCode, errorCode, null);
 		LOGGER.trace("Leaving processUpdateQuoteRequest");
 		return response.process();
 	}
-	
-	
+
 	public String processGetSummaryRequest(String uid) throws Exception {
 		LOGGER.trace("Entering processGetSummaryRequest");
 		boolean success = false;
@@ -126,24 +124,22 @@ public class QuoteRequestProcessor extends AbstractRequestProcessor{
 		Response response = null;
 		try {
 			SummaryInfo summaryInfo = quoteService.getSummary(uid);
-			if (summaryInfo!=null) {
+			if (summaryInfo != null) {
 				success = true;
 				map.put("summaryInfo", summaryInfo);
 				statusCode = Status.FETCH_SUMMARY_SUCCESSFUL.id();
 			} else {
 				statusCode = Status.FETCH_SUMMARY_FAILED.id();
 			}
-		} 
-		catch(Exception ex){
-			log(ex,LOGGER);
+		} catch (Exception ex) {
+			log(ex, LOGGER);
 			errorCode = errorCode(ex);
 		}
 		response = responseFactory.getJsonResponse(success, statusCode, errorCode, map);
 		LOGGER.trace("Leaving processGetSummaryRequest");
 		return response.process();
 	}
-	
-	
+
 	public String processConfirmQuoteRequest(String uid) throws Exception {
 		LOGGER.trace("Entering processConfirmQuoteRequest");
 		boolean success = false;
@@ -157,9 +153,8 @@ public class QuoteRequestProcessor extends AbstractRequestProcessor{
 			} else {
 				statusCode = Status.QUOTE_NOT_CONFIRMED.id();
 			}
-		} 
-		catch(Exception ex){
-			log(ex,LOGGER);
+		} catch (Exception ex) {
+			log(ex, LOGGER);
 			errorCode = errorCode(ex);
 		}
 		response = responseFactory.getJsonResponse(success, statusCode, errorCode, null);

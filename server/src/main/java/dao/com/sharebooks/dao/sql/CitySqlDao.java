@@ -16,10 +16,21 @@ public class CitySqlDao extends AbstractSqlDao implements CityDao {
 	private static final Logger LOGGER = Logger.getLogger(CitySqlDao.class.getName());
 	private final Database database = Database.MASTER;
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<City> getCities() throws SQLException, Exception {
 		LOGGER.trace("Entered getCities");
 		return EntityConverterUtility.convertIntoCityList(super.getAll(database, Table.CITIES, EntityType.CITY));
+	}
+
+	@Override
+	public boolean insert(City city) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean insert(List<City> cities) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
