@@ -4,10 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
-import java.util.Map;
 
-import com.sharebooks.entities.coreEntities.enums.EntityType;
-import com.sharebooks.entities.entity.Entity;
 import com.sharebooks.exception.NonFunctionalMethodException;
 
 public class SqlUpdateQueryProcessor extends AbstractSqlQueryProcessor {
@@ -19,28 +16,6 @@ public class SqlUpdateQueryProcessor extends AbstractSqlQueryProcessor {
 
 	public static SqlUpdateQueryProcessor getInstance() {
 		return queryProcessor;
-	}
-
-	@Override
-	public List<? extends Entity> processReadQuery(String dbName, String query, EntityType entityType)
-			throws Exception {
-		throw new NonFunctionalMethodException();
-	}
-
-	@Override
-	public List<Map<String, Object>> processReadQuery(String dbName, String query, Map<String, String> columns)
-			throws SQLException, Exception {
-		throw new NonFunctionalMethodException();
-	}
-
-	@Override
-	public int processDeleteQuery(String dbName, String query) throws Exception {
-		throw new NonFunctionalMethodException();
-	}
-
-	@Override
-	public int processInsertQuery(String dbName, String query, boolean processInBatch) throws SQLException, Exception {
-		throw new NonFunctionalMethodException();
 	}
 
 	@Override
