@@ -13,7 +13,8 @@ public class RedisPool {
 	private JedisPool pool;
 
 	private RedisPool(RedisPoolBuilder b) {
-		pool = new JedisPool(b.config, b.host, b.port, b.timeout, b.password);
+		// pool = new JedisPool(b.config, b.host, b.port, b.timeout, b.password);
+		pool = new JedisPool(b.config, b.host, b.port, b.timeout);
 	}
 
 	public static class RedisPoolBuilder {

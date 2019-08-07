@@ -5,6 +5,7 @@ import java.util.List;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import com.sharebooks.exception.JsonSerializationException;
 import com.sharebooks.serialization.json.JsonDeserializable;
@@ -56,7 +57,14 @@ public class JsonUtility {
 				array.add(jo);
 			}
 		}
+		return array;
+	}
 
+	@SuppressWarnings("unchecked")
+	public static JSONArray getJsonArrayFromJsonString(String jsonString)
+			throws JsonSerializationException, ParseException {
+		Object obj = new JSONParser().parse(jsonString);
+		JSONArray array = (JSONArray) obj;
 		return array;
 	}
 

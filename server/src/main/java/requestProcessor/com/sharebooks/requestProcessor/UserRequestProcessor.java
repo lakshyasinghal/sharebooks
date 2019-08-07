@@ -23,13 +23,14 @@ import com.sharebooks.response.enums.Status;
 import com.sharebooks.services.entityServices.UserService;
 import com.sharebooks.sources.FactorySource;
 import com.sharebooks.sources.ServiceSource;
+import com.sharebooks.sources.enums.ServiceType;
 
 @SuppressWarnings("unchecked")
 public class UserRequestProcessor extends AbstractRequestProcessor {
 	private static UserRequestProcessor processor = new UserRequestProcessor();
 	private static final Logger LOGGER = Logger.getLogger(UserRequestProcessor.class.getName());
 	private final ResponseFactory responseFactory = FactorySource.getResponseFactory();
-	private final UserService userService = ServiceSource.getUserService();
+	private final UserService userService = (UserService) ServiceSource.service(ServiceType.USER.desc());
 	private final EntityFactory<User> factory = (EntityFactory<User>) FactorySource
 			.getEntityFactory(EntityType.USER.desc());
 

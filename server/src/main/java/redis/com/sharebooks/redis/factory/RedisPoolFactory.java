@@ -25,7 +25,7 @@ public class RedisPoolFactory {
 
 	public RedisPool create() {
 		String host = AppConfig.redisProp(RedisProperties.HOST);
-		int port = Integer.parseInt(AppConfig.redisProp(RedisProperties.HOST));
+		int port = Integer.parseInt(AppConfig.redisProp(RedisProperties.PORT));
 		int timeout = Integer.parseInt(AppConfig.redisProp(RedisProperties.TIMEOUT));
 		String password = AppConfig.redisProp(RedisProperties.PASSWORD);
 

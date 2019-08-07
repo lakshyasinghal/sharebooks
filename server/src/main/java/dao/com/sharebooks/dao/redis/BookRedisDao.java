@@ -7,7 +7,7 @@ import java.util.Map;
 import com.sharebooks.dao.generic.BookDao;
 import com.sharebooks.entities.coreEntities.Book;
 
-public class BookRedisDao extends GenericRedisDao implements BookDao{
+public class BookRedisDao extends AbstractRedisDao implements BookDao{
 
 	@Override
 	public List<Book> getBooks(Map<String, Object> map) throws SQLException, Exception {

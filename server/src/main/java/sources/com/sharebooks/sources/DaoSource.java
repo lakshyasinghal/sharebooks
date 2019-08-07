@@ -10,6 +10,9 @@ import com.sharebooks.config.properties.DaoProperties;
 import com.sharebooks.dao.generic.Dao;
 import com.sharebooks.dao.mongo.SubscriptionMongoDao;
 import com.sharebooks.dao.mongo.UserMongoDao;
+import com.sharebooks.dao.redis.BookCategoryRedisDao;
+import com.sharebooks.dao.redis.CityRedisDao;
+import com.sharebooks.dao.redis.StateRedisDao;
 import com.sharebooks.dao.sql.BookCategorySqlDao;
 import com.sharebooks.dao.sql.BookRequestSqlDao;
 import com.sharebooks.dao.sql.BookSqlDao;
@@ -30,6 +33,7 @@ import com.sharebooks.sources.enums.DaoType;
 public class DaoSource {
 	private static final Logger LOGGER = Logger.getLogger(DaoSource.class.getName());
 	private static Map<String, Dao> daoMap = new HashMap<String, Dao>();
+	private static Map<String, Dao> redisDaoMap = new HashMap<String, Dao>();
 
 	private DaoSource() {
 
@@ -43,6 +47,7 @@ public class DaoSource {
 		} else if (DaoType.MYBATIS.desc().equals(daoType)) {
 			new MyBatisDaoInitializer().init();
 		}
+		new RedisDaoInitializer().init();
 		LOGGER.debug("Leaving DaoSource init");
 	}
 
@@ -122,6 +127,27 @@ public class DaoSource {
 		}
 	}
 
+	private static class RedisDaoInitializer {
+
+		private void init() {
+			initCityDao();
+			initStateDao();
+			initBookCategoryDao();
+		}
+
+		private static void initCityDao() {
+			redisDaoMap.put(EntityType.CITY.desc(), CityRedisDao.instance());
+		}
+
+		public static void initStateDao() {
+			redisDaoMap.put(EntityType.STATE.desc(), StateRedisDao.instance());
+		}
+
+		public static void initBookCategoryDao() {
+			redisDaoMap.put(EntityType.BOOK_CATEGORY.desc(), BookCategoryRedisDao.instance());
+		}
+	}
+
 	private static class MyBatisDaoInitializer {
 		// SqlSessionFactory sqlSessionFactory = FactorySource.sqlSessionFactory();
 		private void init() {
@@ -144,6 +170,10 @@ public class DaoSource {
 
 	public static Dao getDao(String name) {
 		return daoMap.get(name);
+	}
+
+	public static Dao getRedisDao(String name) {
+		return redisDaoMap.get(name);
 	}
 
 }

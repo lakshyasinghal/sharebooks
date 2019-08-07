@@ -3,6 +3,7 @@ package com.sharebooks.entities.helperEntities;
 import org.json.simple.JSONObject;
 
 import com.sharebooks.entities.entity.HelperEntity;
+import com.sharebooks.exception.JsonDeserializationException;
 import com.sharebooks.exception.JsonSerializationException;
 import com.sharebooks.serialization.string.StringSerializable;
 
@@ -40,6 +41,11 @@ public final class BookCategory extends HelperEntity implements Comparable<BookC
 		JSONObject jo = new JSONObject();
 		serializeAsJson(jo);
 		return jo.toJSONString();
+	}
+
+	public void deserializeFromJson(JSONObject jo) throws JsonDeserializationException, Exception {
+		super.deserializeFromJson(jo);
+		category = (String) jo.get("name");
 	}
 
 	public String category() {

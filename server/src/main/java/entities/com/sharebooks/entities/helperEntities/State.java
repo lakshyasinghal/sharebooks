@@ -3,6 +3,7 @@ package com.sharebooks.entities.helperEntities;
 import org.json.simple.JSONObject;
 
 import com.sharebooks.entities.entity.HelperEntity;
+import com.sharebooks.exception.JsonDeserializationException;
 import com.sharebooks.exception.JsonSerializationException;
 import com.sharebooks.serialization.string.StringSerializable;
 
@@ -36,6 +37,11 @@ public class State extends HelperEntity implements Comparable<State>, StringSeri
 		JSONObject jo = new JSONObject();
 		serializeAsJson(jo);
 		return jo.toJSONString();
+	}
+
+	public void deserializeFromJson(JSONObject jo) throws JsonDeserializationException, Exception {
+		super.deserializeFromJson(jo);
+		name = (String) jo.get("name");
 	}
 
 	public String name() {
