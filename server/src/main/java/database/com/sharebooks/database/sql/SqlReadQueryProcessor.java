@@ -9,12 +9,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import com.sharebooks.entities.coreEntities.enums.EntityType;
 import com.sharebooks.entities.entity.Entity;
 import com.sharebooks.exception.NonFunctionalMethodException;
 
 //The role of SqlReadQueryProcessor and other similar classes will be to first execute the query and then return the processed result set
 public class SqlReadQueryProcessor extends AbstractSqlQueryProcessor {
+	private static final Logger LOGGER = Logger.getLogger(SqlReadQueryProcessor.class);
 	private static SqlReadQueryProcessor queryProcessor = new SqlReadQueryProcessor();
 
 	private SqlReadQueryProcessor() {

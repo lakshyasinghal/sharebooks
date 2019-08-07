@@ -64,12 +64,6 @@ public abstract class UserRedisDao extends GenericRedisDao implements UserDao {
 	}
 
 	@Override
-	public boolean updateUserPassword(int id, String password) throws SQLException, Exception {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public boolean updateContact(int id, String contactNo) throws SQLException, Exception {
 		// TODO Auto-generated method stub
 		return false;

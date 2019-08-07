@@ -87,4 +87,9 @@ Git merge => https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Me
 
 NoSql => https://beginnersbook.com
 
+
 JUnit => https://www.vogella.com/tutorials/JUnit/article.html
+Mongo CRUD => https://www.journaldev.com/3963/mongodb-java-crud-example-tutorial
+
+Mongo => https://docs.mongodb.com/manual/core/transactions/
+JMeter => https://www.blazemeter.com/blog/getting-started-jmeter-basic-tutorial/

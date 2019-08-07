@@ -2,43 +2,43 @@ package com.sharebooks.factory.entityFactory;
 
 import java.sql.ResultSet;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+
+import org.bson.Document;
 
 import com.sharebooks.entities.helperEntities.City;
 
-public class CityFactory implements EntityFactory<City>{
+public class CityFactory implements EntityFactory<City> {
 	private static CityFactory cityFactory;
-	
-	private CityFactory(){
-		//nothing goes here
+
+	private CityFactory() {
+		// nothing goes here
 	}
-	
-	
-	public static CityFactory getInstance() throws Exception{
-		try{
-			if(cityFactory ==  null){
-				synchronized(CityFactory.class){
-					if(cityFactory ==  null){
+
+	public static CityFactory getInstance() throws Exception {
+		try {
+			if (cityFactory == null) {
+				synchronized (CityFactory.class) {
+					if (cityFactory == null) {
 						cityFactory = new CityFactory();
 					}
 				}
 			}
 			return cityFactory;
-		}
-		catch(Exception ex){
+		} catch (Exception ex) {
 			throw ex;
 		}
 	}
-	
-	
+
 	@Override
 	public City createFromResultSet(ResultSet rs) throws Exception {
-		
+
 		int id = rs.getInt("id");
 		String name = rs.getString("name");
 		int stateId = rs.getInt("stateId");
-		
-		return new City(id,name,stateId);
+
+		return new City(id, name, stateId);
 	}
 
 	@Override
@@ -53,11 +53,16 @@ public class CityFactory implements EntityFactory<City>{
 		return null;
 	}
 
-
 	@Override
 	public List<City> getListFromJson(String json) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
+	@Override
+	public City createFromMongoDocument(Document doc) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

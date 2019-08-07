@@ -21,7 +21,7 @@ public class QuoteRequestProcessor extends AbstractRequestProcessor{
 	private static final Logger LOGGER = Logger.getLogger(QuoteRequestProcessor.class.getName());
 	private final ResponseFactory responseFactory = FactorySource.getResponseFactory();
 	private final QuoteService quoteService = ServiceSource.getQuoteService();
-	QuoteFactory quoteFactory = (QuoteFactory) FactorySource.getEntityFactory(EntityType.Quote.desc());
+	QuoteFactory quoteFactory = (QuoteFactory) FactorySource.getEntityFactory(EntityType.QUOTE.desc());
 
 	private QuoteRequestProcessor() {
 

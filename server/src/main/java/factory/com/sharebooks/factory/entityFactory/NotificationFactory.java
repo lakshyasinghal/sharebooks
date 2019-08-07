@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.bson.Document;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -14,31 +16,28 @@ import com.sharebooks.entities.coreEntities.enums.NotificationStatus;
 import com.sharebooks.entities.coreEntities.enums.NotificationType;
 import com.sharebooks.util.dateTime.LocalDateTime;
 
-
-public class NotificationFactory implements EntityFactory<Notification>{
+public class NotificationFactory implements EntityFactory<Notification> {
 	private static NotificationFactory instance;
-	
-	
+
 	private NotificationFactory() {
 		// TODO Auto-generated constructor stub
 	}
-	
-	public static NotificationFactory getInstance() throws Exception{
-		try{
-			if(instance ==  null){
-				synchronized(NotificationFactory.class){
-					if(instance ==  null){
+
+	public static NotificationFactory getInstance() throws Exception {
+		try {
+			if (instance == null) {
+				synchronized (NotificationFactory.class) {
+					if (instance == null) {
 						instance = new NotificationFactory();
 					}
 				}
 			}
 			return instance;
-		}
-		catch(Exception ex){
+		} catch (Exception ex) {
 			throw ex;
 		}
 	}
-	
+
 	@Override
 	public Notification createFromHttpRequest(HttpServletRequest req) throws Exception {
 		// TODO Auto-generated method stub
@@ -58,47 +57,56 @@ public class NotificationFactory implements EntityFactory<Notification>{
 		LocalDateTime creationTime = LocalDateTime.buildFromString(creationTimeStr);
 		String lastModificationTimeStr = (rs.getTimestamp("lastModificationTime")).toString();
 		LocalDateTime lastModificationTime = LocalDateTime.buildFromString(lastModificationTimeStr);
-		
-		Notification notification = new Notification(id ,uid, receiverUid , type , bookRequestUid , newBookUid , status , creationTime , lastModificationTime);
+
+		Notification notification = new Notification(id, uid, receiverUid, type, bookRequestUid, newBookUid, status,
+				creationTime, lastModificationTime);
 		return notification;
 	}
 
 	@Override
 	public Notification createFromJson(String json) throws Exception {
-		try{
+		try {
 			JSONParser parser = new JSONParser();
 			Object obj = parser.parse(json);
-			JSONObject jo = (JSONObject)obj;
-			
-			int id = jo.get("id")==null?-1:(int)(long)jo.get("id");
-			String uid = (String)jo.get("uid");
-			String receiverUid = (String)jo.get("receiverUid");
-			NotificationType type = NotificationType.valueOf((int)(long)jo.get("type"));
-			String bookRequestUid = (String)jo.get("bookRequestUid");
-			String newBookUid = (String)jo.get("newBookUid");
-			NotificationStatus status = NotificationStatus.valueOf((int)(long)jo.get("status"));
-			
-			String creationTimeStr = (String)jo.get("creationTime");
-			String lastModificationTimeStr = (String)jo.get("lastModificationTime");
-			
-			LocalDateTime creationTime = creationTimeStr==null?null:LocalDateTime.buildFromString(creationTimeStr);
-			LocalDateTime lastModificationTime = lastModificationTimeStr==null?null:LocalDateTime.buildFromString(lastModificationTimeStr);
-			
-			Notification notification = new Notification(id, uid, receiverUid, type, bookRequestUid, newBookUid, status, creationTime, lastModificationTime);
+			JSONObject jo = (JSONObject) obj;
+
+			int id = jo.get("id") == null ? -1 : (int) (long) jo.get("id");
+			String uid = (String) jo.get("uid");
+			String receiverUid = (String) jo.get("receiverUid");
+			NotificationType type = NotificationType.valueOf((int) (long) jo.get("type"));
+			String bookRequestUid = (String) jo.get("bookRequestUid");
+			String newBookUid = (String) jo.get("newBookUid");
+			NotificationStatus status = NotificationStatus.valueOf((int) (long) jo.get("status"));
+
+			String creationTimeStr = (String) jo.get("creationTime");
+			String lastModificationTimeStr = (String) jo.get("lastModificationTime");
+
+			LocalDateTime creationTime = creationTimeStr == null ? null
+					: LocalDateTime.buildFromString(creationTimeStr);
+			LocalDateTime lastModificationTime = lastModificationTimeStr == null ? null
+					: LocalDateTime.buildFromString(lastModificationTimeStr);
+
+			Notification notification = new Notification(id, uid, receiverUid, type, bookRequestUid, newBookUid, status,
+					creationTime, lastModificationTime);
 			return notification;
-		}
-		catch(ParseException ex){
+		} catch (ParseException ex) {
 			throw ex;
 		}
 	}
-	
-	
-	public Notification create(String receiverUid, NotificationType type, String bookRequestUid, String newBookUid){
-		return new Notification(-1,UUID.randomUUID().toString(),receiverUid,type,bookRequestUid,newBookUid,NotificationStatus.NEW,null,null);
+
+	public Notification create(String receiverUid, NotificationType type, String bookRequestUid, String newBookUid) {
+		return new Notification(-1, UUID.randomUUID().toString(), receiverUid, type, bookRequestUid, newBookUid,
+				NotificationStatus.NEW, null, null);
 	}
 
 	@Override
 	public List<Notification> getListFromJson(String json) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Notification createFromMongoDocument(Document doc) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

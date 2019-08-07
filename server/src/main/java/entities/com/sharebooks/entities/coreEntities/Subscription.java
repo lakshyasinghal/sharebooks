@@ -65,6 +65,10 @@ public class Subscription extends CoreEntity implements JsonSerializable {
 			return this;
 		}
 
+		public Subscription build() {
+			return new Subscription(this);
+		}
+
 	}
 
 	@SuppressWarnings("unchecked")

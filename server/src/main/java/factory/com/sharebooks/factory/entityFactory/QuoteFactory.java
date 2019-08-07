@@ -2,9 +2,13 @@ package com.sharebooks.factory.entityFactory;
 
 import java.sql.ResultSet;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+
+import org.bson.Document;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
 import com.sharebooks.entities.coreEntities.Quote;
 import com.sharebooks.entities.coreEntities.enums.QuoteStatus;
 import com.sharebooks.entities.coreEntities.enums.QuoteType;
@@ -49,16 +53,17 @@ public class QuoteFactory implements EntityFactory<Quote> {
 		String userUid = rs.getString("userUid");
 		QuoteStatus status = QuoteStatus.valueOf(rs.getInt("status"));
 		QuoteType type = QuoteType.valueOf(rs.getInt("type"));
-		RentInfo rentInfo = (RentInfo)JsonUtility.getDeserializedObjectFromJson(new RentInfo(), rs.getString("rentInfo"));
-		BuyInfo buyInfo = (BuyInfo)JsonUtility.getDeserializedObjectFromJson(new BuyInfo(), rs.getString("buyInfo"));
+		RentInfo rentInfo = (RentInfo) JsonUtility.getDeserializedObjectFromJson(new RentInfo(),
+				rs.getString("rentInfo"));
+		BuyInfo buyInfo = (BuyInfo) JsonUtility.getDeserializedObjectFromJson(new BuyInfo(), rs.getString("buyInfo"));
 		int totalAmount = rs.getInt("totalAmount");
-		
+
 		String creationTimeStr = (rs.getTimestamp("creationTime")).toString();
 		LocalDateTime creationTime = LocalDateTime.buildFromString(creationTimeStr);
 		String lastModificationTimeStr = (rs.getTimestamp("lastModificationTime")).toString();
 		LocalDateTime lastModificationTime = LocalDateTime.buildFromString(lastModificationTimeStr);
-		
-		Quote quote = new Quote(id, uid, bookUid, userUid, status, type, rentInfo, buyInfo, totalAmount, creationTime, 
+
+		Quote quote = new Quote(id, uid, bookUid, userUid, status, type, rentInfo, buyInfo, totalAmount, creationTime,
 				lastModificationTime);
 		return quote;
 	}
@@ -78,5 +83,11 @@ public class QuoteFactory implements EntityFactory<Quote> {
 	public List<Quote> getListFromJson(String json) throws Exception {
 		throw new NonFunctionalMethodException();
 	}
-	
+
+	@Override
+	public Quote createFromMongoDocument(Document doc) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -3,8 +3,8 @@ package com.sharebooks.entities.coreEntities.enums;
 public enum EntityType {
 	BOOK(1, "book"), USER(2, "user"), BOOK_REQUEST(3, "bookRequest"), ORDER(4, "order"),
 	BOOK_CATEGORY(5, "bookCategory"), STATE(6, "state"), CITY(7, "city"), NOTIFICATION(8, "notification"),
-	PREFERENCE(9, "preference"), Quote(10, "quote"), ONE_TIME_PASSWORD(11, "otp"),
-	PASSWORD_RESET_LINK(12, "passwordResetLink");
+	PREFERENCE(9, "preference"), QUOTE(10, "quote"), ONE_TIME_PASSWORD(11, "otp"),
+	PASSWORD_RESET_LINK(12, "passwordResetLink"), SUBSCRIPTION(13, "Subscription");
 
 	private int id;
 	private String desc; // description

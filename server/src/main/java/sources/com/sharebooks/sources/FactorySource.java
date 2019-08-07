@@ -27,6 +27,7 @@ import com.sharebooks.factory.entityFactory.OrderFactory;
 import com.sharebooks.factory.entityFactory.PreferenceFactory;
 import com.sharebooks.factory.entityFactory.QuoteFactory;
 import com.sharebooks.factory.entityFactory.StateFactory;
+import com.sharebooks.factory.entityFactory.SubscriptionFactory;
 import com.sharebooks.factory.entityFactory.UserFactory;
 import com.sharebooks.factory.misc.ResponseFactory;
 
@@ -57,8 +58,9 @@ public class FactorySource {
 			entityFactoryMap.put(EntityType.BOOK_CATEGORY.desc(), BookCategoryFactory.getInstance());
 			entityFactoryMap.put(EntityType.NOTIFICATION.desc(), NotificationFactory.getInstance());
 			entityFactoryMap.put(EntityType.PREFERENCE.desc(), PreferenceFactory.getInstance());
-			entityFactoryMap.put(EntityType.Quote.desc(), QuoteFactory.getInstance());
+			entityFactoryMap.put(EntityType.QUOTE.desc(), QuoteFactory.getInstance());
 			entityFactoryMap.put(EntityType.ONE_TIME_PASSWORD.desc(), OTPFactory.getInstance());
+			entityFactoryMap.put(EntityType.SUBSCRIPTION.desc(), SubscriptionFactory.instance());
 		} catch (Exception ex) {
 
 		}
